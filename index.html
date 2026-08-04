@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-  <!-- liuyao-preview-build:2026-08-04T06:52:51Z -->
+  <!-- liuyao-preview-build:2026-08-04T06:57:38Z -->
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover" />
   <title>周易研习</title>
@@ -12312,19 +12312,15 @@ window.LiuYao = {
     }
   }
 
+  /**
+   * 只旋转盘面 g#luopan-plate；准星、太极、底部天干五行保持不动
+   */
   function setPlateRotation(deg) {
-    // 只转外层 CSS，SVG 内部保持 0，避免双重旋转；CSS 在移动端更稳
-    const rotHost = document.getElementById('luopan-rot')
-    if (rotHost) {
-      const t = `rotate(${deg}deg)`
-      rotHost.style.transform = t
-      rotHost.style.webkitTransform = t
-    }
     const plate = document.getElementById('luopan-plate')
-    if (plate) {
-      plate.querySelectorAll('animateTransform').forEach((n) => n.remove())
-      plate.setAttribute('transform', 'rotate(0 200 200)')
-    }
+    if (!plate) return
+    plate.querySelectorAll('animateTransform').forEach((n) => n.remove())
+    const d = Number(deg) || 0
+    plate.setAttribute('transform', `rotate(${d} 200 200)`)
   }
 
   function applyLiveHeading(heading) {
@@ -12332,7 +12328,13 @@ window.LiuYao = {
     const h = ((Number(heading) % 360) + 360) % 360
     state.compassHeading = h
     state.compassReady = true
-    state.plateDeg = plateFromHeading(h)
+    // 准星固定在屏顶：盘面反向转，北/子随地磁归位
+    state.plateDeg = -h - 180
+    // 归一化，避免数值过大
+    let n = state.plateDeg % 360
+    if (n > 180) n -= 360
+    if (n <= -180) n += 360
+    state.plateDeg = n
     setPlateRotation(state.plateDeg)
     const hudDir = document.getElementById('hud-dir')
     const hudDeg = document.getElementById('hud-deg')
@@ -12517,9 +12519,7 @@ window.LiuYao = {
         ` : ''}
       </div>
       <div class="luopan-wrap slim" id="luopan-wrap">
-        <div id="luopan-rot" style="width:100%;transform-origin:50% 44%;will-change:transform;transform:rotate(${state.plateDeg}deg);-webkit-transform:rotate(${state.plateDeg}deg)">
-          ${buildLuopanSvg(0)}
-        </div>
+        ${buildLuopanSvg(state.plateDeg)}
       </div>
       <div class="actions">
         <span class="act" data-go="learn">研习典要</span>
@@ -13709,31 +13709,33 @@ window.LiuYao = {
 
   function headingFromOrientEvent(e) {
     if (!e) return null
-    // iOS Safari：相对正北（度）
+    // iOS：正北夹角（度）
     if (typeof e.webkitCompassHeading === 'number' && !Number.isNaN(e.webkitCompassHeading)) {
-      return ((e.webkitCompassHeading % 360) + 360) % 360
+      return ((Number(e.webkitCompassHeading) % 360) + 360) % 360
     }
     if (e.alpha == null || Number.isNaN(Number(e.alpha))) return null
     const alpha = Number(e.alpha)
-    // absolute 或 webkit 之外：用相对位移保证「手机转盘转」
-    if (e.absolute === true) {
-      return (360 - alpha + 360) % 360
+    // 绝对方位
+    if (e.absolute === true || e.absolute === 1) {
+      return ((360 - alpha) % 360 + 360) % 360
     }
+    // 相对方位：以首次读数为 0，保证「手机转 → 盘转」
     if (relativeAlphaZero == null) relativeAlphaZero = alpha
     let rel = alpha - relativeAlphaZero
-    while (rel < 0) rel += 360
-    while (rel >= 360) rel -= 360
-    return (360 - rel) % 360
+    rel = ((rel % 360) + 360) % 360
+    return ((360 - rel) % 360 + 360) % 360
   }
 
   let orientSeenAt = 0
+  let gyroYaw = 0
+  let lastMotionT = 0
 
   function applyPreviewCompass(heading) {
     sensorEventCount += 1
     orientSeenAt = Date.now()
     const h = ((Number(heading) % 360) + 360) % 360
-    const now = Date.now()
     pendingHeading = h
+    const now = Date.now()
     if (now - compassTick < 16) {
       if (!applyPreviewCompass._raf) {
         applyPreviewCompass._raf = requestAnimationFrame(() => {
@@ -13770,14 +13772,13 @@ window.LiuYao = {
 
   function bindDeviceOrientation(force) {
     if (typeof window === 'undefined') return false
-    if (!window.DeviceOrientationEvent && typeof AbsoluteOrientationSensor !== 'function') {
-      return false
-    }
+    if (!window.DeviceOrientationEvent && typeof AbsoluteOrientationSensor !== 'function') return false
     if (compassBound && !force) return true
     if (force) unbindDeviceOrientation()
     relativeAlphaZero = null
     sensorEventCount = 0
     orientSeenAt = 0
+    lastMotionT = 0
 
     orientHandler = (e) => {
       const h = headingFromOrientEvent(e)
@@ -13792,21 +13793,23 @@ window.LiuYao = {
       window.addEventListener('deviceorientationabsolute', orientHandler, false)
     }
 
-    // 陀螺积分兜底：orientation 不给数时仍跟手
-    let gyroYaw = 0
-    let lastMotionT = 0
+    // 陀螺：orientation 静默时仍跟手（不抢占有 orientation 的时段）
     motionHandler = (e) => {
-      if (Date.now() - orientSeenAt < 200) return
+      if (Date.now() - orientSeenAt < 180) return
       const rr = e && e.rotationRate
       if (!rr || rr.alpha == null) return
       let rate = Number(rr.alpha)
       if (Number.isNaN(rate)) return
-      if (Math.abs(rate) < 0.5) rate = (rate * 180) / Math.PI
+      // 部分浏览器给 rad/s
+      if (Math.abs(rate) <= 0.8) rate = (rate * 180) / Math.PI
       const t = e.timeStamp || Date.now()
-      if (!lastMotionT) { lastMotionT = t; return }
+      if (!lastMotionT) {
+        lastMotionT = t
+        return
+      }
       const dt = Math.min(0.05, Math.max(0, (t - lastMotionT) / 1000))
       lastMotionT = t
-      gyroYaw = (gyroYaw - rate * dt + 360) % 360
+      gyroYaw = ((gyroYaw - rate * dt) % 360 + 360) % 360
       applyPreviewCompass(gyroYaw)
     }
     window.addEventListener('devicemotion', motionHandler, true)
@@ -13834,27 +13837,27 @@ window.LiuYao = {
   }
 
   /**
-   * 关键：iOS 必须在用户手势的同步调用栈里 requestPermission，
-   * 不能先 await 其它 Promise，否则权限弹窗无效、永远无朝向事件。
+   * iOS：必须在用户手势的同步调用栈里 requestPermission
    */
   function requestCompassPermission(fromUser) {
     bindDeviceOrientation(true)
-
     const DOE = window.DeviceOrientationEvent
-    const reqOri = DOE && typeof DOE.requestPermission === 'function' ? DOE.requestPermission.bind(DOE) : null
+    const reqOri = DOE && typeof DOE.requestPermission === 'function'
+      ? DOE.requestPermission.bind(DOE)
+      : null
     const DME = window.DeviceMotionEvent
-    const reqMot = DME && typeof DME.requestPermission === 'function' ? DME.requestPermission.bind(DME) : null
+    const reqMot = DME && typeof DME.requestPermission === 'function'
+      ? DME.requestPermission.bind(DME)
+      : null
 
     if (reqOri) {
-      // 同步发起，保留用户手势
       const p1 = reqOri()
       const p2 = reqMot ? reqMot() : Promise.resolve('granted')
       Promise.all([p1, p2])
         .then(([ori]) => {
+          relativeAlphaZero = null
           bindDeviceOrientation(true)
-          if (ori !== 'granted' && fromUser) {
-            setSensorNote('未授权方向 · 可拖动转盘')
-          }
+          if (ori !== 'granted' && fromUser) setSensorNote('未授权方向 · 可拖动转盘')
           paintLuopanLive()
         })
         .catch(() => {
@@ -13863,29 +13866,24 @@ window.LiuYao = {
         })
       return
     }
-
-    // 安卓 / 桌面：直接监听
     paintLuopanLive()
   }
 
   function armCompassOnGesture() {
     let armed = false
-    const arm = () => {
+    const arm = (ev) => {
       if (armed) return
       armed = true
-      // 手势栈内同步调用
       requestCompassPermission(true)
     }
+    // 捕获阶段 + 多种手势，尽量在 iOS 上弹出权限
     document.addEventListener('touchstart', arm, { capture: true, once: true, passive: true })
     document.addEventListener('pointerdown', arm, { capture: true, once: true })
     document.addEventListener('click', arm, { capture: true, once: true })
   }
 
-  // HTTPS（含 GitHub Pages）下先挂监听；iOS 仍须首次触摸授权
   bindDeviceOrientation(false)
-  if (!isIOS()) {
-    requestCompassPermission(false)
-  }
+  if (!isIOS()) requestCompassPermission(false)
   armCompassOnGesture()
 
   hydratePreviewAccount()
