@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-  <!-- liuyao-preview-build:2026-08-04T06:57:38Z -->
+  <!-- liuyao-preview-build:2026-08-04T07:02:28Z -->
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover" />
   <title>周易研习</title>
@@ -12403,18 +12403,21 @@ window.LiuYao = {
     const angleAt = (clientX, clientY, c) =>
       (Math.atan2(clientY - c.y, clientX - c.x) * 180) / Math.PI
 
-    wrap.onmousedown = (e) => {
-      if (state.locked) return
-      e.preventDefault()
-      state._dragging = true
-      state._lastDragAng = angleAt(e.clientX, e.clientY, centerOf())
-    }
     wrap.ontouchstart = (e) => {
+      // 点盘面即申请方向权限（iOS 手势栈）
+      try { requestCompassPermission(true) } catch (err) { /* ignore */ }
       if (state.locked) return
       const t = e.touches[0]
       if (!t) return
       state._dragging = true
       state._lastDragAng = angleAt(t.clientX, t.clientY, centerOf())
+    }
+    wrap.onmousedown = (e) => {
+      try { requestCompassPermission(true) } catch (err) { /* ignore */ }
+      if (state.locked) return
+      e.preventDefault()
+      state._dragging = true
+      state._lastDragAng = angleAt(e.clientX, e.clientY, centerOf())
     }
     wrap.ontouchmove = (e) => {
       const t = e.touches[0]
@@ -13837,53 +13840,73 @@ window.LiuYao = {
   }
 
   /**
-   * iOS：必须在用户手势的同步调用栈里 requestPermission
+   * iOS：必须在用户手势同步调用栈里直接 requestPermission。
+   * 不要在此函数开头 await/setTimeout，否则会“点了没反应”。
    */
   function requestCompassPermission(fromUser) {
-    bindDeviceOrientation(true)
-    const DOE = window.DeviceOrientationEvent
-    const reqOri = DOE && typeof DOE.requestPermission === 'function'
-      ? DOE.requestPermission.bind(DOE)
-      : null
-    const DME = window.DeviceMotionEvent
-    const reqMot = DME && typeof DME.requestPermission === 'function'
-      ? DME.requestPermission.bind(DME)
-      : null
+    // 1) 先挂监听（同步）
+    try { bindDeviceOrientation(true) } catch (e) { /* ignore */ }
 
-    if (reqOri) {
-      const p1 = reqOri()
-      const p2 = reqMot ? reqMot() : Promise.resolve('granted')
-      Promise.all([p1, p2])
+    const DOE = window.DeviceOrientationEvent
+    const DME = window.DeviceMotionEvent
+    const needOri = !!(DOE && typeof DOE.requestPermission === 'function')
+    const needMot = !!(DME && typeof DME.requestPermission === 'function')
+
+    // 2) 立刻在手势栈内调权限（iOS 关键）
+    if (needOri || needMot) {
+      let oriP = Promise.resolve('granted')
+      let motP = Promise.resolve('granted')
+      try {
+        if (needOri) oriP = DOE.requestPermission()
+      } catch (e) {
+        oriP = Promise.reject(e)
+      }
+      try {
+        if (needMot) motP = DME.requestPermission()
+      } catch (e) {
+        motP = Promise.resolve('denied')
+      }
+      Promise.all([oriP.catch(() => 'denied'), motP.catch(() => 'denied')])
         .then(([ori]) => {
           relativeAlphaZero = null
-          bindDeviceOrientation(true)
-          if (ori !== 'granted' && fromUser) setSensorNote('未授权方向 · 可拖动转盘')
+          lastMotionT = 0
+          try { bindDeviceOrientation(true) } catch (e) { /* ignore */ }
+          if (fromUser && ori !== 'granted' && !state.compassReady) {
+            setSensorNote('请允许「运动与方向」后再次点击盘面')
+          }
           paintLuopanLive()
         })
-        .catch(() => {
-          if (fromUser) setSensorNote('方向权限不可用 · 可拖动转盘')
-          paintLuopanLive()
-        })
-      return
+      return true
     }
+
+    // 3) 安卓等：无权限 API，直接听传感器
     paintLuopanLive()
+    return true
   }
 
+  /** 在传感器就绪前，每次点击/触摸都重新申请（避免 once 失败后永远不再弹） */
   function armCompassOnGesture() {
-    let armed = false
-    const arm = (ev) => {
-      if (armed) return
-      armed = true
+    const arm = () => {
+      if (state.compassReady && sensorEventCount > 2) return
       requestCompassPermission(true)
     }
-    // 捕获阶段 + 多种手势，尽量在 iOS 上弹出权限
-    document.addEventListener('touchstart', arm, { capture: true, once: true, passive: true })
-    document.addEventListener('pointerdown', arm, { capture: true, once: true })
-    document.addEventListener('click', arm, { capture: true, once: true })
+    document.addEventListener('touchend', arm, { capture: true, passive: true })
+    document.addEventListener('click', arm, { capture: true })
+    // 盘面区域额外绑定，保证点罗盘必触发
+    document.addEventListener('touchstart', (ev) => {
+      const t = ev.target
+      if (!t) return
+      if (t.closest && (t.closest('#luopan-wrap') || t.closest('#luopan-hud') || t.closest('.luopan-controls'))) {
+        requestCompassPermission(true)
+      }
+    }, { capture: true, passive: true })
   }
 
-  bindDeviceOrientation(false)
-  if (!isIOS()) requestCompassPermission(false)
+  // 启动：先挂监听；非 iOS 直接开；iOS 等用户点盘面/屏幕
+  try { bindDeviceOrientation(false) } catch (e) { /* ignore */ }
+  if (!isIOS()) {
+    try { requestCompassPermission(false) } catch (e) { /* ignore */ }
+  }
   armCompassOnGesture()
 
   hydratePreviewAccount()
@@ -13892,7 +13915,12 @@ window.LiuYao = {
     requestCompassPermission,
     httpsPreviewUrl
   }
-  render()
+  try {
+    render()
+  } catch (e) {
+    console.error('[liuyao] render failed', e)
+    if (app) app.innerHTML = '<p style="padding:24px;line-height:1.6">页面加载异常，请刷新重试。</p>'
+  }
 })()
 
 </script>
