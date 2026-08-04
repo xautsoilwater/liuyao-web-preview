@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
+  <!-- liuyao-preview-build:2026-08-04T06:52:51Z -->
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover" />
   <title>周易研习</title>
@@ -12285,7 +12286,6 @@ window.LiuYao = {
 
   function paintLuopanLive() {
     if (state.page !== 'index') return
-    const plate = document.getElementById('luopan-plate')
     const hudDir = document.getElementById('hud-dir')
     const hudDeg = document.getElementById('hud-deg')
     const hudMountain = document.getElementById('hud-mountain')
@@ -12297,11 +12297,7 @@ window.LiuYao = {
     const h = state.compassReady
       ? state.compassHeading
       : headingFromPlate(state.plateDeg)
-    if (plate) {
-      // 清除任何残留 SVG 自转动画，只保留朝向/拖动
-      plate.querySelectorAll('animateTransform').forEach((n) => n.remove())
-      plate.setAttribute('transform', `rotate(${state.plateDeg} 200 200)`)
-    }
+    setPlateRotation(state.plateDeg)
     if (hudDir) hudDir.textContent = dirNameOf(h)
     if (hudDeg) hudDeg.textContent = `${(Math.round(h * 10) / 10)}°`
     if (hudMountain) hudMountain.textContent = `${mountainOf(h)}山`
@@ -12316,18 +12312,28 @@ window.LiuYao = {
     }
   }
 
+  function setPlateRotation(deg) {
+    // 只转外层 CSS，SVG 内部保持 0，避免双重旋转；CSS 在移动端更稳
+    const rotHost = document.getElementById('luopan-rot')
+    if (rotHost) {
+      const t = `rotate(${deg}deg)`
+      rotHost.style.transform = t
+      rotHost.style.webkitTransform = t
+    }
+    const plate = document.getElementById('luopan-plate')
+    if (plate) {
+      plate.querySelectorAll('animateTransform').forEach((n) => n.remove())
+      plate.setAttribute('transform', 'rotate(0 200 200)')
+    }
+  }
+
   function applyLiveHeading(heading) {
     if (state._dragging || state.locked) return
     const h = ((Number(heading) % 360) + 360) % 360
     state.compassHeading = h
     state.compassReady = true
     state.plateDeg = plateFromHeading(h)
-    // 直接改 DOM，避免整页 render 跟不上
-    const plate = document.getElementById('luopan-plate')
-    if (plate) {
-      plate.querySelectorAll('animateTransform').forEach((n) => n.remove())
-      plate.setAttribute('transform', `rotate(${state.plateDeg} 200 200)`)
-    }
+    setPlateRotation(state.plateDeg)
     const hudDir = document.getElementById('hud-dir')
     const hudDeg = document.getElementById('hud-deg')
     const hudMountain = document.getElementById('hud-mountain')
@@ -12511,7 +12517,9 @@ window.LiuYao = {
         ` : ''}
       </div>
       <div class="luopan-wrap slim" id="luopan-wrap">
-        ${buildLuopanSvg(state.plateDeg)}
+        <div id="luopan-rot" style="width:100%;transform-origin:50% 44%;will-change:transform;transform:rotate(${state.plateDeg}deg);-webkit-transform:rotate(${state.plateDeg}deg)">
+          ${buildLuopanSvg(0)}
+        </div>
       </div>
       <div class="actions">
         <span class="act" data-go="learn">研习典要</span>
@@ -13701,17 +13709,16 @@ window.LiuYao = {
 
   function headingFromOrientEvent(e) {
     if (!e) return null
-    // iOS：相对正北
+    // iOS Safari：相对正北（度）
     if (typeof e.webkitCompassHeading === 'number' && !Number.isNaN(e.webkitCompassHeading)) {
       return ((e.webkitCompassHeading % 360) + 360) % 360
     }
     if (e.alpha == null || Number.isNaN(Number(e.alpha))) return null
     const alpha = Number(e.alpha)
-    // 有 absolute 标记时按地磁解释
+    // absolute 或 webkit 之外：用相对位移保证「手机转盘转」
     if (e.absolute === true) {
       return (360 - alpha + 360) % 360
     }
-    // 相对方位：手机转多少，盘就转多少（不要求对准正北）
     if (relativeAlphaZero == null) relativeAlphaZero = alpha
     let rel = alpha - relativeAlphaZero
     while (rel < 0) rel += 360
@@ -13719,28 +13726,26 @@ window.LiuYao = {
     return (360 - rel) % 360
   }
 
-  function flushPreviewCompass() {
-    if (pendingHeading == null) return
-    const next = pendingHeading
-    pendingHeading = null
-    applyLiveHeading(next)
-  }
+  let orientSeenAt = 0
 
-  function applyPreviewCompass(heading, note) {
+  function applyPreviewCompass(heading) {
     sensorEventCount += 1
-    if (note) lastSensorNote = note
-    pendingHeading = ((Number(heading) % 360) + 360) % 360
+    orientSeenAt = Date.now()
+    const h = ((Number(heading) % 360) + 360) % 360
     const now = Date.now()
-    if (now - compassTick < 20) {
-      clearTimeout(applyPreviewCompass._t)
-      applyPreviewCompass._t = setTimeout(flushPreviewCompass, 20)
+    pendingHeading = h
+    if (now - compassTick < 16) {
+      if (!applyPreviewCompass._raf) {
+        applyPreviewCompass._raf = requestAnimationFrame(() => {
+          applyPreviewCompass._raf = 0
+          compassTick = Date.now()
+          if (pendingHeading != null) applyLiveHeading(pendingHeading)
+        })
+      }
       return
     }
     compassTick = now
-    flushPreviewCompass()
-    if (sensorEventCount === 1 || sensorEventCount % 15 === 0) {
-      setSensorNote(`朝向跟随中 · ${Math.round(pendingHeading)}° · 事件${sensorEventCount}`)
-    }
+    applyLiveHeading(h)
   }
 
   function unbindDeviceOrientation() {
@@ -13753,6 +13758,7 @@ window.LiuYao = {
     }
     if (motionHandler) {
       window.removeEventListener('devicemotion', motionHandler, true)
+      window.removeEventListener('devicemotion', motionHandler, false)
       motionHandler = null
     }
     compassBound = false
@@ -13762,52 +13768,21 @@ window.LiuYao = {
     }
   }
 
-  function bindAbsoluteOrientationSensor() {
-    if (typeof AbsoluteOrientationSensor !== 'function') return false
-    try {
-      const sensor = new AbsoluteOrientationSensor({ frequency: 30, referenceFrame: 'device' })
-      sensor.addEventListener('reading', () => {
-        if (!sensor.quaternion) return
-        const [x, y, z, w] = sensor.quaternion
-        const siny = 2 * (w * z + x * y)
-        const cosy = 1 - 2 * (y * y + z * z)
-        let yaw = (Math.atan2(siny, cosy) * 180) / Math.PI
-        yaw = ((-yaw % 360) + 360) % 360
-        applyPreviewCompass(yaw, 'AbsoluteOrientationSensor')
-      })
-      sensor.addEventListener('error', () => {
-        try { sensor.stop() } catch (e) { /* ignore */ }
-        absoluteSensor = null
-      })
-      sensor.start()
-      absoluteSensor = sensor
-      return true
-    } catch (e) {
-      return false
-    }
-  }
-
   function bindDeviceOrientation(force) {
     if (typeof window === 'undefined') return false
     if (!window.DeviceOrientationEvent && typeof AbsoluteOrientationSensor !== 'function') {
-      setSensorNote('浏览器无方向 API')
       return false
     }
     if (compassBound && !force) return true
     if (force) unbindDeviceOrientation()
     relativeAlphaZero = null
     sensorEventCount = 0
+    orientSeenAt = 0
 
     orientHandler = (e) => {
-      // 即使部分字段为空也尝试
       const h = headingFromOrientEvent(e)
-      if (h == null || Number.isNaN(h)) {
-        if (sensorEventCount === 0) {
-          setSensorNote(`收到事件但无 alpha（absolute=${e && e.absolute}）`)
-        }
-        return
-      }
-      applyPreviewCompass(h, e && e.webkitCompassHeading != null ? 'webkitCompass' : (e && e.absolute ? 'absolute' : 'relative'))
+      if (h == null || Number.isNaN(h)) return
+      applyPreviewCompass(h)
     }
 
     if (window.DeviceOrientationEvent) {
@@ -13817,85 +13792,99 @@ window.LiuYao = {
       window.addEventListener('deviceorientationabsolute', orientHandler, false)
     }
 
-    // 部分安卓只推 devicemotion 的 rotationRate，这里用累计角速度作弱跟随
+    // 陀螺积分兜底：orientation 不给数时仍跟手
     let gyroYaw = 0
     let lastMotionT = 0
     motionHandler = (e) => {
-      if (state.compassReady && sensorEventCount > 3) return // 已有 orientation 则不用
+      if (Date.now() - orientSeenAt < 200) return
       const rr = e && e.rotationRate
       if (!rr || rr.alpha == null) return
+      let rate = Number(rr.alpha)
+      if (Number.isNaN(rate)) return
+      if (Math.abs(rate) < 0.5) rate = (rate * 180) / Math.PI
       const t = e.timeStamp || Date.now()
       if (!lastMotionT) { lastMotionT = t; return }
       const dt = Math.min(0.05, Math.max(0, (t - lastMotionT) / 1000))
       lastMotionT = t
-      // alpha: z 轴角速度 deg/s（符号因机型而异，取反试跟手）
-      gyroYaw = (gyroYaw - Number(rr.alpha) * dt + 360) % 360
-      applyPreviewCompass(gyroYaw, 'gyro')
+      gyroYaw = (gyroYaw - rate * dt + 360) % 360
+      applyPreviewCompass(gyroYaw)
     }
     window.addEventListener('devicemotion', motionHandler, true)
+    window.addEventListener('devicemotion', motionHandler, false)
+
+    if (typeof AbsoluteOrientationSensor === 'function' && window.isSecureContext) {
+      try {
+        const sensor = new AbsoluteOrientationSensor({ frequency: 30, referenceFrame: 'device' })
+        sensor.addEventListener('reading', () => {
+          if (!sensor.quaternion) return
+          const [x, y, z, w] = sensor.quaternion
+          const siny = 2 * (w * z + x * y)
+          const cosy = 1 - 2 * (y * y + z * z)
+          let yaw = (Math.atan2(siny, cosy) * 180) / Math.PI
+          yaw = ((-yaw % 360) + 360) % 360
+          applyPreviewCompass(yaw)
+        })
+        sensor.start()
+        absoluteSensor = sensor
+      } catch (e) { /* ignore */ }
+    }
 
     compassBound = true
-    bindAbsoluteOrientationSensor()
     return true
   }
 
-  async function requestCompassPermission(fromUser) {
-    // iPhone 在 HTTP 下系统不给方向数据：静默尝试监听，真正要跟手请用 HTTPS 地址
-    setSensorNote(fromUser ? '正在开启朝向…' : '正在监听朝向…')
+  /**
+   * 关键：iOS 必须在用户手势的同步调用栈里 requestPermission，
+   * 不能先 await 其它 Promise，否则权限弹窗无效、永远无朝向事件。
+   */
+  function requestCompassPermission(fromUser) {
     bindDeviceOrientation(true)
 
-    try {
-      if (navigator.permissions && navigator.permissions.query) {
-        for (const name of ['accelerometer', 'gyroscope', 'magnetometer']) {
-          try {
-            await navigator.permissions.query({ name })
-          } catch (e) { /* ignore unsupported name */ }
-        }
-      }
-    } catch (e) { /* ignore */ }
-
     const DOE = window.DeviceOrientationEvent
-    const req = DOE && DOE.requestPermission
-    if (typeof req === 'function') {
-      try {
-        const stateName = await req.call(DOE)
-        if (stateName === 'granted') {
+    const reqOri = DOE && typeof DOE.requestPermission === 'function' ? DOE.requestPermission.bind(DOE) : null
+    const DME = window.DeviceMotionEvent
+    const reqMot = DME && typeof DME.requestPermission === 'function' ? DME.requestPermission.bind(DME) : null
+
+    if (reqOri) {
+      // 同步发起，保留用户手势
+      const p1 = reqOri()
+      const p2 = reqMot ? reqMot() : Promise.resolve('granted')
+      Promise.all([p1, p2])
+        .then(([ori]) => {
           bindDeviceOrientation(true)
-          setSensorNote('朝向已开 · 请水平转动手机')
-          const DME = window.DeviceMotionEvent
-          if (DME && typeof DME.requestPermission === 'function') {
-            try { await DME.requestPermission() } catch (e) { /* ignore */ }
+          if (ori !== 'granted' && fromUser) {
+            setSensorNote('未授权方向 · 可拖动转盘')
           }
-        } else {
-          setSensorNote('未授权方向 · 可拖动转盘')
-        }
-      } catch (e) {
-        setSensorNote('方向权限不可用 · 可拖动转盘')
-      }
-      paintLuopanLive()
+          paintLuopanLive()
+        })
+        .catch(() => {
+          if (fromUser) setSensorNote('方向权限不可用 · 可拖动转盘')
+          paintLuopanLive()
+        })
       return
     }
 
+    // 安卓 / 桌面：直接监听
     paintLuopanLive()
   }
 
   function armCompassOnGesture() {
     let armed = false
     const arm = () => {
-      if (armed || state.compassReady) return
+      if (armed) return
       armed = true
+      // 手势栈内同步调用
       requestCompassPermission(true)
     }
-    // 首次触摸/点击即开（含拖盘、点空白），不增加任何按钮
     document.addEventListener('touchstart', arm, { capture: true, once: true, passive: true })
-    document.addEventListener('touchend', arm, { capture: true, once: true, passive: true })
+    document.addEventListener('pointerdown', arm, { capture: true, once: true })
     document.addEventListener('click', arm, { capture: true, once: true })
   }
 
-  // 非 iOS 或已是安全上下文：直接监听；iOS 必须等用户手势
-  if (!isIOS() || isSecureForSensors()) {
-    bindDeviceOrientation(false)
-    if (!isIOS()) requestCompassPermission(false)
+  // HTTPS（含 GitHub Pages）下先挂监听；iOS 仍须首次触摸授权
+  bindDeviceOrientation(false)
+  if (!isIOS()) {
+    requestCompassPermission(false)
   }
   armCompassOnGesture()
 
