@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-  <!-- liuyao-preview-build:2026-08-04T13:38:11Z -->
+  <!-- liuyao-preview-build:2026-08-04T13:44:49Z -->
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover" />
   <title>周易研习</title>
@@ -712,85 +712,52 @@
       text-align: justify; margin-bottom: 6px;
     }
 
-    /* interpret — 居中风格 */
-    .interpret-page { text-align: center; }
-    .interpret-page .title-zh,
-    .interpret-page .subtitle {
-      text-align: center;
-      text-indent: 0;
-    }
-    .interpret-page .title-zh { letter-spacing: .32em; }
-    .interpret-page .subtitle { letter-spacing: .2em; }
-    .topics { display: flex; flex-wrap: wrap; justify-content: center; gap: 7px; margin: 8px 0 14px; }
-    .topic-hint { margin: 4px 0 2px; font-size: 12px; color: var(--bronze); letter-spacing: .06em; text-align: center; }
+    /* interpret */
+    .topics { display: flex; flex-wrap: wrap; gap: 7px; margin: 8px 0 14px; }
+    .topic-hint { margin: 4px 0 2px; font-size: 12px; color: var(--bronze); letter-spacing: .06em; }
     .ask-box {
-      margin: 12px auto 14px; padding: 14px 16px;
+      margin: 10px 0 12px; padding: 12px 14px;
       border: 1px solid var(--line-strong); background: rgba(250,246,234,.55);
-      text-align: center;
     }
-    .ask-lab { font-size: 11px; letter-spacing: .32em; color: var(--bronze); margin-bottom: 6px; }
-    .ask-q { font-size: 17px; color: var(--ink); letter-spacing: .08em; font-weight: 600; line-height: 1.75; }
+    .ask-lab { font-size: 11px; letter-spacing: .28em; color: var(--bronze); margin-bottom: 4px; }
+    .ask-q { font-size: 16px; color: var(--ink); letter-spacing: .05em; font-weight: 600; line-height: 1.7; }
     .topic {
       padding: 7px 10px; border: 1px solid var(--line-strong); font-size: 14px;
       cursor: pointer; color: var(--ink-soft); letter-spacing: .05em; background: rgba(246,237,216,.35);
     }
     .topic.on { color: #fff; background: #8d8579; border-color: #756e64; }
     .verdict {
-      text-align: center; padding: 20px 16px 18px; margin: 0 auto 14px;
+      text-align: center; padding: 16px 12px; margin-bottom: 12px;
       border: 1.5px solid var(--line-strong);
       background:
-        radial-gradient(ellipse 90% 55% at 50% 0%, rgba(160,40,32,0.06), transparent 60%),
-        rgba(246,237,216,.72);
+        radial-gradient(ellipse at top, rgba(160,40,32,0.06), transparent 55%),
+        rgba(246,237,216,.7);
       position: relative;
     }
     .verdict.good { border-color: rgba(70,110,75,.45); }
     .verdict.bad { border-color: rgba(160,40,32,.55); }
     .verdict.mid { border-color: rgba(143,117,82,.45); }
-    .verdict .summary {
-      margin: 8px 0 12px; font-size: 24px; letter-spacing: .22em;
-      font-weight: 600; color: var(--ink); line-height: 1.45;
-    }
+    .verdict .summary { margin: 8px 0 6px; font-size: 22px; letter-spacing: .16em; font-weight: 600; color: var(--ink); }
     .verdict .reply {
-      margin: 0 auto 12px; font-size: 16px; letter-spacing: .06em;
-      color: var(--cinnabar); font-weight: 600; line-height: 1.75; text-align: center;
+      margin: 0 0 8px; font-size: 16px; letter-spacing: .06em;
+      color: var(--cinnabar); font-weight: 600;
     }
     .verdict .judgment {
-      margin: 0 auto 12px; font-size: 14.5px; color: var(--ink-2);
-      text-align: center; line-height: 1.9; letter-spacing: .04em;
+      margin: 0 2px 8px; font-size: 14px; color: var(--ink-2);
+      text-align: justify; line-height: 1.85; letter-spacing: .04em;
     }
     .verdict .advice {
-      margin: 6px auto 0; padding-top: 12px; border-top: 1px dashed var(--line-strong);
-      font-size: 13.5px; color: var(--bronze); text-align: center; line-height: 1.9;
+      margin-top: 4px; padding-top: 10px; border-top: 1px dashed var(--line-strong);
+      font-size: 13px; color: var(--bronze); text-align: justify; line-height: 1.8;
     }
     .verdict .pointer {
-      margin: 14px auto 0; padding: 12px 12px;
-      background: rgba(255,255,255,.34); border-left: none;
-      border-top: 2px solid rgba(155,45,36,.35);
-      color: var(--ink); font-size: 14px; line-height: 1.8; text-align: center;
+      margin-top: 10px; padding: 10px 11px;
+      background: rgba(255,255,255,.34); border-left: 3px solid var(--cinnabar);
+      color: var(--ink); font-size: 14px; line-height: 1.75; text-align: justify;
     }
     .verdict .pointer-label {
-      display: block; margin: 0 0 6px;
-      color: var(--cinnabar); font-weight: 600; letter-spacing: .24em;
-      white-space: nowrap;
-    }
-    .interpret-page .frame.interpret-sections,
-    .interpret-sections {
-      text-align: center;
-    }
-    .interpret-page .sec-head,
-    .interpret-sections .sec-head {
-      justify-content: center;
-    }
-    .interpret-page .sec-title,
-    .interpret-sections .sec-title {
-      text-align: center;
-      letter-spacing: .18em;
-    }
-    .interpret-page .point,
-    .interpret-sections .point {
-      text-align: center;
-      padding-left: 0;
-      padding-right: 0;
+      color: var(--cinnabar); font-weight: 600; letter-spacing: .12em;
+      margin-right: 7px; white-space: nowrap;
     }
 
     /* meihua */
@@ -5827,13 +5794,13 @@ const DOMAINS = [
     key: 'emotion',
     label: '感情婚姻',
     topicHint: 'marriage',
-    re: /婚|恋|感情|对象|分手|复合|相亲|女友|男友|老婆|丈夫|表白|相处|桃花|姻缘|第三者|喜不喜欢|见家长|断联|彩礼|嫁妆|条件/
+    re: /婚|恋|感情|对象|分手|复合|相亲|女友|男友|老婆|丈夫|表白|相处|桃花|姻缘|第三者|喜不喜欢/
   },
   {
     key: 'family',
     label: '家庭亲眷',
     topicHint: 'general',
-    re: /家里|家和|父母|父亲|母亲|孩子|子女|亲眷|家人|婆媳|家事|择校|长辈/
+    re: /家里|家和|父母|父亲|母亲|孩子|子女|亲眷|家人|婆媳|家事/
   },
   {
     key: 'pregnancy',
@@ -5845,31 +5812,31 @@ const DOMAINS = [
     key: 'exam',
     label: '学业考试',
     topicHint: 'exam',
-    re: /考试|考研|考公|面试|录取|论文|答辩|过关|上岸|分数|笔试|升学|证书|执照|事业编|调剂|留学|驾考|资格考/
+    re: /考试|考研|考公|面试|录取|论文|答辩|过关|上岸|分数|笔试|升学|证书|执照/
   },
   {
     key: 'career',
     label: '事业职场',
     topicHint: 'career',
-    re: /升职|晋升|工作|跳槽|入职|转正|岗位|职称|项目|官运|功名|辞职|上级|职场|裁员|降薪|创业|副业|续约|绩效|考核/
+    re: /升职|晋升|工作|跳槽|入职|转正|岗位|职称|项目|官运|功名|辞职|上级|职场/
   },
   {
     key: 'wealth',
     label: '求财经营',
     topicHint: 'wealth',
-    re: /财|钱|回款|进账|生意|合同|签约|成交|利润|赚|亏|货款|收债|求财|借款|借出|担保|尾款|毁约/
+    re: /财|钱|回款|进账|生意|合同|签约|成交|利润|赚|亏|货款|收债|求财/
   },
   {
     key: 'invest',
     label: '投资理财',
     topicHint: 'wealth',
-    re: /投资|理财|股票|基金|收益|出手|入场|加仓|减仓|止损/
+    re: /投资|理财|股票|基金|收益|出手|入场/
   },
   {
     key: 'property',
     label: '置业买卖',
     topicHint: 'wealth',
-    re: /买房|卖房|买车|卖车|置业|房产|车子|租金|收租/
+    re: /买房|卖房|买车|卖车|置业|房产|车子/
   },
   {
     key: 'partner',
@@ -5881,7 +5848,7 @@ const DOMAINS = [
     key: 'health',
     label: '疾病健康',
     topicHint: 'health',
-    re: /病|疾|疼|痛|手术|住院|康复|治疗|身体|发烧|炎症|体检|痊愈|好转|严重|病情|就医|调养|复查|慢性/
+    re: /病|疾|疼|痛|手术|住院|康复|治疗|身体|发烧|炎症|体检|痊愈|好转|严重|病情|就医|调养/
   },
   {
     key: 'visit',
@@ -5929,13 +5896,13 @@ const DOMAINS = [
     key: 'document',
     label: '文书审批',
     topicHint: 'exam',
-    re: /申请|签证|审批|批复|手续|办证|证件|贷款批|公文|落户|理赔|报销|再签/
+    re: /申请|签证|审批|批复|手续|办证|证件|贷款批|公文/
   },
   {
     key: 'home',
     label: '家宅迁居',
     topicHint: 'travel',
-    re: /搬家|迁居|租房|装修|动土|家宅|居住|住这里|开业|安床|邻里|物业/
+    re: /搬家|迁居|租房|装修|动土|家宅|居住|住这里/
   },
   {
     key: 'social',
@@ -5953,13 +5920,13 @@ const DOMAINS = [
     key: 'lawsuit',
     label: '官司是非',
     topicHint: 'lawsuit',
-    re: /官司|诉讼|起诉|纠纷|是非|仲裁|法院|警察|告状|口舌|和解|报警|诈骗|被骗|劳动仲裁|离婚/
+    re: /官司|诉讼|起诉|纠纷|是非|仲裁|法院|警察|告状|口舌|和解|报警/
   },
   {
     key: 'lost',
     label: '失物寻人',
     topicHint: 'lost',
-    re: /丢|失物|找回|找不着|遗失|钥匙|手机丢|找得到|寻物|寻人|失踪|宠物|账号/
+    re: /丢|失物|找回|找不着|遗失|钥匙|手机丢|找得到|寻物|寻人|失踪/
   }
 ]
 
@@ -6520,9 +6487,7 @@ function directReply(parsed, tone, level, extra) {
   const choicePick = (extra && extra.choicePick) || ''
   const whoHint = (extra && extra.whoHint) || ''
   const lv = String(level || '')
-  // 含「条件未满 / 当前难成 / 括号限定」也算未满档，避免标题与正文一硬一软
-  const mild = /偏|勉|虚|待|小|两可|未明|条件未满|当前难成|把握|未完全|费周折|象弱|留余量|未必|不太|大致/.test(lv)
-    || /[（(]/.test(lv)
+  const mild = /偏|勉|虚|待|小|两可|未明/.test(lv)
   const head = `就你问的「${raw}」：`
   const dayRef = timeHint || '近段'
   const outcomeTone = (extra && extra.outcomeTone) || tone
@@ -6566,32 +6531,28 @@ function directReply(parsed, tone, level, extra) {
     return `${head}「${focus}」方位信号偏弱，宜结合现场再核。`
   }
 
-  // —— 时刻：必须直接给出时间范围 ——
+  // —— 时刻：必须答「几点/哪段时间」——
   if (parsed.mode === 'when' && parsed.whenKind === 'clock') {
     if (tone === 'bad') {
       return clockHint
-        ? `${head}明确时间范围：${clockHint}（优先窗口）；前后约1～2个时辰也可观察。整体象偏弱，不必死等这一点钟。此为卦象时辰区间，非精确到分钟。`
-        : `${head}明确时间范围：${dayRef}只能按「上午 / 下午 / 晚间」三段观察，不宜钉死某一点钟。`
+        ? `${head}${dayRef}「${focus}」整体象偏弱，未必明显发生；若发生，相对更可留意${clockHint}。此为卦象时辰示意，非气象预报。`
+        : `${head}${dayRef}「${focus}」整体象偏弱，时刻信号不清，不宜钉死某一点钟。`
     }
     if (tone === 'mid' || mild) {
       return clockHint
-        ? `${head}明确时间范围：${clockHint}，并前后各放宽约一个时辰作窗口。此为卦象时辰区间。`
-        : `${head}明确时间范围：${dayRef}宜整日分上午、下午、晚间三段观察，勿只盯一个点。`
+        ? `${head}${dayRef}「${focus}」若发生，较可留意${clockHint}；前后两三个时辰也留观察。此为卦象时辰示意，非气象预报。`
+        : `${head}${dayRef}「${focus}」时刻未明朗，宜整日留意，勿只盯一个点。`
     }
     return clockHint
-      ? `${head}明确时间范围：${clockHint}（建议按该时辰整段安排，勿卡死某一分钟）。`
-      : `${head}明确时间范围：${dayRef}宜按上午/下午分段盯窗口，卦上未给出更细钟点。`
+      ? `${head}${dayRef}「${focus}」更可能落在${clockHint}。此为卦象时辰示意，非气象预报。`
+      : `${head}${dayRef}「${focus}」有时刻信号但不够清，宜按上午/下午分段观察。`
   }
 
   if (parsed.mode === 'when') {
-    const win = whenHint || '近几日冲合用神地支之日'
-    if (tone === 'good') {
-      return `${head}明确时间范围：偏近——${win}。把日程对准这一窗口推进，勿空等更远日期。`
-    }
-    if (tone === 'bad') {
-      return `${head}明确时间范围：偏迟或反复——近段难见结果；参考窗口仍是${win}，条件未变则顺延，不宜死等最近几天。`
-    }
-    return `${head}明确时间范围：尚未钉死——先按${win}筹备与对照，信号清楚后再定死日期。`
+    const win = whenHint ? `——${whenHint}` : ''
+    if (tone === 'good') return `${head}「${focus}」的时机偏近${win}，可盯窗口推进。`
+    if (tone === 'bad') return `${head}「${focus}」的时机偏迟或反复，近段不宜死等一个结果。`
+    return `${head}「${focus}」的时机尚未明朗${win}，先筹备、待信号清楚再定。`
   }
 
   if (parsed.mode === 'jixiong') {
@@ -6674,71 +6635,30 @@ function directReply(parsed, tone, level, extra) {
     }
 
     if (kind === 'find') {
-      if (tone === 'good') {
-        return mild
-          ? `${head}明确答复：找得到（可能费周折）。「${focus}」有着落象，按原路与常去处再搜。`
-          : `${head}明确答复：找得到。「${focus}」偏能寻回。`
-      }
-      if (tone === 'bad') {
-        return mild
-          ? `${head}明确答复：不好找（当前难寻回）。「${focus}」希望别太大；先挂失/备用。`
-          : `${head}明确答复：找不回。「${focus}」难寻，先备替代方案。`
-      }
-      return `${head}明确答复：能否找到未定。「${focus}」宜再搜一轮，改日再问。`
+      if (tone === 'good') return mild ? `${head}「${focus}」大致找得到，但可能费一点周折。` : `${head}「${focus}」找得到。`
+      if (tone === 'bad') return mild ? `${head}「${focus}」不好找，希望别太大。` : `${head}「${focus}」难找回。`
+      return `${head}「${focus}」能否找到还定不了，宜再搜并改日再问。`
     }
 
     if (kind === 'should') {
-      if (tone === 'good') {
-        return mild
-          ? `${head}明确答复：宜（可推进，别一次押满）。「${focus}」条件偏够，先做可逆的一步。`
-          : `${head}明确答复：宜。「${focus}」条件偏够，可以办。`
-      }
-      if (tone === 'bad') {
-        return mild
-          ? `${head}明确答复：不宜（把握不大）。「${focus}」能缓则缓，先补条件。`
-          : `${head}明确答复：不宜。「${focus}」眼下硬做成本偏高。`
-      }
-      return `${head}明确答复：宜否未定。「${focus}」宜再观两日或补条件后再拍板。`
+      if (tone === 'good') return mild ? `${head}可以考虑「${focus}」，但别一次押满。` : `${head}宜「${focus}」，条件偏够。`
+      if (tone === 'bad') return mild ? `${head}「${focus}」把握不大，能缓则缓。` : `${head}不宜「${focus}」，眼下硬做成本偏高。`
+      return `${head}「${focus}」还定不了，宜再观两日或补条件。`
     }
     if (kind === 'suit') {
-      if (tone === 'good') {
-        return mild
-          ? `${head}明确答复：合适（留余量）。「${focus}」可推进，但别铺满。`
-          : `${head}明确答复：合适。「${focus}」可以办。`
-      }
-      if (tone === 'bad') {
-        return mild
-          ? `${head}明确答复：不合适（宜改期/改方案）。「${focus}」暂缓为妥。`
-          : `${head}明确答复：不合适。「${focus}」暂缓为妥。`
-      }
-      return `${head}明确答复：合适与否未定。「${focus}」宜小范围先试再定。`
+      if (tone === 'good') return mild ? `${head}「${focus}」大致合适，可推进但留余量。` : `${head}「${focus}」合适，可以办。`
+      if (tone === 'bad') return mild ? `${head}「${focus}」不太合适，宜改期或改方案。` : `${head}「${focus}」不合适，暂缓为妥。`
+      return `${head}「${focus}」合适与否未分，宜小范围先试。`
     }
     if (kind === 'have') {
-      if (tone === 'good') {
-        return mild
-          ? `${head}明确答复：有（迹象未完全落实）。「${focus}」偏实，但还须连续行动验证，才能稳住这个「有」。`
-          : `${head}明确答复：有。「${focus}」偏实，可按「有」来安排后续。`
-      }
-      if (tone === 'bad') {
-        return mild
-          ? `${head}明确答复：无（当前偏弱）。「${focus}」迹象不足，不宜当作已经成立；要变「有」须改互动方式。`
-          : `${head}明确答复：无。「${focus}」当前偏虚，不宜一厢情愿。`
-      }
-      return `${head}明确答复：有无未定。「${focus}」信号交杂；往「有」推靠可观察回馈，往「无」滑则是只有付出没有回应。`
+      if (tone === 'good') return mild ? `${head}「${focus}」迹象偏有，但未十分落实。` : `${head}「${focus}」偏有，可以期待。`
+      if (tone === 'bad') return mild ? `${head}「${focus}」迹象偏弱。` : `${head}「${focus}」偏无，不宜一厢情愿。`
+      return `${head}「${focus}」有无未明，宜再观。`
     }
-    // 默认「能不能 / 成否」——先硬答能/不能，再交代条件
     const about = timeHint ? `${timeHint}「${focus}」` : `「${focus}」`
-    if (tone === 'good') {
-      return mild
-        ? `${head}明确答复：能（条件未满）。${about}有成象，但还差关键一环；补齐后更能稳住这个「能」。`
-        : `${head}明确答复：能。${about}可成，有望落实；按「能」来推进，同时防反复。`
-    }
-    if (tone === 'bad') {
-      return mild
-        ? `${head}明确答复：不能（当前难成）。${about}把握不大，硬推易耗力；要往「能」转须先改条件。`
-        : `${head}明确答复：不能。${about}阻力大，眼下不宜强求；先止损、改条件，再谈重开。`
-    }
-    return `${head}明确答复：暂不能断。${about}成败未定；条件补齐偏「能」，条件继续空转偏「不能」。`
+    if (tone === 'good') return mild ? `${head}${about}大致能成，可推进。` : `${head}${about}能，有望落实。`
+    if (tone === 'bad') return mild ? `${head}${about}把握不大，现在硬推易耗力。` : `${head}${about}难，眼下不宜强求。`
+    return `${head}${about}还定不了，宜再观。`
   }
 
   if (tone === 'good') return mild ? `${head}「${focus}」偏顺，可推进。` : `${head}「${focus}」走势偏好，宜推进。`
@@ -6758,41 +6678,39 @@ function modeLabelList(modes) {
 function yesNoLevel(parsed, tone, mild) {
   const kind = parsed.yesKind || 'can'
   if (kind === 'should') {
-    if (tone === 'good') return mild ? '宜（可推进）' : '宜'
-    if (tone === 'bad') return mild ? '不宜（把握不大）' : '不宜'
-    return '宜否未定'
+    if (tone === 'good') return mild ? '可考虑' : '宜做'
+    if (tone === 'bad') return mild ? '宜缓' : '不宜'
+    return '未定'
   }
   if (kind === 'suit') {
-    if (tone === 'good') return mild ? '合适（留余量）' : '合适'
-    if (tone === 'bad') return mild ? '不合适（宜改）' : '不合适'
-    return '合适与否未定'
+    if (tone === 'good') return mild ? '大致合适' : '合适'
+    if (tone === 'bad') return mild ? '不太合适' : '不合适'
+    return '未定'
   }
   if (kind === 'occur') {
     const domain = parsed.domain || ''
     if (domain === 'visit' || domain === 'seek') {
-      if (tone === 'good') return mild ? '有客来（未必准时）' : '有客来'
-      if (tone === 'bad') return mild ? '暂无客来（象弱）' : '暂无客来'
+      if (tone === 'good') return mild ? '或有客来' : '有客来'
+      if (tone === 'bad') return mild ? '客象弱' : '暂无客来'
       return '客来未明'
     }
-    if (tone === 'good') return mild ? '会发生（迹象偏有）' : '会发生'
-    if (tone === 'bad') return mild ? '不会发生（象弱）' : '不会发生'
-    return '是否发生未明'
+    if (tone === 'good') return mild ? '或将发生' : '会发生'
+    if (tone === 'bad') return mild ? '象偏弱' : '不太发生'
+    return '发生未明'
   }
   if (kind === 'find') {
-    if (tone === 'good') return mild ? '找得到（或费周折）' : '找得到'
-    if (tone === 'bad') return mild ? '不好找（当前难寻回）' : '找不回'
-    return '能否找到未定'
+    if (tone === 'good') return mild ? '大致找得到' : '找得到'
+    if (tone === 'bad') return mild ? '不好找' : '难找回'
+    return '未定'
   }
   if (kind === 'have') {
-    // 标题只留硬词：有 / 无
-    if (tone === 'good') return mild ? '有（未完全落实）' : '有'
-    if (tone === 'bad') return mild ? '无（当前偏弱）' : '无'
-    return '有无未定'
+    if (tone === 'good') return mild ? '迹象偏有' : '偏有'
+    if (tone === 'bad') return mild ? '迹象偏弱' : '偏无'
+    return '未明'
   }
-  // 能不能 / 成否：标题必须是「能」或「不能」，不用「大致/较难」冲淡
-  if (tone === 'good') return mild ? '能（条件未满）' : '能'
-  if (tone === 'bad') return mild ? '不能（当前难成）' : '不能'
-  return '暂不能断'
+  if (tone === 'good') return mild ? '大致能成' : '能'
+  if (tone === 'bad') return mild ? '把握不大' : '难'
+  return '未定'
 }
 
 function yesNoJudgmentLine(parsed, tone) {
@@ -6859,37 +6777,28 @@ function yesNoAdvice(parsed, tone) {
     return `当下怎么做：两边都留准备。`
   }
   if (kind === 'find') {
-    if (tone === 'good') return `【保持「找得到」】按原路与常去处再搜「${focus}」，并问知情者；线索热时连续查。【怎么会变「找不回」】拖太久、范围乱扩、不留备份。`
-    if (tone === 'bad') return `【从「不好找」往「找得到」推】先挂失/备用，再按最后动线收窄范围；期望放低，搜归搜。【继续空等】只会更难。`
-    return `【两边怎么走】再搜一轮并记录线索；有新外应再问，勿无限期空等。`
+    if (tone === 'good') return `当下怎么做：按原路与常去处再搜「${focus}」，并问知情者。`
+    if (tone === 'bad') return `当下怎么做：先挂失/备用方案，搜归搜，期望放低。`
+    return `当下怎么做：再搜一轮并改日再问。`
   }
   if (kind === 'should') {
-    if (tone === 'good') return `【保持这个「宜」】若决定「${focus}」，先做可逆的一步并留退路；按节点推进。【怎么会变「不宜」】一次押满、跳过尽调、忽略时机。`
-    if (tone === 'bad') return `【从「不宜」往「宜」转】先不要「${focus}」；把条件、时机、备选补齐再议。硬做只会抬高成本。`
-    return `【两边怎么走】「${focus}」先挂起；补信息后若条件齐则偏「宜」，仍空转则偏「不宜」。`
+    if (tone === 'good') return `当下怎么做：若决定「${focus}」，先做可逆的一步并留退路。`
+    if (tone === 'bad') return `当下怎么做：先不要「${focus}」；把条件与时机补齐再议。`
+    return `当下怎么做：「${focus}」先挂起，补信息后再拍板。`
   }
   if (kind === 'suit') {
-    if (tone === 'good') return `【保持「合适」】「${focus}」可安排，留一点余量；小步验证再铺开。【怎么会变不合适】一次做满、忽略成本与退出。`
-    if (tone === 'bad') return `【从不合适往合适推】「${focus}」宜改期或改方案；条件换对了再评估。`
-    return `【两边怎么走】小范围试「${focus}」，再决定是否铺开。`
+    if (tone === 'good') return `当下怎么做：「${focus}」可安排，留一点余量。`
+    if (tone === 'bad') return `当下怎么做：「${focus}」宜改期或改方案。`
+    return `当下怎么做：小范围试「${focus}」，再决定是否铺开。`
   }
   if (kind === 'have') {
-    if (tone === 'good') {
-      return `【保持「有」】①用连续行动验证（联系、见面、承担），不靠猜；②对方有回馈再加投入；③忌一次押死或逼问。【避免变「无」】别因一时冷淡就全盘否定，也别无视长期无回馈。`
-    }
-    if (tone === 'bad') {
-      return `【从「无」往「有」推】①先停一厢情愿的付出；②改用可观察的互动标准（是否主动、是否安排见面）；③关系若需挽回，先补沟通与信任，再谈结果。空耗硬等不会把「无」变成「有」。`
-    }
-    return `【两边怎么走】往「有」：设短观察期，用行动回馈判定再加码。往「无」：只有付出没有回应就止损。先定标准，再决定加码或放下。`
+    if (tone === 'good') return `当下怎么做：可按「有」来准备，但勿一次押死。`
+    if (tone === 'bad') return `当下怎么做：按「无/弱」做预案，少做一厢情愿的投入。`
+    return `当下怎么做：先观外应与近几日变动，再下「有/无」的定论。`
   }
-  // 能不能：结论已给能/不能，这里只讲「保持能 / 扭转不能」
-  if (tone === 'good') {
-    return `【怎么保持这个「能」】①盯住近期应期与关键节点，主动推进可成的一步；②借力、合规、把资源接到位，忌神发动时勿硬闯；③留退路，成功也要防反复。【怎么会变成「不能」】拖延、一次押满、忽略合同/对方/规则这些卡点。`
-  }
-  if (tone === 'bad') {
-    return `【怎么从「不能」往「能」转】①先止损，停掉无效硬推；②改条件（时间、方案、人、资源），或等出空/破合后再动；③先做低成本验证，条件齐了再重开一局。【继续硬顶会怎样】空耗只会把「不能」钉得更死。`
-  }
-  return `【怎么往「能」靠】先为「${focus}」补最缺的一环（人/时/钱/规则），再推进。【怎么会滑向「不能」】条件继续空转、重复起卦却不行动。条件未明前不要下死结论。`
+  if (tone === 'good') return `当下怎么做：围绕「${focus}」推进；盯近应。`
+  if (tone === 'bad') return `当下怎么做：先放下对「${focus}」的硬攻，改条件或换时机。`
+  return `当下怎么做：先为「${focus}」补条件，再拍板。`
 }
 
 /**
@@ -6952,20 +6861,46 @@ __mods["./ask-options"] = { exports: {} };
  */
 
 const TIME_SCOPES = [
-  { key: '', label: '不限时' },
-  { key: '今天', label: '今天' },
-  { key: '今晚', label: '今晚' },
-  { key: '明天', label: '明天' },
-  { key: '本周', label: '本周' },
-  { key: '周末', label: '周末' },
-  { key: '本月', label: '本月' },
-  { key: '近期', label: '近期' },
-  { key: '今年', label: '今年' }
+  {
+    key: "",
+    label: "不限时"
+  },
+  {
+    key: "今天",
+    label: "今天"
+  },
+  {
+    key: "今晚",
+    label: "今晚"
+  },
+  {
+    key: "明天",
+    label: "明天"
+  },
+  {
+    key: "本周",
+    label: "本周"
+  },
+  {
+    key: "周末",
+    label: "周末"
+  },
+  {
+    key: "本月",
+    label: "本月"
+  },
+  {
+    key: "近期",
+    label: "近期"
+  },
+  {
+    key: "今年",
+    label: "今年"
+  }
 ]
 
 /** @type {{ key: string, label: string, tip?: string, options: object[] }[]} */
-const ASK_GROUPS = 
-[
+const ASK_GROUPS = [
   {
     key: "emotion",
     label: "感情婚姻",
@@ -9295,45 +9230,14 @@ function choicePickFromParsed(parsed, tone) {
 }
 
 function philosophyGuidance(tone, focus, parsed) {
-  // 断卦宗旨：趋吉避凶、指点迷津——结论之后必给可执行的进退
-  if (parsed && parsed.negativeEvent) {
-    return tone === 'good'
-      ? '指迷：风险之象虽弱，仍以事实核验与清楚边界守住关系，勿据卦指认他人。'
-      : tone === 'bad'
-        ? '避凶：风险之象偏强，先核事实、留证据、定边界；不以猜疑伤人，也不以侥幸纵患。'
-        : '指迷：风险未明时不猜、不纵、不武断；用事实和可执行边界减少后悔。'
-  }
-  if (parsed && (parsed.domain === 'health' || parsed.domain === 'pregnancy')) {
-    return '指迷：卦可安其心，不可代医；就医、复查、作息与支持是你能做的趋避，结果不以一卦强求。'
-  }
-  if (parsed && parsed.domain === 'weather') {
-    return '趋避：以预报和现场为准，卦象只提醒保留余地、备而不惧。'
-  }
-  if (parsed && parsed.domain === 'lost' && /寻人|人/.test(String(parsed.focus || ''))) {
-    return '避凶：先联络、查找、必要时报警；争取时间、缩小范围，勿因等卦耽误行动。'
-  }
-  if (parsed && parsed.mode === 'choice') {
-    return '指迷：卦不替你承担后果，只帮你看清得失；所选有据、可承受、能修正，进退才少悔。'
-  }
-  if (parsed && parsed.mode === 'when') {
-    return '指迷：把行动对准时间窗口，窗口内进取、窗口外少空耗，这是应期上的趋吉避凶。'
-  }
-  if (parsed && parsed.mode === 'yesno') {
-    if (tone === 'good') {
-      return `趋吉：结论偏「能/有利」，用行动把「${focus}」的吉象接住；守正、守信、留退路，勿因顺而躁进。`
-    }
-    if (tone === 'bad') {
-      return `避凶：结论偏「不能/不利」，先止损、改条件，不与「${focus}」的逆势硬争；穷则变，变则通。`
-    }
-    return `指迷：「${focus}」未定，先补最缺一环再观；条件齐则趋吉，空转则避凶，勿空问不行动。`
-  }
-  if (tone === 'good') {
-    return `趋吉：顺势推进「${focus}」，守正、守信并留有余地，使吉可延续，勿因一时有利而躁进。`
-  }
-  if (tone === 'bad') {
-    return `避凶：先止损换势，不与「${focus}」的逆势硬争；调整自身与条件，便是在育新机。`
-  }
-  return `指迷：象在变、事亦在变；对「${focus}」先安其心，再分轻重缓急，小步求证、随势修正。`
+  if (parsed && parsed.negativeEvent) return '先核事实，再定边界，不以卦象替代证据。'
+  if (parsed && (parsed.domain === 'health' || parsed.domain === 'pregnancy')) return '卦可定心，不可代医；以检查、复诊和专业意见为准。'
+  if (parsed && parsed.domain === 'weather') return '以官方预报和现场情况为准，卦象只作趋避提醒。'
+  if (parsed && parsed.domain === 'lost' && /寻人|人/.test(String(parsed.focus || ''))) return '先联络、查找和报警，勿因卦象耽误行动。'
+  if (parsed && parsed.mode === 'choice') return '先做可逆的小步验证，再决定是否重注。'
+  if (tone === 'good') return '可进，但以守正、守信并留有余地为度。'
+  if (tone === 'bad') return `宜先止损换势，不与「${focus}」的逆势硬争。`
+  return `先小步求证「${focus}」，条件明朗后再定。`
 }
 
 /** 按问题类型组织判断与建议 */
@@ -9381,20 +9285,13 @@ function buildJudgment(ctx) {
   }
 
   if (parsed.mode === 'when') {
-    // 时间问法：标题直接给出时间范围，不空谈吉凶
     if (parsed.whenKind === 'clock') {
       level = clockHint
-        ? (tone === 'bad' ? `时间范围：${clockHint}（象偏弱，勿死等）` : `时间范围：${clockHint}`)
-        : '时间范围：宜分上午/下午/晚间观察（未钉死钟点）'
-    } else if (whenHint) {
-      level = tone === 'good'
-        ? `时间范围：偏近·${whenHint}`
-        : tone === 'bad'
-          ? `时间范围：偏迟·${whenHint}`
-          : `时间范围：${whenHint}`
-    } else if (tone === 'good') level = '时间范围：应期偏近（近几日冲合用神地支）'
-    else if (tone === 'bad') level = '时间范围：应期偏迟或反复'
-    else level = '时间范围：窗口未钉死（先按用神地支日筹备）'
+        ? (tone === 'bad' ? `时刻信号弱·${clockHint}` : `时刻偏${clockHint}`)
+        : '时刻未明'
+    } else if (tone === 'good') level = quiet ? '应期偏稳偏慢' : '应期偏近'
+    else if (tone === 'bad') level = '应期迟滞'
+    else level = '应期未明'
   } else if (parsed.mode === 'where') {
     level = place ? `方位偏${place}` : '方位未明'
   } else if (parsed.mode === 'jixiong') {
@@ -9497,12 +9394,12 @@ function buildJudgment(ctx) {
       : '当下怎么做：方位未明，宜改问「具体何方」，或到现场用罗盘辅助。'
   } else if (parsed.mode === 'when' && parsed.whenKind === 'clock') {
     advice = clockHint
-      ? `【怎么对准这个时间窗口】把「${focus}」安排在${clockHint}整段时辰内观察/行动，前后可各放宽约一个时辰；同时对照实况（天气、行程、消息）。卦象给的是时辰区间，不是精确到某一分钟。`
-      : `【怎么对准时间】整日按上午/下午/晚间三段盯「${focus}」，对照实况；本卦未给出更细钟点，勿空等某一个点。`
+      ? `当下怎么做：按${clockHint}前后观察「${focus}」；同时看天气预报作对照。卦象只给时辰区间，不是精确到分钟。`
+      : `当下怎么做：整日分段留意「${focus}」，并对照实况；本卦时刻信号不足。`
   } else if (parsed.mode === 'when') {
     advice = whenHint
-      ? `【怎么对准这个时间窗口】把日程、催办、见面钉在「${whenHint}」这一范围；空亡则等出空后再动，合住则等破合。窗口外少空耗，窗口内主动推进。`
-      : '【怎么对准时间】先记用神地支与动爻，逐日对照冲合之日再行动；不要无日期地空等。'
+      ? `当下怎么做：把日程对到${whenHint}；空亡则等出空，合住则等破合。`
+      : '当下怎么做：先记用神地支与动爻，逐日对照冲合，不空等。'
   } else if (parsed.mode === 'who') {
     advice = whoHint
       ? (tone === 'good'
@@ -9985,26 +9882,20 @@ function analyzeProfileAxis(ctx, axis) {
 
 function deepSummary(profile, judgment, total) {
   const parsed = judgment.parsed || {}
-  // 凡已在 buildJudgment 写好明确 level 的，优先原样展示（能/不能、时间范围等）
-  if (judgment.level) {
-    if (profile.safe || profile.guarded) return judgment.level
-    if (parsed.mode === 'when' || parsed.mode === 'where' || parsed.mode === 'who' || parsed.mode === 'choice' || parsed.mode === 'yesno' || parsed.mode === 'jixiong' || parsed.mode === 'how' || parsed.mode === 'degree') {
-      return judgment.level
-    }
-  }
+  if (profile.safe || profile.guarded) return judgment.level
+  if (parsed.mode === 'when' || parsed.mode === 'where' || parsed.mode === 'who' || parsed.mode === 'choice') return judgment.level
   if (profile.negativeOutcome) {
     if (total >= 2) return '暂未见强迹象'
     if (total <= -2) return '风险信号偏强'
     return '有疑点但不能坐实'
   }
-  if (parsed.mode === 'how') return total >= 2 ? '宜进取' : total <= -2 ? '宜先守' : '宜备后动'
-  if (parsed.mode === 'jixiong') return total >= 2 ? '偏吉' : total <= -2 ? '偏凶' : '平'
-  // 默认走势也用硬词
-  if (total >= 3) return '能'
-  if (total >= 1) return '能（条件未满）'
-  if (total <= -3) return '不能'
-  if (total <= -1) return '不能（当前难成）'
-  return '暂不能断'
+  if (parsed.mode === 'how') return total >= 2 ? '可主动推进' : total <= -2 ? '先止损补条件' : '先验证再行动'
+  if (parsed.mode === 'jixiong') return total >= 2 ? '偏吉但有条件' : total <= -2 ? '偏凶宜收缩' : '吉凶取决于关键条件'
+  if (total >= 3) return '偏能成'
+  if (total >= 1) return '有机会，但须补一环'
+  if (total <= -3) return '当前难成'
+  if (total <= -1) return '把握偏小'
+  return '尚未定局'
 }
 
 function toneFromDeepTotal(total) {
@@ -10242,9 +10133,7 @@ function buildDeepReading(ctx, judgment) {
   const mode = judgment.parsed && judgment.parsed.mode
   const deepTone = toneFromDeepTotal(total)
   const replyTone = profile.negativeOutcome ? invertTone(deepTone) : deepTone
-  // yesno/when 等已在 buildJudgment 写好「明确答复/时间范围」，禁止被 deepTone 重写冲淡
-  const keepGuardedReply = profile.safe || profile.guarded
-    || ['when', 'where', 'who', 'choice', 'yesno', 'jixiong', 'how', 'degree'].includes(mode)
+  const keepGuardedReply = profile.safe || profile.guarded || ['when', 'where', 'who', 'choice'].includes(mode)
   const answer = keepGuardedReply
     ? judgment.reply
     : directReply(judgment.parsed, replyTone, Math.abs(total) < 3 ? `偏·${summary}` : summary, {
@@ -10255,21 +10144,8 @@ function buildDeepReading(ctx, judgment) {
       choicePick: judgment.choicePick,
       outcomeTone: deepTone
     })
-  // 行动建议：yesno/when 优先用「保持能/往能转/对准时间窗口」
-  const action = (judgment.advice && ['yesno', 'when', 'where', 'who', 'choice'].includes(mode))
-    ? judgment.advice
-    : tailoredAction(ctx, profile, driver, blocker)
-  // 说明层：yesno/when 先复述硬结论，再讲支点/卡点，避免开篇含糊
-  let thesisOut = thesis
-  if (!profile.safe && !profile.guarded) {
-    if (mode === 'yesno' && judgment.level) {
-      thesisOut = `结论先钉死：${judgment.level}。${thesis}`
-    } else if (mode === 'when' && (judgment.clockHint || judgment.whenHint || judgment.level)) {
-      const win = judgment.clockHint || judgment.whenHint || judgment.level
-      thesisOut = `时间先钉死：${win}。${thesis}`
-    }
-  }
-  return { profile, axes, total, tone: deepTone, summary, thesis: thesisOut, answer, driver, blocker, action }
+  const action = tailoredAction(ctx, profile, driver, blocker)
+  return { profile, axes, total, tone: deepTone, summary, thesis, answer, driver, blocker, action }
 }
 
 function classicLanding(text, deep, axis) {
@@ -10469,50 +10345,33 @@ function domainOutcome(profile, total) {
 }
 
 function narrativeHeadline(judgment, deep) {
-  const parsed = judgment.parsed || {}
-  const mode = parsed.mode
-  // 优先原样展示 buildJudgment 的硬结论（能/不能、时间范围、方位…）
-  if (judgment.level) {
-    if (deep.profile.safe || deep.profile.guarded) return judgment.level
-    if (mode === 'when' || mode === 'where' || mode === 'who' || mode === 'choice'
-      || mode === 'yesno' || mode === 'jixiong' || mode === 'how' || mode === 'degree'
-      || deep.profile.negativeOutcome) {
-      return judgment.level
-    }
-  }
-  // 默认走势：也尽量用能/不能，不用「推进/较难」冲淡
-  if (deep.total >= 3) return '能'
-  if (deep.total >= 1) return '能（条件未满）'
-  if (deep.total <= -3) return '不能'
-  if (deep.total <= -1) return '不能（当前难成）'
-  return '暂不能断'
+  const mode = judgment.parsed && judgment.parsed.mode
+  if (deep.profile.safe || deep.profile.guarded || ['where', 'when', 'who', 'choice'].includes(mode)) return deep.summary
+  if (deep.profile.negativeOutcome) return deep.summary
+  if (deep.total >= 3) return '可望推进，但宜循序而进'
+  if (deep.total >= 1) return '有转机，尚未完全落定'
+  if (deep.total <= -3) return '眼下难进，宜先退后谋'
+  if (deep.total <= -1) return '阻力偏重，不宜硬推'
+  return '局面未定，关键在下一步'
 }
 
 function narrativeDirectAnswer(judgment, deep) {
   const parsed = judgment.parsed || {}
   const focus = parsed.focus || deep.profile.result || '这件事'
   const mode = parsed.mode || 'outlook'
-  // 优先用结构化 directReply（已含「明确答复：能/不能/时间范围」）
-  if (judgment.reply) return judgment.reply
-  if (deep.profile.safe || deep.profile.guarded || deep.profile.negativeOutcome) return deep.answer
+  if (deep.profile.safe || deep.profile.guarded || deep.profile.negativeOutcome || ['where', 'when', 'who', 'choice'].includes(mode)) return deep.answer
   if (mode === 'yesno') {
-    if (deep.total >= 2) return `就你问的「${focus}」：明确答复——能；仍须过眼前转折点。`
-    if (deep.total <= -2) return `就你问的「${focus}」：明确答复——不能（当前难成）；继续硬推只会增加消耗。`
-    return `就你问的「${focus}」：明确答复——暂不能断；关键条件尚未接上。`
+    if (deep.total >= 2) return `“${focus}”偏向能成，但仍要经过眼前这一处转折。`
+    if (deep.total <= -2) return `“${focus}”眼下偏难，继续硬推只会增加消耗。`
+    return `“${focus}”目前还不能断成或不成，关键条件尚未接上。`
   }
   if (mode === 'jixiong') {
-    if (deep.total >= 2) return `就你问的「${focus}」：明确答复——偏吉，但吉处有条件。`
-    if (deep.total <= -2) return `就你问的「${focus}」：明确答复——偏凶，宜收不宜放。`
-    return `就你问的「${focus}」：明确答复——吉凶相杂，下一步选择会改变结果。`
+    if (deep.total >= 2) return `“${focus}”利多于弊，但吉处有条件。`
+    if (deep.total <= -2) return `“${focus}”阻力重于助力，宜收不宜放。`
+    return `“${focus}”吉凶相杂，下一步的选择会改变结果。`
   }
-  if (mode === 'how') {
-    return deep.total >= 2
-      ? `就你问怎么办：宜主动推进「${focus}」，沿最有力的一环发力。`
-      : deep.total <= -2
-        ? `就你问怎么办：先不要正面硬攻「${focus}」，换条件比加力更重要。`
-        : `就你问怎么办：先做一步可回退的试探，再根据反馈加码。`
-  }
-  return `就你问的「${focus}」：${domainOutcome(deep.profile, deep.total)}。`
+  if (mode === 'how') return deep.total >= 2 ? `“${focus}”可以主动推进，但要沿最有力的一环发力。` : deep.total <= -2 ? `“${focus}”先不要正面硬攻，换条件比加力更重要。` : `“${focus}”宜先做一步可回退的试探，再看反馈。`
+  return `“${focus}”${domainOutcome(deep.profile, deep.total)}。`
 }
 
 function narrativeOpening(ctx, judgment, deep) {
@@ -10657,30 +10516,28 @@ function timeNarrative(ctx, judgment) {
 }
 
 function adviceNarrative(ctx, deep) {
-  // 优先采用 buildJudgment 里按问法写好的「保持能 / 扭转不能 / 时间怎么盯」
-  if (ctx && ctx._judgmentAdvice) return ctx._judgmentAdvice
   if (deep.profile.safe || deep.profile.guarded || deep.profile.negativeOutcome) return deep.profile.action
   const kind = deep.profile.kind || 'general'
   const action = deep.profile.action || ''
-  if (/^emotion/.test(kind)) return `怎么做：把“有无/能不能”交给可观察的行动验证，不靠猜。${action}`
-  if (kind === 'career') return `怎么做：先把口头可能变成明确节点（编制、汇报、签字），再谈扩张。${action}`
-  if (['wealth', 'receivable'].includes(kind)) return `怎么做：分清“看见机会”和“真正落袋”，有回款/合同节点再加码。${action}`
-  if (kind === 'investment') return `怎么做：先定最坏损失与退出条件，再决定是否跟进收益之象。${action}`
-  if (['exam', 'research-paper', 'research-project', 'document'].includes(kind)) return `怎么做：先攻最可能改变结果的一环，勿平均用力。${action}`
-  if (kind === 'lost') return `怎么做：先按主方向与最后动线查一轮，再扩大范围。${action}`
-  if (kind === 'family') return `怎么做：先拆开最急的一件事处理，勿一次算总账。${action}`
-  if (kind === 'travel') return `怎么做：确认行程真正接上（票、人、时），再谈赶路。${action}`
+  if (/^emotion/.test(kind)) return `先不要继续猜对方心意，把卦里的“有无”交给一次具体行动验证。${action}`
+  if (kind === 'career') return `眼下不宜同时追逐多个可能，先让机会从口头认可变成明确的位置和节点。${action}`
+  if (['wealth', 'receivable'].includes(kind)) return `财上要先分清“看见机会”与“真正落袋”，不要被表面的热度带着走。${action}`
+  if (kind === 'investment') return `先把可得与可失分开，不因卦象偏顺就放大投入。${action}`
+  if (['exam', 'research-paper', 'research-project', 'document'].includes(kind)) return `不要平均用力，先处理最可能改变结果的一环。${action}`
+  if (kind === 'lost') return `不要漫无目的扩大查找范围，先按主方向和内外交界处查一轮，再沿最后动线往回收。${action}`
+  if (kind === 'family') return `先把家事拆开，不要试图一次说清所有旧账。${action}`
+  if (kind === 'travel') return `这卦更重行程是否真正接上，不在于勉强赶路。${action}`
   const driver = deep.driver && deep.driver.value > 0 ? deep.driver : null
   const blocker = deep.blocker && deep.blocker.value < 0 ? deep.blocker : null
   let lead = ''
   if (driver && blocker && driver.key !== blocker.key) {
-    lead = `怎么做：先处理${blocker.label}，再顺着${driver.label}推进；顺序颠倒易空耗。`
+    lead = `现在不要平均用力。先处理${blocker.label}，待这一处不再牵制，再顺着${driver.label}推进；顺序颠倒，越用力越容易空耗。`
   } else if (blocker) {
-    lead = `怎么做：先把${blocker.label}松开；它不变，结果难变。`
+    lead = `眼下先别急着求结果，先把${blocker.label}这一处松开；它不变，局面就难变。`
   } else if (driver) {
-    lead = `怎么做：沿${driver.label}这一支点发力，不必全面铺开。`
+    lead = `可以往前走，但要沿着${driver.label}这一支点发力，不必同时铺开所有方向。`
   } else {
-    lead = '怎么做：先走一步可观察、可回退的动作，用现实反馈缩小判断。'
+    lead = '此时最合适的是做一步可观察、可回退的动作，让现实反馈替你缩小判断范围。'
   }
   return `${lead}${action}`
 }
@@ -10706,25 +10563,9 @@ function adviceSectionTitle(kind) {
 }
 
 function buildConciseSections(ctx, judgment) {
-  // 把结构化 advice 注入叙事层，保证「能/不能 + 如何保持/扭转」不被冲淡
-  ctx._judgmentAdvice = judgment.advice || ''
   const deep = buildDeepReading(ctx, judgment)
   deep.summary = narrativeHeadline(judgment, deep)
-  // 叙事开篇前，先钉死「能/不能」或「时间范围」，避免一上来全是卦理散文
-  const opening = narrativeOpening(ctx, judgment, deep)
-  const parsed0 = judgment.parsed || {}
-  if (!deep.profile.safe && !deep.profile.guarded) {
-    if (parsed0.mode === 'yesno' && judgment.level) {
-      deep.thesis = `结论先钉死：${judgment.level}。${opening}`
-    } else if (parsed0.mode === 'when') {
-      const win = judgment.clockHint || judgment.whenHint || judgment.level
-      deep.thesis = win ? `时间先钉死：${win}。${opening}` : opening
-    } else {
-      deep.thesis = opening
-    }
-  } else {
-    deep.thesis = opening
-  }
+  deep.thesis = narrativeOpening(ctx, judgment, deep)
   deep.answer = narrativeDirectAnswer(judgment, deep)
   deep.action = adviceNarrative(ctx, deep)
   deep.pointer = ''
@@ -10742,58 +10583,19 @@ function buildConciseSections(ctx, judgment) {
     if (place) { hints.push(place); hasPlace = true }
   }
   if (parsed.mode === 'when') {
-    // 时间问法：首条必须是明确时间范围
-    if (judgment.clockHint || judgment.whenHint || judgment.level) {
-      const lead = judgment.clockHint
-        ? `明确时间范围：${judgment.clockHint}（卦象时辰区间，建议按整段时辰安排）。`
-        : judgment.whenHint
-          ? `明确时间范围：${judgment.whenHint}。`
-          : `明确时间范围：${judgment.level}。`
-      hints.push(lead)
-      hasTime = true
-    }
     const time = timeNarrative(ctx, judgment)
-    if (time && !hints.includes(time)) { hints.push(time); hasTime = true }
-    if (judgment.timingTips && judgment.timingTips.length) {
-      judgment.timingTips.slice(0, 3).forEach((t) => {
-        if (t && hints.indexOf(t) < 0) hints.push(t)
-      })
-      hasTime = true
-    }
+    if (time) { hints.push(time); hasTime = true }
   } else if (parsed.mode !== 'where') {
     const time = timeNarrative(ctx, judgment)
     if (time) { hints.push(time); hasTime = true }
   }
-  if (hints.length) {
-    sections.push({
-      title: hasPlace && hasTime ? '方位与时间范围' : hasPlace ? '方位与范围' : '明确时间范围',
-      items: hints
-    })
-  }
-  // 行动建议标题随问法切换
-  let actTitle = adviceSectionTitle(deep.profile.kind)
-  if (parsed.mode === 'yesno') {
-    const t = judgment.answerTone || judgment.tone
-    const kind = parsed.yesKind || 'can'
-    if (kind === 'have') {
-      actTitle = t === 'good' ? '怎么保持这个「有」' : t === 'bad' ? '怎么从「无」往「有」推' : '有无未定时怎么做'
-    } else if (kind === 'should' || kind === 'suit') {
-      actTitle = t === 'good' ? '怎么保持这个「宜/合适」' : t === 'bad' ? '怎么从不合适往合适转' : '宜否未定时怎么做'
-    } else if (kind === 'find') {
-      actTitle = t === 'good' ? '怎么保持「找得到」' : t === 'bad' ? '怎么提高寻回可能' : '能否找到未定时怎么做'
-    } else {
-      actTitle = t === 'good' ? '怎么保持这个「能」' : t === 'bad' ? '怎么把「不能」往「能」推' : '条件未定时怎么做'
-    }
-  } else if (parsed.mode === 'when') {
-    actTitle = '怎么对准这个时间窗口'
-  }
+  if (hints.length) sections.push({ title: hasPlace && hasTime ? '方位、范围与应期' : hasPlace ? '方位与范围' : '应期怎么看', items: hints })
   sections.push({
-    title: actTitle,
+    title: adviceSectionTitle(deep.profile.kind),
     items: [deep.action]
   })
   return { sections, deep }
 }
-
 function buildPlainLead(topic, judgment, yongList, fu, changingIndexes, yinPattern) {
   const lines = []
   if (judgment.reply) lines.push(judgment.reply)
@@ -11555,18 +11357,6 @@ function philosophyGuidance(tone, focus, parsed) {
   if (parsed && parsed.mode === 'choice') {
     return '取舍之道：不求卦替人承担后果，只求看清得失；所选若有据、可承受、能修正，进退皆可少悔。'
   }
-  if (parsed && parsed.mode === 'when') {
-    return '指迷之要：把行动对准时间窗口，窗口内进取、窗口外少空耗，这是应期上的趋吉避凶。'
-  }
-  if (parsed && parsed.mode === 'yesno') {
-    if (tone === 'good') {
-      return `趋吉之道：结论偏「能/有利」，用行动把「${focus}」的吉象接住；守正、守信、留退路，勿因顺而躁进。`
-    }
-    if (tone === 'bad') {
-      return `避凶之道：结论偏「不能/不利」，先止损、改条件，不与「${focus}」的逆势硬争；穷则变，变则通。`
-    }
-    return `指迷之要：「${focus}」未定，先补最缺一环再观；条件齐则趋吉，空转则避凶，勿空问不行动。`
-  }
   if (tone === 'good') {
     return `趋吉之道：顺势而行，却不因一时有利而躁进；守正、守信、留有余地，方能使「${focus}」之吉延续。体得其安，行方能久。`
   }
@@ -12081,6 +11871,7 @@ window.LiuYao = {
   normalizeArticle: learning.normalizeArticle
 };
 })();
+
 </script>
   <script>
 (function () {
@@ -12202,6 +11993,7 @@ window.LiuYao = {
     scrollPageTop()
     return true
   }
+  /** 左上角：始终回首页 */
   function goHomeFromNav() {
     stack.length = 0
     state.page = 'index'
@@ -12212,7 +12004,9 @@ window.LiuYao = {
     scrollPageTop()
   }
   function render() {
-    ({
+    const oldFooter = shell.querySelector('.page-footer')
+    if (oldFooter) oldFooter.remove()
+    const renderPage = ({
       index: renderIndex,
       ask: renderAsk,
       cast: renderCast,
@@ -12225,8 +12019,44 @@ window.LiuYao = {
       learn: renderLearn,
       detail: renderDetail,
       feedback: renderFeedback
-    })[state.page]()
+    })[state.page]
+    renderPage()
+    mountPageFooter()
     updateBackUi()
+  }
+
+  function pageFooterSelectors() {
+    if (state.page === 'ask') return ['button[data-back]', '#askConfirm']
+    if (state.page === 'cast') {
+      if (state.step >= 6) return ['button[data-back]', '#submit']
+      return state.mode === 'shake' ? ['button[data-back]', '#submit'] : ['button[data-back]', '#undoYao']
+    }
+    if (state.page === 'result') return ['#recast', 'button[data-go="interpret"]']
+    if (state.page === 'interpret') return ['button[data-back]', 'button[data-go="index"]']
+    if (state.page === 'meihua') return ['button[data-back]', '#mhSubmit']
+    if (state.page === 'meihuaResult') return ['#mhRecast', 'button[data-go="index"]']
+    if (state.page === 'feedback') return ['button[data-back]', '#feedbackSubmit']
+    if (state.page === 'history' || state.page === 'learn' || state.page === 'detail') return ['button[data-back]']
+    if (state.page === 'account') {
+      if (state.user && state.accountEditing) return ['#accountEditCancel', '#accountEditSave']
+      if (state.user) return ['#accountEdit', '#accountLogout']
+      return ['#btnLogin']
+    }
+    return []
+  }
+
+  function mountPageFooter() {
+    const existing = shell.querySelector('.page-footer')
+    if (existing) existing.remove()
+    const controls = pageFooterSelectors()
+      .map((selector) => app.querySelector(selector))
+      .filter((el, index, list) => el && list.indexOf(el) === index)
+    app.classList.toggle('has-page-footer', controls.length > 0)
+    if (!controls.length) return
+    const footer = document.createElement('div')
+    footer.className = `page-footer${controls.length === 1 ? ' single' : ''}`
+    controls.forEach((control) => footer.appendChild(control))
+    shell.appendChild(footer)
   }
   function corners() {
     return '<i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i>'
@@ -12324,6 +12154,7 @@ window.LiuYao = {
       <svg viewBox="0 0 400 456" xmlns="http://www.w3.org/2000/svg" aria-label="后天八卦罗盘 · 准星指南针">
         <defs></defs>
         <g id="luopan-plate" transform="rotate(${rot} 200 200)">
+          <!-- 无装饰自转：仅由指南针/拖动改 transform -->
           <circle cx="200" cy="200" r="198" fill="#e6d4b0" stroke="#46341c" stroke-width="3"/>
           <circle cx="200" cy="200" r="191" fill="none" stroke="rgba(248,240,222,0.55)" stroke-width="5"/>
           <circle cx="200" cy="200" r="186" fill="none" stroke="rgba(90,70,40,0.22)" stroke-width="1.2"/>
@@ -12455,7 +12286,6 @@ window.LiuYao = {
 
   function paintLuopanLive() {
     if (state.page !== 'index') return
-    const plate = document.getElementById('luopan-plate')
     const hudDir = document.getElementById('hud-dir')
     const hudDeg = document.getElementById('hud-deg')
     const hudMountain = document.getElementById('hud-mountain')
@@ -12467,7 +12297,7 @@ window.LiuYao = {
     const h = state.compassReady
       ? state.compassHeading
       : headingFromPlate(state.plateDeg)
-    if (plate) plate.setAttribute('transform', `rotate(${state.plateDeg} 200 200)`)
+    setPlateRotation(state.plateDeg)
     if (hudDir) hudDir.textContent = dirNameOf(h)
     if (hudDeg) hudDeg.textContent = `${(Math.round(h * 10) / 10)}°`
     if (hudMountain) hudMountain.textContent = `${mountainOf(h)}山`
@@ -12482,25 +12312,37 @@ window.LiuYao = {
     }
   }
 
+  /**
+   * 只旋转盘面 g#luopan-plate；准星、太极、底部天干五行保持不动
+   */
+  function setPlateRotation(deg) {
+    const plate = document.getElementById('luopan-plate')
+    if (!plate) return
+    plate.querySelectorAll('animateTransform').forEach((n) => n.remove())
+    const d = Number(deg) || 0
+    plate.setAttribute('transform', `rotate(${d} 200 200)`)
+  }
+
   function applyLiveHeading(heading) {
     if (state._dragging || state.locked) return
     const h = ((Number(heading) % 360) + 360) % 360
-    state._headingSamples = state._headingSamples || []
-    state._headingSamples.push(h)
-    if (state._headingSamples.length > 8) state._headingSamples.shift()
-    let motion = 0
-    for (let i = 1; i < state._headingSamples.length; i += 1) {
-      let delta = state._headingSamples[i] - state._headingSamples[i - 1]
-      while (delta > 180) delta -= 360
-      while (delta < -180) delta += 360
-      motion += Math.abs(delta)
-    }
-    const avg = state._headingSamples.length > 1 ? motion / (state._headingSamples.length - 1) : 99
-    state.compassStability = avg < 1.5 ? '读数稳定' : avg < 4 ? '轻微波动' : '请远离磁性与金属物'
     state.compassHeading = h
     state.compassReady = true
-    state.plateDeg = plateFromHeading(h)
-    paintLuopanLive()
+    // 准星固定在屏顶：盘面反向转，北/子随地磁归位
+    state.plateDeg = -h - 180
+    // 归一化，避免数值过大
+    let n = state.plateDeg % 360
+    if (n > 180) n -= 360
+    if (n <= -180) n += 360
+    state.plateDeg = n
+    setPlateRotation(state.plateDeg)
+    const hudDir = document.getElementById('hud-dir')
+    const hudDeg = document.getElementById('hud-deg')
+    const hudMountain = document.getElementById('hud-mountain')
+    if (hudDir) hudDir.textContent = dirNameOf(h)
+    if (hudDeg) hudDeg.textContent = `${Math.round(h * 10) / 10}°`
+    if (hudMountain) hudMountain.textContent = `${mountainOf(h)}山`
+    state.compassStability = '读数稳定'
   }
 
   function bindLuopanInteractions() {
@@ -12539,7 +12381,18 @@ window.LiuYao = {
         ev.stopPropagation()
         state.locked = !state.locked
         paintLuopanLive()
-        if (!state.locked) requestCompassPermission(false)
+        if (!state.locked) requestCompassPermission(true)
+      }
+    }
+    const hud = document.getElementById('luopan-hud')
+    if (hud) {
+      hud.onclick = (ev) => {
+        ev.preventDefault()
+        ev.stopPropagation()
+        state.compassReady = false
+        state._dragHint = '正在重试方向感应…'
+        paintLuopanLive()
+        requestCompassPermission(true)
       }
     }
     const centerOf = () => {
@@ -12550,18 +12403,21 @@ window.LiuYao = {
     const angleAt = (clientX, clientY, c) =>
       (Math.atan2(clientY - c.y, clientX - c.x) * 180) / Math.PI
 
-    wrap.onmousedown = (e) => {
-      if (state.locked) return
-      e.preventDefault()
-      state._dragging = true
-      state._lastDragAng = angleAt(e.clientX, e.clientY, centerOf())
-    }
     wrap.ontouchstart = (e) => {
+      // 点盘面即申请方向权限（iOS 手势栈）
+      try { requestCompassPermission(true) } catch (err) { /* ignore */ }
       if (state.locked) return
       const t = e.touches[0]
       if (!t) return
       state._dragging = true
       state._lastDragAng = angleAt(t.clientX, t.clientY, centerOf())
+    }
+    wrap.onmousedown = (e) => {
+      try { requestCompassPermission(true) } catch (err) { /* ignore */ }
+      if (state.locked) return
+      e.preventDefault()
+      state._dragging = true
+      state._lastDragAng = angleAt(e.clientX, e.clientY, centerOf())
     }
     wrap.ontouchmove = (e) => {
       const t = e.touches[0]
@@ -12751,7 +12607,6 @@ window.LiuYao = {
           <div class="ask-category-grid">${groups.map((g) => `
             <button type="button" class="ask-category" data-group="${g.key}">
               <span class="ask-category-name">${g.label}</span>
-              ${g.tip ? `<span class="ask-category-tip">${g.tip}</span>` : ''}
             </button>`).join('')}</div>
         </div>`
     }
@@ -12761,19 +12616,18 @@ window.LiuYao = {
     return `
       <div class="ask-picker">
         <div class="ask-category-head">
-          <div>
-            <div class="field-label">当前类别</div>
+          <div class="field-label">当前类别</div>
+          <div class="ask-category-row">
             <div class="ask-current-category">${selectedGroup.label}</div>
+            <button type="button" class="change-link ask-change-category" data-change-group>返回上一层</button>
           </div>
-          <button type="button" class="change-link ask-change-category" data-change-group>更换类别</button>
         </div>
-        ${selectedGroup.tip ? `<div class="ask-group-tip muted">${selectedGroup.tip}</div>` : ''}
         <div class="field-label" style="margin-top:16px">选择具体事项</div>
         <div class="ask-option-list">${selectedGroup.options.map((o) =>
           `<button type="button" class="ask-option ${o.wide ? 'wide' : ''} ${state.selectedOptionId === o.id ? 'on' : ''}" data-opt="${o.id}">${o.label}</button>`
         ).join('')}</div>
         <div class="field-label" style="margin-top:18px">时间范围</div>
-        <div class="chip-wrap">${timeHtml}</div>
+        <div class="ask-time-grid">${timeHtml}</div>
         <div class="ask-hint muted">${state.question || emptyHint}</div>
       </div>`
   }
@@ -12874,22 +12728,24 @@ window.LiuYao = {
             ? `<i class="yao-bar lg ${state.current.yinYang ? 'yang' : 'yin'} ${state.current.changing ? 'moving' : ''}"></i>
                <div class="yao-label">${state.current.type}<span class="mark"> ${state.current.mark}</span></div>`
             : '<span class="muted" style="font-size:14px;letter-spacing:.14em">静心片刻，然后摇卦</span>'}</div>
-          <button class="btn btn-primary" id="shake" ${state.shaking || state.step >= 6 ? 'disabled' : ''}>${state.step >= 6 ? '六爻已成' : state.shaking ? '摇卦中…' : '摇铜钱'}</button>
         </div>
         ${miniGua()}
       </div>` : `
-      <div class="muted center" style="margin-bottom:10px">按实摇结果点选（字阳背阴）</div>
-      <div class="manual-grid">
-        <div class="manual-item" data-manual="laoYang"><i class="yao-bar yang moving"></i><span>老阳 ○</span></div>
-        <div class="manual-item" data-manual="shaoYin"><i class="yao-bar yin"></i><span>少阴 --</span></div>
-        <div class="manual-item" data-manual="shaoYang"><i class="yao-bar yang"></i><span>少阳 —</span></div>
-        <div class="manual-item" data-manual="laoYin"><i class="yao-bar yin moving"></i><span>老阴 ×</span></div>
+      <div class="muted center" style="margin-bottom:8px">按实摇结果点选（字阳背阴）</div>
+      <div class="manual-live">
+        <div class="manual-grid">
+          <div class="manual-item" data-manual="laoYang"><i class="yao-bar yang moving"></i><span>老阳 ○</span></div>
+          <div class="manual-item" data-manual="shaoYin"><i class="yao-bar yin"></i><span>少阴 --</span></div>
+          <div class="manual-item" data-manual="shaoYang"><i class="yao-bar yang"></i><span>少阳 —</span></div>
+          <div class="manual-item" data-manual="laoYin"><i class="yao-bar yin moving"></i><span>老阴 ×</span></div>
+        </div>
+        ${miniGua()}
       </div>
-      <div style="margin-top:16px">${miniGua()}</div>`
+      `
 
     app.innerHTML = `
-      <div class="title-zh">卜卦</div>
-      <div class="subtitle">六次成爻 · 自下而上</div>
+      <div class="title-zh cast-title">卜卦</div>
+      <div class="subtitle cast-subtitle">六次成爻 · 自下而上</div>
       <div class="mode-row">
         <div class="mode ${state.mode === 'shake' ? 'on' : ''}" id="modeShake">摇铜钱</div>
         <div class="mode ${state.mode === 'manual' ? 'on' : ''}" id="modeManual">手记爻象</div>
@@ -12900,12 +12756,16 @@ window.LiuYao = {
           <span class="seal">第 ${Math.min(state.step + 1, 6)} 爻</span>
           <span class="muted">${state.step} / 6</span>
         </div>
-        ${beads()}
+        ${state.mode === 'shake'
+          ? `<button class="btn btn-primary cast-shake-slot" id="shake" ${state.shaking || state.step >= 6 ? 'disabled' : ''}><span class="shell-inset" aria-hidden="true"></span><span class="shell-label">${state.step >= 6 ? '六爻已成' : state.shaking ? '摇卦中…' : '摇铜钱'}</span></button>`
+          : beads()}
         ${stageBody}
       </div>
       ${state.step >= 6
-        ? `<div class="row"><button class="btn btn-ghost" id="reset">重摇</button><button class="btn btn-primary" id="submit">排卦</button></div>`
-        : `<button class="btn btn-ghost" data-back>返回</button>`}`
+        ? `<div class="row"><button class="btn btn-ghost" data-back>返回</button><button class="btn btn-primary" id="submit">排卦</button></div>`
+        : state.mode === 'manual'
+          ? `<div class="row"><button class="btn btn-ghost" data-back>返回</button><button class="btn btn-primary" id="undoYao" ${state.step ? '' : 'disabled'}>${state.step ? '撤回一爻' : '请选择爻象'}</button></div>`
+          : `<div class="row"><button class="btn btn-ghost" data-back>返回</button><button class="btn btn-primary" id="submit" disabled>排卦</button></div>`}`
     bindNav()
     const changeAsk = document.getElementById('changeAsk')
     if (changeAsk) changeAsk.onclick = () => { state.askNext = 'cast'; go('ask') }
@@ -12939,6 +12799,15 @@ window.LiuYao = {
     if (reset) reset.onclick = () => {
       state.step = 0; state.yaos = []; state.current = null
       state.displayCoins = ['', '', '']; render()
+    }
+    const undoYao = document.getElementById('undoYao')
+    if (undoYao) undoYao.onclick = () => {
+      if (!state.step) return
+      state.yaos = state.yaos.slice(0, -1)
+      state.step = state.yaos.length
+      state.current = state.yaos[state.yaos.length - 1] || null
+      state.displayCoins = state.current ? state.current.coins : ['', '', '']
+      render()
     }
     const submit = document.getElementById('submit')
     if (submit) submit.onclick = () => {
@@ -13041,19 +12910,16 @@ window.LiuYao = {
         ${sec.items.map((it) => `<div class="point">${it}</div>`).join('')}
       </div>`).join('')
     app.innerHTML = `
-      <div class="interpret-page">
-        <div class="title-zh">断卦</div>
-        <div class="subtitle">明所问 · 察卦变 · 定进退</div>
-        ${result.question ? `<div class="ask-box"><div class="ask-lab">所问</div><div class="ask-q">${result.question}</div></div>` : ''}
-        <div class="verdict ${result.tendency ? result.tendency.tone : ''}">
-          ${corners()}
-          <div class="summary">结论：${result.summary}</div>
-          ${result.reply ? `<div class="reply">${result.reply}</div>` : ''}
-          <div class="judgment">${result.summaryNote || ''}</div>
-          ${result.advice ? `<div class="advice">${result.advice}</div>` : ''}
-        </div>
-        <div class="frame interpret-sections">${corners()}${sections}</div>
+      <div class="title-zh">断卦</div>
+      <div class="subtitle">明所问 · 察卦变 · 定进退</div>
+      ${result.question ? `<div class="ask-box"><div class="ask-lab">所问</div><div class="ask-q">${accountEsc(result.question)}</div></div>` : ''}
+      <div class="verdict ${result.tendency ? result.tendency.tone : ''}">
+        ${corners()}
+        <div class="summary">${result.summary}</div>
+        ${result.reply ? `<div class="reply">${result.reply}</div>` : ''}
+        <div class="judgment">${result.summaryNote || ''}</div>
       </div>
+      <div class="frame">${corners()}${sections}</div>
       <div class="row" style="margin:12px 0 8px">
         <button class="btn btn-ghost" data-back>返回排盘</button>
         <button class="btn btn-primary" data-go="index">返回首页</button>
@@ -13384,7 +13250,7 @@ window.LiuYao = {
   let accountRenderTimer = null
   function renderAccountSoon() {
     clearTimeout(accountRenderTimer)
-    accountRenderTimer = setTimeout(renderAccount, 60)
+    accountRenderTimer = setTimeout(render, 60)
   }
 
   function renderAccount() {
@@ -13802,113 +13668,261 @@ window.LiuYao = {
     shell.addEventListener('touchend', onSwipeEnd, { passive: true })
   }
 
+  /* ───────── 朝向跟随（预览）─────────
+     目标：手机一转，盘面就转。
+     iOS Safari 必须 HTTPS + 用户手势授权；安卓多数可 HTTP。
+  */
   let compassTick = 0
   let pendingHeading = null
   let compassBound = false
+  let orientHandler = null
+  let motionHandler = null
+  let absoluteSensor = null
+  let sensorEventCount = 0
+  let lastSensorNote = '未开启'
+  let relativeAlphaZero = null
+
+  function isIOS() {
+    return /iPhone|iPad|iPod/i.test(navigator.userAgent || '')
+  }
+
+  function isSecureForSensors() {
+    if (typeof window === 'undefined') return false
+    if (window.isSecureContext) return true
+    const host = String(location.hostname || '')
+    return host === 'localhost' || host === '127.0.0.1'
+  }
+
+  function httpsPreviewUrl() {
+    try {
+      const u = new URL(location.href)
+      u.protocol = 'https:'
+      if (u.port === '8765' || !u.port) u.port = '8766'
+      if (!u.searchParams.get('v')) u.searchParams.set('v', 'compass3')
+      return u.toString()
+    } catch (e) {
+      return 'https://192.168.1.12:8766/liuyao-standalone.html?v=compass3'
+    }
+  }
+
+  function setSensorNote(msg) {
+    lastSensorNote = msg
+    state._dragHint = msg
+  }
 
   function headingFromOrientEvent(e) {
     if (!e) return null
+    // iOS：正北夹角（度）
     if (typeof e.webkitCompassHeading === 'number' && !Number.isNaN(e.webkitCompassHeading)) {
-      return e.webkitCompassHeading
+      return ((Number(e.webkitCompassHeading) % 360) + 360) % 360
     }
     if (e.alpha == null || Number.isNaN(Number(e.alpha))) return null
-    // 绝对方位优先；相对方位仍可转盘（相对初始朝向）
-    return (360 - Number(e.alpha)) % 360
+    const alpha = Number(e.alpha)
+    // 绝对方位
+    if (e.absolute === true || e.absolute === 1) {
+      return ((360 - alpha) % 360 + 360) % 360
+    }
+    // 相对方位：以首次读数为 0，保证「手机转 → 盘转」
+    if (relativeAlphaZero == null) relativeAlphaZero = alpha
+    let rel = alpha - relativeAlphaZero
+    rel = ((rel % 360) + 360) % 360
+    return ((360 - rel) % 360 + 360) % 360
   }
 
-  function flushPreviewCompass() {
-    if (pendingHeading == null) return
-    const next = pendingHeading
-    pendingHeading = null
-    applyLiveHeading(next)
-  }
+  let orientSeenAt = 0
+  let gyroYaw = 0
+  let lastMotionT = 0
 
   function applyPreviewCompass(heading) {
-    pendingHeading = Math.round(((Number(heading) % 360) + 360) % 360)
+    sensorEventCount += 1
+    orientSeenAt = Date.now()
+    const h = ((Number(heading) % 360) + 360) % 360
+    pendingHeading = h
     const now = Date.now()
-    if (now - compassTick < 50) {
-      // 保证最后一帧也会刷上
-      clearTimeout(applyPreviewCompass._t)
-      applyPreviewCompass._t = setTimeout(flushPreviewCompass, 50)
+    if (now - compassTick < 16) {
+      if (!applyPreviewCompass._raf) {
+        applyPreviewCompass._raf = requestAnimationFrame(() => {
+          applyPreviewCompass._raf = 0
+          compassTick = Date.now()
+          if (pendingHeading != null) applyLiveHeading(pendingHeading)
+        })
+      }
       return
     }
     compassTick = now
-    flushPreviewCompass()
+    applyLiveHeading(h)
   }
 
-  function bindDeviceOrientation() {
-    if (typeof window === 'undefined' || !window.DeviceOrientationEvent) return
-    if (compassBound) return
-    compassBound = true
-    const onOrient = (e) => {
+  function unbindDeviceOrientation() {
+    if (orientHandler) {
+      window.removeEventListener('deviceorientation', orientHandler, true)
+      window.removeEventListener('deviceorientation', orientHandler, false)
+      window.removeEventListener('deviceorientationabsolute', orientHandler, true)
+      window.removeEventListener('deviceorientationabsolute', orientHandler, false)
+      orientHandler = null
+    }
+    if (motionHandler) {
+      window.removeEventListener('devicemotion', motionHandler, true)
+      window.removeEventListener('devicemotion', motionHandler, false)
+      motionHandler = null
+    }
+    compassBound = false
+    if (absoluteSensor) {
+      try { absoluteSensor.stop() } catch (e) { /* ignore */ }
+      absoluteSensor = null
+    }
+  }
+
+  function bindDeviceOrientation(force) {
+    if (typeof window === 'undefined') return false
+    if (!window.DeviceOrientationEvent && typeof AbsoluteOrientationSensor !== 'function') return false
+    if (compassBound && !force) return true
+    if (force) unbindDeviceOrientation()
+    relativeAlphaZero = null
+    sensorEventCount = 0
+    orientSeenAt = 0
+    lastMotionT = 0
+
+    orientHandler = (e) => {
       const h = headingFromOrientEvent(e)
-      if (h != null && !Number.isNaN(h)) applyPreviewCompass(h)
+      if (h == null || Number.isNaN(h)) return
+      applyPreviewCompass(h)
     }
-    window.addEventListener('deviceorientation', onOrient, true)
-    window.addEventListener('deviceorientationabsolute', onOrient, true)
+
+    if (window.DeviceOrientationEvent) {
+      window.addEventListener('deviceorientation', orientHandler, true)
+      window.addEventListener('deviceorientation', orientHandler, false)
+      window.addEventListener('deviceorientationabsolute', orientHandler, true)
+      window.addEventListener('deviceorientationabsolute', orientHandler, false)
+    }
+
+    // 陀螺：orientation 静默时仍跟手（不抢占有 orientation 的时段）
+    motionHandler = (e) => {
+      if (Date.now() - orientSeenAt < 180) return
+      const rr = e && e.rotationRate
+      if (!rr || rr.alpha == null) return
+      let rate = Number(rr.alpha)
+      if (Number.isNaN(rate)) return
+      // 部分浏览器给 rad/s
+      if (Math.abs(rate) <= 0.8) rate = (rate * 180) / Math.PI
+      const t = e.timeStamp || Date.now()
+      if (!lastMotionT) {
+        lastMotionT = t
+        return
+      }
+      const dt = Math.min(0.05, Math.max(0, (t - lastMotionT) / 1000))
+      lastMotionT = t
+      gyroYaw = ((gyroYaw - rate * dt) % 360 + 360) % 360
+      applyPreviewCompass(gyroYaw)
+    }
+    window.addEventListener('devicemotion', motionHandler, true)
+    window.addEventListener('devicemotion', motionHandler, false)
+
+    if (typeof AbsoluteOrientationSensor === 'function' && window.isSecureContext) {
+      try {
+        const sensor = new AbsoluteOrientationSensor({ frequency: 30, referenceFrame: 'device' })
+        sensor.addEventListener('reading', () => {
+          if (!sensor.quaternion) return
+          const [x, y, z, w] = sensor.quaternion
+          const siny = 2 * (w * z + x * y)
+          const cosy = 1 - 2 * (y * y + z * z)
+          let yaw = (Math.atan2(siny, cosy) * 180) / Math.PI
+          yaw = ((-yaw % 360) + 360) % 360
+          applyPreviewCompass(yaw)
+        })
+        sensor.start()
+        absoluteSensor = sensor
+      } catch (e) { /* ignore */ }
+    }
+
+    compassBound = true
+    return true
   }
 
+  /**
+   * iOS：必须在用户手势同步调用栈里直接 requestPermission。
+   * 不要在此函数开头 await/setTimeout，否则会“点了没反应”。
+   */
   function requestCompassPermission(fromUser) {
-    bindDeviceOrientation()
+    // 1) 先挂监听（同步）
+    try { bindDeviceOrientation(true) } catch (e) { /* ignore */ }
+
     const DOE = window.DeviceOrientationEvent
-    const req = DOE && DOE.requestPermission
-    if (typeof req === 'function') {
-      req.call(DOE)
-        .then((stateName) => {
-          if (stateName === 'granted') {
-            bindDeviceOrientation()
-            if (fromUser) {
-              state._dragHint = '已授权，请转动手机'
-              paintLuopanLive()
-            }
-          } else if (fromUser) {
-            state._dragHint = '未授权方向感应 · 可拖动转盘'
-            paintLuopanLive()
+    const DME = window.DeviceMotionEvent
+    const needOri = !!(DOE && typeof DOE.requestPermission === 'function')
+    const needMot = !!(DME && typeof DME.requestPermission === 'function')
+
+    // 2) 立刻在手势栈内调权限（iOS 关键）
+    if (needOri || needMot) {
+      let oriP = Promise.resolve('granted')
+      let motP = Promise.resolve('granted')
+      try {
+        if (needOri) oriP = DOE.requestPermission()
+      } catch (e) {
+        oriP = Promise.reject(e)
+      }
+      try {
+        if (needMot) motP = DME.requestPermission()
+      } catch (e) {
+        motP = Promise.resolve('denied')
+      }
+      Promise.all([oriP.catch(() => 'denied'), motP.catch(() => 'denied')])
+        .then(([ori]) => {
+          relativeAlphaZero = null
+          lastMotionT = 0
+          try { bindDeviceOrientation(true) } catch (e) { /* ignore */ }
+          if (fromUser && ori !== 'granted' && !state.compassReady) {
+            setSensorNote('请允许「运动与方向」后再次点击盘面')
           }
-        })
-        .catch(() => {
-          if (fromUser) {
-            state._dragHint = '无法开启方向感应 · 可拖动转盘'
-            paintLuopanLive()
-          }
-        })
-      return
-    }
-    // 非 iOS：直接监听；若仍无数据则提示拖动
-    if (fromUser) {
-      state._dragHint = '请转动手机；若无反应可拖动转盘'
-      paintLuopanLive()
-      setTimeout(() => {
-        if (!state.compassReady) {
-          state._dragHint = '当前环境无罗盘 · 请拖动转盘'
           paintLuopanLive()
-        }
-      }, 2500)
+        })
+      return true
     }
+
+    // 3) 安卓等：无权限 API，直接听传感器
+    paintLuopanLive()
+    return true
   }
 
-  function enableCompassOnFirstGesture() {
-    let handled = false
-    const activate = () => {
-      if (handled) return
-      handled = true
+  /** 在传感器就绪前，每次点击/触摸都重新申请（避免 once 失败后永远不再弹） */
+  function armCompassOnGesture() {
+    const arm = () => {
+      if (state.compassReady && sensorEventCount > 2) return
       requestCompassPermission(true)
-      document.removeEventListener('touchend', activate, true)
-      document.removeEventListener('click', activate, true)
     }
-    document.addEventListener('touchend', activate, { capture: true, once: true })
-    document.addEventListener('click', activate, { capture: true, once: true })
+    document.addEventListener('touchend', arm, { capture: true, passive: true })
+    document.addEventListener('click', arm, { capture: true })
+    // 盘面区域额外绑定，保证点罗盘必触发
+    document.addEventListener('touchstart', (ev) => {
+      const t = ev.target
+      if (!t) return
+      if (t.closest && (t.closest('#luopan-wrap') || t.closest('#luopan-hud') || t.closest('.luopan-controls'))) {
+        requestCompassPermission(true)
+      }
+    }, { capture: true, passive: true })
   }
 
-  // 预览页默认开启方向监听；受浏览器权限策略限制时仍可手动拖动转盘。
-  bindDeviceOrientation()
-  requestCompassPermission(false)
-  enableCompassOnFirstGesture()
+  // 启动：先挂监听；非 iOS 直接开；iOS 等用户点盘面/屏幕
+  try { bindDeviceOrientation(false) } catch (e) { /* ignore */ }
+  if (!isIOS()) {
+    try { requestCompassPermission(false) } catch (e) { /* ignore */ }
+  }
+  armCompassOnGesture()
 
   hydratePreviewAccount()
-  window.__liuyaoPreview = { state, go, back, render, stack }
-  render()
+  window.__liuyaoPreview = {
+    state, go, back, render, stack,
+    requestCompassPermission,
+    httpsPreviewUrl
+  }
+  try {
+    render()
+  } catch (e) {
+    console.error('[liuyao] render failed', e)
+    if (app) app.innerHTML = '<p style="padding:24px;line-height:1.6">页面加载异常，请刷新重试。</p>'
+  }
 })()
+
 </script>
 </body>
 </html>
