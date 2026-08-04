@@ -633,44 +633,64 @@
       text-align: justify; margin-bottom: 6px;
     }
 
-    /* interpret */
-    .topics { display: flex; flex-wrap: wrap; gap: 7px; margin: 8px 0 14px; }
-    .topic-hint { margin: 4px 0 2px; font-size: 12px; color: var(--bronze); letter-spacing: .06em; }
-    .ask-box {
-      margin: 10px 0 12px; padding: 12px 14px;
-      border: 1px solid var(--line-strong); background: rgba(250,246,234,.55);
+    /* interpret — 居中风格 */
+    .interpret-page { text-align: center; }
+    .interpret-page .title-zh,
+    .interpret-page .subtitle {
+      text-align: center;
+      text-indent: 0;
     }
-    .ask-lab { font-size: 11px; letter-spacing: .28em; color: var(--bronze); margin-bottom: 4px; }
-    .ask-q { font-size: 16px; color: var(--ink); letter-spacing: .05em; font-weight: 600; line-height: 1.7; }
+    .interpret-page .title-zh { letter-spacing: .32em; }
+    .interpret-page .subtitle { letter-spacing: .2em; }
+    .topics { display: flex; flex-wrap: wrap; justify-content: center; gap: 7px; margin: 8px 0 14px; }
+    .topic-hint { margin: 4px 0 2px; font-size: 12px; color: var(--bronze); letter-spacing: .06em; text-align: center; }
+    .ask-box {
+      margin: 12px auto 14px; padding: 14px 16px;
+      border: 1px solid var(--line-strong); background: rgba(250,246,234,.55);
+      text-align: center;
+    }
+    .ask-lab { font-size: 11px; letter-spacing: .32em; color: var(--bronze); margin-bottom: 6px; }
+    .ask-q { font-size: 17px; color: var(--ink); letter-spacing: .08em; font-weight: 600; line-height: 1.75; }
     .topic {
       padding: 7px 10px; border: 1px solid var(--line-strong); font-size: 14px;
       cursor: pointer; color: var(--ink-soft); letter-spacing: .05em; background: rgba(246,237,216,.35);
     }
     .topic.on { color: #fff; background: #8d8579; border-color: #756e64; }
     .verdict {
-      text-align: center; padding: 16px 12px; margin-bottom: 12px;
+      text-align: center; padding: 20px 16px 18px; margin: 0 auto 14px;
       border: 1.5px solid var(--line-strong);
       background:
-        radial-gradient(ellipse at top, rgba(160,40,32,0.06), transparent 55%),
-        rgba(246,237,216,.7);
+        radial-gradient(ellipse 90% 55% at 50% 0%, rgba(160,40,32,0.06), transparent 60%),
+        rgba(246,237,216,.72);
       position: relative;
     }
     .verdict.good { border-color: rgba(70,110,75,.45); }
     .verdict.bad { border-color: rgba(160,40,32,.55); }
     .verdict.mid { border-color: rgba(143,117,82,.45); }
-    .verdict .summary { margin: 8px 0 6px; font-size: 22px; letter-spacing: .16em; font-weight: 600; color: var(--ink); }
+    .verdict .summary {
+      margin: 8px 0 12px; font-size: 24px; letter-spacing: .22em;
+      font-weight: 600; color: var(--ink); line-height: 1.45;
+    }
     .verdict .reply {
-      margin: 0 0 8px; font-size: 16px; letter-spacing: .06em;
-      color: var(--cinnabar); font-weight: 600;
+      margin: 0 auto 12px; font-size: 16px; letter-spacing: .06em;
+      color: var(--cinnabar); font-weight: 600; line-height: 1.75; text-align: center;
     }
     .verdict .judgment {
-      margin: 0 2px 8px; font-size: 14px; color: var(--ink-2);
-      text-align: justify; line-height: 1.85; letter-spacing: .04em;
+      margin: 0 auto 12px; font-size: 14.5px; color: var(--ink-2);
+      text-align: center; line-height: 1.9; letter-spacing: .04em;
     }
     .verdict .advice {
-      margin-top: 4px; padding-top: 10px; border-top: 1px dashed var(--line-strong);
-      font-size: 13px; color: var(--bronze); text-align: justify; line-height: 1.8;
+      margin: 6px auto 0; padding-top: 12px; border-top: 1px dashed var(--line-strong);
+      font-size: 13.5px; color: var(--bronze); text-align: center; line-height: 1.9;
     }
+    .interpret-page .frame.interpret-sections,
+    .interpret-sections { text-align: center; }
+    .interpret-page .sec-head,
+    .interpret-sections .sec-head { justify-content: center; }
+    .interpret-page .sec-title,
+    .interpret-sections .sec-title { text-align: center; letter-spacing: .18em; }
+    .interpret-page .point,
+    .interpret-sections .point { text-align: center; padding-left: 0; padding-right: 0; }
 
     /* meihua */
     .num-row { display: flex; gap: 16px; margin: 10px 0 8px; }
