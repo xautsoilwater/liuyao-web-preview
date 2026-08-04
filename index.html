@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-  <!-- liuyao-preview-build:2026-08-04T13:44:49Z -->
+  <!-- liuyao-preview-build:2026-08-04T13:57:05Z -->
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover" />
   <title>周易研习</title>
@@ -556,6 +556,19 @@
     .yao-line .sym-wrap { flex: 1; display: flex; justify-content: center; padding-right: 12px; }
     .field-label { letter-spacing: 0.28em; font-size: 13px; color: var(--bronze); }
     .ask-title-center { text-align: center; }
+    /* 断卦结果页：仅标题「断卦」与副标题九字居中 */
+    .interpret-title-center {
+      text-align: center;
+      text-indent: 0;
+    }
+    .title-zh.interpret-title-center {
+      letter-spacing: 0.28em;
+      padding-left: 0.28em;
+    }
+    .subtitle.interpret-title-center {
+      letter-spacing: 0.18em;
+      padding-left: 0.18em;
+    }
     .ask-before-note {
       margin: 12px 0 4px; padding: 15px 14px 13px;
       border: 1px solid rgba(154, 54, 42, .32);
@@ -12910,8 +12923,8 @@ window.LiuYao = {
         ${sec.items.map((it) => `<div class="point">${it}</div>`).join('')}
       </div>`).join('')
     app.innerHTML = `
-      <div class="title-zh">断卦</div>
-      <div class="subtitle">明所问 · 察卦变 · 定进退</div>
+      <div class="title-zh interpret-title-center">断卦</div>
+      <div class="subtitle interpret-title-center">明所问 · 察卦变 · 定进退</div>
       ${result.question ? `<div class="ask-box"><div class="ask-lab">所问</div><div class="ask-q">${accountEsc(result.question)}</div></div>` : ''}
       <div class="verdict ${result.tendency ? result.tendency.tone : ''}">
         ${corners()}
