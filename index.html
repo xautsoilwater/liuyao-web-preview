@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-  <!-- liuyao-preview-build:2026-08-05T03:16:45Z -->
+  <!-- liuyao-preview-build:2026-08-05T03:17:14Z -->
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover" />
   <title>周易研习</title>
@@ -9189,57 +9189,25 @@ function getOption(id) {
 }
 
 /**
- * 界面展示用短标签：压缩问句套话，保证两列、不占满一行。
+ * 界面展示用短标签：优先 focus（事体），保证两列且不占满一行。
  * 完整问句仍用 option.label 起卦。
  */
-function compressOptionLabel(label) {
-  let s = String(label || '').trim()
-  if (!s) return s
-  // 先收整段问句壳（含句中）
+function displayOptionLabel(o) {
+  let s = String((o && o.focus) || (o && o.label) || '').trim()
+  // 抉择题 focus 可能是「A还是B」，展示时略压
   s = s
-    .replace(/会不会再/g, '再')
-    .replace(/会不会/g, '')
-    .replace(/能不能/g, '')
-    .replace(/适不适合/g, '')
-    .replace(/合不合适/g, '')
-    .replace(/要不要/g, '')
-    .replace(/该不该/g, '')
-    .replace(/宜不宜/g, '')
-    .replace(/过不过得了/g, '')
-    .replace(/批不批得下/g, '')
-    .replace(/办不办得下/g, '')
-    .replace(/收不收得回/g, '')
-    .replace(/还不还得回/g, '')
-    .replace(/找不找得到/g, '')
-    .replace(/找不找得回/g, '')
-    .replace(/过不过/g, '')
-    .replace(/批不批/g, '')
-    .replace(/成不成/g, '')
-    .replace(/顺不顺/g, '')
-    .replace(/安不安/g, '')
-    .replace(/利不利/g, '')
-    .replace(/^(这笔|这份|这单|这场|这次|这个|这处|这桩|这段)/, '')
-    .replace(/吗$/g, '')
-    .replace(/怎么办更好/g, '怎么办')
-    .replace(/走势如何/g, '走势')
-    .replace(/前景如何/g, '前景')
-    .replace(/吉凶如何/g, '吉凶')
-    .replace(/\/+/g, '/')
+    .replace(/还是/g, '/')
+    .replace(/／/g, '/')
     .replace(/\s+/g, '')
-    .replace(/^\/|\/$/g, '')
-    .trim()
-  // 两列展示：最多 7 字
   if (s.length > 7) {
     if (s.includes('/')) {
       const parts = s.split('/').filter(Boolean)
-      const a = (parts[0] || '').slice(0, 3)
-      const b = (parts[1] || '').slice(0, 3)
-      s = b ? `${a}/${b}` : a
+      s = `${(parts[0] || '').slice(0, 3)}/${(parts[1] || '').slice(0, 3)}`
     } else {
       s = s.slice(0, 7)
     }
   }
-  return s || String(label).slice(0, 7)
+  return s || String(o.label || '').slice(0, 7)
 }
 
 function listGroups() {
@@ -9249,11 +9217,10 @@ function listGroups() {
     tip: g.tip || '',
     options: g.options.map((o) => ({
       id: o.id,
-      // 展示用压缩文案；起卦仍用完整 label
-      label: compressOptionLabel(o.label),
+      // 展示短文案；起卦仍用完整 label（getOption）
+      label: displayOptionLabel(o),
       fullLabel: o.label,
       topicKey: o.topicKey,
-      // 一律两列，不占满一行
       wide: false
     }))
   }))
