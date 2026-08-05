@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-  <!-- liuyao-preview-build:2026-08-05T03:13:56Z -->
+  <!-- liuyao-preview-build:2026-08-05T03:16:12Z -->
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover" />
   <title>周易研习</title>
@@ -618,12 +618,13 @@
     }
     .ask-option {
       display: flex; align-items: center; justify-content: center;
-      box-sizing: border-box; width: 100%; min-height: 48px;
-      padding: 8px 6px; cursor: pointer; text-align: center; font: inherit; font-size: 12.5px;
+      box-sizing: border-box; width: 100%; min-height: 44px; max-height: 56px;
+      padding: 7px 5px; cursor: pointer; text-align: center; font: inherit; font-size: 12.5px;
       border: 1px solid var(--line-strong); background: transparent; color: var(--ink-soft);
-      letter-spacing: .02em; line-height: 1.35; word-break: break-all;
+      letter-spacing: .02em; line-height: 1.3; word-break: break-all;
+      overflow: hidden; white-space: normal;
     }
-    .ask-option.wide { grid-column: 1 / -1; font-size: 13px; }
+    .ask-option.wide { grid-column: auto; }
     .ask-option.on {
       color: var(--cinnabar); border-color: var(--cinnabar); background: var(--cinnabar-soft);
     }
@@ -9187,6 +9188,37 @@ function getOption(id) {
   return OPTION_MAP[id] || null
 }
 
+/**
+ * 界面展示用短标签：压缩问句套话，保证尽量两列、不占满一行。
+ * 完整问句仍用 option.label 起卦。
+ */
+function compressOptionLabel(label) {
+  let s = String(label || '').trim()
+  if (!s) return s
+  // 去掉常见问句壳，保留事体
+  s = s
+    .replace(/^(能不能|会不会|可不可以|可不可以|适不适合|合不合适|要不要|该不该|宜不宜|当不当|应不应)/, '')
+    .replace(/(过不过得了|批不批得下|办不办得下|收不收得回|还不还得回|找不找得到|找不找得回|过不过得了)$/g, '')
+    .replace(/(过不过|批不批|办不办|到不到|成不成|顺不顺|安不安|利不利|好不好)$/g, '')
+    .replace(/^(这笔|这份|这单|这场|这次|这个|这处|这桩|这段)/, '')
+    .replace(/吗$/g, '')
+    .replace(/\/+/g, '/')
+    .replace(/\s+/g, '')
+    .trim()
+  // 仍过长则截到 8 字（两列可读）
+  if (s.length > 8) {
+    // 优先保留 / 两侧信息：取前段
+    if (s.includes('/')) {
+      const parts = s.split('/')
+      s = parts[0].slice(0, 4) + '/' + (parts[1] || '').slice(0, 3)
+      if (s.length > 8) s = s.slice(0, 8)
+    } else {
+      s = s.slice(0, 8)
+    }
+  }
+  return s || String(label).slice(0, 8)
+}
+
 function listGroups() {
   return ASK_GROUPS.map((g) => ({
     key: g.key,
@@ -9194,10 +9226,12 @@ function listGroups() {
     tip: g.tip || '',
     options: g.options.map((o) => ({
       id: o.id,
-      label: o.label,
+      // 展示用压缩文案；起卦仍用完整 label
+      label: compressOptionLabel(o.label),
+      fullLabel: o.label,
       topicKey: o.topicKey,
-      // 尽量两列；仅极长或「A还是B」类占满一行
-      wide: o.label.length > 16 || /还是/.test(o.label)
+      // 一律两列，不占满一行
+      wide: false
     }))
   }))
 }
