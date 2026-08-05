@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-  <!-- liuyao-preview-build:2026-08-05T03:03:17Z -->
+  <!-- liuyao-preview-build:2026-08-05T03:03:31Z -->
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover" />
   <title>周易研习</title>
@@ -7219,7 +7219,7 @@ function composeMatchedYesNo(parsed, tone, mild, timeHint, matchCtx) {
     }
   }
   if (stage && !/处在|阶段/.test(text)) {
-    text = text.replace(/。\s*$/, '') + ` 你现在更像处在「${stage}」这一步。`
+    text = text.replace(/[。\s]*$/, '') + `。你现在更像处在「${stage}」这一步。`
   }
   return text.replace(/\s+/g, ' ').replace(/。\s*。/g, '。').trim()
 }
