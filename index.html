@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-  <!-- liuyao-preview-build:2026-08-05T01:11:36Z -->
+  <!-- liuyao-preview-build:2026-08-05T01:11:59Z -->
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover" />
   <title>周易研习</title>
@@ -5807,13 +5807,13 @@ const DOMAINS = [
     key: 'emotion',
     label: '感情婚姻',
     topicHint: 'marriage',
-    re: /婚|恋|感情|对象|分手|复合|相亲|女友|男友|老婆|丈夫|表白|相处|桃花|姻缘|第三者|喜不喜欢/
+    re: /婚|恋|感情|对象|分手|复合|相亲|女友|男友|老婆|丈夫|表白|相处|桃花|姻缘|第三者|喜不喜欢|见家长|断联|彩礼|嫁妆|条件/
   },
   {
     key: 'family',
     label: '家庭亲眷',
     topicHint: 'general',
-    re: /家里|家和|父母|父亲|母亲|孩子|子女|亲眷|家人|婆媳|家事/
+    re: /家里|家和|父母|父亲|母亲|孩子|子女|亲眷|家人|婆媳|家事|择校|长辈/
   },
   {
     key: 'pregnancy',
@@ -5825,31 +5825,31 @@ const DOMAINS = [
     key: 'exam',
     label: '学业考试',
     topicHint: 'exam',
-    re: /考试|考研|考公|面试|录取|论文|答辩|过关|上岸|分数|笔试|升学|证书|执照/
+    re: /考试|考研|考公|面试|录取|论文|答辩|过关|上岸|分数|笔试|升学|证书|执照|事业编|调剂|留学|驾考|资格考/
   },
   {
     key: 'career',
     label: '事业职场',
     topicHint: 'career',
-    re: /升职|晋升|工作|跳槽|入职|转正|岗位|职称|项目|官运|功名|辞职|上级|职场/
+    re: /升职|晋升|工作|跳槽|入职|转正|岗位|职称|项目|官运|功名|辞职|上级|职场|裁员|降薪|创业|副业|续约|绩效|考核/
   },
   {
     key: 'wealth',
     label: '求财经营',
     topicHint: 'wealth',
-    re: /财|钱|回款|进账|生意|合同|签约|成交|利润|赚|亏|货款|收债|求财/
+    re: /财|钱|回款|进账|生意|合同|签约|成交|利润|赚|亏|货款|收债|求财|借款|借出|担保|尾款|毁约/
   },
   {
     key: 'invest',
     label: '投资理财',
     topicHint: 'wealth',
-    re: /投资|理财|股票|基金|收益|出手|入场/
+    re: /投资|理财|股票|基金|收益|出手|入场|加仓|减仓|止损/
   },
   {
     key: 'property',
     label: '置业买卖',
     topicHint: 'wealth',
-    re: /买房|卖房|买车|卖车|置业|房产|车子/
+    re: /买房|卖房|买车|卖车|置业|房产|车子|租金|收租/
   },
   {
     key: 'partner',
@@ -5861,7 +5861,7 @@ const DOMAINS = [
     key: 'health',
     label: '疾病健康',
     topicHint: 'health',
-    re: /病|疾|疼|痛|手术|住院|康复|治疗|身体|发烧|炎症|体检|痊愈|好转|严重|病情|就医|调养/
+    re: /病|疾|疼|痛|手术|住院|康复|治疗|身体|发烧|炎症|体检|痊愈|好转|严重|病情|就医|调养|复查|慢性/
   },
   {
     key: 'visit',
@@ -5909,13 +5909,13 @@ const DOMAINS = [
     key: 'document',
     label: '文书审批',
     topicHint: 'exam',
-    re: /申请|签证|审批|批复|手续|办证|证件|贷款批|公文/
+    re: /申请|签证|审批|批复|手续|办证|证件|贷款批|公文|落户|理赔|报销|再签/
   },
   {
     key: 'home',
     label: '家宅迁居',
     topicHint: 'travel',
-    re: /搬家|迁居|租房|装修|动土|家宅|居住|住这里/
+    re: /搬家|迁居|租房|装修|动土|家宅|居住|住这里|开业|安床|邻里|物业/
   },
   {
     key: 'social',
@@ -5933,13 +5933,13 @@ const DOMAINS = [
     key: 'lawsuit',
     label: '官司是非',
     topicHint: 'lawsuit',
-    re: /官司|诉讼|起诉|纠纷|是非|仲裁|法院|警察|告状|口舌|和解|报警/
+    re: /官司|诉讼|起诉|纠纷|是非|仲裁|法院|警察|告状|口舌|和解|报警|诈骗|被骗|劳动仲裁|离婚/
   },
   {
     key: 'lost',
     label: '失物寻人',
     topicHint: 'lost',
-    re: /丢|失物|找回|找不着|遗失|钥匙|手机丢|找得到|寻物|寻人|失踪/
+    re: /丢|失物|找回|找不着|遗失|钥匙|手机丢|找得到|寻物|寻人|失踪|宠物|账号/
   }
 ]
 
@@ -6500,7 +6500,9 @@ function directReply(parsed, tone, level, extra) {
   const choicePick = (extra && extra.choicePick) || ''
   const whoHint = (extra && extra.whoHint) || ''
   const lv = String(level || '')
-  const mild = /偏|勉|虚|待|小|两可|未明/.test(lv)
+  // 含括号限定或「条件未满/当前难成」等，正文与标题同档
+  const mild = /偏|勉|虚|待|小|两可|未明|条件未满|当前难成|把握|大致|较难|留余量|宜缓/.test(lv)
+    || /[（(]/.test(lv)
   const head = `就你问的「${raw}」：`
   const dayRef = timeHint || '近段'
   const outcomeTone = (extra && extra.outcomeTone) || tone
@@ -6654,24 +6656,57 @@ function directReply(parsed, tone, level, extra) {
     }
 
     if (kind === 'should') {
-      if (tone === 'good') return mild ? `${head}可以考虑「${focus}」，但别一次押满。` : `${head}宜「${focus}」，条件偏够。`
-      if (tone === 'bad') return mild ? `${head}「${focus}」把握不大，能缓则缓。` : `${head}不宜「${focus}」，眼下硬做成本偏高。`
-      return `${head}「${focus}」还定不了，宜再观两日或补条件。`
+      if (tone === 'good') {
+        return mild
+          ? `${head}明确答复：宜（可推进）。「${focus}」条件偏够，可做，但别一次押满。变数风险：跳过尽调或时机不对，易由「宜」转「不宜」。`
+          : `${head}明确答复：宜。「${focus}」条件偏够，可以办。变数风险：仍须守正、留退路，勿因「宜」而冒进。`
+      }
+      if (tone === 'bad') {
+        return mild
+          ? `${head}明确答复：不宜（宜缓）。「${focus}」把握不大，能缓则缓。变数风险：条件补齐后可再评估，勿死盯一次否决。`
+          : `${head}明确答复：不宜。「${focus}」眼下硬做成本偏高。变数风险：硬做只会抬代价；改条件后再问，才可能转「宜」。`
+      }
+      return `${head}明确答复：宜否未定。「${focus}」尚须再观。变数风险：信息一补齐，结论就会偏向一边。`
     }
     if (kind === 'suit') {
-      if (tone === 'good') return mild ? `${head}「${focus}」大致合适，可推进但留余量。` : `${head}「${focus}」合适，可以办。`
-      if (tone === 'bad') return mild ? `${head}「${focus}」不太合适，宜改期或改方案。` : `${head}「${focus}」不合适，暂缓为妥。`
-      return `${head}「${focus}」合适与否未分，宜小范围先试。`
+      if (tone === 'good') {
+        return mild
+          ? `${head}明确答复：合适（留余量）。「${focus}」可推进，但勿铺满。变数风险：成本或退出条件失控时，会由合适变不合适。`
+          : `${head}明确答复：合适。「${focus}」可以办。变数风险：合同、估值、现金流任一项恶化，结论仍会变。`
+      }
+      if (tone === 'bad') {
+        return mild
+          ? `${head}明确答复：不合适（宜改）。「${focus}」暂缓为妥。变数风险：改期或改方案后可再评估。`
+          : `${head}明确答复：不合适。「${focus}」暂缓为妥。变数风险：强行上马易放大损失。`
+      }
+      return `${head}明确答复：合适与否未定。宜小范围先试。变数风险：试探结果会直接改写结论。`
     }
     if (kind === 'have') {
-      if (tone === 'good') return mild ? `${head}「${focus}」迹象偏有，但未十分落实。` : `${head}「${focus}」偏有，可以期待。`
-      if (tone === 'bad') return mild ? `${head}「${focus}」迹象偏弱。` : `${head}「${focus}」偏无，不宜一厢情愿。`
-      return `${head}「${focus}」有无未明，宜再观。`
+      if (tone === 'good') {
+        return mild
+          ? `${head}明确答复：偏有。「${focus}」迹象在，但未完全落实。变数风险：若只有表态没有连续行动，易由「有」转「无」。`
+          : `${head}明确答复：有。「${focus}」偏实，可按「有」来安排。变数风险：忌一次押满或逼问，过刚则反生疑。`
+      }
+      if (tone === 'bad') {
+        return mild
+          ? `${head}明确答复：偏无。「${focus}」迹象不足，不宜当作已经成立。变数风险：仍可能因沟通改善而转「有」，须看外应。`
+          : `${head}明确答复：无。「${focus}」当前偏虚，不宜一厢情愿。变数风险：若对方突然主动且持续，才可重新评估，勿空等。`
+      }
+      return `${head}明确答复：有无未定。「${focus}」信号交杂。变数风险：下一步行动会改写结论——有回馈则偏「有」，无回馈则偏「无」。`
     }
+    // 能不能 / 会不会 / 行不行 / 成否 —— 先硬答，再点变数
     const about = timeHint ? `${timeHint}「${focus}」` : `「${focus}」`
-    if (tone === 'good') return mild ? `${head}${about}大致能成，可推进。` : `${head}${about}能，有望落实。`
-    if (tone === 'bad') return mild ? `${head}${about}把握不大，现在硬推易耗力。` : `${head}${about}难，眼下不宜强求。`
-    return `${head}${about}还定不了，宜再观。`
+    if (tone === 'good') {
+      return mild
+        ? `${head}明确答复：能（条件未满）。${about}有成象，可按「能」推进，但关键一环尚未齐。变数风险：条件补不齐、拖延或忌神发动时，易由「能」转「不能」。`
+        : `${head}明确答复：能。${about}可成，有望落实；宜按「能」来行动。变数风险：盛极易衰，若躁进、一次押满或忽视规则/对方，结果仍可能反复。`
+    }
+    if (tone === 'bad') {
+      return mild
+        ? `${head}明确答复：不能（当前难成）。${about}把握不大，眼下不宜硬推。变数风险：若改条件、换时机或待出空破合，仍有由「不能」转「能」的可能。`
+        : `${head}明确答复：不能。${about}阻力大，眼下不宜强求。变数风险：继续硬顶只会加深消耗；止损、改道之后再问，才谈得上转机。`
+    }
+    return `${head}明确答复：暂不能断。${about}成败未定，吉凶取决于下一步。变数风险：条件补齐则偏「能」，继续空转则偏「不能」——勿空问而不行动。`
   }
 
   if (tone === 'good') return mild ? `${head}「${focus}」偏顺，可推进。` : `${head}「${focus}」走势偏好，宜推进。`
@@ -6691,14 +6726,14 @@ function modeLabelList(modes) {
 function yesNoLevel(parsed, tone, mild) {
   const kind = parsed.yesKind || 'can'
   if (kind === 'should') {
-    if (tone === 'good') return mild ? '可考虑' : '宜做'
-    if (tone === 'bad') return mild ? '宜缓' : '不宜'
-    return '未定'
+    if (tone === 'good') return mild ? '宜（可推进）' : '宜'
+    if (tone === 'bad') return mild ? '不宜（宜缓）' : '不宜'
+    return '宜否未定'
   }
   if (kind === 'suit') {
-    if (tone === 'good') return mild ? '大致合适' : '合适'
-    if (tone === 'bad') return mild ? '不太合适' : '不合适'
-    return '未定'
+    if (tone === 'good') return mild ? '合适（留余量）' : '合适'
+    if (tone === 'bad') return mild ? '不合适（宜改）' : '不合适'
+    return '合适与否未定'
   }
   if (kind === 'occur') {
     const domain = parsed.domain || ''
@@ -6717,13 +6752,14 @@ function yesNoLevel(parsed, tone, mild) {
     return '未定'
   }
   if (kind === 'have') {
-    if (tone === 'good') return mild ? '迹象偏有' : '偏有'
-    if (tone === 'bad') return mild ? '迹象偏弱' : '偏无'
-    return '未明'
+    if (tone === 'good') return mild ? '偏有' : '有'
+    if (tone === 'bad') return mild ? '偏无' : '无'
+    return '有无未明'
   }
-  if (tone === 'good') return mild ? '大致能成' : '能'
-  if (tone === 'bad') return mild ? '把握不大' : '难'
-  return '未定'
+  // 能不能/会不会/行不行：标题必须硬
+  if (tone === 'good') return mild ? '能（条件未满）' : '能'
+  if (tone === 'bad') return mild ? '不能（当前难成）' : '不能'
+  return '暂不能断'
 }
 
 function yesNoJudgmentLine(parsed, tone) {
@@ -6795,23 +6831,40 @@ function yesNoAdvice(parsed, tone) {
     return `当下怎么做：再搜一轮并改日再问。`
   }
   if (kind === 'should') {
-    if (tone === 'good') return `当下怎么做：若决定「${focus}」，先做可逆的一步并留退路。`
-    if (tone === 'bad') return `当下怎么做：先不要「${focus}」；把条件与时机补齐再议。`
-    return `当下怎么做：「${focus}」先挂起，补信息后再拍板。`
+    if (tone === 'good') {
+      return `【怎么保持这个「宜」】若决定「${focus}」，先做可逆的一步并留退路；按节点推进。【易理】利有攸往，仍须贞固：可做不等于可冒进。`
+    }
+    if (tone === 'bad') {
+      return `【怎么从「不宜」往「宜」转】先不要「${focus}」；补条件、换时机后再议。【易理】时位不对则勿用，先退后谋。`
+    }
+    return `【两边怎么走】「${focus}」先挂起，补信息后再拍板。【易理】知止而后有定。`
   }
   if (kind === 'suit') {
-    if (tone === 'good') return `当下怎么做：「${focus}」可安排，留一点余量。`
-    if (tone === 'bad') return `当下怎么做：「${focus}」宜改期或改方案。`
-    return `当下怎么做：小范围试「${focus}」，再决定是否铺开。`
+    if (tone === 'good') {
+      return `【怎么保持「合适」】「${focus}」可安排，留余量；小步验证再铺开。【易理】有孚乃可大：条件相应才宜扩张。`
+    }
+    if (tone === 'bad') {
+      return `【从不合适往合适推】「${focus}」宜改期或改方案，勿硬上。【易理】见险而能止，方不失大。`
+    }
+    return `【两边怎么走】小范围试「${focus}」，再决定是否铺开。【易理】小往大来：先验证再放大。`
   }
   if (kind === 'have') {
-    if (tone === 'good') return `当下怎么做：可按「有」来准备，但勿一次押死。`
-    if (tone === 'bad') return `当下怎么做：按「无/弱」做预案，少做一厢情愿的投入。`
-    return `当下怎么做：先观外应与近几日变动，再下「有/无」的定论。`
+    if (tone === 'good') {
+      return `【怎么保持这个「有」】①用连续行动验证（联系、见面、承担），不靠猜；②对方有回馈再加投入；③忌逼问与一次押死。【易理】《易》重「有孚」：真伪见诸持续相应，一时表态不足为凭。`
+    }
+    if (tone === 'bad') {
+      return `【怎么从「无/弱」往「有」推】①先停一厢情愿的付出；②改用可观察标准（是否主动、是否安排见面）；③该止损则止损。【易理】穷则变，变则通：不改互动方式，空等难转「有」。`
+    }
+    return `【两边怎么走】设短观察期，用行动外应判定「有/无」。【易理】知进退：有应则进，无应则守，勿以执念代事实。`
   }
-  if (tone === 'good') return `当下怎么做：围绕「${focus}」推进；盯近应。`
-  if (tone === 'bad') return `当下怎么做：先放下对「${focus}」的硬攻，改条件或换时机。`
-  return `当下怎么做：先为「${focus}」补条件，再拍板。`
+  // 能不能 / 会不会 / 行不行：明确结论后的行为指导 + 易理
+  if (tone === 'good') {
+    return `【怎么保持这个「能」】①盯住近期应期与关键节点，主动推进可成的一步；②借力、合规、把资源接到位，忌神发动时勿硬闯；③留退路，成功也要防反复。【怎么会变成「不能」】拖延、一次押满、忽略合同/对方/规则。【易理】《易》许其往，亦戒亢龙：吉在守正、有节、知止；顺势而行，勿因一时有利而躁进。`
+  }
+  if (tone === 'bad') {
+    return `【怎么从「不能」往「能」转】①先止损，停掉无效硬推；②改条件（时间、方案、人、资源），或等出空/破合后再动；③先做低成本验证，条件齐了再重开一局。【继续硬顶会怎样】空耗只会把「不能」钉得更死。【易理】《易》重「穷则变，变则通」：否极之后须改道，不宜与逆势硬争；先退后谋，才是避凶育机。`
+  }
+  return `【条件未定时怎么做】先为「${focus}」补最缺的一环（人/时/钱/规则），再决定推进或暂缓。【易理】知几而作：象未定则勿下死结论；小步求证、随势修正，进退皆守中。`
 }
 
 /**
@@ -6874,46 +6927,20 @@ __mods["./ask-options"] = { exports: {} };
  */
 
 const TIME_SCOPES = [
-  {
-    key: "",
-    label: "不限时"
-  },
-  {
-    key: "今天",
-    label: "今天"
-  },
-  {
-    key: "今晚",
-    label: "今晚"
-  },
-  {
-    key: "明天",
-    label: "明天"
-  },
-  {
-    key: "本周",
-    label: "本周"
-  },
-  {
-    key: "周末",
-    label: "周末"
-  },
-  {
-    key: "本月",
-    label: "本月"
-  },
-  {
-    key: "近期",
-    label: "近期"
-  },
-  {
-    key: "今年",
-    label: "今年"
-  }
+  { key: '', label: '不限时' },
+  { key: '今天', label: '今天' },
+  { key: '今晚', label: '今晚' },
+  { key: '明天', label: '明天' },
+  { key: '本周', label: '本周' },
+  { key: '周末', label: '周末' },
+  { key: '本月', label: '本月' },
+  { key: '近期', label: '近期' },
+  { key: '今年', label: '今年' }
 ]
 
 /** @type {{ key: string, label: string, tip?: string, options: object[] }[]} */
-const ASK_GROUPS = [
+const ASK_GROUPS = 
+[
   {
     key: "emotion",
     label: "感情婚姻",
@@ -9001,12 +9028,12 @@ function guessTopicKey(question) {
   } catch (e) { /* ignore */ }
   const rules = [
     { key: 'wealth', re: /财|钱|生意|投资|买卖|进账|回款|赚|亏|项目|合同|签约|签下|甲方|成交|谈成|提成|开单|利润|客户单/ },
-    { key: 'exam', re: /考试|考研|考公|面试笔试|分数|录取|论文|答辩|审批|证件|执照|报名|过关|上岸/ },
+    { key: 'exam', re: /考试|考研|考公|面试笔试|分数|录取|论文|答辩|审批|证件|执照|报名|过关|上岸|考上|升学|中考|高考/ },
     { key: 'career', re: /升职|晋升|官运|功名|职位|岗位|职称|调动|仕途|当官|提拔|入职|跳槽|工作机会|转正/ },
     { key: 'health', re: /病|疾|疼|痛|手术|住院|康复|治疗|身体|发烧|炎症|孕产|体检|痊愈|好转|严重/ },
     { key: 'lawsuit', re: /官司|诉讼|起诉|纠纷|是非|仲裁|法院|警察|告状|口舌官非/ },
     { key: 'marriage_f', re: /嫁|夫君|老公|他会不会|男友.*婚|女方|我嫁|娶我/ },
-    { key: 'marriage', re: /婚|恋|感情|对象|分手|复合|相亲|女友|老婆|妻子|相处|表白|在一起/ },
+    { key: 'marriage', re: /婚|恋|感情|对象|分手|复合|相亲|女友|老婆|妻子|相处|表白|在一起|喜欢我|爱我|有没有心|第三者/ },
     { key: 'travel', re: /出行|出门|旅行|出差|行人|归来|航班|火车|路途|搬家远行|客人|来访|来客|快递|送达/ },
     { key: 'lost', re: /丢|失物|寻人|找不着|失踪|遗失|找回|钥匙|手机丢|找得到/ }
   ]
@@ -9243,14 +9270,38 @@ function choicePickFromParsed(parsed, tone) {
 }
 
 function philosophyGuidance(tone, focus, parsed) {
-  if (parsed && parsed.negativeEvent) return '先核事实，再定边界，不以卦象替代证据。'
-  if (parsed && (parsed.domain === 'health' || parsed.domain === 'pregnancy')) return '卦可定心，不可代医；以检查、复诊和专业意见为准。'
-  if (parsed && parsed.domain === 'weather') return '以官方预报和现场情况为准，卦象只作趋避提醒。'
-  if (parsed && parsed.domain === 'lost' && /寻人|人/.test(String(parsed.focus || ''))) return '先联络、查找和报警，勿因卦象耽误行动。'
-  if (parsed && parsed.mode === 'choice') return '先做可逆的小步验证，再决定是否重注。'
-  if (tone === 'good') return '可进，但以守正、守信并留有余地为度。'
-  if (tone === 'bad') return `宜先止损换势，不与「${focus}」的逆势硬争。`
-  return `先小步求证「${focus}」，条件明朗后再定。`
+  // 收束：趋吉避凶、指点迷津；成否问法另加强「变数 + 未来行为」
+  if (parsed && parsed.negativeEvent) {
+    return '明理之道：先核事实，再定边界，不以卦象替代证据或指认他人。'
+  }
+  if (parsed && (parsed.domain === 'health' || parsed.domain === 'pregnancy')) {
+    return '明理之道：卦可定心，不可代医；以检查、复诊和专业意见为准。'
+  }
+  if (parsed && parsed.domain === 'weather') {
+    return '明理之道：以官方预报和现场情况为准，卦象只作趋避提醒。'
+  }
+  if (parsed && parsed.domain === 'lost' && /寻人|人/.test(String(parsed.focus || ''))) {
+    return '寻人之要：先联络、查找和报警，勿因卦象耽误行动。'
+  }
+  if (parsed && parsed.mode === 'choice') {
+    return '取舍之道：先做可逆的小步验证，再决定是否重注。'
+  }
+  if (parsed && parsed.mode === 'yesno') {
+    if (tone === 'good') {
+      return `趋吉之道：结论偏「能/有利」，宜顺势推「${focus}」，守正有节、留有余地；《易》戒亢龙有悔，顺中仍防由吉转凶。`
+    }
+    if (tone === 'bad') {
+      return `避凶之道：结论偏「不能/不利」，宜止损改道，不与「${focus}」的逆势硬争；穷则变、变则通，改条件即是在育新机。`
+    }
+    return `指迷之要：「${focus}」未定，先补最缺一环再观；知几而作，条件齐则趋吉，空转则避凶。`
+  }
+  if (tone === 'good') {
+    return `趋吉之道：可进，但以守正、守信并留有余地为度，使「${focus}」之吉可延续。`
+  }
+  if (tone === 'bad') {
+    return `避凶之道：宜先止损换势，不与「${focus}」的逆势硬争。`
+  }
+  return `指迷之要：先小步求证「${focus}」，条件明朗后再定。`
 }
 
 /** 按问题类型组织判断与建议 */
@@ -9391,7 +9442,7 @@ function buildJudgment(ctx) {
   if (fanYin) judgment += '另有反吟，结果易反复。'
   if (fuYin) judgment += '另有伏吟，局面易胶着。'
 
-  const reply = directReply(parsed, parsed.mode === 'yesno' ? answerTone : tone, level, {
+  let reply = directReply(parsed, parsed.mode === 'yesno' ? answerTone : tone, level, {
     place,
     whenHint,
     clockHint,
@@ -9399,6 +9450,15 @@ function buildJudgment(ctx) {
     choicePick,
     outcomeTone: tone
   })
+  // 成否类：卦见反吟/伏吟时，明确点出「会变」的风险
+  if (parsed.mode === 'yesno') {
+    if (fanYin && !/反复|反吟/.test(reply)) {
+      reply += '变数加重：卦见反吟，结论易来回翻覆，一次好转或一次受阻都不能当作终局。'
+    }
+    if (fuYin && !/胶着|伏吟/.test(reply)) {
+      reply += '变数加重：卦见伏吟，局面易停在原处打转；条件不变则结论难变，宜主动改条件。'
+    }
+  }
 
   let advice = ''
   if (parsed.mode === 'where') {
@@ -9895,8 +9955,13 @@ function analyzeProfileAxis(ctx, axis) {
 
 function deepSummary(profile, judgment, total) {
   const parsed = judgment.parsed || {}
-  if (profile.safe || profile.guarded) return judgment.level
-  if (parsed.mode === 'when' || parsed.mode === 'where' || parsed.mode === 'who' || parsed.mode === 'choice') return judgment.level
+  // 已在 buildJudgment 按问法写好的 level（能/不能、有/无、时间、方位…）优先原样
+  if (judgment.level) {
+    if (profile.safe || profile.guarded) return judgment.level
+    if (['when', 'where', 'who', 'choice', 'yesno', 'jixiong', 'how', 'degree'].includes(parsed.mode)) {
+      return judgment.level
+    }
+  }
   if (profile.negativeOutcome) {
     if (total >= 2) return '暂未见强迹象'
     if (total <= -2) return '风险信号偏强'
@@ -9904,9 +9969,9 @@ function deepSummary(profile, judgment, total) {
   }
   if (parsed.mode === 'how') return total >= 2 ? '可主动推进' : total <= -2 ? '先止损补条件' : '先验证再行动'
   if (parsed.mode === 'jixiong') return total >= 2 ? '偏吉但有条件' : total <= -2 ? '偏凶宜收缩' : '吉凶取决于关键条件'
-  if (total >= 3) return '偏能成'
-  if (total >= 1) return '有机会，但须补一环'
-  if (total <= -3) return '当前难成'
+  if (total >= 3) return '能'
+  if (total >= 1) return '大致能成'
+  if (total <= -3) return '不能'
   if (total <= -1) return '把握偏小'
   return '尚未定局'
 }
@@ -10146,7 +10211,9 @@ function buildDeepReading(ctx, judgment) {
   const mode = judgment.parsed && judgment.parsed.mode
   const deepTone = toneFromDeepTotal(total)
   const replyTone = profile.negativeOutcome ? invertTone(deepTone) : deepTone
-  const keepGuardedReply = profile.safe || profile.guarded || ['when', 'where', 'who', 'choice'].includes(mode)
+  // yesno/jixiong/how/degree 等已按所问写好 directReply，禁止被叙事分再冲成「能成」套话
+  const keepGuardedReply = profile.safe || profile.guarded
+    || ['when', 'where', 'who', 'choice', 'yesno', 'jixiong', 'how', 'degree'].includes(mode)
   const answer = keepGuardedReply
     ? judgment.reply
     : directReply(judgment.parsed, replyTone, Math.abs(total) < 3 ? `偏·${summary}` : summary, {
@@ -10157,7 +10224,9 @@ function buildDeepReading(ctx, judgment) {
       choicePick: judgment.choicePick,
       outcomeTone: deepTone
     })
-  const action = tailoredAction(ctx, profile, driver, blocker)
+  const action = (judgment.advice && ['yesno', 'when', 'where', 'who', 'choice', 'how', 'jixiong', 'degree'].includes(mode))
+    ? judgment.advice
+    : tailoredAction(ctx, profile, driver, blocker)
   return { profile, axes, total, tone: deepTone, summary, thesis, answer, driver, blocker, action }
 }
 
@@ -10359,32 +10428,48 @@ function domainOutcome(profile, total) {
 
 function narrativeHeadline(judgment, deep) {
   const mode = judgment.parsed && judgment.parsed.mode
-  if (deep.profile.safe || deep.profile.guarded || ['where', 'when', 'who', 'choice'].includes(mode)) return deep.summary
-  if (deep.profile.negativeOutcome) return deep.summary
-  if (deep.total >= 3) return '可望推进，但宜循序而进'
-  if (deep.total >= 1) return '有转机，尚未完全落定'
-  if (deep.total <= -3) return '眼下难进，宜先退后谋'
-  if (deep.total <= -1) return '阻力偏重，不宜硬推'
-  return '局面未定，关键在下一步'
+  // 优先展示按所问写好的短结论（能/不能、偏有/偏无、时间范围…）
+  if (judgment.level) {
+    if (deep.profile.safe || deep.profile.guarded || deep.profile.negativeOutcome) return judgment.level
+    if (['where', 'when', 'who', 'choice', 'yesno', 'jixiong', 'how', 'degree'].includes(mode)) {
+      return judgment.level
+    }
+  }
+  if (deep.profile.safe || deep.profile.guarded || deep.profile.negativeOutcome) return deep.summary
+  if (deep.total >= 3) return '能'
+  if (deep.total >= 1) return '大致能成'
+  if (deep.total <= -3) return '不能'
+  if (deep.total <= -1) return '把握偏小'
+  return '尚未定局'
 }
 
 function narrativeDirectAnswer(judgment, deep) {
   const parsed = judgment.parsed || {}
   const focus = parsed.focus || deep.profile.result || '这件事'
   const mode = parsed.mode || 'outlook'
-  if (deep.profile.safe || deep.profile.guarded || deep.profile.negativeOutcome || ['where', 'when', 'who', 'choice'].includes(mode)) return deep.answer
+  // 优先用 buildJudgment 的 directReply（已按有无/能不能/时间/方位组织）
+  if (judgment.reply) return judgment.reply
+  if (deep.profile.safe || deep.profile.guarded || deep.profile.negativeOutcome || ['where', 'when', 'who', 'choice'].includes(mode)) {
+    return deep.answer
+  }
   if (mode === 'yesno') {
-    if (deep.total >= 2) return `“${focus}”偏向能成，但仍要经过眼前这一处转折。`
-    if (deep.total <= -2) return `“${focus}”眼下偏难，继续硬推只会增加消耗。`
-    return `“${focus}”目前还不能断成或不成，关键条件尚未接上。`
+    if (deep.total >= 2) return `就你问的「${focus}」：偏向能成，但仍要经过眼前这一处转折。`
+    if (deep.total <= -2) return `就你问的「${focus}」：眼下偏难，继续硬推只会增加消耗。`
+    return `就你问的「${focus}」：目前还不能断成或不成，关键条件尚未接上。`
   }
   if (mode === 'jixiong') {
-    if (deep.total >= 2) return `“${focus}”利多于弊，但吉处有条件。`
-    if (deep.total <= -2) return `“${focus}”阻力重于助力，宜收不宜放。`
-    return `“${focus}”吉凶相杂，下一步的选择会改变结果。`
+    if (deep.total >= 2) return `就你问的「${focus}」：利多于弊，但吉处有条件。`
+    if (deep.total <= -2) return `就你问的「${focus}」：阻力重于助力，宜收不宜放。`
+    return `就你问的「${focus}」：吉凶相杂，下一步的选择会改变结果。`
   }
-  if (mode === 'how') return deep.total >= 2 ? `“${focus}”可以主动推进，但要沿最有力的一环发力。` : deep.total <= -2 ? `“${focus}”先不要正面硬攻，换条件比加力更重要。` : `“${focus}”宜先做一步可回退的试探，再看反馈。`
-  return `“${focus}”${domainOutcome(deep.profile, deep.total)}。`
+  if (mode === 'how') {
+    return deep.total >= 2
+      ? `就你问怎么办：「${focus}」可以主动推进，但要沿最有力的一环发力。`
+      : deep.total <= -2
+        ? `就你问怎么办：「${focus}」先不要正面硬攻，换条件比加力更重要。`
+        : `就你问怎么办：「${focus}」宜先做一步可回退的试探，再看反馈。`
+  }
+  return `就你问的「${focus}」：${domainOutcome(deep.profile, deep.total)}。`
 }
 
 function narrativeOpening(ctx, judgment, deep) {
@@ -10529,6 +10614,8 @@ function timeNarrative(ctx, judgment) {
 }
 
 function adviceNarrative(ctx, deep) {
+  // 优先 buildJudgment 按问法写好的建议（有无/能不能/时间窗口…）
+  if (ctx && ctx._judgmentAdvice) return ctx._judgmentAdvice
   if (deep.profile.safe || deep.profile.guarded || deep.profile.negativeOutcome) return deep.profile.action
   const kind = deep.profile.kind || 'general'
   const action = deep.profile.action || ''
@@ -10576,6 +10663,8 @@ function adviceSectionTitle(kind) {
 }
 
 function buildConciseSections(ctx, judgment) {
+  // 注入按问法写好的 advice，避免叙事层盖掉「有无/能不能/时间」建议
+  ctx._judgmentAdvice = judgment.advice || ''
   const deep = buildDeepReading(ctx, judgment)
   deep.summary = narrativeHeadline(judgment, deep)
   deep.thesis = narrativeOpening(ctx, judgment, deep)
@@ -10596,19 +10685,47 @@ function buildConciseSections(ctx, judgment) {
     if (place) { hints.push(place); hasPlace = true }
   }
   if (parsed.mode === 'when') {
+    // 时间问法：首条给出明确窗口
+    if (judgment.clockHint || judgment.whenHint || judgment.level) {
+      const lead = judgment.clockHint
+        ? `明确时间范围：${judgment.clockHint}（卦象时辰区间，建议按整段时辰安排）。`
+        : judgment.whenHint
+          ? `明确时间范围：${judgment.whenHint}。`
+          : `明确时间范围：${judgment.level}。`
+      hints.push(lead)
+      hasTime = true
+    }
     const time = timeNarrative(ctx, judgment)
-    if (time) { hints.push(time); hasTime = true }
+    if (time && hints.indexOf(time) < 0) { hints.push(time); hasTime = true }
   } else if (parsed.mode !== 'where') {
     const time = timeNarrative(ctx, judgment)
     if (time) { hints.push(time); hasTime = true }
   }
-  if (hints.length) sections.push({ title: hasPlace && hasTime ? '方位、范围与应期' : hasPlace ? '方位与范围' : '应期怎么看', items: hints })
+  if (hints.length) {
+    sections.push({
+      title: hasPlace && hasTime ? '方位、范围与应期' : hasPlace ? '方位与范围' : (parsed.mode === 'when' ? '明确时间范围' : '应期怎么看'),
+      items: hints
+    })
+  }
+  let actTitle = adviceSectionTitle(deep.profile.kind)
+  if (parsed.mode === 'yesno') {
+    const t = judgment.answerTone || judgment.tone
+    const kind = parsed.yesKind || 'can'
+    if (kind === 'have') {
+      actTitle = t === 'good' ? '怎么核实并稳住这个「有」' : t === 'bad' ? '怎么从「无/弱」往「有」推' : '有无未定时怎么做'
+    } else {
+      actTitle = t === 'good' ? '怎么保持这个「能/有利」' : t === 'bad' ? '怎么把「不能」往「能」推' : '条件未定时怎么做'
+    }
+  } else if (parsed.mode === 'when') {
+    actTitle = '怎么对准这个时间窗口'
+  }
   sections.push({
-    title: adviceSectionTitle(deep.profile.kind),
+    title: actTitle,
     items: [deep.action]
   })
   return { sections, deep }
 }
+
 function buildPlainLead(topic, judgment, yongList, fu, changingIndexes, yinPattern) {
   const lines = []
   if (judgment.reply) lines.push(judgment.reply)
@@ -10976,12 +11093,15 @@ function interpret(cast, topicKey = 'general') {
   }, judgment)
   const conciseSections = concise.sections
   const deep = concise.deep
+  // level/reply/advice 用叙事整理后的展示文；judgment 字段保留 buildJudgment 原文
+  // （含安全边界、所问 mode 的「判断：…」），避免被卦理开篇冲掉
   const finalJudgment = Object.assign({}, judgment, {
     level: deep.summary,
     label: deep.summary,
     reply: deep.answer,
-    judgment: deep.thesis,
-    advice: deep.action
+    judgment: judgment.judgment,
+    advice: deep.action,
+    thesis: deep.thesis
   })
   const finalTendency = {
     level: deep.summary,
@@ -11884,7 +12004,6 @@ window.LiuYao = {
   normalizeArticle: learning.normalizeArticle
 };
 })();
-
 </script>
   <script>
 (function () {
