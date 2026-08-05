@@ -262,27 +262,42 @@
     }
     .bead.on { background: var(--cinnabar); border-color: var(--cinnabar); }
     .stage-live {
-      display: flex; gap: 14px; align-items: stretch;
-      margin-top: 8px; overflow: visible; padding-top: 118px;
+      display: flex; gap: 10px; align-items: stretch;
+      margin-top: 8px; overflow: visible; padding-top: 96px; min-height: 220px;
     }
     .coin-stage {
-      flex: 1.15; text-align: center;
+      flex: 1.2; text-align: center;
       display: flex; flex-direction: column; overflow: visible;
     }
-    .coin-stage .btn { margin-bottom: 0; }
+    .shake-ctrl {
+      flex: 0 0 64px; display: flex; align-items: center; justify-content: center;
+    }
+    .cast-shake-slot {
+      position: relative; display: flex; align-items: center; justify-content: center;
+      width: 56px; height: 150px; padding: 8px 4px; box-sizing: border-box;
+      border: 2px solid #56442f; border-radius: 28px; color: #fff8e8; cursor: pointer;
+      user-select: none; touch-action: none;
+      background: linear-gradient(180deg, #8b7451, #655139);
+      box-shadow: inset 0 0 0 3px rgba(255,248,225,.12), 0 4px 10px rgba(73,54,34,.14);
+      font: inherit; letter-spacing: .2em; writing-mode: vertical-rl;
+    }
+    .cast-shake-slot.pressed {
+      background: linear-gradient(180deg, #7a6545, #54422f); transform: scale(.97);
+    }
+    .cast-shake-slot.is-disabled { opacity: .55; pointer-events: none; cursor: default; }
     .gua-side {
-      flex: 0.85; min-width: 96px; min-height: 180px; padding: 0 2px 0 10px;
+      flex: 0.75; min-width: 88px; min-height: 180px; padding: 0 2px 0 8px;
       border-left: 1px dashed var(--line); box-sizing: border-box;
       display: flex; flex-direction: column; align-items: center;
       position: relative;
     }
-    .stage-live .gua-side { min-height: 0; border-left: 1px dashed var(--line); }
+    .stage-live .gua-side { min-height: 0; border-left: 1px dashed var(--line); transform: translateY(-6px); }
     .gua-side .gua-lab {
       margin: 0 0 10px; font-size: 14px; letter-spacing: 0.28em; text-indent: 0.28em;
       color: var(--bronze); text-align: center;
     }
     .stage-live .gua-side .gua-lab {
-      position: absolute; left: 10px; right: 2px; top: -28px; margin: 0;
+      position: absolute; left: 8px; right: 2px; top: -26px; margin: 0;
     }
     .gua-side .gua-lines {
       flex: 1; width: 100%; height: 100%;
@@ -326,99 +341,71 @@
       background: linear-gradient(90deg, transparent, rgba(90,70,40,.28), transparent);
       pointer-events: none;
     }
-    .shake .coin-body {
+    /* 按住：持续跳动翻转 */
+    .holding .coin-body {
       transform-style: preserve-3d; transform-origin: center center;
-      animation: toss-drop 1.35s cubic-bezier(.33,.02,.2,1) both;
-      will-change: transform;
+      animation: coin-juggle-a .4s ease-in-out infinite; will-change: transform;
     }
-    .shake .coin:nth-child(1) .coin-body {
-      animation-name: toss-drop-a; animation-duration: 1.32s; animation-delay: 0ms;
+    .holding .coin:nth-child(1) .coin-body { animation-name: coin-juggle-a; animation-duration: .38s; }
+    .holding .coin:nth-child(2) .coin-body { animation-name: coin-juggle-b; animation-duration: .44s; animation-delay: .04s; }
+    .holding .coin:nth-child(3) .coin-body { animation-name: coin-juggle-c; animation-duration: .4s; animation-delay: .08s; }
+    .holding .coin-shadow { animation: juggle-shadow .4s ease-in-out infinite; }
+    .holding .coin:nth-child(1) .coin-shadow { animation-duration: .38s; }
+    .holding .coin:nth-child(2) .coin-shadow { animation-duration: .44s; animation-delay: .04s; }
+    .holding .coin:nth-child(3) .coin-shadow { animation-duration: .4s; animation-delay: .08s; }
+    @keyframes coin-juggle-a {
+      0% { transform: translate3d(-3px, 0, 0) rotateX(8deg) rotateY(0) rotateZ(-14deg) scale(.98); }
+      35% { transform: translate3d(-6px, -58px, 0) rotateX(-12deg) rotateY(160deg) rotateZ(8deg) scale(.92); }
+      55% { transform: translate3d(-4px, -20px, 0) rotateX(6deg) rotateY(250deg) rotateZ(-6deg) scale(1.02); }
+      100% { transform: translate3d(-3px, 0, 0) rotateX(8deg) rotateY(360deg) rotateZ(-14deg) scale(.98); }
     }
-    .shake .coin:nth-child(2) .coin-body {
-      animation-name: toss-drop-b; animation-duration: 1.4s; animation-delay: 55ms;
+    @keyframes coin-juggle-b {
+      0% { transform: translate3d(0, 0, 0) rotateX(4deg) rotateY(20deg) rotateZ(8deg) scale(.98); }
+      40% { transform: translate3d(2px, -66px, 0) rotateX(-16deg) rotateY(200deg) rotateZ(-10deg) scale(.9); }
+      60% { transform: translate3d(1px, -18px, 0) rotateX(8deg) rotateY(300deg) rotateZ(6deg) scale(1.03); }
+      100% { transform: translate3d(0, 0, 0) rotateX(4deg) rotateY(380deg) rotateZ(8deg) scale(.98); }
     }
-    .shake .coin:nth-child(3) .coin-body {
-      animation-name: toss-drop-c; animation-duration: 1.48s; animation-delay: 110ms;
+    @keyframes coin-juggle-c {
+      0% { transform: translate3d(4px, 0, 0) rotateX(10deg) rotateY(-10deg) rotateZ(12deg) scale(.97); }
+      30% { transform: translate3d(7px, -52px, 0) rotateX(-8deg) rotateY(-170deg) rotateZ(-8deg) scale(.91); }
+      58% { transform: translate3d(5px, -22px, 0) rotateX(5deg) rotateY(-260deg) rotateZ(10deg) scale(1.02); }
+      100% { transform: translate3d(4px, 0, 0) rotateX(10deg) rotateY(-370deg) rotateZ(12deg) scale(.97); }
     }
-    .shake .coin-shadow {
-      animation: toss-shadow 1.35s cubic-bezier(.33,.02,.2,1) both;
-      will-change: transform, opacity;
+    @keyframes juggle-shadow {
+      0%, 100% { transform: scaleX(1); opacity: .3; }
+      40% { transform: scaleX(.35); opacity: .08; }
+      60% { transform: scaleX(.7); opacity: .18; }
     }
-    .shake .coin:nth-child(1) .coin-shadow {
-      animation-name: toss-shadow-a; animation-duration: 1.32s; animation-delay: 0ms;
+    /* 松手落下 */
+    .landing .coin-body {
+      transform-style: preserve-3d; transform-origin: center center;
+      animation: coin-settle-a .7s cubic-bezier(.28,.02,.2,1) both; will-change: transform;
     }
-    .shake .coin:nth-child(2) .coin-shadow {
-      animation-name: toss-shadow-b; animation-duration: 1.4s; animation-delay: 55ms;
+    .landing .coin:nth-child(1) .coin-body { animation-name: coin-settle-a; animation-duration: .66s; }
+    .landing .coin:nth-child(2) .coin-body { animation-name: coin-settle-b; animation-duration: .72s; animation-delay: 30ms; }
+    .landing .coin:nth-child(3) .coin-body { animation-name: coin-settle-c; animation-duration: .68s; animation-delay: 60ms; }
+    .landing .coin-shadow { animation: settle-shadow .7s cubic-bezier(.28,.02,.2,1) both; }
+    @keyframes coin-settle-a {
+      0% { transform: translate3d(-5px, -52px, 0) rotateX(-10deg) rotateY(40deg) rotateZ(-16deg) scale(.92); }
+      45% { transform: translate3d(-2px, 2px, 0) rotateX(4deg) rotateY(200deg) rotateZ(8deg) scale(1.04); }
+      62% { transform: translate3d(-1px, -18px, 0) rotateX(-2deg) rotateY(280deg) rotateZ(-4deg) scale(.98); }
+      100% { transform: translate3d(0, 0, 0) rotateX(0) rotateY(360deg) rotateZ(0) scale(1); }
     }
-    .shake .coin:nth-child(3) .coin-shadow {
-      animation-name: toss-shadow-c; animation-duration: 1.48s; animation-delay: 110ms;
+    @keyframes coin-settle-b {
+      0% { transform: translate3d(0, -60px, 0) rotateX(-14deg) rotateY(-20deg) rotateZ(10deg) scale(.9); }
+      42% { transform: translate3d(1px, 3px, 0) rotateX(6deg) rotateY(160deg) rotateZ(-10deg) scale(1.05); }
+      60% { transform: translate3d(0, -20px, 0) rotateX(-3deg) rotateY(250deg) rotateZ(6deg) scale(.97); }
+      100% { transform: translate3d(0, 0, 0) rotateX(0) rotateY(360deg) rotateZ(0) scale(1); }
     }
-    @keyframes toss-drop-a {
-      0% { transform: translate3d(-4px, -20px, 0) rotateX(12deg) rotateY(0deg) rotateZ(-28deg) scale(.94); }
-      12% { transform: translate3d(-10px, -112px, 0) rotateX(-8deg) rotateY(110deg) rotateZ(-12deg) scale(.9); }
-      36% { transform: translate3d(-12px, 2px, 0) rotateX(6deg) rotateY(290deg) rotateZ(16deg) scale(1.04); }
-      48% { transform: translate3d(-8px, -38px, 0) rotateX(-4deg) rotateY(400deg) rotateZ(-10deg) scale(.97); }
-      62% { transform: translate3d(-5px, 1px, 0) rotateX(3deg) rotateY(500deg) rotateZ(8deg) scale(1.02); }
-      74% { transform: translate3d(-3px, -15px, 0) rotateX(-2deg) rotateY(580deg) rotateZ(-4deg) scale(.99); }
-      86% { transform: translate3d(-1px, 1px, 0) rotateX(1deg) rotateY(660deg) rotateZ(2deg) scale(1.005); }
-      100% { transform: translate3d(0, 0, 0) rotateX(0) rotateY(720deg) rotateZ(0) scale(1); }
+    @keyframes coin-settle-c {
+      0% { transform: translate3d(6px, -50px, 0) rotateX(-8deg) rotateY(30deg) rotateZ(14deg) scale(.92); }
+      48% { transform: translate3d(3px, 2px, 0) rotateX(4deg) rotateY(210deg) rotateZ(-8deg) scale(1.04); }
+      65% { transform: translate3d(1px, -16px, 0) rotateX(-2deg) rotateY(290deg) rotateZ(4deg) scale(.98); }
+      100% { transform: translate3d(0, 0, 0) rotateX(0) rotateY(360deg) rotateZ(0) scale(1); }
     }
-    @keyframes toss-drop-b {
-      0% { transform: translate3d(0, -14px, 0) rotateX(8deg) rotateY(20deg) rotateZ(10deg) scale(.95); }
-      10% { transform: translate3d(2px, -122px, 0) rotateX(-12deg) rotateY(160deg) rotateZ(4deg) scale(.88); }
-      34% { transform: translate3d(3px, 3px, 0) rotateX(8deg) rotateY(340deg) rotateZ(-14deg) scale(1.05); }
-      46% { transform: translate3d(1px, -44px, 0) rotateX(-6deg) rotateY(450deg) rotateZ(10deg) scale(.96); }
-      60% { transform: translate3d(1px, 2px, 0) rotateX(4deg) rotateY(540deg) rotateZ(-6deg) scale(1.02); }
-      72% { transform: translate3d(0, -17px, 0) rotateX(-2deg) rotateY(610deg) rotateZ(4deg) scale(.99); }
-      85% { transform: translate3d(0, 1px, 0) rotateX(1deg) rotateY(680deg) rotateZ(-1deg) scale(1.005); }
-      100% { transform: translate3d(0, 0, 0) rotateX(0) rotateY(720deg) rotateZ(0) scale(1); }
-    }
-    @keyframes toss-drop-c {
-      0% { transform: translate3d(5px, -18px, 0) rotateX(10deg) rotateY(-15deg) rotateZ(24deg) scale(.93); }
-      13% { transform: translate3d(12px, -106px, 0) rotateX(-6deg) rotateY(-130deg) rotateZ(8deg) scale(.9); }
-      38% { transform: translate3d(14px, 2px, 0) rotateX(5deg) rotateY(-300deg) rotateZ(-18deg) scale(1.04); }
-      50% { transform: translate3d(9px, -35px, 0) rotateX(-3deg) rotateY(-410deg) rotateZ(12deg) scale(.97); }
-      64% { transform: translate3d(5px, 1px, 0) rotateX(2deg) rotateY(-510deg) rotateZ(-7deg) scale(1.02); }
-      76% { transform: translate3d(3px, -13px, 0) rotateX(-1deg) rotateY(-590deg) rotateZ(3deg) scale(.99); }
-      88% { transform: translate3d(1px, 1px, 0) rotateX(1deg) rotateY(-670deg) rotateZ(-1deg) scale(1.005); }
-      100% { transform: translate3d(0, 0, 0) rotateX(0) rotateY(-720deg) rotateZ(0) scale(1); }
-    }
-    @keyframes toss-shadow-a {
-      0% { transform: translateX(-2px) scaleX(.55); opacity: .12; }
-      12% { transform: translateX(-5px) scaleX(.28); opacity: .05; }
-      36% { transform: translateX(-6px) scaleX(1.18); opacity: .42; }
-      48% { transform: translateX(-4px) scaleX(.48); opacity: .12; }
-      62% { transform: translateX(-3px) scaleX(1.1); opacity: .36; }
-      74% { transform: translateX(-2px) scaleX(.62); opacity: .16; }
-      86% { transform: translateX(-1px) scaleX(1.04); opacity: .3; }
-      100% { transform: translateX(0) scaleX(1); opacity: .28; }
-    }
-    @keyframes toss-shadow-b {
-      0% { transform: scaleX(.55); opacity: .12; }
-      10% { transform: scaleX(.24); opacity: .04; }
-      34% { transform: scaleX(1.22); opacity: .44; }
-      46% { transform: scaleX(.42); opacity: .1; }
-      60% { transform: scaleX(1.12); opacity: .38; }
-      72% { transform: scaleX(.58); opacity: .14; }
-      85% { transform: scaleX(1.05); opacity: .3; }
-      100% { transform: scaleX(1); opacity: .28; }
-    }
-    @keyframes toss-shadow-c {
-      0% { transform: translateX(2px) scaleX(.55); opacity: .12; }
-      13% { transform: translateX(6px) scaleX(.28); opacity: .05; }
-      38% { transform: translateX(7px) scaleX(1.18); opacity: .42; }
-      50% { transform: translateX(5px) scaleX(.48); opacity: .12; }
-      64% { transform: translateX(3px) scaleX(1.1); opacity: .36; }
-      76% { transform: translateX(2px) scaleX(.64); opacity: .16; }
-      88% { transform: translateX(1px) scaleX(1.04); opacity: .3; }
-      100% { transform: translateX(0) scaleX(1); opacity: .28; }
-    }
-    @keyframes toss-drop {
-      0% { transform: translate3d(0, -20px, 0) rotateY(0) scale(.94); }
-      100% { transform: translate3d(0, 0, 0) rotateY(720deg) scale(1); }
-    }
-    @keyframes toss-shadow {
-      0% { transform: scaleX(.4); opacity: .1; }
+    @keyframes settle-shadow {
+      0% { transform: scaleX(.32); opacity: .06; }
+      45% { transform: scaleX(1.15); opacity: .4; }
       100% { transform: scaleX(1); opacity: .28; }
     }
     .coin {
