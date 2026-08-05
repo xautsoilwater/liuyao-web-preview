@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-  <!-- liuyao-preview-build:2026-08-05T01:28:18Z -->
+  <!-- liuyao-preview-build:2026-08-05T01:35:47Z -->
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover" />
   <title>周易研习</title>
@@ -6618,103 +6618,139 @@ function directReply(parsed, tone, level, extra) {
     const kind = parsed.yesKind || 'can'
     const domain = parsed.domain || 'general'
     const dayRef = timeHint || ''
+    // 始终以「所问主体」为中心，禁止空谈行不行
+    const subj = focus || '此事'
 
     if (kind === 'occur') {
       const phrase = occurPhrase(domain, focus)
       if (domain === 'visit' || domain === 'seek') {
+        const who = domain === 'seek' ? '有人来找' : '有客人来'
         if (tone === 'good') {
           return mild
-            ? `${head}${dayRef || '近段'}多半${domain === 'seek' ? '有人来找' : '有客人来'}，但未必准时、人未必多，宜留弹性。`
-            : `${head}${dayRef || '近段'}有${domain === 'seek' ? '人来找' : '客人来'}的象，可以按「有客/有人」来准备。`
+            ? `${head}就「${subj}」：偏会有。【当前】${dayRef || '近段'}${who}的象偏有，但未必准时。【未来】留窗口能接上；空等过久易空耗。【怎么做】趋吉：留一点接待时间。避凶：别整天空等。`
+            : `${head}就「${subj}」：会有。【当前】${dayRef || '近段'}有${who}的象。【未来】按「有人/有客」准备更顺。【怎么做】趋吉：备茶水与时间窗口。避凶：别把时间钉死到某一分钟。`
         }
         if (tone === 'bad') {
           return mild
-            ? `${head}${dayRef || '近段'}${domain === 'seek' ? '来人' : '客人来'}的象偏弱，别空等。`
-            : `${head}${dayRef || '近段'}暂看${domain === 'seek' ? '无人来找' : '无客人来'}，不必特意候客。`
+            ? `${head}就「${subj}」：偏不会。【当前】${dayRef || '近段'}${who}的象弱。【未来】有事照常安排；来了再接待。【怎么做】趋吉：正事照旧。避凶：别空等。`
+            : `${head}就「${subj}」：暂不会。【当前】${dayRef || '近段'}暂看无${who}。【未来】不必特意候客。【怎么做】趋吉：该忙正事。避凶：别干等。`
         }
-        return `${head}${dayRef || '近段'}是否${domain === 'seek' ? '有人来找' : '有客人来'}尚未明朗，宜两边都留准备。`
+        return `${head}就「${subj}」：说不准。【当前】${dayRef || '近段'}${who}未明。【怎么做】趋吉：两边都留一点准备。避凶：别只赌一种结果。`
       }
       if (domain === 'weather') {
-        if (tone === 'good') return `${head}${dayRef || '近段'}「${phrase}」象偏有，可按有天气变化来安排。`
-        if (tone === 'bad') return `${head}${dayRef || '近段'}「${phrase}」象偏弱，不必按必有来死等。`
-        return `${head}${dayRef || '近段'}「${phrase}」有无未定，宜对照预报。`
+        if (tone === 'good') {
+          return `${head}就「${subj}」：偏会有。【当前】${dayRef || '近段'}「${phrase}」象偏有。【未来】按有天气变化安排更稳。【怎么做】趋吉：备伞/改行程并看预报。避凶：别死等「一定下」。`
+        }
+        if (tone === 'bad') {
+          return `${head}就「${subj}」：偏不会。【当前】${dayRef || '近段'}「${phrase}」象弱。【未来】照常安排即可。【怎么做】趋吉：对照临近预报。避凶：别按必有来死等。`
+        }
+        return `${head}就「${subj}」：说不准。【当前】「${phrase}」有无未定。【怎么做】趋吉：备一路案。避凶：以官方预报为准。`
       }
       if (domain === 'delivery' || domain === 'arrival') {
-        if (tone === 'good') return `${head}${dayRef || '近段'}「${phrase}」偏能实现。`
-        if (tone === 'bad') return `${head}${dayRef || '近段'}「${phrase}」偏难准时，宜放宽预期。`
-        return `${head}${dayRef || '近段'}「${phrase}」迟早未定。`
+        if (tone === 'good') {
+          return `${head}就「${subj}」：偏能到。【当前】${dayRef || '近段'}「${phrase}」有到达象。【未来】留意节点可接上。【怎么做】趋吉：盯物流/行程信息。避凶：别卡死某一分钟。`
+        }
+        if (tone === 'bad') {
+          return `${head}就「${subj}」：偏难准时。【当前】「${phrase}」易延误。【未来】放宽预期更稳。【怎么做】趋吉：放宽时间、备预案。避凶：别空等一个点。`
+        }
+        return `${head}就「${subj}」：迟早未定。【当前】「${phrase}」信号交杂。【怎么做】趋吉：对照物流/实况。避凶：别只信一卦。`
       }
-      if (tone === 'good') return mild ? `${head}${dayRef}「${phrase}」迹象偏有。` : `${head}${dayRef}会发生「${phrase}」。`
-      if (tone === 'bad') return mild ? `${head}${dayRef}「${phrase}」迹象偏弱。` : `${head}${dayRef}不太会发生「${phrase}」。`
-      return `${head}${dayRef}「${phrase}」是否发生未明朗。`
+      if (tone === 'good') return mild ? `${head}就「${subj}」：偏会发生。【当前】「${phrase}」迹象偏有。【怎么做】趋吉：按可能发生来准备。` : `${head}就「${subj}」：会发生。【当前】「${phrase}」偏实。【怎么做】趋吉：按会发生安排。`
+      if (tone === 'bad') return mild ? `${head}就「${subj}」：偏不太会发生。【当前】「${phrase}」象弱。【怎么做】趋吉：少空等。` : `${head}就「${subj}」：不太会发生。【当前】「${phrase}」偏弱。【怎么做】趋吉：按不太发生安排。`
+      return `${head}就「${subj}」：是否发生未明。【当前】「${phrase}」信号交杂。【怎么做】趋吉：两边准备。`
     }
 
     if (kind === 'find') {
       if (tone === 'good') {
         return mild
-          ? `${head}明确答复：找得到（或费周折）。【当前状态】「${focus}」有着落象，但线索尚未收齐。【未来可能】①守正查找、沿原路收窄 → 偏能寻回；②拖太久、乱扩范围 → 由易找变难找。`
-          : `${head}明确答复：找得到。【当前状态】「${focus}」偏能寻回，线索有承接。【未来可能】①及时搜、问知情者 → 落实「找得到」；②拖延、不留备份 → 易转难寻。`
+          ? `${head}就「${subj}」：找得到（或费点周折）。【当前】有着落象，线索未收齐。【未来】沿原路、问知情者更易找到；拖太久更难。【怎么做】趋吉：马上按最后动线搜。避凶：别乱扩范围空耗。`
+          : `${head}就「${subj}」：找得到。【当前】偏能寻回。【未来】及时搜、问人能落实。【怎么做】趋吉：原路+常去处+知情者。避凶：别拖。`
       }
       if (tone === 'bad') {
         return mild
-          ? `${head}明确答复：不好找。【当前状态】「${focus}」象偏弱，期望别太大。【未来可能】①先挂失/备用再按动线收窄 → 仍有一线；②空等 → 更难。`
-          : `${head}明确答复：找不回。【当前状态】「${focus}」难寻，遮蔽重。【未来可能】①尽快止损、备替代 → 少耗；②死盯寻回 → 消耗更大。`
+          ? `${head}就「${subj}」：不好找。【当前】象弱，期望别太大。【未来】先挂失/备用仍有一线；空等更难。【怎么做】趋吉：挂失+收窄动线。避凶：别死等「一定找回」。`
+          : `${head}就「${subj}」：难找回。【当前】遮蔽重。【未来】尽快止损、备替代更稳。【怎么做】趋吉：止损+备用。避凶：别无限期死盯。`
       }
-      return `${head}明确答复：能否找到未定。【当前状态】「${focus}」信号交杂。【未来可能】有新线索则偏找得到，无线索则偏难寻；宜再搜一轮再定。`
+      return `${head}就「${subj}」：能否找到未定。【当前】信号交杂。【怎么做】趋吉：再搜一轮记线索。避凶：别无限空等。`
     }
 
     if (kind === 'should') {
       if (tone === 'good') {
         return mild
-          ? `${head}答复：宜做（留余地）。【当前】「${focus}」可以做，别一次押满。【未来】小步推进能稳住；跳过核对或时机不对会变不宜。【问题】容易做得太猛。【怎么做】趋吉：先做可收回的一步。避凶：别一次押死。`
-          : `${head}答复：宜做。【当前】「${focus}」条件够，可以办。【未来】按节点做就稳；冒进会后悔。【问题】怕的是因「宜」而乱冲。【怎么做】趋吉：留退路、按步骤。避凶：别押满。`
+          ? `${head}就「${subj}」：宜做（留余地）。【当前】可以做，别一次押满。【未来】小步能稳住；跳过核对易变不宜。【怎么做】趋吉：先做可收回的一步。避凶：别一次押死。`
+          : `${head}就「${subj}」：宜做。【当前】条件够，可以办。【未来】按节点做就稳；冒进会后悔。【怎么做】趋吉：留退路、按步骤办「${subj}」。避凶：别押满。`
       }
       if (tone === 'bad') {
         return mild
-          ? `${head}答复：不宜（先缓）。【当前】「${focus}」把握不大，别急着做。【未来】补条件后可再议；硬做成本高。【问题】时机或条件不够。【怎么做】趋吉：先补条件。避凶：别硬做。`
-          : `${head}答复：不宜。【当前】「${focus}」现在做代价高。【未来】先停、改条件才有转机；硬顶更糟。【问题】时位不对。【怎么做】趋吉：停、改、再评估。避凶：别死磕。`
+          ? `${head}就「${subj}」：不宜（先缓）。【当前】把握不大。【未来】补条件后再议；硬做代价高。【怎么做】趋吉：先补条件。避凶：别硬做「${subj}」。`
+          : `${head}就「${subj}」：不宜。【当前】现在做代价高。【未来】先停、改条件才有转机。【怎么做】趋吉：停、改、再评估。避凶：别死磕「${subj}」。`
       }
-      return `${head}答复：宜否未定。【当前】信息不够。【未来】信息齐了就会偏向一边。【问题】还看不清。【怎么做】趋吉：先补信息。避凶：别一次拍板。`
+      return `${head}就「${subj}」：宜否未定。【当前】信息不够。【怎么做】趋吉：先补信息。避凶：别一次拍板。`
     }
     if (kind === 'suit') {
       if (tone === 'good') {
         return mild
-          ? `${head}答复：合适（留余量）。【当前】「${focus}」可以推进，别铺满。【未来】小步验证能稳住；成本失控会变不合适。【问题】容易做得过大。【怎么做】趋吉：小范围先试。避凶：先算最坏损失。`
-          : `${head}答复：合适。【当前】「${focus}」可以办。【未来】条件稳住就合适；合同/钱出问题会变。【问题】怕忽略成本和退出。【怎么做】趋吉：核对合同与退出。避凶：别盲目加码。`
+          ? `${head}就「${subj}」：合适（留余量）。【当前】可以推进，别铺满。【未来】小试能稳住；成本失控会变不合适。【怎么做】趋吉：小范围试「${subj}」。避凶：先算最坏损失。`
+          : `${head}就「${subj}」：合适。【当前】可以办。【未来】条件稳住就合适；合同/钱出问题会变。【怎么做】趋吉：核对合同与退出。避凶：别盲目加码。`
       }
       if (tone === 'bad') {
         return mild
-          ? `${head}答复：不合适（宜改）。【当前】「${focus}」先缓一缓。【未来】改期改方案可再看；硬上损失大。【问题】现在条件不对。【怎么做】趋吉：改期或改方案。避凶：别强上。`
-          : `${head}答复：不合适。【当前】「${focus}」现在别做。【未来】止损改道少后悔；硬上损失大。【问题】现在不适合。【怎么做】趋吉：停、改方案。避凶：别硬上。`
+          ? `${head}就「${subj}」：不合适（宜改）。【当前】先缓一缓。【未来】改期改方案可再看；硬上损失大。【怎么做】趋吉：改期或改方案。避凶：别强上「${subj}」。`
+          : `${head}就「${subj}」：不合适。【当前】现在别做。【未来】止损改道少后悔。【怎么做】趋吉：停、改方案。避凶：别硬上。`
       }
-      return `${head}答复：合适与否未定。【当前】两边差不多。【未来】小试结果会改结论。【问题】还没验证。【怎么做】趋吉：小范围先试。避凶：别一次铺开。`
+      return `${head}就「${subj}」：合适与否未定。【当前】还没拉开。【怎么做】趋吉：小范围先试。避凶：别一次铺开。`
     }
     if (kind === 'have') {
+      // 负面有无（第三者、异常等）：主体是「风险有没有」，不是谈恋爱技巧
+      if (parsed.negativeEvent) {
+        if (tone === 'good') {
+          return `${head}就「${subj}」：迹象偏有（风险侧）。【当前】不能忽略「${subj}」的可能。【未来】不核验会吃亏；查清了才能止损。【怎么做】趋吉：核可验证事实、留证据。避凶：别凭卦指认具体人，也别假装没事。`
+        }
+        if (tone === 'bad') {
+          return `${head}就「${subj}」：迹象偏弱。【当前】不宜据此断定已有「${subj}」。【未来】仍需必要防范，不能因一卦放松。【怎么做】趋吉：该查的仍查。避凶：别用卦给人定罪，也别完全不防。`
+        }
+        return `${head}就「${subj}」：有无未定。【当前】只有疑点，坐实不了。【怎么做】趋吉：先查事实。避凶：别猜、别指认、别武断。`
+      }
+      if (domain === 'emotion' || /感情|心意|喜欢|爱/.test(subj)) {
+        if (tone === 'good') {
+          return mild
+            ? `${head}就「${subj}」：偏有。【当前】对方侧有回应迹象，但还没落到持续行动。【未来】有见面/联系/承担就能稳住；只有嘴上说说会变无。【怎么做】趋吉：用具体互动验证「${subj}」。避凶：别逼问、别一次押满感情。`
+            : `${head}就「${subj}」：有。【当前】「${subj}」偏实，可按有来看。【未来】双方持续相应能稳住；逼问可能伤感情。【怎么做】趋吉：对方有回馈再加投入。避凶：别一厢情愿加码。`
+        }
+        if (tone === 'bad') {
+          return mild
+            ? `${head}就「${subj}」：偏无。【当前】对方侧迹象不足，别当成已经有了。【未来】沟通方式改了或有转机；空等会更无。【怎么做】趋吉：看对方是否主动约见/联系。避凶：先停无效付出。`
+            : `${head}就「${subj}」：无。【当前】「${subj}」偏虚。【未来】对方突然且持续主动才可重看。【怎么做】趋吉：设短观察期。避凶：别死等、别硬耗在这段关系上。`
+        }
+        return `${head}就「${subj}」：有无未定。【当前】对方心意信号乱。【怎么做】趋吉：短观察+看行动。避凶：别急着定生死。`
+      }
+      // 一般有无（机会、贵人、消息等）
       if (tone === 'good') {
         return mild
-          ? `${head}答复：偏有。【当前】「${focus}」有迹象，但还没落实。【未来】有持续行动和回馈就能稳住；只有嘴上说说会变无。【问题】还停在「感觉」上。【怎么做】趋吉：用见面、联系、承诺等行动验证。避凶：别逼问、别一次押满。`
-          : `${head}答复：有。【当前】「${focus}」偏实，可按「有」来看。【未来】双方持续相应就能稳住；逼问、一次押满可能变无。【问题】怕的是只听表态、不加验证。【怎么做】趋吉：对方有回馈再加投入。避凶：别一厢情愿加码。`
+          ? `${head}就「${subj}」：偏有。【当前】有苗头，还没落实。【未来】跟进验证能稳住；不跟进易落空。【怎么做】趋吉：用行动确认「${subj}」是否真有。避凶：别当已经到手。`
+          : `${head}就「${subj}」：有。【当前】「${subj}」偏实。【未来】持续跟进能落实。【怎么做】趋吉：抓住窗口推进「${subj}」。避凶：别一次押死。`
       }
       if (tone === 'bad') {
         return mild
-          ? `${head}答复：偏无。【当前】「${focus}」迹象不足，别当成已经有了。【未来】沟通改善可能转有；空等会更无。【问题】缺少可观察的回馈。【怎么做】趋吉：改互动方式，看对方是否主动。避凶：先停无效付出。`
-          : `${head}答复：无。【当前】「${focus}」现在偏虚。【未来】对方突然且持续主动才可重看；空等难变有。【问题】一厢情愿。【怎么做】趋吉：设短观察期，用行动外应判断。避凶：别死等、别硬耗。`
+          ? `${head}就「${subj}」：偏无。【当前】迹象不足。【未来】条件变了再看；硬等易空。【怎么做】趋吉：先备无「${subj}」的预案。避凶：别一厢情愿。`
+          : `${head}就「${subj}」：无。【当前】「${subj}」偏虚。【未来】别按「有」来安排。【怎么做】趋吉：改条件或另寻。避凶：别空等「${subj}」。`
       }
-      return `${head}答复：有无未定。【当前】信号乱。【未来】有回馈偏有，无回馈偏无。【问题】还没验证。【怎么做】趋吉：短观察期+可观察行动。避凶：别急着下死结论。`
+      return `${head}就「${subj}」：有无未定。【当前】信号交杂。【怎么做】趋吉：短观察验证。避凶：别下死结论。`
     }
-    // 能不能 / 会不会 / 行不行：简约——当前、未来、问题、怎么做
-    const about = timeHint ? `${timeHint}「${focus}」` : `「${focus}」`
+
+    // 能不能 / 成不成：结论必须挂在主体上
+    const about = timeHint ? `${timeHint}的「${subj}」` : `「${subj}」`
     if (tone === 'good') {
       return mild
-        ? `${head}答复：行（还差一点）。【当前】${about}大体行，但条件没齐，还不能算成了。【未来】补上缺口就能稳住；拖着不办或一次押满，可能变不行。【问题】还差关键一环（人/时间/规则/资源）。【怎么做】趋吉：先补最缺的那一环，小步推进。避凶：别硬闯、别一次押死。`
-        : `${head}答复：行。【当前】${about}现在行，可以按「行」来办。【未来】按步骤、守规矩就能成；急躁、忽视对方或规则，可能变不行。【问题】怕的是过刚、一次押满。【怎么做】趋吉：盯节点推进，借力合规。避凶：留退路，成功也防反复。`
+        ? `${head}就「${subj}」：行（还差一点）。【当前】${about}大体行，条件没齐，还不能算成了。【未来】补上缺口能稳住；拖着或一次押满，可能变不行。【怎么做】趋吉：围绕「${subj}」先补最缺一环，小步推进。避凶：别硬闯、别一次押死。`
+        : `${head}就「${subj}」：行。【当前】${about}现在行，可按「行」来办。【未来】按步骤办「${subj}」能成；急躁、乱来可能变不行。【怎么做】趋吉：盯与「${subj}」相关的节点推进。避凶：留退路，成功也防反复。`
     }
     if (tone === 'bad') {
       return mild
-        ? `${head}答复：不行（眼下难成）。【当前】${about}现在难，不宜硬推；不是永远不行。【未来】改条件、换时机后可能变行；继续硬顶会更难。【问题】条件没接上，硬推只耗力。【怎么做】趋吉：先停无效动作，改时间/方案/人或等合适时机再办。避凶：别死磕。`
-        : `${head}答复：不行。【当前】${about}阻力大，眼下别强求。【未来】先收手、改道才有转机；死磕只会更不行。【问题】现在是逆势。【怎么做】趋吉：止损，补条件后再动。避凶：逆势里别加码、别硬顶。`
+        ? `${head}就「${subj}」：不行（眼下难）。【当前】${about}现在难，不宜硬推；不是永远不行。【未来】改条件、换时机后可能变行；硬顶更难。【怎么做】趋吉：先停无效动作，改时间/方案/人后再办「${subj}」。避凶：别死磕。`
+        : `${head}就「${subj}」：不行。【当前】${about}阻力大，眼下别强求。【未来】先收手、改道才有转机；死磕更不行。【怎么做】趋吉：止损，补条件后再动「${subj}」。避凶：逆势里别加码。`
     }
-    return `${head}答复：暂定不了。【当前】${about}行与不行都有可能。【未来】条件补齐偏行，空耗偏不行。【问题】还缺一锤定音的条件。【怎么做】趋吉：先补最缺的一环，用可回退的一小步验证。避凶：别急着下死结论或一次押满。`
+    return `${head}就「${subj}」：暂定不了。【当前】${about}行与不行都有可能。【未来】条件补齐偏行，空耗偏不行。【怎么做】趋吉：先补与「${subj}」最相关的一环并小步验证。避凶：别急着下死结论或一次押满。`
   }
 
   // 走势类：同样讲清当前与未来
@@ -6773,10 +6809,14 @@ function yesNoLevel(parsed, tone, mild) {
     if (tone === 'bad') return mild ? '偏无' : '无'
     return '有无未明'
   }
-  // 能不能/会不会/行不行：标题用「行/不行」更贴口语
-  if (tone === 'good') return mild ? '行（条件未满）' : '行'
-  if (tone === 'bad') return mild ? '不行（当前难成）' : '不行'
-  return '暂不能断'
+  // 能不能：标题带主体，避免「只说行不行、不问在说谁」
+  {
+    const subj = String(parsed.focus || '此事').replace(/[「」]/g, '')
+    const short = subj.length > 6 ? `${subj.slice(0, 6)}…` : subj
+    if (tone === 'good') return mild ? `${short}·行（还差一点）` : `${short}·行`
+    if (tone === 'bad') return mild ? `${short}·不行（眼下难）` : `${short}·不行`
+    return `${short}·暂定不了`
+  }
 }
 
 function yesNoJudgmentLine(parsed, tone) {
@@ -6874,14 +6914,14 @@ function yesNoAdvice(parsed, tone) {
     }
     return `【趋吉】设几天观察期，用行动判断有没有。【避凶】别急着下死结论。有回馈再进，无回馈就守。`
   }
-  // 能不能 / 会不会 / 行不行：白话趋吉避凶
+  // 能不能：趋吉避凶必须点名所问主体
   if (tone === 'good') {
-    return `【趋吉】把该办的一步办掉：盯关键节点、借靠得住的人/资源、按规矩来，并留退路。【避凶】别拖、别一次押满、别无视合同和对方——这些会把「行」变成「不行」。守正、有节，比猛冲更稳。`
+    return `【趋吉】围绕「${focus}」把该办的一步办掉：盯相关节点、借靠得住的人/资源、按规矩来，留退路。【避凶】别在「${focus}」上拖、一次押满或无视规则——这些会把「行」变「不行」。`
   }
   if (tone === 'bad') {
-    return `【趋吉】先停无效硬推；改时间、方案、人或等更好时机，用小成本试一步，再决定要不要重来——这是从「不行」往「行」转。【避凶】别在逆势里加码、别死磕。先收手改条件，才有转机。`
+    return `【趋吉】先停对「${focus}」的无效硬推；改时间/方案/人，或等更好时机，用小成本试一步再重来。【避凶】别在「${focus}」上逆势加码、死磕。`
   }
-  return `【趋吉】先补「${focus}」最缺的一环（人/时间/钱/规则），做一步能收回的验证。【避凶】别急着下死结论，也别一次押满。条件齐了再进，不齐就先守。`
+  return `【趋吉】先补与「${focus}」最相关的一环，做一步能收回的验证。【避凶】别急着给「${focus}」下死结论，也别一次押满。`
 }
 
 /**
@@ -9322,38 +9362,46 @@ function philosophyGuidance(tone, focus, parsed) {
 }
 
 /**
- * 从卦上提炼「问题 / 怎么做」——白话短句
+ * 从卦上提炼「问题 / 怎么做」——必须挂在所问主体上，禁止万能套话
  */
-function guaProblemAndFix(ctx, topic, primaryYong, fu, fanYin, fuYin, answerTone) {
+function guaProblemAndFix(ctx, topic, primaryYong, fu, fanYin, fuYin, answerTone, parsed) {
+  const kind = (parsed && parsed.yesKind) || 'can'
+  const domain = (parsed && parsed.domain) || ''
+  const subj = (parsed && parsed.focus) || '此事'
+  // 发生类/寻得/负面有无：不要拿「硬顶、猛催」那套事业话术去盖
+  if (['occur', 'find'].includes(kind)) return { problem: '', fix: '' }
+  if (parsed && parsed.negativeEvent) return { problem: '', fix: '' }
+  if (['weather', 'visit', 'seek', 'delivery', 'arrival'].includes(domain)) return { problem: '', fix: '' }
+
   const problems = []
   const fixes = []
   const y = primaryYong
   if (fu && !(ctx.yongList && ctx.yongList.length)) {
-    problems.push('事还没真正露出来')
-    fixes.push('先别急着钉死结果，等事情露面再推进')
+    problems.push(`「${subj}」还没真正露出来`)
+    fixes.push(`先别把「${subj}」当已成，等局面露面再推进`)
   }
   if (y) {
     if (y.kong) {
-      problems.push('关键条件眼下还虚、不踏实')
-      fixes.push('等关键条件落实后再当真，先做准备别赌结果')
+      problems.push(`「${subj}」相关条件眼下还虚`)
+      fixes.push(`等条件落实后再把「${subj}」当真，先准备别赌结果`)
     }
     if (y.wangshuai === '囚' || y.wangshuai === '死') {
-      problems.push('现在力气不够、推进费劲')
-      fixes.push('换个更好时机，或先找能帮上忙的人/资源')
+      problems.push(`办「${subj}」现在力气不够`)
+      fixes.push(`换更好时机，或先找能帮「${subj}」的人/资源`)
     }
     if (y.dayMonth && y.dayMonth.heRi) {
-      problems.push('事情被拖住、一时推不动')
-      fixes.push('先别猛催，等卡住的环节松开再推')
+      problems.push(`「${subj}」一时被拖住、推不动`)
+      fixes.push(`先别猛催「${subj}」，等卡住的环节松开再推`)
     }
     if (y.changing && y.changeTo && y.changeTo.analysis) {
       const a = y.changeTo.analysis
       if (a.huiTou && a.huiTou.type === '回头克') {
-        problems.push('一启动反而自己卡住')
-        fixes.push('先改方案或换路径，再启动')
+        problems.push(`一动「${subj}」反而自己卡住`)
+        fixes.push(`先改办「${subj}」的方案或路径，再启动`)
       }
       if (a.jinTui && a.jinTui.type === '化退神') {
-        problems.push('后劲不足，容易先热后冷')
-        fixes.push('放慢、做能收回的步骤，别一次铺满')
+        problems.push(`「${subj}」后劲不足，易先热后冷`)
+        fixes.push(`放慢「${subj}」，做能收回的步骤`)
       }
     }
   }
@@ -9362,19 +9410,18 @@ function guaProblemAndFix(ctx, topic, primaryYong, fu, fanYin, fuYin, answerTone
       ? ctx.ben.yaos.filter((line) => line.liuqin === topic.jiShen && (line.changing || line.wangshuai === '旺' || line.wangshuai === '相'))
       : []
     if (ji.length) {
-      problems.push('有阻力正在起作用')
-      fixes.push('阻力大的时候少做收不回的决定，先绕开再办')
+      problems.push(`办「${subj}」时有阻力在起作用`)
+      fixes.push(`阻力大时少做收不回的决定，绕开阻力再办「${subj}」`)
     }
   }
   if (fanYin) {
-    problems.push('结果容易来回变')
-    fixes.push('一次好坏都别当最终结果，多看连续变化')
+    problems.push(`「${subj}」的结果容易来回变`)
+    fixes.push(`一次好坏都别当「${subj}」的终局`)
   }
   if (fuYin) {
-    problems.push('容易原地打转')
-    fixes.push('主动改人/时间/方案，别空耗')
+    problems.push(`「${subj}」容易原地打转`)
+    fixes.push(`主动改人/时间/方案，别在「${subj}」上空耗`)
   }
-  // 没有卦上实点时不覆盖模板里的【问题】【怎么做】
   if (!problems.length) return { problem: '', fix: '' }
   return {
     problem: problems.slice(0, 2).join('；'),
@@ -9528,9 +9575,9 @@ function buildJudgment(ctx) {
     choicePick,
     outcomeTone: tone
   })
-  // 成否类：用卦上实点补强「问题在哪里 / 怎么办可以改」
+  // 成否类：仅在适合时用卦上实点补强（且句句带所问主体）
   if (parsed.mode === 'yesno' && !guardedLevel) {
-    const gap = guaProblemAndFix(ctx, topic, primaryYong, fu, fanYin, fuYin, answerTone)
+    const gap = guaProblemAndFix(ctx, topic, primaryYong, fu, fanYin, fuYin, answerTone, parsed)
     if (gap.problem) {
       if (/【问题】/.test(reply)) {
         reply = reply.replace(/【问题】[^【]*/, `【问题】${gap.problem}。`)
@@ -9538,14 +9585,11 @@ function buildJudgment(ctx) {
         reply += `【问题】${gap.problem}。`
       }
     }
-    if (gap.fix) {
-      // 用卦上实点重写「怎么做」：先说具体改法，再点趋吉避凶
-      const how = `【怎么做】${gap.fix}。趋吉：按上面做。避凶：别硬顶、别一次押满。`
-      if (/【怎么做】/.test(reply)) {
-        reply = reply.replace(/【怎么做】[\s\S]*$/, how)
-      } else {
-        reply += how
-      }
+    if (gap.fix && /【怎么做】/.test(reply)) {
+      // 把卦上改法插在「趋吉」前，不整段覆盖，避免冲掉主体话
+      reply = reply.replace(/【怎么做】/, `【怎么做】${gap.fix}。`)
+    } else if (gap.fix) {
+      reply += `【怎么做】${gap.fix}。趋吉：围绕「${parsed.focus || '此事'}」按上面做。避凶：别硬顶。`
     }
   }
 
