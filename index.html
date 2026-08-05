@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-  <!-- liuyao-preview-build:2026-08-05T02:05:38Z -->
+  <!-- liuyao-preview-build:2026-08-05T02:07:58Z -->
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover" />
   <title>周易研习</title>
@@ -6460,19 +6460,19 @@ function safetyAdvice(parsed) {
   const domain = parsed && parsed.domain
   const focus = String((parsed && parsed.focus) || '')
   if (domain === 'health' || domain === 'pregnancy') {
-    return '现实校验：以医生和检查为准，卦不能代诊。'
+    return '现实校验：看病听医生和检查，卦不能当诊断。'
   }
   if (domain === 'invest' || domain === 'property') {
-    return '现实校验：先尽调，勿只据卦下注。'
+    return '现实校验：先尽调，别只凭卦下重注。'
   }
   if (domain === 'lawsuit') {
-    return '现实校验：依证据与律师意见，有危险即报警。'
+    return '现实校验：听证据和律师的；有危险先报警。'
   }
   if (domain === 'weather') {
-    return '现实校验：以官方预报为准。'
+    return '现实校验：天气听官方预报。'
   }
   if (domain === 'lost' && /寻人|人/.test(focus)) {
-    return '现实校验：先找人，危险即报警。'
+    return '现实校验：人先找，情况不对就报警。'
   }
   return ''
 }
@@ -6641,141 +6641,151 @@ function directReply(parsed, tone, level, extra) {
   if (parsed.mode === 'yesno') {
     const kind = parsed.yesKind || 'can'
     const domain = parsed.domain || 'general'
-    const dayRef = timeHint || ''
+    const dayRef = timeHint || '近段'
     const subj = focus || '此事'
-    // 短断：主体 + 结论 + 一句现况 + 一句怎么做（不再叠多层标题）
-    const line = (verdict, now, act) => `「${subj}」：${verdict}。${now}${act ? ` ${act}` : ''}`
 
     if (kind === 'occur') {
       const phrase = occurPhrase(domain, focus)
       if (domain === 'visit' || domain === 'seek') {
-        const who = domain === 'seek' ? '人来找' : '客人来'
+        const who = domain === 'seek' ? '有人来找' : '有客人来'
         if (tone === 'good') {
           return mild
-            ? line('偏会有', `${dayRef || '近段'}${who}象偏有，未必准时。`, '宜：留点接待时间。忌：整天空等。')
-            : line('会有', `${dayRef || '近段'}有${who}的象。`, '宜：备时间窗口。忌：钉死某一分钟。')
+            ? `问「${subj}」：${dayRef}多半会${who.replace(/^有/, '')}，但不一定准时。留点接待时间就好，不必整天空等。`
+            : `问「${subj}」：${dayRef}有${who}的意思，可以按这个准备，时间放宽一点，别钉死某一分钟。`
         }
         if (tone === 'bad') {
           return mild
-            ? line('偏不会', `${dayRef || '近段'}${who}象弱。`, '宜：正事照旧。忌：空等。')
-            : line('暂不会', `${dayRef || '近段'}暂看无${who}。`, '宜：忙正事。忌：干等。')
+            ? `问「${subj}」：${dayRef}${who}的象偏弱，正事照常做就行，别空等。`
+            : `问「${subj}」：${dayRef}暂看不会${who.replace(/^有/, '')}，该忙正事，不必特意候着。`
         }
-        return line('说不准', `${dayRef || '近段'}未明。`, '宜：两手准备。')
+        return `问「${subj}」：${dayRef}说不准会不会来，两手准备最稳。`
       }
       if (domain === 'weather') {
-        if (tone === 'good') return line('偏会有', `${dayRef || '近段'}「${phrase}」象偏有。`, '宜：备伞/改行程，看预报。')
-        if (tone === 'bad') return line('偏不会', `${dayRef || '近段'}「${phrase}」象弱。`, '宜：照常安排，看预报。')
-        return line('说不准', `「${phrase}」未定。`, '宜：对照预报。')
+        if (tone === 'good') return `问「${subj}」：${dayRef}「${phrase}」象偏有，备伞或改行程，并对照预报。`
+        if (tone === 'bad') return `问「${subj}」：${dayRef}「${phrase}」象偏弱，照常安排，临近再看预报。`
+        return `问「${subj}」：「${phrase}」还说不准，以官方预报为准，备一路案即可。`
       }
       if (domain === 'delivery' || domain === 'arrival') {
-        if (tone === 'good') return line('偏能到', `${dayRef || '近段'}有到达象。`, '宜：盯物流/行程。')
-        if (tone === 'bad') return line('偏难准时', '易延误。', '宜：放宽时间、备预案。')
-        return line('迟早未定', '信号交杂。', '宜：对照实况。')
+        if (tone === 'good') return `问「${subj}」：${dayRef}有到达的意思，盯着物流或行程就好。`
+        if (tone === 'bad') return `问「${subj}」：容易晚点，时间放宽一点，备个预案。`
+        return `问「${subj}」：迟早还说不准，对照物流或实况再定。`
       }
-      if (tone === 'good') return mild ? line('偏会发生', `「${phrase}」迹象偏有。`, '宜：按可能发生准备。') : line('会发生', `「${phrase}」偏实。`, '宜：按会发生安排。')
-      if (tone === 'bad') return mild ? line('偏不太会发生', `「${phrase}」象弱。`, '宜：少空等。') : line('不太会发生', `「${phrase}」偏弱。`, '宜：按不太发生安排。')
-      return line('是否发生未明', `「${phrase}」交杂。`, '宜：两边准备。')
+      if (tone === 'good') {
+        return mild
+          ? `问「${subj}」：${dayRef}「${phrase}」迹象偏有，按可能发生来准备就行。`
+          : `问「${subj}」：${dayRef}会发生「${phrase}」，按这个安排即可。`
+      }
+      if (tone === 'bad') {
+        return mild
+          ? `问「${subj}」：「${phrase}」象偏弱，不必空等。`
+          : `问「${subj}」：不太会发生「${phrase}」，少空等。`
+      }
+      return `问「${subj}」：「${phrase}」是否发生还不清楚，两边都留点准备。`
     }
 
     if (kind === 'find') {
       if (tone === 'good') {
         return mild
-          ? line('找得到（或费点事）', '有着落，线索未齐。', '宜：按最后动线快搜。忌：乱扩范围。')
-          : line('找得到', '偏能寻回。', '宜：原路+常去处+问人。忌：拖。')
+          ? `问「${subj}」：找得到，可能费点周折。按最后动线快搜，别漫无目的乱扩。`
+          : `问「${subj}」：找得到。原路、常去处问一圈，别拖。`
       }
       if (tone === 'bad') {
         return mild
-          ? line('不好找', '象弱，期望别太大。', '宜：挂失+收窄动线。忌：死等必找回。')
-          : line('难找回', '遮蔽重。', '宜：止损+备用。忌：无限死盯。')
+          ? `问「${subj}」：不好找，期望别太大。先挂失、收窄范围；别死等一定能找回。`
+          : `问「${subj}」：难找回。止损、备替代更稳妥，别无限期死盯。`
       }
-      return line('能否找到未定', '信号交杂。', '宜：再搜一轮。')
+      return `问「${subj}」：能不能找到还说不准，再搜一轮，记下线索。`
     }
 
     if (kind === 'should') {
       if (tone === 'good') {
         return mild
-          ? line('宜做（留余地）', '可做，别一次押满。', '宜：先做可收回的一步。忌：押死。')
-          : line('宜做', '条件够。', '宜：按步骤、留退路。忌：冒进。')
+          ? `问「${subj}」：可以做，但别一次押满。先走一步能收回的，留退路。`
+          : `问「${subj}」：宜做。条件够，按步骤来，别冒进。`
       }
       if (tone === 'bad') {
         return mild
-          ? line('不宜（先缓）', '把握不大。', '宜：先补条件。忌：硬做。')
-          : line('不宜', '现在代价高。', '宜：停、改、再评估。忌：死磕。')
+          ? `问「${subj}」：眼下不宜，把握不大。先补条件，别硬做。`
+          : `问「${subj}」：不宜。现在代价高，先停一停，改完再评估。`
       }
-      return line('宜否未定', '信息不够。', '宜：先补信息。忌：一次拍板。')
+      return `问「${subj}」：宜不宜还说不准，信息不够，先补信息再拍板。`
     }
     if (kind === 'suit') {
       if (tone === 'good') {
         return mild
-          ? line('合适（留余量）', '可推进，别铺满。', '宜：小范围先试。忌：忽略最坏损失。')
-          : line('合适', '可以办。', '宜：核对合同与退出。忌：盲目加码。')
+          ? `问「${subj}」：大致合适，先小范围试，别铺满；先想清楚最坏能亏多少。`
+          : `问「${subj}」：合适，可以办。合同和退出条件核清楚再加码。`
       }
       if (tone === 'bad') {
         return mild
-          ? line('不合适（宜改）', '先缓。', '宜：改期或改方案。忌：强上。')
-          : line('不合适', '现在别做。', '宜：停、改方案。忌：硬上。')
+          ? `问「${subj}」：不太合适，先缓一缓，改期或改方案比硬上强。`
+          : `问「${subj}」：不合适，现在别做，停下来改方案。`
       }
-      return line('合适与否未定', '还没拉开。', '宜：小试再定。')
+      return `问「${subj}」：合适不合适还没拉开，小试一步再定。`
     }
     if (kind === 'have') {
       if (parsed.negativeEvent) {
-        if (tone === 'good') return line('迹象偏有', `不能忽略「${subj}」的可能。`, '宜：核事实、留证据。忌：凭卦指认。')
-        if (tone === 'bad') return line('迹象偏弱', '不宜断定已有。', '宜：该查仍查。忌：用卦定罪。')
-        return line('有无未定', '只有疑点。', '宜：先查事实。忌：猜与武断。')
+        if (tone === 'good') {
+          return `问「${subj}」：风险迹象偏有，不能当没事。把能核实的先查清楚、留好证据；别凭卦指认具体人。`
+        }
+        if (tone === 'bad') {
+          return `问「${subj}」：迹象偏弱，不宜断定已有。该防的仍要防，也别拿一卦给人定罪。`
+        }
+        return `问「${subj}」：有没有还说不准，只有疑点。先查事实，别猜、别武断。`
       }
       if (domain === 'emotion' || /感情|心意|喜欢|爱/.test(subj)) {
         if (tone === 'good') {
           return mild
-            ? line('偏有', '有回应迹象，未持续落实。', '宜：用见面/联系验证。忌：逼问、押满。')
-            : line('有', '偏实，可按有来看。', '宜：有回馈再加投入。忌：一厢情愿。')
+            ? `问「${subj}」：偏有一点，对方有回应，但还没落到持续行动上。见面、联系这些实在的，比逼问更管用；别一次押满。`
+            : `问「${subj}」：有。可以按「有」来看，对方有回馈再加投入，别一厢情愿往里砸。`
         }
         if (tone === 'bad') {
           return mild
-            ? line('偏无', '迹象不足。', '宜：看对方是否主动。忌：无效付出。')
-            : line('无', '偏虚。', '宜：短观察期。忌：死等硬耗。')
+            ? `问「${subj}」：偏无，迹象不够，别当成已经有了。先看对方主不主动；无效付出可以先停停。`
+            : `问「${subj}」：无，眼下偏虚。设几天观察期，别死等、别硬耗。`
         }
-        return line('有无未定', '信号乱。', '宜：看行动再定。')
+        return `问「${subj}」：有没有还乱，先看行动再定，别急着下生死结论。`
       }
       if (tone === 'good') {
         return mild
-          ? line('偏有', '有苗头，未落实。', '宜：跟进验证。忌：当已到手。')
-          : line('有', '偏实。', '宜：抓住窗口推进。忌：一次押死。')
+          ? `问「${subj}」：偏有苗头，还没落实。跟进验证一下，别当已经到手。`
+          : `问「${subj}」：有，偏实。窗口在的话抓紧推进，别一次押死。`
       }
       if (tone === 'bad') {
         return mild
-          ? line('偏无', '迹象不足。', '宜：备无的预案。忌：一厢情愿。')
-          : line('无', '偏虚。', '宜：改条件或另寻。忌：空等。')
+          ? `问「${subj}」：偏无，迹象不足。先按「没有」做预案，别一厢情愿。`
+          : `问「${subj}」：无，偏虚。改条件或另寻，别空等。`
       }
-      return line('有无未定', '信号交杂。', '宜：短观察验证。')
+      return `问「${subj}」：有没有还说不准，短观察、用事实验证。`
     }
 
     // 能不能 / 成不成
-    const when = timeHint ? `${timeHint}，` : ''
+    const when = timeHint ? `${timeHint}` : '眼下'
     if (tone === 'good') {
       return mild
-        ? line('行（还差一点）', `${when}大体行，条件未齐。`, '宜：补最缺一环，小步推。忌：硬闯、一次押满。')
-        : line('行', `${when}现在行，可办。`, '宜：盯节点推进。忌：急躁、乱来。')
+        ? `问「${subj}」：行，但还差一点。${when}大体能成，条件没齐，别当已经办成了。先把最缺的一环补上，小步往前；别硬闯，也别一次押满。`
+        : `问「${subj}」：行。${when}可以按「行」来办，盯着关键节点推进就好；别急躁、别乱来，留点退路。`
     }
     if (tone === 'bad') {
       return mild
-        ? line('不行（眼下难）', `${when}现在难，别硬推。`, '宜：改条件/换时机再办。忌：死磕。')
-        : line('不行', `${when}阻力大，别强求。`, '宜：止损、补条件后再动。忌：逆势加码。')
+        ? `问「${subj}」：眼下不行，不是永远不行。现在难，别硬推；改条件、换个时机再办，比死磕强。`
+        : `问「${subj}」：不行。阻力大，先别强求；止损、把条件补齐再动，逆势里别加码。`
     }
-    return line('暂定不了', `${when}行与不行都有可能。`, '宜：补关键一环再验证。忌：下死结论。')
+    return `问「${subj}」：暂时说不准。行与不行都有可能，先补最关键的一环验证一下，别急着下死结论。`
   }
 
-  // 走势类：短句
+  // 走势类
   if (tone === 'good') {
     return mild
-      ? `${head}「${focus}」偏顺，可推，未满。宜：守正推进。忌：躁进。`
-      : `${head}「${focus}」偏好。宜：顺势有节。忌：亢进。`
+      ? `${head}「${focus}」偏顺，还能再推一把，但还没满。稳着来，别躁进。`
+      : `${head}「${focus}」走势偏好，顺势做就好，别做过了头。`
   }
   if (tone === 'bad') {
     return mild
-      ? `${head}「${focus}」偏逆。宜：止损改条件。忌：硬顶。`
-      : `${head}「${focus}」偏逆。宜：先退后谋。忌：逆势硬争。`
+      ? `${head}「${focus}」有点逆，先止损、改条件，别硬顶。`
+      : `${head}「${focus}」偏逆，先退后谋，别跟逆势硬争。`
   }
-  return `${head}「${focus}」两可。宜：先备后动。`
+  return `${head}「${focus}」两可，先备后动，看哪边条件先变。`
 }
 
 function guaDirName(gua) {
@@ -6861,62 +6871,62 @@ function yesNoAdvice(parsed, tone) {
   const kind = parsed.yesKind || 'can'
   const domain = parsed.domain || ''
   const time = parsed.timeHint || '近段'
-  // 建议从简：一句宜 + 一句忌；答复里已有主体结论，此处不重复铺陈
+  // 口语建议；主答复已说结论，这里补一句怎么做即可
   if (domain === 'health' || domain === 'pregnancy') {
-    return `宜：整理症状与检查，找医生评估。忌：按卦停药、延误就医。`
+    return '症状和检查整理好找医生，别按卦停药或拖着不看。'
   }
   if (domain === 'lawsuit') {
-    return `宜：留证据、核时限、问律师。忌：只凭卦定输赢。`
+    return '证据和时限先收齐，该问律师就问；别只凭卦判输赢。'
   }
   if (domain === 'invest' || domain === 'property') {
-    return `宜：核现金流、合同、最坏损失。忌：未尽调就重仓。`
+    return '现金流、合同和最坏能亏多少先算清，没尽调别重仓。'
   }
   if (domain === 'lost' && /寻人|人/.test(String(focus))) {
-    return '宜：马上联络、核对行程；危险即报警。忌：干等卦象。'
+    return '马上联络亲友、核对行程；有危险就报警，别干等卦。'
   }
   if (parsed.negativeEvent) {
-    if (tone === 'good') return `宜：核事实、留证据。忌：凭卦指认他人。`
-    if (tone === 'bad') return `宜：该防仍防。忌：用一卦给人定罪。`
-    return `宜：先查事实。忌：猜与武断。`
+    if (tone === 'good') return '能核实的先查、证据留好；别拿卦去指认谁。'
+    if (tone === 'bad') return '该防的还是防着，也别用一卦给人定罪。'
+    return '先把事实查清，别瞎猜、别武断。'
   }
   if (kind === 'occur') {
     if (domain === 'visit' || domain === 'seek') {
-      if (tone === 'good') return `宜：${time}留接待窗口。忌：空等过久。`
-      if (tone === 'bad') return `宜：正事照旧。忌：特意候客。`
-      return `宜：两手准备。`
+      if (tone === 'good') return `${time}留点接待时间就行，别空等太久。`
+      if (tone === 'bad') return '正事照旧做，不必特意候客。'
+      return '有客也能接、无客也不耽误，两手准备。'
     }
     if (domain === 'weather') {
-      if (tone === 'good') return '宜：备伞/改行程，看预报。'
-      if (tone === 'bad') return '宜：照常安排，看预报。'
-      return '宜：备一路案，以预报为准。'
+      if (tone === 'good') return '备伞或改行程，顺手看一眼预报。'
+      if (tone === 'bad') return '照常安排，临近看预报就行。'
+      return '备一路案，听官方预报。'
     }
-    if (tone === 'good') return '宜：按可能发生准备。'
-    if (tone === 'bad') return '宜：少空等。'
-    return '宜：两边都留准备。'
+    if (tone === 'good') return '按「可能发生」留点余量。'
+    if (tone === 'bad') return '少空等，照常过。'
+    return '两边都留点准备。'
   }
   if (kind === 'find') {
-    if (tone === 'good') return `宜：原路+常去处+问人快搜。忌：拖。`
-    if (tone === 'bad') return `宜：挂失/备用。忌：无限死盯。`
-    return `宜：再搜一轮。`
+    if (tone === 'good') return '原路、常去处、知情者尽快问一圈，别拖。'
+    if (tone === 'bad') return '挂失、备用先做起来，别无限期死盯。'
+    return '再搜一轮，有线索再往下想。'
   }
   if (kind === 'should') {
-    if (tone === 'good') return `宜：做「${focus}」时先走可收回一步。忌：一次押死。`
-    if (tone === 'bad') return `宜：先别做，补条件再议。忌：硬做。`
-    return `宜：补信息再拍板。`
+    if (tone === 'good') return `若做「${focus}」，先走能收回的一步，别一次押死。`
+    if (tone === 'bad') return `先别做「${focus}」，条件够了再议。`
+    return '信息补齐再拍板。'
   }
   if (kind === 'suit') {
-    if (tone === 'good') return `宜：小步试「${focus}」。忌：忽略最坏损失。`
-    if (tone === 'bad') return `宜：改期或改方案。忌：强上。`
-    return `宜：小试再定。`
+    if (tone === 'good') return `「${focus}」可以小步试，先想清最坏能亏多少。`
+    if (tone === 'bad') return `「${focus}」改期或改方案，别硬上。`
+    return '小试一步再决定铺不铺开。'
   }
   if (kind === 'have') {
-    if (tone === 'good') return `宜：用行动验证，有回馈再加投入。忌：逼问、押满。`
-    if (tone === 'bad') return `宜：看对方是否主动。忌：空等硬耗。`
-    return `宜：短观察，看行动。`
+    if (tone === 'good') return '用行动验证，对方有回馈再加投入；别逼问，也别一头扎进去。'
+    if (tone === 'bad') return '看对方主不主动；空等、硬耗没必要。'
+    return '观察几天，看行动再定。'
   }
-  if (tone === 'good') return `宜：盯「${focus}」关键节点推进。忌：拖、一次押满。`
-  if (tone === 'bad') return `宜：停硬推，改条件后再办「${focus}」。忌：逆势死磕。`
-  return `宜：补「${focus}」最缺一环再验证。忌：下死结论。`
+  if (tone === 'good') return `「${focus}」相关节点盯紧，该办的办；别拖，也别一次押满。`
+  if (tone === 'bad') return `先停对「${focus}」的硬推，改条件或换时机再来；逆势里别加码。`
+  return `先补「${focus}」最缺的那一块，验证一下再定，别急着下死结论。`
 }
 
 /**
@@ -9345,24 +9355,24 @@ function choicePickFromParsed(parsed, tone) {
 }
 
 function philosophyGuidance(tone, focus, parsed) {
-  // 短收束（保留测试关键词前缀）
-  if (parsed && parsed.negativeEvent) return '明理之道：先核事实，勿据卦指认。'
+  // 自然短收束（保留测试所需关键词）
+  if (parsed && parsed.negativeEvent) return '明理之道：把事实查清，别急着给人定性。'
   if (parsed && (parsed.domain === 'health' || parsed.domain === 'pregnancy')) {
-    return '明理之道：卦可安神，不能代医。'
+    return '明理之道：卦能安心，看病还是听医生的。'
   }
-  if (parsed && parsed.domain === 'weather') return '明理之道：以预报为准。'
+  if (parsed && parsed.domain === 'weather') return '明理之道：天气以预报为准。'
   if (parsed && parsed.domain === 'lost' && /寻人|人/.test(String(parsed.focus || ''))) {
-    return '寻人之要：先找人、必要时报警。'
+    return '寻人之要：先找人，情况不对就报警。'
   }
-  if (parsed && parsed.mode === 'choice') return '取舍之道：先小步试，再重注。'
+  if (parsed && parsed.mode === 'choice') return '取舍之道：先小步试，再决定押多重。'
   if (parsed && parsed.mode === 'yesno') {
-    if (tone === 'good') return '趋吉之道：守正有节。'
-    if (tone === 'bad') return '避凶之道：先退后谋。'
-    return '指迷之要：小步验证。'
+    if (tone === 'good') return '趋吉之道：稳着办，别做过了头。'
+    if (tone === 'bad') return '避凶之道：先收一收，再想怎么转。'
+    return '指迷之要：先迈一小步看清楚。'
   }
-  if (tone === 'good') return `趋吉之道：办「${focus}」守规矩、留余地。`
-  if (tone === 'bad') return `避凶之道：先止损，别硬顶。`
-  return `指迷之要：小步验证再定。`
+  if (tone === 'good') return `趋吉之道：「${focus}」顺势做，规矩和退路留着。`
+  if (tone === 'bad') return `避凶之道：「${focus}」先止损，别硬顶。`
+  return `指迷之要：「${focus}」小步看清再定。`
 }
 
 /**
