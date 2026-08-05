@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-  <!-- liuyao-preview-build:2026-08-05T03:30:44Z -->
+  <!-- liuyao-preview-build:2026-08-05T03:39:08Z -->
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover" />
   <title>周易研习</title>
@@ -6555,177 +6555,178 @@ function subjectKind(parsed) {
  */
 function canReplyBySubject(subj, kind, tone, mild, timeHint) {
   const when = timeHint || '眼下'
+  // 结论先亮：卦吉就说行、卦凶就说不行；mild 只补「哪一环未满/略有转机」，不改结论词
   const pack = {
     paper: {
       good: mild
-        ? `问「${subj}」：有希望接收，但还差临门一脚。${when}稿子站得住，审稿或修改意见还没完全合上。先盯最可能被拒的那条质疑补证据、改表述，别平均润色全文；也别以为「差不多了」就不回修。`
-        : `问「${subj}」：能过这一关。${when}接收偏顺，按审稿意见一项项闭环改就好；别拖回复、别敷衍修改。`,
+        ? `问「${subj}」：行。${when}能接收，但还有一环没合上（审稿意见或证据）。先盯最可能被拒的那条质疑补证据、改表述，别平均润色；别拖回修。`
+        : `问「${subj}」：行。${when}接收顺，按审稿意见一项项闭环改就好；别拖回复、别敷衍修改。`,
       bad: mild
-        ? `问「${subj}」：现在难接收，不是永无希望。关键质疑或门槛还卡着，硬投、硬催没用。先把致命问题改掉或换策略（补实验、缩结论、换刊），比反复小修强。`
-        : `问「${subj}」：眼下不容易接收。阻力大，先别死磕这一个结果；把硬伤补齐或调整投稿策略再来。`,
-      mid: `问「${subj}」：接不接收还说不准。稿件和评审门槛在拉扯，先补最硬的那条证据链，再等消息。`
+        ? `问「${subj}」：不行。${when}难接收，关键质疑或门槛还卡着；略有转机也要先改硬伤。硬投、硬催没用，先补致命问题或换策略（补实验、缩结论、换刊）。`
+        : `问「${subj}」：不行。阻力大，这轮接收不成。先别死磕这一个结果，把硬伤补齐或调整投稿策略再来。`,
+      mid: `问「${subj}」：未定。稿件和评审门槛在拉扯，先补最硬的那条证据链，再等消息。`
     },
     experiment: {
       good: mild
-        ? `问「${subj}」：实验做得成，但条件还没齐。${when}方法大方向对，关键变量或材料还差一块。先验证最核心假设，留好失败判据，别全面铺开。`
-        : `问「${subj}」：实验偏能做成。${when}按既定方案推进，关键步骤做扎实；别急着扩规模。`,
+        ? `问「${subj}」：行。${when}做得成，但关键变量或材料还差一块。先验证核心假设，留好失败判据，别全面铺开。`
+        : `问「${subj}」：行。${when}按既定方案推进，关键步骤做扎实；别急着扩规模。`,
       bad: mild
-        ? `问「${subj}」：现在难做成。方法或条件有缺口，硬做只会耗材料。先改方案、补条件，再开一轮。`
-        : `问「${subj}」：眼下做不成。先停无效重复，把关键瓶颈找出来再动。`,
-      mid: `问「${subj}」：成不成还两可。先做一步可回退的预实验验证关键假设。`
+        ? `问「${subj}」：不行。方法或条件有缺口，硬做只会耗材料；先改方案、补条件再开。`
+        : `问「${subj}」：不行。眼下做不成。先停无效重复，把关键瓶颈找出来再动。`,
+      mid: `问「${subj}」：未定。先做一步可回退的预实验验证关键假设。`
     },
     project: {
       good: mild
-        ? `问「${subj}」：中标/获批有希望，材料或关系还差一环。${when}别当已定，先把标书/申请里最弱的一节补强，并确认评审节点。`
-        : `问「${subj}」：偏能中标或获批。${when}按节点交材料、对接评审要求；别掉以轻心。`,
+        ? `问「${subj}」：行。${when}能中标/获批，但材料或关系还差一环。先把最弱一节补强，确认评审节点；别当已定。`
+        : `问「${subj}」：行。${when}按节点交材料、对接评审要求；别掉以轻心。`,
       bad: mild
-        ? `问「${subj}」：现在难。竞争或材料门槛卡着，硬冲耗力。先补硬伤、看清评审口径，再投。`
-        : `问「${subj}」：眼下希望不大。先止损，改方案或等下一批次。`,
-      mid: `问「${subj}」：还说不准。先把材料硬伤清掉，再谈运气。`
+        ? `问「${subj}」：不行。竞争或材料门槛卡着，硬冲耗力。先补硬伤、看清评审口径再投。`
+        : `问「${subj}」：不行。希望不大。先止损，改方案或等下一批次。`,
+      mid: `问「${subj}」：未定。先把材料硬伤清掉，再谈运气。`
     },
     exam: {
       good: mild
-        ? `问「${subj}」：能过，但还差一口气。${when}基础在，薄弱项或临场/程序还可能拖后腿。优先补最拉分的那一块，报名材料、时间规则别翻车。`
-        : `问「${subj}」：能过。${when}按复习节奏走，规范答题、守时；别临时开新战线。`,
+        ? `问「${subj}」：行。${when}能过，但薄弱项或临场/程序还可能拖分。优先补最拉分的那一块，报名材料、时间规则别翻车。`
+        : `问「${subj}」：行。${when}能过。按复习节奏走，规范答题、守时；别临时开新战线。`,
       bad: mild
-        ? `问「${subj}」：眼下悬。短板明显，硬刷无效项没用。集中火力补最致命的知识点/题型，程序别出错。`
-        : `问「${subj}」：现在难过。先认清短板，调策略；别死磕无效努力。`,
-      mid: `问「${subj}」：过不过两可。先攻最影响得分的那一环，再看整体。`
+        ? `问「${subj}」：不行。短板明显，硬刷无效项没用。集中火力补最致命的知识点/题型，程序别出错。`
+        : `问「${subj}」：不行。现在难过。先认清短板，调策略；别死磕无效努力。`,
+      mid: `问「${subj}」：未定。先攻最影响得分的那一环，再看整体。`
     },
     document: {
       good: mild
-        ? `问「${subj}」：办得下，材料或审核节点还差一点。${when}按清单补件，盯审批进度；别漏交、别超期。`
-        : `问「${subj}」：能办下来。${when}材料齐、按节点跟；别拖补件。`,
+        ? `问「${subj}」：行。${when}办得下，但材料或审核节点还差一点。按清单补件，盯审批进度；别漏交、别超期。`
+        : `问「${subj}」：行。${when}能办下来。材料齐、按节点跟；别拖补件。`,
       bad: mild
-        ? `问「${subj}」：现在卡着，材料或规则不合。先按拒因改，别盲目重交。`
-        : `问「${subj}」：眼下难办。先弄清卡在哪条规则，补齐再送。`,
-      mid: `问「${subj}」：过不过还看材料与审核。先把清单和时限核死。`
+        ? `问「${subj}」：不行。材料或规则不合，卡着。先按拒因改，别盲目重交。`
+        : `问「${subj}」：不行。眼下难办。先弄清卡在哪条规则，补齐再送。`,
+      mid: `问「${subj}」：未定。先把清单和时限核死。`
     },
     career: {
       good: mild
-        ? `问「${subj}」：有希望，名分或签字还没落。${when}别把口头认可当升职。先确认决策人、时间表和可量化业绩，再推进。`
+        ? `问「${subj}」：行。${when}能成，但名分或签字还没落。别把口头认可当结果。先确认决策人、时间表和可量化业绩，再推进。`
         : `问「${subj}」：行。${when}可以往上推，业绩和汇报递到能拍板的人手里；别只停在态度好。`,
       bad: mild
-        ? `问「${subj}」：眼下难。岗位或决策还没接上，硬争耗关系。先补业绩节点、看清编制/流程，再谈。`
+        ? `问「${subj}」：不行。岗位或决策还没接上，硬争耗关系。先补业绩节点、看清编制/流程，再谈。`
         : `问「${subj}」：不行。阻力大，先稳住本职，改条件或等窗口，别硬顶。`,
-      mid: `问「${subj}」：成不成还看决策节点。先把能证明的业绩和流程走清楚。`
+      mid: `问「${subj}」：未定。先把能证明的业绩和流程走清楚。`
     },
     receivable: {
       good: mild
-        ? `问「${subj}」：款有望回来，对方或节点还拖着。${when}别当已到账。书面催、对账、约付款日；别只口头问。`
-        : `问「${subj}」：回款偏顺。${when}按约定跟节点，单据留好。`,
+        ? `问「${subj}」：行。${when}款回得来，但对方或节点还拖着。别当已到账。书面催、对账、约付款日；别只口头问。`
+        : `问「${subj}」：行。${when}回款顺，按约定跟节点，单据留好。`,
       bad: mild
-        ? `问「${subj}」：眼下难回。对方动力不足，硬催易僵。先对账、留痕，必要时走程序，别空等一句「马上付」。`
-        : `问「${subj}」：难回。先止损、留证据，评估催收或法律途径，别把希望全押在态度上。`,
-      mid: `问「${subj}」：回不回还两可。先把账和凭证理清，再定催还是等。`
+        ? `问「${subj}」：不行。${when}难回，对方动力不足。先对账、留痕，必要时走程序，别空等「马上付」。`
+        : `问「${subj}」：不行。难回。先止损、留证据，评估催收或法律途径，别把希望全押在态度上。`,
+      mid: `问「${subj}」：未定。先把账和凭证理清，再定催还是等。`
     },
     invest: {
       good: mild
-        ? `问「${subj}」：象偏顺，不等于稳赚。${when}先定最坏能亏多少和退出条件，再谈加仓。`
-        : `问「${subj}」：象偏顺，仍要风控。仓位和止损先设好。`,
+        ? `问「${subj}」：象顺。${when}可做，不等于稳赚。先定最坏能亏多少和退出条件，再谈加仓。`
+        : `问「${subj}」：象顺。${when}可推进，仍要风控；仓位和止损先设好。`,
       bad: mild
-        ? `问「${subj}」：风险偏大。${when}别加码，先减风险、核逻辑。`
-        : `问「${subj}」：不宜重仓。先止损或观望，别逆势加码。`,
-      mid: `问「${subj}」：得失未分。小仓验证，别一把梭。`
+        ? `问「${subj}」：象逆。风险偏大。${when}别加码，先减风险、核逻辑。`
+        : `问「${subj}」：象逆。不宜重仓。先止损或观望，别逆势加码。`,
+      mid: `问「${subj}」：未定。小仓验证，别一把梭。`
     },
     partner: {
       good: mild
-        ? `问「${subj}」：合作谈得拢，权益或分工还没写清。${when}先把权责、分成、退出写进约定，再深绑。`
-        : `问「${subj}」：合作偏顺。对方愿配合，条款谈清楚再开工。`,
+        ? `问「${subj}」：行。合作谈得拢，但权益或分工还没写清。先把权责、分成、退出写进约定，再深绑。`
+        : `问「${subj}」：行。对方愿配合，条款谈清楚再开工。`,
       bad: mild
-        ? `问「${subj}」：现在难合。意见或利益拧着，硬推易撕。先谈清分歧，谈不拢就止损。`
-        : `问「${subj}」：不宜硬合伙。先停，避免更大牵扯。`,
-      mid: `问「${subj}」：合不合还看条款与信任。先小范围试合作。`
+        ? `问「${subj}」：不行。意见或利益拧着，硬推易撕。先谈清分歧，谈不拢就止损。`
+        : `问「${subj}」：不行。不宜硬合伙。先停，避免更大牵扯。`,
+      mid: `问「${subj}」：未定。先小范围试合作。`
     },
     pregnancy: {
       good: mild
-        ? `问「${subj}」：象偏有希望，仍须听产检和医生，别拿卦当确认。规律随访、调作息。`
-        : `问「${subj}」：象偏顺，按医嘱产检即可，卦不能代替检查。`,
+        ? `问「${subj}」：卦象偏顺。仍须听产检和医生，别拿卦当确认。规律随访、调作息。`
+        : `问「${subj}」：卦象偏顺。按医嘱产检即可，卦不能代替检查。`,
       bad: mild
-        ? `问「${subj}」：象偏难，先别焦虑硬断。以检查为准，该复查复查。`
-        : `问「${subj}」：象偏逆，务必遵医嘱，勿自行停药或延误。`,
-      mid: `问「${subj}」：卦上未定，一切以检查和医生意见为准。`
+        ? `问「${subj}」：卦象偏逆。以检查为准，该复查复查，先别硬断。`
+        : `问「${subj}」：卦象偏逆。务必遵医嘱，勿自行停药或延误。`,
+      mid: `问「${subj}」：卦象未定。一切以检查和医生意见为准。`
     },
     health: {
       good: mild
-        ? `问「${subj}」：象偏缓，仍要看病、复查，别自行停药。`
-        : `问「${subj}」：象偏稳，按医嘱随访即可。`,
+        ? `问「${subj}」：卦象偏缓。仍要看病、复查，别自行停药。`
+        : `问「${subj}」：卦象偏稳。按医嘱随访即可。`,
       bad: mild
-        ? `问「${subj}」：象提醒重视，有症状及时就医，别拖。`
-        : `问「${subj}」：象偏重，尽快专业评估，别靠卦硬扛。`,
-      mid: `问「${subj}」：轻重未定，以检查为准。`
+        ? `问「${subj}」：卦象偏重。有症状及时就医，别拖。`
+        : `问「${subj}」：卦象偏重。尽快专业评估，别靠卦硬扛。`,
+      mid: `问「${subj}」：卦象未定。以检查为准。`
     },
     lawsuit: {
       good: mild
-        ? `问「${subj}」：程序上有承接，不能当已赢。证据、时限先抓牢，听律师的。`
-        : `问「${subj}」：象略有利，仍靠证据和程序，别松劲。`,
+        ? `问「${subj}」：卦象偏有利。不能当已赢。证据、时限先抓牢，听律师的。`
+        : `问「${subj}」：卦象偏有利。仍靠证据和程序，别松劲。`,
       bad: mild
-        ? `问「${subj}」：压力偏大。先保证据与时限，策略听专业意见。`
-        : `问「${subj}」：象偏不利。收缩风险，勿只凭声势硬拼。`,
-      mid: `问「${subj}」：输赢未定，证据和程序比心态重要。`
+        ? `问「${subj}」：卦象偏不利。压力大。先保证据与时限，策略听专业意见。`
+        : `问「${subj}」：卦象偏不利。收缩风险，勿只凭声势硬拼。`,
+      mid: `问「${subj}」：卦象未定。证据和程序比心态重要。`
     },
     property: {
       good: mild
-        ? `问「${subj}」：交易象偏顺，合同和资金链还要核。别只看价格顺眼。`
-        : `问「${subj}」：象偏可做，尽调做完再签。`,
+        ? `问「${subj}」：卦象偏可做。合同和资金链还要核，别只看价格顺眼。`
+        : `问「${subj}」：卦象偏可做。尽调做完再签。`,
       bad: mild
-        ? `问「${subj}」：眼下不宜急。风险点先查清。`
-        : `问「${subj}」：不宜现在做，先停、再核。`,
-      mid: `问「${subj}」：适不适合还看尽调结果。`
+        ? `问「${subj}」：卦象偏不宜。先缓，风险点查清再说。`
+        : `问「${subj}」：卦象偏不宜。现在别做，先停、再核。`,
+      mid: `问「${subj}」：卦象未定。看尽调结果再定。`
     },
     emotion: {
       good: mild
-        ? `问「${subj}」：有希望，但还没落定。${when}双方有靠近的意思，旧问题或行动还没接上。先谈清一件具体事，约好可验证的下一步；别只靠感觉硬推。`
+        ? `问「${subj}」：行。${when}能往一起走，但旧问题或行动还没接上。先谈清一件具体事，约好可验证的下一步；对方有连续行动再加投入。`
         : `问「${subj}」：行。${when}可以往一起走，对方有回馈再加投入；别一厢情愿一次押满。`,
       bad: mild
-        ? `问「${subj}」：眼下难。心意或行动没对齐，硬追易耗。先看对方主不主动，无效付出可以先停停。`
+        ? `问「${subj}」：不行。心意或行动没对齐，硬追易耗。先看对方主不主动，无效付出先停停。`
         : `问「${subj}」：不行。阻力大，先收着，别死磕一个结果。`,
-      mid: `问「${subj}」：还说不准。先看对方连续行动，再决定加不加大投入。`
+      mid: `问「${subj}」：未定。先看对方连续行动，再决定加不加大投入。`
     },
     family: {
       good: mild
-        ? `问「${subj}」：能缓过来，但还差沟通或具体安排。${when}别一次摊开所有矛盾，先处理最容易引爆的那一件。`
-        : `问「${subj}」：偏能处理好。${when}把话说清楚、约定落到行动上就行。`,
+        ? `问「${subj}」：行。能缓过来，但还差沟通或具体安排。别一次摊开所有矛盾，先处理最容易引爆的那一件。`
+        : `问「${subj}」：行。把话说清楚、约定落到行动上就行。`,
       bad: mild
-        ? `问「${subj}」：眼下难和。硬碰只会更僵。先降温，找双方都能接受的一步。`
-        : `问「${subj}」：现在不宜硬推。先收情绪、止冲突，再谈解决。`,
-      mid: `问「${subj}」：还两可。先弄清各方底线，再小步沟通。`
+        ? `问「${subj}」：不行。眼下难和，硬碰更僵。先降温，找双方都能接受的一步。`
+        : `问「${subj}」：不行。不宜硬推。先收情绪、止冲突，再谈解决。`,
+      mid: `问「${subj}」：未定。先弄清各方底线，再小步沟通。`
     },
     social: {
       good: mild
-        ? `问「${subj}」：多半能成，时间或行程还可能变。${when}主动确认一句，别干等。`
-        : `问「${subj}」：偏能成。${when}按约定准备，时间放宽一点。`,
+        ? `问「${subj}」：行。${when}能成，时间或行程还可能变。主动确认一句，别干等。`
+        : `问「${subj}」：行。${when}按约定准备，时间放宽一点。`,
       bad: mild
-        ? `问「${subj}」：象偏弱，别空等。正事照做，有确切回复再动。`
-        : `问「${subj}」：眼下难落实。先别特意为候，确认了再安排。`,
-      mid: `问「${subj}」：还说不准。两手准备，主动问清行程最稳。`
+        ? `问「${subj}」：不行。落实不了。正事照做，有确切回复再动。`
+        : `问「${subj}」：不行。先别特意为候，确认了再安排。`,
+      mid: `问「${subj}」：未定。两手准备，主动问清行程最稳。`
     },
     lost: {
       good: mild
-        ? `问「${subj}」：找得到，可能费点周折。按最后动线快搜，别漫无目的乱扩。`
+        ? `问「${subj}」：找得到。可能费点周折。按最后动线快搜，别漫无目的乱扩。`
         : `问「${subj}」：找得到。原路、常去处问一圈，别拖。`,
       bad: mild
-        ? `问「${subj}」：不好找。先挂失、收窄范围，别死等一定能回。`
-        : `问「${subj}」：难找回。止损、备替代更稳妥。`,
-      mid: `问「${subj}」：能不能找到还说不准，再搜一轮，记下线索。`
+        ? `问「${subj}」：找不回。线索弱。先挂失、收窄范围，别死等一定能回。`
+        : `问「${subj}」：找不回。止损、备替代更稳妥。`,
+      mid: `问「${subj}」：未定。再搜一轮，记下线索。`
     },
     travel: {
       good: mild
-        ? `问「${subj}」：走得成，途中可能有小变数。${when}票务、接应先核清，留替代路线。`
-        : `问「${subj}」：偏顺。${when}按计划走，临近再核天气和交通。`,
+        ? `问「${subj}」：行。${when}走得成，途中可能有小变数。票务、接应先核清，留替代路线。`
+        : `问「${subj}」：行。${when}按计划走，临近再核天气和交通。`,
       bad: mild
-        ? `问「${subj}」：眼下不顺，延误或阻碍偏多。能改期就改，硬赶不划算。`
-        : `问「${subj}」：不宜硬走。先缓，把风险点查清再定。`,
-      mid: `问「${subj}」：顺不顺还两可。先核实票务与接应，备一路案。`
+        ? `问「${subj}」：不行。延误或阻碍偏多。能改期就改，硬赶不划算。`
+        : `问「${subj}」：不行。不宜硬走。先缓，把风险点查清再定。`,
+      mid: `问「${subj}」：未定。先核实票务与接应，备一路案。`
     },
     general: {
       good: mild
-        ? `问「${subj}」：行，还差一点。${when}大体能成，关键条件没齐。先补最相关的那一块，小步推进；别硬闯、别一次押满。`
+        ? `问「${subj}」：行。${when}能成，但关键条件还没齐。先补最相关的那一块，小步推进；别硬闯、别一次押满。`
         : `问「${subj}」：行。${when}可以办，盯着关键步骤往前；别急躁、留退路。`,
       bad: mild
-        ? `问「${subj}」：眼下不行，不是永远不行。先改条件或换时机，别死磕。`
+        ? `问「${subj}」：不行。${when}难成。先改条件或换时机，别死磕；略有转机也要等条件齐。`
         : `问「${subj}」：不行。阻力大，先止损，条件齐了再动。`,
-      mid: `问「${subj}」：暂时说不准。先补最关键的一环验证一下。`
+      mid: `问「${subj}」：未定。先补最关键的一环验证一下。`
     }
   }
   const p = pack[kind] || pack.general
@@ -6950,39 +6951,39 @@ function jixiongReplyBySubject(subj, kind, tone, mild, timeHint) {
   const about = when ? `${when}「${subj}」` : `「${subj}」`
   const pack = {
     paper: {
-      good: mild ? `问吉凶：${about}小吉——稿子有戏，但审稿或修改还可能卡一下；别当已接收。` : `问吉凶：${about}偏吉——整体顺，按意见闭环改就好。`,
-      bad: mild ? `问吉凶：${about}不太顺——关键质疑还在，宜先改硬伤，别硬催。` : `问吉凶：${about}偏凶——阻力大，先止损或换策略。`,
-      mid: `问吉凶：${about}吉凶未分——先补最硬的一环，再观消息。`
+      good: mild ? `问吉凶：${about}吉。稿子能过，但审稿或修改还有一环要合上；别当已接收。` : `问吉凶：${about}吉。整体顺，按意见闭环改就好。`,
+      bad: mild ? `问吉凶：${about}凶。关键质疑还在，先改硬伤，别硬催。` : `问吉凶：${about}凶。阻力大，先止损或换策略。`,
+      mid: `问吉凶：${about}平。先补最硬的一环，再观消息。`
     },
     exam: {
-      good: mild ? `问吉凶：${about}小吉——能打，但薄弱项或临场还可能拖分；别松劲。` : `问吉凶：${about}偏吉——整体顺，按节奏复习、守规范即可。`,
-      bad: mild ? `问吉凶：${about}不太顺——短板明显，宜集中补致命项。` : `问吉凶：${about}偏凶——压力大，先调策略，别无效硬刷。`,
-      mid: `问吉凶：${about}吉凶未分——先攻最拉分的一环。`
+      good: mild ? `问吉凶：${about}吉。能打，薄弱项或临场还可能拖分；别松劲。` : `问吉凶：${about}吉。整体顺，按节奏复习、守规范即可。`,
+      bad: mild ? `问吉凶：${about}凶。短板明显，宜集中补致命项。` : `问吉凶：${about}凶。压力大，先调策略，别无效硬刷。`,
+      mid: `问吉凶：${about}平。先攻最拉分的一环。`
     },
     career: {
-      good: mild ? `问吉凶：${about}小吉——有机会，名分或签字还没落；口头别当真。` : `问吉凶：${about}偏吉——整体顺，可往上推，业绩递到决策人。`,
-      bad: mild ? `问吉凶：${about}不太顺——岗位或决策没接上，宜先稳住、补节点。` : `问吉凶：${about}偏凶——阻力大，先收着，别硬顶。`,
-      mid: `问吉凶：${about}吉凶未分——先看清决策节点再押。`
+      good: mild ? `问吉凶：${about}吉。有结果，名分或签字还没落；口头别当真。` : `问吉凶：${about}吉。整体顺，可往上推，业绩递到决策人。`,
+      bad: mild ? `问吉凶：${about}凶。岗位或决策没接上，先稳住、补节点。` : `问吉凶：${about}凶。阻力大，先收着，别硬顶。`,
+      mid: `问吉凶：${about}平。先看清决策节点再押。`
     },
     emotion: {
-      good: mild ? `问吉凶：${about}小吉——有靠近的意思，但行动还没落稳；别一次押满。` : `问吉凶：${about}偏吉——整体顺，可推进，仍看对方连续行动。`,
-      bad: mild ? `问吉凶：${about}不太顺——心意或行动拧着，宜先观、少逼。` : `问吉凶：${about}偏凶——阻力大，先收着，别硬耗。`,
-      mid: `问吉凶：${about}吉凶未分——先看行动再定深浅。`
+      good: mild ? `问吉凶：${about}吉。能靠近，行动还没落稳；别一次押满。` : `问吉凶：${about}吉。整体顺，可推进，仍看对方连续行动。`,
+      bad: mild ? `问吉凶：${about}凶。心意或行动拧着，先观、少逼。` : `问吉凶：${about}凶。阻力大，先收着，别硬耗。`,
+      mid: `问吉凶：${about}平。先看行动再定深浅。`
     },
     family: {
-      good: mild ? `问吉凶：${about}小吉——能缓，但还要具体沟通；别一次摊开。` : `问吉凶：${about}偏吉——整体顺，把话说清、落到行动。`,
-      bad: mild ? `问吉凶：${about}不太顺——易僵，宜先降温。` : `问吉凶：${about}偏凶——冲突风险大，先止损情绪。`,
-      mid: `问吉凶：${about}吉凶未分——先弄清底线再谈。`
+      good: mild ? `问吉凶：${about}吉。能缓，还要具体沟通；别一次摊开。` : `问吉凶：${about}吉。整体顺，把话说清、落到行动。`,
+      bad: mild ? `问吉凶：${about}凶。易僵，先降温。` : `问吉凶：${about}凶。冲突风险大，先止损情绪。`,
+      mid: `问吉凶：${about}平。先弄清底线再谈。`
     },
     receivable: {
-      good: mild ? `问吉凶：${about}小吉——款有望，节点还可能拖；别当已到账。` : `问吉凶：${about}偏吉——整体顺，按约定跟节点、留痕。`,
-      bad: mild ? `问吉凶：${about}不太顺——对方动力不足，宜书面催、留证据。` : `问吉凶：${about}偏凶——难回，先止损、评估程序路径。`,
-      mid: `问吉凶：${about}吉凶未分——账和凭证先理清。`
+      good: mild ? `问吉凶：${about}吉。款回得来，节点还可能拖；别当已到账。` : `问吉凶：${about}吉。整体顺，按约定跟节点、留痕。`,
+      bad: mild ? `问吉凶：${about}凶。对方动力不足，书面催、留证据。` : `问吉凶：${about}凶。难回，先止损、评估程序路径。`,
+      mid: `问吉凶：${about}平。账和凭证先理清。`
     },
     general: {
-      good: mild ? `问吉凶：${about}小吉——有利，但有波折；可做，留退路。` : `问吉凶：${about}偏吉——整体顺，可推进，别做过了头。`,
-      bad: mild ? `问吉凶：${about}小凶——不太顺，宜缓、先收一收。` : `问吉凶：${about}偏凶——阻力大，宜避或改期，别硬上。`,
-      mid: `问吉凶：${about}吉凶未分——小步看清，别一次押死。`
+      good: mild ? `问吉凶：${about}吉。有利，条件未满；可做，留退路。` : `问吉凶：${about}吉。整体顺，可推进，别做过了头。`,
+      bad: mild ? `问吉凶：${about}凶。不顺，宜缓、先收一收。` : `问吉凶：${about}凶。阻力大，宜避或改期，别硬上。`,
+      mid: `问吉凶：${about}平。小步看清，别一次押死。`
     }
   }
   // 无专属时用 general，invest 等复用 general 语义足够
@@ -7275,126 +7276,130 @@ function directReply(parsed, tone, level, extra) {
         const who = domain === 'seek' ? '人来找' : '客人来'
         if (tone === 'good') {
           return mild
-            ? `问「${subj}」：${dayRef}多半会有${who}，但不一定准时。留点接待时间就好，不必整天空等。`
-            : `问「${subj}」：${dayRef}有${who}的意思，可以按这个准备，时间放宽一点，别钉死某一分钟。`
+            ? `问「${subj}」：${dayRef}会有${who}，时间可能偏一点。留接待余量，别钉死某一分钟。`
+            : `问「${subj}」：${dayRef}会有${who}。按这个准备，时间放宽一点即可。`
         }
         if (tone === 'bad') {
           return mild
-            ? `问「${subj}」：${dayRef}${who}的象偏弱，正事照常做就行，别空等。`
-            : `问「${subj}」：${dayRef}暂看不会有${who}，该忙正事，不必特意候着。`
+            ? `问「${subj}」：${dayRef}不会有${who}，象上略有动静也不成事。正事照常做，别空等。`
+            : `问「${subj}」：${dayRef}不会有${who}。该忙正事，不必特意候着。`
         }
-        return `问「${subj}」：${dayRef}说不准会不会有${who}，两手准备最稳。`
+        return `问「${subj}」：${dayRef}会不会有${who}未定，两手准备。`
       }
       if (domain === 'weather') {
-        if (tone === 'good') return `问「${subj}」：${dayRef}「${phrase}」象偏有，备伞或改行程，并对照预报。`
-        if (tone === 'bad') return `问「${subj}」：${dayRef}「${phrase}」象偏弱，照常安排，临近再看预报。`
-        return `问「${subj}」：「${phrase}」还说不准，以官方预报为准，备一路案即可。`
+        if (tone === 'good') return `问「${subj}」：${dayRef}会发生「${phrase}」。备伞或改行程，并对照预报。`
+        if (tone === 'bad') return `问「${subj}」：${dayRef}不会发生「${phrase}」。照常安排，临近再看预报。`
+        return `问「${subj}」：「${phrase}」未定，以官方预报为准，备一路案。`
       }
       if (domain === 'delivery' || domain === 'arrival') {
-        if (tone === 'good') return `问「${subj}」：${dayRef}有到达的意思，盯着物流或行程就好。`
-        if (tone === 'bad') return `问「${subj}」：容易晚点，时间放宽一点，备个预案。`
-        return `问「${subj}」：迟早还说不准，对照物流或实况再定。`
+        if (tone === 'good') return `问「${subj}」：${dayRef}会到。盯着物流或行程即可。`
+        if (tone === 'bad') return `问「${subj}」：不会按时到，易晚点。时间放宽，备预案。`
+        return `问「${subj}」：到不到未定，对照物流或实况再定。`
       }
       if (/裁员|降薪|失业/.test(subj + (parsed.raw || ''))) {
         if (tone === 'good') {
           return mild
-            ? `问「${subj}」：${dayRef}风险迹象偏有，不能当没事。先把材料和后路理一理，别慌。`
-            : `问「${subj}」：${dayRef}有「${phrase}」的意思，宜提前做准备，别等到事到临头。`
+            ? `问「${subj}」：${dayRef}会发生「${phrase}」，条件未满也按会发生准备。先理材料、现金流和后路。`
+            : `问「${subj}」：${dayRef}会发生「${phrase}」。提前做准备，别等到事到临头。`
         }
         if (tone === 'bad') {
           return mild
-            ? `问「${subj}」：风险象偏弱，不必过度焦虑；本职照做，该签的看清再签。`
-            : `问「${subj}」：眼下不太像会发生「${phrase}」，把本职做好就行。`
+            ? `问「${subj}」：不会发生「${phrase}」，象上略有风声也不成事。本职照做，该签的看清再签。`
+            : `问「${subj}」：不会发生「${phrase}」。把本职做好就行。`
         }
-        return `问「${subj}」：会不会「${phrase}」还说不准，本职稳住，出路也想一想。`
+        return `问「${subj}」：会不会「${phrase}」未定。本职稳住，出路也想一想。`
       }
       if (tone === 'good') {
         return mild
-          ? `问「${subj}」：${dayRef}「${phrase}」迹象偏有，按可能发生来准备就行。`
-          : `问「${subj}」：${dayRef}会发生「${phrase}」，按这个安排即可。`
+          ? `问「${subj}」：${dayRef}会发生「${phrase}」，条件可能未满。按会发生来准备。`
+          : `问「${subj}」：${dayRef}会发生「${phrase}」。按这个安排即可。`
       }
       if (tone === 'bad') {
         return mild
-          ? `问「${subj}」：「${phrase}」象偏弱，不必空等。`
-          : `问「${subj}」：不太会发生「${phrase}」，少空等。`
+          ? `问「${subj}」：不会发生「${phrase}」，象略有也不成。少空等。`
+          : `问「${subj}」：不会发生「${phrase}」。少空等，照常过。`
       }
-      return `问「${subj}」：「${phrase}」是否发生还不清楚，两边都留点准备。`
+      return `问「${subj}」：「${phrase}」是否发生未定，两边都留点准备。`
     }
 
     if (kind === 'find') {
       if (tone === 'good') {
         return mild
-          ? `问「${subj}」：找得到，可能费点周折。按最后动线快搜，别漫无目的乱扩。`
+          ? `问「${subj}」：找得到，会费点周折。按最后动线快搜，别漫无目的乱扩。`
           : `问「${subj}」：找得到。原路、常去处问一圈，别拖。`
       }
       if (tone === 'bad') {
         return mild
-          ? `问「${subj}」：不好找，期望别太大。先挂失、收窄范围；别死等一定能找回。`
-          : `问「${subj}」：难找回。止损、备替代更稳妥，别无限期死盯。`
+          ? `问「${subj}」：找不回，线索弱。先挂失、收窄范围；别死等一定能找回。`
+          : `问「${subj}」：找不回。止损、备替代更稳妥，别无限期死盯。`
       }
-      return `问「${subj}」：能不能找到还说不准，再搜一轮，记下线索。`
+      return `问「${subj}」：找不找得到未定，再搜一轮，记下线索。`
     }
 
     if (kind === 'should') {
       if (tone === 'good') {
         return mild
-          ? `问「${subj}」：可以做，但别一次押满。先走一步能收回的，留退路。`
+          ? `问「${subj}」：宜做，条件还差一点。先走能收回的一步，留退路，别一次押满。`
           : `问「${subj}」：宜做。条件够，按步骤来，别冒进。`
       }
       if (tone === 'bad') {
         return mild
-          ? `问「${subj}」：眼下不宜，把握不大。先补条件，别硬做。`
+          ? `问「${subj}」：不宜。眼下代价高；略有转机也要先补条件，别硬做。`
           : `问「${subj}」：不宜。现在代价高，先停一停，改完再评估。`
       }
-      return `问「${subj}」：宜不宜还说不准，信息不够，先补信息再拍板。`
+      return `问「${subj}」：宜不宜未定。信息不够，先补信息再拍板。`
     }
     if (kind === 'suit') {
       if (tone === 'good') {
         return mild
-          ? `问「${subj}」：大致合适，先小范围试，别铺满；先想清楚最坏能亏多少。`
+          ? `问「${subj}」：合适，条件未满。先小范围试，别铺满；想清最坏能亏多少。`
           : `问「${subj}」：合适，可以办。合同和退出条件核清楚再加码。`
       }
       if (tone === 'bad') {
         return mild
-          ? `问「${subj}」：不太合适，先缓一缓，改期或改方案比硬上强。`
-          : `问「${subj}」：不合适，现在别做，停下来改方案。`
+          ? `问「${subj}」：不合适。先缓，改期或改方案比硬上强。`
+          : `问「${subj}」：不合适。现在别做，停下来改方案。`
       }
-      return `问「${subj}」：合适不合适还没拉开，小试一步再定。`
+      return `问「${subj}」：合适与否未定。小试一步再定。`
     }
     if (kind === 'have') {
       if (parsed.negativeEvent) {
         if (tone === 'good') {
-          return `问「${subj}」：风险迹象偏有，不能当没事。把能核实的先查清楚、留好证据；别凭卦指认具体人。`
+          return mild
+            ? `问「${subj}」：有。风险迹象在，条件未满也按「有」处理。能核实的先查清、留证据；别凭卦指认具体人。`
+            : `问「${subj}」：有。风险迹象明确，不能当没事。核实、留证据；别凭卦指认具体人。`
         }
         if (tone === 'bad') {
-          return `问「${subj}」：迹象偏弱，不宜断定已有。该防的仍要防，也别拿一卦给人定罪。`
+          return mild
+            ? `问「${subj}」：无。不宜断定已有；象略存疑也先按无，该防的仍防，别拿一卦给人定罪。`
+            : `问「${subj}」：无。不宜断定已有。该防的仍要防，也别拿一卦给人定罪。`
         }
-        return `问「${subj}」：有没有还说不准，只有疑点。先查事实，别猜、别武断。`
+        return `问「${subj}」：有无未定，只有疑点。先查事实，别猜、别武断。`
       }
       if (domain === 'emotion' || /感情|心意|喜欢|爱/.test(subj)) {
         if (tone === 'good') {
           return mild
-            ? `问「${subj}」：偏有一点，对方有回应，但还没落到持续行动上。见面、联系这些实在的，比逼问更管用；别一次押满。`
+            ? `问「${subj}」：有。对方有回应，但还没落到持续行动。见面、联系这些实在的，比逼问更管用。`
             : `问「${subj}」：有。可以按「有」来看，对方有回馈再加投入，别一厢情愿往里砸。`
         }
         if (tone === 'bad') {
           return mild
-            ? `问「${subj}」：偏无，迹象不够，别当成已经有了。先看对方主不主动；无效付出可以先停停。`
-            : `问「${subj}」：无，眼下偏虚。设几天观察期，别死等、别硬耗。`
+            ? `问「${subj}」：无。迹象不够，别当成已经有了。先看对方主不主动；无效付出可以先停停。`
+            : `问「${subj}」：无。眼下偏虚。设几天观察期，别死等、别硬耗。`
         }
-        return `问「${subj}」：有没有还乱，先看行动再定，别急着下生死结论。`
+        return `问「${subj}」：有无未定。先看行动再定，别急着下生死结论。`
       }
       if (tone === 'good') {
         return mild
-          ? `问「${subj}」：偏有苗头，还没落实。跟进验证一下，别当已经到手。`
-          : `问「${subj}」：有，偏实。窗口在的话抓紧推进，别一次押死。`
+          ? `问「${subj}」：有。苗头在，还没完全落实。跟进验证，别当已经到手。`
+          : `问「${subj}」：有。偏实。窗口在就抓紧推进，别一次押死。`
       }
       if (tone === 'bad') {
         return mild
-          ? `问「${subj}」：偏无，迹象不足。先按「没有」做预案，别一厢情愿。`
-          : `问「${subj}」：无，偏虚。改条件或另寻，别空等。`
+          ? `问「${subj}」：无。迹象不足。先按「没有」做预案，别一厢情愿。`
+          : `问「${subj}」：无。偏虚。改条件或另寻，别空等。`
       }
-      return `问「${subj}」：有没有还说不准，短观察、用事实验证。`
+      return `问「${subj}」：有无未定。短观察、用事实验证。`
     }
 
     // 能不能 / 成不成：按主体（论文/考试/升职…）说人话
@@ -7416,44 +7421,45 @@ function modeLabelList(modes) {
 
 function yesNoLevel(parsed, tone, mild) {
   const kind = parsed.yesKind || 'can'
+  // 标题跟卦象走：吉就说吉、凶就说凶；mild 只作括号注脚，不改结论词
   if (kind === 'should') {
-    if (tone === 'good') return mild ? '宜（可推进）' : '宜'
-    if (tone === 'bad') return mild ? '不宜（宜缓）' : '不宜'
+    if (tone === 'good') return mild ? '宜（条件未满）' : '宜'
+    if (tone === 'bad') return mild ? '不宜（略有转机）' : '不宜'
     return '宜否未定'
   }
   if (kind === 'suit') {
-    if (tone === 'good') return mild ? '合适（留余量）' : '合适'
-    if (tone === 'bad') return mild ? '不合适（宜改）' : '不合适'
+    if (tone === 'good') return mild ? '合适（条件未满）' : '合适'
+    if (tone === 'bad') return mild ? '不合适（略有转机）' : '不合适'
     return '合适与否未定'
   }
   if (kind === 'occur') {
     const domain = parsed.domain || ''
     if (domain === 'visit' || domain === 'seek') {
-      if (tone === 'good') return mild ? '或有客来' : '有客来'
-      if (tone === 'bad') return mild ? '客象弱' : '暂无客来'
+      if (tone === 'good') return mild ? '有客来（时间可能偏）' : '有客来'
+      if (tone === 'bad') return mild ? '无客来（象略有）' : '无客来'
       return '客来未明'
     }
-    if (tone === 'good') return mild ? '或将发生' : '会发生'
-    if (tone === 'bad') return mild ? '象偏弱' : '不太发生'
+    if (tone === 'good') return mild ? '会发生（条件未满）' : '会发生'
+    if (tone === 'bad') return mild ? '不会发生（略有转机）' : '不会发生'
     return '发生未明'
   }
   if (kind === 'find') {
-    if (tone === 'good') return mild ? '大致找得到' : '找得到'
-    if (tone === 'bad') return mild ? '不好找' : '难找回'
+    if (tone === 'good') return mild ? '找得到（费周折）' : '找得到'
+    if (tone === 'bad') return mild ? '找不回（线索弱）' : '找不回'
     return '未定'
   }
   if (kind === 'have') {
-    if (tone === 'good') return mild ? '偏有' : '有'
-    if (tone === 'bad') return mild ? '偏无' : '无'
+    if (tone === 'good') return mild ? '有（未落实）' : '有'
+    if (tone === 'bad') return mild ? '无（象略存）' : '无'
     return '有无未明'
   }
-  // 能不能：标题带主体，避免「只说行不行、不问在说谁」
+  // 能不能：结论词先亮，不避讳
   {
     const subj = String(parsed.focus || '此事').replace(/[「」]/g, '')
     const short = subj.length > 6 ? `${subj.slice(0, 6)}…` : subj
-    if (tone === 'good') return mild ? `${short}·行（还差一点）` : `${short}·行`
-    if (tone === 'bad') return mild ? `${short}·不行（眼下难）` : `${short}·不行`
-    return `${short}·暂定不了`
+    if (tone === 'good') return mild ? `${short}·行（条件未满）` : `${short}·行`
+    if (tone === 'bad') return mild ? `${short}·不行（略有转机）` : `${short}·不行`
+    return `${short}·未定`
   }
 }
 
@@ -7607,33 +7613,50 @@ function composeMatchedYesNo(parsed, tone, mild, timeHint, matchCtx) {
   const result = (matchCtx && matchCtx.resultName) || subj
   const strong = (matchCtx && matchCtx.strong) || []
   const weak = (matchCtx && matchCtx.weak) || []
-  const action = (matchCtx && matchCtx.action) || ''
   const stage = (matchCtx && matchCtx.stage) || ''
   const sk = subjectKind(parsed)
-  const when = timeHint || '眼下'
 
-  // 先用主体专属底稿
+  // 先用主体专属底稿（结论已跟 tone 对齐）
   let text = canReplyBySubject(subj, sk, tone, mild, timeHint)
 
-  // 用「哪一环强/弱」点破所问结构（自然嵌进正文）
+  // 环节强弱只解释「为什么」，不能把「行」说成「卡死」——忌与结论打架
   const linkBit = () => {
+    if (tone === 'good') {
+      if (strong.length && weak.length) {
+        return `依据：${strong.join('、')}有力，同时要注意${weak.join('、')}还没齐。`
+      }
+      if (weak.length) {
+        return `依据：结论能成，但${weak.join('、')}这一环还要补上。`
+      }
+      if (strong.length) {
+        return `依据：${strong.join('、')}撑得住，这是${result}能成的底子。`
+      }
+      return ''
+    }
+    if (tone === 'bad') {
+      if (strong.length && weak.length) {
+        return `依据：虽有${strong.join('、')}，但${weak.join('、')}没接上，所以难成。`
+      }
+      if (weak.length) {
+        return `依据：主要卡在${weak.join('、')}，所以难成。`
+      }
+      if (strong.length) {
+        return `依据：整体仍逆，仅${strong.join('、')}略有支撑，扭转不够。`
+      }
+      return ''
+    }
+    // mid
     if (strong.length && weak.length) {
-      return `具体看：${strong.join('、')}还行，但${weak.join('、')}没接上，${result}就卡在这里。`
+      return `依据：${strong.join('、')}与${weak.join('、')}在拉扯，尚未定局。`
     }
-    if (weak.length) {
-      return `关键是${weak.join('、')}这一环还没处理好，${result}就难往下走。`
-    }
-    if (strong.length) {
-      return `好在${strong.join('、')}还撑得住，这是${result}能往前的地方。`
-    }
+    if (weak.length) return `依据：${weak.join('、')}这一环未明，先补再看。`
+    if (strong.length) return `依据：${strong.join('、')}有一点支撑，还不够定局。`
     return ''
   }
   const lb = linkBit()
   if (lb) {
-    text = text.replace(/（[^）]{4,40}）\s*$/, '')
     const parts = text.split('。').filter((p) => p.trim())
     if (parts.length >= 2) {
-      // 结论句 + 环节句 + 其余怎么做（去掉重复的空泛句，最多再留两句）
       const rest = parts.slice(1, 3).join('。')
       text = `${parts[0]}。${lb}${rest ? `${rest}。` : ''}`
     } else {
@@ -10409,8 +10432,9 @@ function buildJudgment(ctx) {
   } else if (parsed.mode === 'where') {
     level = place ? `方位偏${place}` : '方位未明'
   } else if (parsed.mode === 'jixiong') {
-    if (tone === 'good') level = mild ? '小吉' : '偏吉'
-    else if (tone === 'bad') level = mild ? '小凶' : '偏凶'
+    // 结论跟卦象：吉就吉、凶就凶；mild 只作注脚
+    if (tone === 'good') level = mild ? '吉（未满）' : '吉'
+    else if (tone === 'bad') level = mild ? '凶（略有转机）' : '凶'
     else level = '平'
   } else if (parsed.mode === 'who') {
     level = whoHint ? (tone === 'good' ? '宜对接' : tone === 'bad' ? '宜慎择' : '宜再观') : '人物未明'
@@ -10517,16 +10541,39 @@ function buildJudgment(ctx) {
         reply = composeMatchedYesNo(parsed, answerTone, mild, parsed.timeHint || '', matchCtx)
       } catch (e) { /* 回退 directReply */ }
     } else if ((yk === 'have' || yk === 'should' || yk === 'suit') && (matchCtx.weak.length || matchCtx.strong.length)) {
-      const bit = matchCtx.weak.length
-        ? `眼下更要注意「${matchCtx.weak.slice(0, 2).join('、')}」。`
-        : `眼下「${matchCtx.strong.slice(0, 2).join('、')}」还撑得住。`
-      if (!reply.includes(bit.slice(0, 8))) reply = `${reply.replace(/。\s*$/, '')}。${bit}`
+      let bit = ''
+      if (answerTone === 'good') {
+        bit = matchCtx.weak.length
+          ? `依据：结论成立，但「${matchCtx.weak.slice(0, 2).join('、')}」还要补。`
+          : `依据：「${matchCtx.strong.slice(0, 2).join('、')}」撑得住。`
+      } else if (answerTone === 'bad') {
+        bit = matchCtx.weak.length
+          ? `依据：主要在「${matchCtx.weak.slice(0, 2).join('、')}」。`
+          : `依据：仅「${matchCtx.strong.slice(0, 2).join('、')}」不够扭转。`
+      } else {
+        bit = matchCtx.weak.length
+          ? `依据：注意「${matchCtx.weak.slice(0, 2).join('、')}」。`
+          : `依据：「${matchCtx.strong.slice(0, 2).join('、')}」略有支撑。`
+      }
+      if (bit && !reply.includes(bit.slice(0, 6))) reply = `${reply.replace(/。\s*$/, '')}。${bit}`
     }
   } else if (['how', 'jixiong', 'outlook'].includes(parsed.mode) && matchCtx && (matchCtx.weak.length || matchCtx.strong.length)) {
-    const bit = matchCtx.weak.length
-      ? `眼下更卡在「${matchCtx.weak.slice(0, 2).join('、')}」。`
-      : `眼下「${matchCtx.strong.slice(0, 2).join('、')}」还撑得住。`
-    if (!reply.includes(bit.slice(0, 6))) reply = `${reply.replace(/。\s*$/, '')}。${bit}`
+    // 解释依据，不与吉/凶结论打架
+    let bit = ''
+    if (tone === 'good') {
+      bit = matchCtx.weak.length
+        ? `依据：吉，但「${matchCtx.weak.slice(0, 2).join('、')}」还要补。`
+        : `依据：吉，「${matchCtx.strong.slice(0, 2).join('、')}」撑得住。`
+    } else if (tone === 'bad') {
+      bit = matchCtx.weak.length
+        ? `依据：凶，主要在「${matchCtx.weak.slice(0, 2).join('、')}」。`
+        : `依据：凶，仅「${matchCtx.strong.slice(0, 2).join('、')}」略有支撑也不够。`
+    } else {
+      bit = matchCtx.weak.length
+        ? `依据：平，注意「${matchCtx.weak.slice(0, 2).join('、')}」。`
+        : `依据：平，「${matchCtx.strong.slice(0, 2).join('、')}」有一点支撑。`
+    }
+    if (bit && !reply.includes(bit.slice(0, 6))) reply = `${reply.replace(/。\s*$/, '')}。${bit}`
   }
 
   let advice = ''
@@ -12601,8 +12648,8 @@ function buildAskJudgment(cast, huVerdict, bianVerdict) {
   } else if (parsed.mode === 'where') {
     level = place ? `方位偏${place}` : '方位未明'
   } else if (parsed.mode === 'jixiong') {
-    if (tone === 'good') level = '偏吉'
-    else if (tone === 'bad') level = '偏凶'
+    if (tone === 'good') level = '吉'
+    else if (tone === 'bad') level = '凶'
     else level = '平'
   } else if (parsed.mode === 'who') {
     level = tone === 'good' ? '宜对接' : tone === 'bad' ? '宜慎择' : '宜再观'
