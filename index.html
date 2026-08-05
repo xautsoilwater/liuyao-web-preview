@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-  <!-- liuyao-preview-build:2026-08-05T06:56:00Z -->
+  <!-- liuyao-preview-build:2026-08-05T06:57:08Z -->
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover" />
   <title>周易研习</title>
@@ -7833,7 +7833,7 @@ const ASK_GROUPS =
       {
         id: "fa-harmony",
         label: "家里和不和睦",
-        topicKey: "family",
+        topicKey: "general",
         focus: "家和",
         mode: "jixiong",
         domain: "family",
@@ -7879,7 +7879,7 @@ const ASK_GROUPS =
       {
         id: "fa-inlaw",
         label: "婆媳/亲眷关系顺不顺",
-        topicKey: "family",
+        topicKey: "general",
         focus: "亲眷关系",
         mode: "jixiong",
         domain: "family",
@@ -7916,7 +7916,7 @@ const ASK_GROUPS =
       {
         id: "fa-how",
         label: "家里事怎么办",
-        topicKey: "family",
+        topicKey: "general",
         focus: "家事",
         mode: "how",
         domain: "family",
@@ -7942,7 +7942,7 @@ const ASK_GROUPS =
       {
         id: "ex-experiment",
         label: "实验能不能做成",
-        topicKey: "exam",
+        topicKey: "general",
         focus: "实验做成",
         mode: "yesno",
         yesKind: "can",
@@ -8032,7 +8032,7 @@ const ASK_GROUPS =
       {
         id: "ex-cert",
         label: "证件/执照过不过得了",
-        topicKey: "document",
+        topicKey: "exam",
         focus: "证件过关",
         mode: "yesno",
         yesKind: "can",
@@ -8042,7 +8042,7 @@ const ASK_GROUPS =
       {
         id: "ex-drive",
         label: "驾考/资格考过不过得了",
-        topicKey: "document",
+        topicKey: "exam",
         focus: "资格考试",
         mode: "yesno",
         yesKind: "can",
@@ -8254,7 +8254,7 @@ const ASK_GROUPS =
       {
         id: "we-back",
         label: "这笔回款能不能到",
-        topicKey: "receivable",
+        topicKey: "wealth",
         focus: "回款",
         mode: "yesno",
         yesKind: "can",
@@ -8295,7 +8295,7 @@ const ASK_GROUPS =
       {
         id: "we-partner",
         label: "合伙合不合适",
-        topicKey: "partner",
+        topicKey: "wealth",
         focus: "合伙",
         mode: "yesno",
         yesKind: "suit",
@@ -8335,7 +8335,7 @@ const ASK_GROUPS =
       {
         id: "we-debt",
         label: "这笔债收不收得回",
-        topicKey: "receivable",
+        topicKey: "wealth",
         focus: "收债",
         mode: "yesno",
         yesKind: "can",
@@ -8711,7 +8711,7 @@ const ASK_GROUPS =
       {
         id: "so-visit",
         label: "有没有客人来",
-        topicKey: "visit",
+        topicKey: "travel",
         focus: "客人",
         mode: "yesno",
         yesKind: "occur",
@@ -8721,7 +8721,7 @@ const ASK_GROUPS =
       {
         id: "so-who",
         label: "会是什么人来",
-        topicKey: "visit",
+        topicKey: "travel",
         focus: "来客",
         mode: "who",
         domain: "visit",
@@ -8740,7 +8740,7 @@ const ASK_GROUPS =
       {
         id: "so-clock",
         label: "客人大概几点到",
-        topicKey: "visit",
+        topicKey: "travel",
         focus: "客人到",
         mode: "when",
         whenKind: "clock",
@@ -8760,7 +8760,7 @@ const ASK_GROUPS =
       {
         id: "so-seek",
         label: "有没有人来找我",
-        topicKey: "visit",
+        topicKey: "travel",
         focus: "人来找",
         mode: "yesno",
         yesKind: "occur",
@@ -8790,7 +8790,7 @@ const ASK_GROUPS =
       {
         id: "so-help",
         label: "求人能不能帮得上",
-        topicKey: "social",
+        topicKey: "general",
         focus: "求人",
         mode: "yesno",
         yesKind: "can",
@@ -8800,7 +8800,7 @@ const ASK_GROUPS =
       {
         id: "so-gift",
         label: "这次送礼/人情适不适合",
-        topicKey: "social",
+        topicKey: "general",
         focus: "人情送礼",
         mode: "yesno",
         yesKind: "suit",
@@ -8810,7 +8810,7 @@ const ASK_GROUPS =
       {
         id: "so-rift",
         label: "这段关系会不会决裂",
-        topicKey: "social",
+        topicKey: "general",
         focus: "关系决裂",
         mode: "yesno",
         yesKind: "occur",
@@ -8821,7 +8821,7 @@ const ASK_GROUPS =
       {
         id: "so-jx",
         label: "这场应酬吉凶",
-        topicKey: "social",
+        topicKey: "travel",
         focus: "应酬",
         mode: "jixiong",
         domain: "social",
@@ -8837,7 +8837,7 @@ const ASK_GROUPS =
       {
         id: "dl-ok",
         label: "快递能不能到",
-        topicKey: "delivery",
+        topicKey: "travel",
         focus: "快递",
         mode: "yesno",
         yesKind: "occur",
@@ -8847,7 +8847,7 @@ const ASK_GROUPS =
       {
         id: "dl-when",
         label: "快递什么时候到",
-        topicKey: "delivery",
+        topicKey: "travel",
         focus: "快递到",
         mode: "when",
         whenKind: "day",
@@ -8857,7 +8857,7 @@ const ASK_GROUPS =
       {
         id: "dl-clock",
         label: "快递大概几点到",
-        topicKey: "delivery",
+        topicKey: "travel",
         focus: "快递到",
         mode: "when",
         whenKind: "clock",
@@ -8867,7 +8867,7 @@ const ASK_GROUPS =
       {
         id: "dl-food",
         label: "外卖能不能准时到",
-        topicKey: "delivery",
+        topicKey: "travel",
         focus: "外卖",
         mode: "yesno",
         yesKind: "occur",
@@ -8877,7 +8877,7 @@ const ASK_GROUPS =
       {
         id: "dl-customs",
         label: "清关/海关顺不顺",
-        topicKey: "delivery",
+        topicKey: "travel",
         focus: "清关",
         mode: "jixiong",
         domain: "delivery",
@@ -8886,7 +8886,7 @@ const ASK_GROUPS =
       {
         id: "dl-lost",
         label: "包裹会不会丢",
-        topicKey: "delivery",
+        topicKey: "lost",
         focus: "包裹丢失",
         mode: "yesno",
         yesKind: "occur",
@@ -8904,7 +8904,7 @@ const ASK_GROUPS =
       {
         id: "do-pass",
         label: "这份申请过不过得了",
-        topicKey: "document",
+        topicKey: "exam",
         focus: "申请过关",
         mode: "yesno",
         yesKind: "can",
@@ -8914,7 +8914,7 @@ const ASK_GROUPS =
       {
         id: "do-visa",
         label: "签证/证件办不办得下",
-        topicKey: "document",
+        topicKey: "exam",
         focus: "签证",
         mode: "yesno",
         yesKind: "can",
@@ -8924,7 +8924,7 @@ const ASK_GROUPS =
       {
         id: "do-visa-retry",
         label: "签证拒签后再签能不能过",
-        topicKey: "document",
+        topicKey: "exam",
         focus: "再签",
         mode: "yesno",
         yesKind: "can",
@@ -8934,7 +8934,7 @@ const ASK_GROUPS =
       {
         id: "do-when",
         label: "手续什么时候能批下来",
-        topicKey: "document",
+        topicKey: "exam",
         focus: "批复",
         mode: "when",
         whenKind: "day",
@@ -8944,7 +8944,7 @@ const ASK_GROUPS =
       {
         id: "do-loan",
         label: "贷款批不批得下",
-        topicKey: "document",
+        topicKey: "wealth",
         focus: "贷款审批",
         mode: "yesno",
         yesKind: "can",
@@ -8954,7 +8954,7 @@ const ASK_GROUPS =
       {
         id: "do-hukou",
         label: "落户/入学材料过不过得了",
-        topicKey: "document",
+        topicKey: "exam",
         focus: "落户入学",
         mode: "yesno",
         yesKind: "can",
@@ -8964,7 +8964,7 @@ const ASK_GROUPS =
       {
         id: "do-claim",
         label: "保险理赔/报销批不批得下",
-        topicKey: "document",
+        topicKey: "wealth",
         focus: "理赔报销",
         mode: "yesno",
         yesKind: "can",
@@ -8974,7 +8974,7 @@ const ASK_GROUPS =
       {
         id: "do-how",
         label: "手续怎么办更顺",
-        topicKey: "document",
+        topicKey: "exam",
         focus: "办手续",
         mode: "how",
         domain: "document",
@@ -8983,7 +8983,7 @@ const ASK_GROUPS =
       {
         id: "do-jx",
         label: "这桩文书吉凶",
-        topicKey: "document",
+        topicKey: "exam",
         focus: "文书",
         mode: "jixiong",
         domain: "document",
@@ -8999,7 +8999,7 @@ const ASK_GROUPS =
       {
         id: "ho-move",
         label: "适不适合搬家",
-        topicKey: "home",
+        topicKey: "travel",
         focus: "搬家",
         mode: "yesno",
         yesKind: "suit",
@@ -9009,7 +9009,7 @@ const ASK_GROUPS =
       {
         id: "ho-choice",
         label: "搬还是不搬",
-        topicKey: "home",
+        topicKey: "travel",
         focus: "搬家",
         mode: "choice",
         domain: "home",
@@ -9022,7 +9022,7 @@ const ASK_GROUPS =
       {
         id: "ho-rent",
         label: "这处房子适不适合租",
-        topicKey: "home",
+        topicKey: "wealth",
         focus: "租房",
         mode: "yesno",
         yesKind: "suit",
@@ -9032,7 +9032,7 @@ const ASK_GROUPS =
       {
         id: "ho-live",
         label: "住这里安不安",
-        topicKey: "home",
+        topicKey: "general",
         focus: "居住",
         mode: "jixiong",
         domain: "home",
@@ -9041,7 +9041,7 @@ const ASK_GROUPS =
       {
         id: "ho-reno",
         label: "适不适合装修/动土",
-        topicKey: "home",
+        topicKey: "general",
         focus: "装修",
         mode: "yesno",
         yesKind: "suit",
@@ -9051,7 +9051,7 @@ const ASK_GROUPS =
       {
         id: "ho-open",
         label: "适不适合开业/安床",
-        topicKey: "home",
+        topicKey: "general",
         focus: "开业安床",
         mode: "yesno",
         yesKind: "suit",
@@ -9061,7 +9061,7 @@ const ASK_GROUPS =
       {
         id: "ho-neighbor",
         label: "邻里/物业纠纷利不利",
-        topicKey: "home",
+        topicKey: "lawsuit",
         focus: "邻里纠纷",
         mode: "jixiong",
         domain: "home",
@@ -9070,7 +9070,7 @@ const ASK_GROUPS =
       {
         id: "ho-when",
         label: "什么时候适合迁居",
-        topicKey: "home",
+        topicKey: "travel",
         focus: "迁居",
         mode: "when",
         whenKind: "day",
@@ -9080,7 +9080,7 @@ const ASK_GROUPS =
       {
         id: "ho-how",
         label: "家宅事怎么办",
-        topicKey: "home",
+        topicKey: "general",
         focus: "家宅",
         mode: "how",
         domain: "home",
@@ -9125,7 +9125,7 @@ const ASK_GROUPS =
       {
         id: "lo-person",
         label: "这个人找不找得到",
-        topicKey: "lost_person",
+        topicKey: "lost",
         focus: "寻人",
         mode: "yesno",
         yesKind: "find",
@@ -9326,7 +9326,7 @@ const ASK_GROUPS =
       {
         id: "wx-out",
         label: "天气适不适合出门",
-        topicKey: "weather_rain",
+        topicKey: "travel",
         focus: "出门",
         mode: "yesno",
         yesKind: "suit",
@@ -9542,10 +9542,6 @@ function getOption(id) {
   return OPTION_MAP[id] || null
 }
 
-/**
- * 界面展示：用完整问句，问题要明确。
- * 布局上两列排列、不占满整行（由 CSS 控制），不要为了省宽而把问题压成词条。
- */
 function listGroups() {
   return ASK_GROUPS.map((g) => ({
     key: g.key,
@@ -9554,10 +9550,8 @@ function listGroups() {
     options: g.options.map((o) => ({
       id: o.id,
       label: o.label,
-      fullLabel: o.label,
       topicKey: o.topicKey,
-      // 一律两列，不整行拉满
-      wide: false
+      wide: o.label.length > 10
     }))
   }))
 }
@@ -9590,9 +9584,7 @@ function buildAskSelection(optionId, timeKey) {
       answerShape: opt.whenKind === 'clock' ? 'clock' : (opt.yesKind || opt.mode || 'outlook'),
       domain: opt.domain || 'general',
       domainLabel: domainLabel || '综合事务',
-      topicHint: opt.topicKey || opt.domain || 'general',
-      topicKey: opt.topicKey || 'general',
-      optionId: opt.id,
+      topicHint: opt.topicKey || 'general',
       modes: [opt.mode || 'outlook'],
       timeHint,
       shortAsk: timeHint ? `${timeHint}·${opt.focus || opt.label}` : (opt.focus || opt.label),
