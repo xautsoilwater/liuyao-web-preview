@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-  <!-- liuyao-preview-build:2026-08-05T01:27:17Z -->
+  <!-- liuyao-preview-build:2026-08-05T01:27:57Z -->
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover" />
   <title>周易研习</title>
@@ -9305,20 +9305,20 @@ function philosophyGuidance(tone, focus, parsed) {
   }
   if (parsed && parsed.mode === 'yesno') {
     if (tone === 'good') {
-      return `趋吉：顺势办「${focus}」，守规矩、留余地。避凶：别因顺了就猛冲。`
+      return `趋吉之道：顺势办「${focus}」，守规矩、留余地。避凶之道：别因顺了就猛冲。`
     }
     if (tone === 'bad') {
-      return `趋吉：先收手改条件，再谈「${focus}」。避凶：别跟逆势硬顶。`
+      return `趋吉之道：先收手改条件，再谈「${focus}」。避凶之道：别跟逆势硬顶。`
     }
-    return `趋吉：先补「${focus}」最缺的一环。避凶：条件不齐别押满。`
+    return `指迷之要：先补「${focus}」最缺的一环；条件不齐别押满。`
   }
   if (tone === 'good') {
-    return `趋吉之道：可进，但以守正、守信并留有余地为度，使「${focus}」之吉可延续。`
+    return `趋吉之道：可进，但守规矩、留余地，使「${focus}」的好局面能稳住。`
   }
   if (tone === 'bad') {
-    return `避凶之道：宜先止损换势，不与「${focus}」的逆势硬争。`
+    return `避凶之道：先止损改道，不跟「${focus}」的逆势硬顶。`
   }
-  return `指迷之要：先小步求证「${focus}」，条件明朗后再定。`
+  return `指迷之要：先小步验证「${focus}」，看清了再定。`
 }
 
 /**
@@ -9374,18 +9374,8 @@ function guaProblemAndFix(ctx, topic, primaryYong, fu, fanYin, fuYin, answerTone
     problems.push('容易原地打转')
     fixes.push('主动改人/时间/方案，别空耗')
   }
-  if (answerTone === 'good' && !problems.length) {
-    problems.push('怕做得太猛、一次押满')
-    fixes.push('留退路，把口头可能变成具体时间和步骤')
-  }
-  if (answerTone === 'bad' && !problems.length) {
-    problems.push('阻力大，条件没接上')
-    fixes.push('先收手，补条件后再动')
-  }
-  if (answerTone === 'mid' && !problems.length) {
-    problems.push('两边拉扯，还缺关键一步')
-    fixes.push('先补最缺的一环，小步验证')
-  }
+  // 没有卦上实点时不覆盖模板里的【问题】【怎么做】
+  if (!problems.length) return { problem: '', fix: '' }
   return {
     problem: problems.slice(0, 2).join('；'),
     fix: fixes.slice(0, 2).join('；')
