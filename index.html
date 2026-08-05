@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-  <!-- liuyao-preview-build:2026-08-05T01:16:21Z -->
+  <!-- liuyao-preview-build:2026-08-05T01:17:59Z -->
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover" />
   <title>周易研习</title>
@@ -6702,19 +6702,19 @@ function directReply(parsed, tone, level, extra) {
       }
       return `${head}明确答复：有无未定。【当前状态】「${focus}」信号交杂。【未来可能】有回馈则偏「有」，无回馈则偏「无」——下一步行动会改写结论。`
     }
-    // 能不能 / 会不会 / 行不行 / 成否：结论 + 当前状态 + 未来可能
+    // 能不能 / 会不会 / 行不行：当前行否 → 未来会否变 → 问题在哪 → 怎么办能改
     const about = timeHint ? `${timeHint}「${focus}」` : `「${focus}」`
     if (tone === 'good') {
       return mild
-        ? `${head}明确答复：能（条件未满）。【当前状态】${about}已有成象，可按「能」推进，但关键一环尚未齐，眼下是「能而待补」而非「已成」。【未来可能】①补齐条件、按节点推进 → 走向落实；②拖延、忌神发动或一次押满 → 由「能」转「不能」。`
-        : `${head}明确答复：能。【当前状态】${about}偏顺、可成，有望落实；现阶段宜按「能」来行动。【未来可能】①守正有节、借力合规 → 「能」可延续并落地；②躁进、忽视规则/对方 → 盛极转衰，结果反复甚至转「不能」。`
+        ? `${head}明确答复：行（条件未满）。【当前】行——${about}有成象，可推进，但还不是「已成」。【未来可能】补齐条件则继续行并落实；拖延、忌神发动或一次押满，则可能由「行」变「不行」。【问题在哪里】关键条件尚未齐，常见在人/时/规则/资源缺一环。【怎么办可以改】先钉住最缺的那一环并做成可验证节点；小步推进、留退路，忌神窗口勿硬闯。`
+        : `${head}明确答复：行。【当前】行——${about}偏顺、可成，现阶段可按「行」来做。【未来可能】守正有节、借力合规则继续行并落地；躁进、忽视对方/规则，则可能转「不行」。【问题在哪里】吉中仍有「亢」的风险——过刚、押满、失节。【怎么办可以改】按节点推进、留退路；把口头可能变成书面/时间表，成功也防反复。`
     }
     if (tone === 'bad') {
       return mild
-        ? `${head}明确答复：不能（当前难成）。【当前状态】${about}阻力偏重，把握不大，眼下不宜硬推；是「当前不能」而非「永远不能」。【未来可能】①止损、改条件/换时机或待出空破合 → 有由「不能」转「能」的空间；②继续硬顶 → 「不能」更深、消耗更大。`
-        : `${head}明确答复：不能。【当前状态】${about}阻力大，眼下不宜强求。【未来可能】①先退后谋、改道育机 → 另开一局才谈转机；②死磕硬顶 → 只把「不能」钉死。`
+        ? `${head}明确答复：不行（当前难成）。【当前】不行——${about}阻力偏重，不宜硬推；是「当前不行」不是「永远不行」。【未来可能】改条件、换时机或出空破合后，可能转「行」；继续硬顶则更不行。【问题在哪里】条件未接上或阻力当令，硬推只耗力。【怎么办可以改】先止损；改时间/方案/人/资源，或等出空破合；低成本验证后再重开。`
+        : `${head}明确答复：不行。【当前】不行——${about}阻力大，眼下不宜强求。【未来可能】先退后谋、改道育机才可能转「行」；死磕只会把「不行」钉死。【问题在哪里】逆势当令，与之硬争无益。【怎么办可以改】止损换势；补齐生扶与规则条件后再问、再动，勿在逆势里加仓。`
     }
-    return `${head}明确答复：暂不能断。【当前状态】${about}成败未分，助力与阻力相持。【未来可能】①补最缺一环（人/时/钱/规则）→ 偏「能」；②继续空转、只问不动 → 偏「不能」。吉凶取决于下一步，勿空问。`
+    return `${head}明确答复：暂不能断。【当前】未定——${about}行与不行相持。【未来可能】补齐关键条件则偏「行」，继续空转则偏「不行」。【问题在哪里】尚未出现一锤定音的条件。【怎么办可以改】先补最缺一环（人/时/钱/规则），用一步可回退的行动验证，再定进退。`
   }
 
   // 走势类：同样讲清当前与未来
@@ -6773,9 +6773,9 @@ function yesNoLevel(parsed, tone, mild) {
     if (tone === 'bad') return mild ? '偏无' : '无'
     return '有无未明'
   }
-  // 能不能/会不会/行不行：标题必须硬
-  if (tone === 'good') return mild ? '能（条件未满）' : '能'
-  if (tone === 'bad') return mild ? '不能（当前难成）' : '不能'
+  // 能不能/会不会/行不行：标题用「行/不行」更贴口语
+  if (tone === 'good') return mild ? '行（条件未满）' : '行'
+  if (tone === 'bad') return mild ? '不行（当前难成）' : '不行'
   return '暂不能断'
 }
 
@@ -6874,14 +6874,14 @@ function yesNoAdvice(parsed, tone) {
     }
     return `【两边怎么走】设短观察期，用行动外应判定「有/无」。【易理】知进退：有应则进，无应则守，勿以执念代事实。`
   }
-  // 能不能 / 会不会 / 行不行：对着「当前→未来」给行为
+  // 能不能 / 会不会 / 行不行：对着「当前行/不行 → 未来怎么改」
   if (tone === 'good') {
-    return `【对着当前「能」怎么做】①盯住近期应期与关键节点，主动推进可成的一步；②借力、合规、把资源接到位；③留退路。【若要走向更好的未来】把口头可能变成明确节点（人/时/书面）。【若滑向「不能」的未来】拖延、一次押满、忽略合同/对方/规则。【易理】《易》许其往，亦戒亢龙：吉在守正、有节、知止。`
+    return `【怎么办可以改/稳住】①盯应期与关键节点，推进可成的一步；②借力、合规、资源到位；③留退路。【要避免的】拖延、一次押满、忽略合同/对方/规则——这些会把「行」变成「不行」。【易理】许其往，亦戒亢龙：吉在守正、有节、知止。`
   }
   if (tone === 'bad') {
-    return `【对着当前「不能」怎么做】①先止损，停掉无效硬推；②改条件（时间、方案、人、资源）或等出空/破合；③低成本验证后再重开。【若要走向「能」的未来】条件齐了再加码，勿在逆势里加仓。【若钉死更差的未来】继续硬顶、空耗。【易理】穷则变，变则通：先退后谋，才是避凶育机。`
+    return `【怎么办可以改】①先止损，停无效硬推；②改条件（时间、方案、人、资源）或等出空/破合；③低成本验证后再重开——这是从「不行」往「行」转的路。【不要做的】逆势加仓、死磕硬顶。【易理】穷则变，变则通：先退后谋，才是避凶育机。`
   }
-  return `【对着当前「未定」怎么做】先为「${focus}」补最缺一环（人/时/钱/规则），再决定推进或暂缓。【未来两条路】补齐则偏能，空转则偏不能。【易理】知几而作：象未定勿下死结论，小步求证、随势修正。`
+  return `【怎么办可以改】先为「${focus}」补最缺一环（人/时/钱/规则），再决定推进或暂缓。【两条未来】补齐偏「行」，空转偏「不行」。【易理】知几而作：象未定勿下死结论，小步求证。`
 }
 
 /**
@@ -9321,6 +9321,79 @@ function philosophyGuidance(tone, focus, parsed) {
   return `指迷之要：先小步求证「${focus}」，条件明朗后再定。`
 }
 
+/**
+ * 从卦上提炼「问题在哪里 / 怎么办可以改」——贴成否问法
+ */
+function guaProblemAndFix(ctx, topic, primaryYong, fu, fanYin, fuYin, answerTone) {
+  const problems = []
+  const fixes = []
+  const y = primaryYong
+  if (fu && !(ctx.yongList && ctx.yongList.length)) {
+    problems.push(`主目标「${topic.yongshen}」伏藏，事体尚未上台面`)
+    fixes.push('等飞神被冲开或岁月引出伏神后再钉结果、再加码')
+  }
+  if (y) {
+    if (y.kong) {
+      problems.push(`用神临「${y.zhi}」逢空，眼下虚而不实`)
+      fixes.push(`等「${y.zhi}」出空或被冲实后再把结果当实`)
+    }
+    if (y.wangshuai === '囚' || y.wangshuai === '死') {
+      problems.push(`用神月令${y.wangshuai}，力气偏弱`)
+      fixes.push(topic.yuanShen
+        ? `借「${topic.yuanShen}」生扶，或换用神旺相的月日再推进`
+        : '换旺相时机，或先补生扶再推进')
+    }
+    if (y.dayMonth && y.dayMonth.heRi) {
+      problems.push('日辰合住用神，事体被粘住、发不动')
+      fixes.push('等破合之日再推动，近期少催逼')
+    }
+    if (y.changing && y.changeTo && y.changeTo.analysis) {
+      const a = y.changeTo.analysis
+      if (a.huiTou && a.huiTou.type === '回头克') {
+        problems.push('用神动而回头克，启动后反受掣肘')
+        fixes.push('先解回头之克（改方案/换路径），再启动')
+      }
+      if (a.jinTui && a.jinTui.type === '化退神') {
+        problems.push('用神化退，后劲不足、易先动后缓')
+        fixes.push('放慢节奏、做可逆步骤，勿一次铺满')
+      }
+    }
+  }
+  if (topic.jiShen) {
+    const ji = (ctx.ben && ctx.ben.yaos)
+      ? ctx.ben.yaos.filter((line) => line.liuqin === topic.jiShen && (line.changing || line.wangshuai === '旺' || line.wangshuai === '相'))
+      : []
+    if (ji.length) {
+      problems.push(`忌神「${topic.jiShen}」有气或发动，容易搅局`)
+      fixes.push(`忌神发动窗口少做不可逆动作；绕开「${topic.jiShen}」所指的阻力源`)
+    }
+  }
+  if (fanYin) {
+    problems.push('卦见反吟，结论易来回翻覆')
+    fixes.push('一次好转或一次受阻都勿当终局；以连续外应为准')
+  }
+  if (fuYin) {
+    problems.push('卦见伏吟，局面易在原处打转')
+    fixes.push('主动改条件（人/时/方案），勿原地空耗')
+  }
+  if (answerTone === 'good' && !problems.length) {
+    problems.push('当前虽行，仍怕亢进与失节（过刚、押满、失信）')
+    fixes.push('守正有节、留退路；把可能变成可验证节点')
+  }
+  if (answerTone === 'bad' && !problems.length) {
+    problems.push('阻力当令，条件未接上')
+    fixes.push('止损改道，补条件后再动')
+  }
+  if (answerTone === 'mid' && !problems.length) {
+    problems.push('助力与阻力相持，缺一锤定音的条件')
+    fixes.push('先补最缺一环，小步验证再定')
+  }
+  return {
+    problem: problems.slice(0, 3).join('；'),
+    fix: fixes.slice(0, 3).join('；')
+  }
+}
+
 /** 按问题类型组织判断与建议 */
 function buildJudgment(ctx) {
   const {
@@ -9467,13 +9540,22 @@ function buildJudgment(ctx) {
     choicePick,
     outcomeTone: tone
   })
-  // 成否类：卦见反吟/伏吟时，明确点出「会变」的风险
-  if (parsed.mode === 'yesno') {
-    if (fanYin && !/反复|反吟/.test(reply)) {
-      reply += '变数加重：卦见反吟，结论易来回翻覆，一次好转或一次受阻都不能当作终局。'
+  // 成否类：用卦上实点补强「问题在哪里 / 怎么办可以改」
+  if (parsed.mode === 'yesno' && !guardedLevel) {
+    const gap = guaProblemAndFix(ctx, topic, primaryYong, fu, fanYin, fuYin, answerTone)
+    if (gap.problem) {
+      if (/【问题在哪里】/.test(reply)) {
+        reply = reply.replace(/【问题在哪里】[^【]*/, `【问题在哪里】${gap.problem}。`)
+      } else {
+        reply += `【问题在哪里】${gap.problem}。`
+      }
     }
-    if (fuYin && !/胶着|伏吟/.test(reply)) {
-      reply += '变数加重：卦见伏吟，局面易停在原处打转；条件不变则结论难变，宜主动改条件。'
+    if (gap.fix) {
+      if (/【怎么办可以改】/.test(reply)) {
+        reply = reply.replace(/【怎么办可以改】[^【]*/, `【怎么办可以改】${gap.fix}。`)
+      } else {
+        reply += `【怎么办可以改】${gap.fix}。`
+      }
     }
   }
 
@@ -10729,9 +10811,9 @@ function buildConciseSections(ctx, judgment) {
     const t = judgment.answerTone || judgment.tone
     const kind = parsed.yesKind || 'can'
     if (kind === 'have') {
-      actTitle = t === 'good' ? '当前偏有：如何稳住与走向未来' : t === 'bad' ? '当前偏无：如何转向「有」' : '当前未定：如何改写未来'
+      actTitle = t === 'good' ? '当前偏有：问题与改法' : t === 'bad' ? '当前偏无：问题与改法' : '当前未定：问题与改法'
     } else {
-      actTitle = t === 'good' ? '当前能：如何稳住与走向落实' : t === 'bad' ? '当前不能：如何转向「能」' : '当前未定：如何改写未来'
+      actTitle = t === 'good' ? '当前行：如何稳住、防变不行' : t === 'bad' ? '当前不行：问题在哪、怎么改' : '当前未定：问题与改法'
     }
   } else if (parsed.mode === 'when') {
     actTitle = '怎么对准这个时间窗口'
