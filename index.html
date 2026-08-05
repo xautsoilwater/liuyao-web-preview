@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-  <!-- liuyao-preview-build:2026-08-05T06:47:03Z -->
+  <!-- liuyao-preview-build:2026-08-05T06:51:27Z -->
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover" />
   <title>周易研习</title>
@@ -87,30 +87,6 @@
       flex: 1;
       animation: pageIn .42s ease both;
     }
-    .content.has-page-footer {
-      padding-bottom: calc(112px + env(safe-area-inset-bottom));
-    }
-    .page-footer {
-      position: fixed;
-      left: 50%;
-      bottom: 0;
-      z-index: 30;
-      width: min(361px, calc(100vw - 32px));
-      display: flex;
-      gap: 10px;
-      padding: 18px 0 max(12px, env(safe-area-inset-bottom));
-      transform: translateX(-50%);
-      border-top: 1px solid rgba(110,90,62,.18);
-      background: linear-gradient(180deg, rgba(235,224,200,.82), rgba(235,224,200,.98) 18px, #dccdb0 100%);
-      box-shadow: 0 -10px 24px rgba(28,24,20,.08);
-    }
-    .page-footer .btn {
-      flex: 1;
-      width: auto;
-      min-width: 0;
-      margin: 0 !important;
-    }
-    .page-footer.single .btn { width: 100%; }
     .hero.quiet { padding: 8px 4px 2px; }
     @keyframes pageIn {
       from { opacity: 0; transform: translateY(12px); }
@@ -156,13 +132,6 @@
       font-size: 25px; font-weight: 400; letter-spacing: 0.28em; text-indent: 0.28em;
     }
     .subtitle { margin-top: 8px; color: var(--ink-soft); font-size: 14px; letter-spacing: 0.18em; }
-    .cast-title {
-      text-align: center; font-size: 32px; line-height: 1.25;
-    }
-    .cast-subtitle {
-      margin-top: 6px; text-align: center; font-size: 16px;
-      letter-spacing: .2em; text-indent: .2em;
-    }
     .muted { color: var(--mist); font-size: 15px; line-height: 1.85; }
     .seal {
       display: inline-block;
@@ -288,63 +257,48 @@
     .progress {
       display: flex; justify-content: center; gap: 8px; margin: 4px 0 14px;
     }
-    .cast-shake-slot {
-      position: relative; display: block;
-      width: 150px; height: 56px; min-height: 0;
-      margin: 4px auto 8px; padding: 0;
-      overflow: hidden; border-width: 2px;
-      border-radius: 50% 50% 46% 46% / 58% 58% 42% 42%;
-      color: #fff8e8;
-      border-color: #56442f;
-      background: linear-gradient(180deg, #8b7451, #655139);
-      box-shadow: inset 0 0 0 4px rgba(255,248,225,.12), inset 0 1px 0 rgba(255,255,255,.2), 0 3px 8px rgba(73,54,34,.14);
-    }
-    .cast-shake-slot .shell-inset {
-      position: absolute; inset: 7px 18px;
-      border: 1px solid rgba(255,244,211,.45);
-      border-radius: 50%; pointer-events: none;
-    }
-    .cast-shake-slot .shell-inset::before,
-    .cast-shake-slot .shell-inset::after {
-      content: ""; position: absolute; left: 50%; top: -5%;
-      width: 1px; height: 110%; background: rgba(255,244,211,.24);
-      transform-origin: 50% 50%;
-    }
-    .cast-shake-slot .shell-inset::before { transform: rotate(34deg); }
-    .cast-shake-slot .shell-inset::after { transform: rotate(-34deg); }
-    .cast-shake-slot .shell-label {
-      position: relative; z-index: 2; letter-spacing: .22em; text-indent: .22em;
-    }
     .bead {
       width: 10px; height: 10px; border: 1px solid var(--bronze); transform: rotate(45deg);
       background: transparent; transition: background .25s ease, border-color .25s ease;
     }
     .bead.on { background: var(--cinnabar); border-color: var(--cinnabar); }
     .stage-live {
-      display: flex; gap: 14px; align-items: stretch;
-      margin-top: 4px; overflow: visible; padding-top: 108px;
+      display: flex; gap: 10px; align-items: stretch;
+      margin-top: 8px; overflow: visible; padding-top: 96px; min-height: 220px;
     }
     .coin-stage {
-      flex: 1.15; text-align: center;
+      flex: 1.2; text-align: center;
       display: flex; flex-direction: column; overflow: visible;
     }
-    .coin-stage .btn { margin-bottom: 0; }
+    .shake-ctrl {
+      flex: 0 0 64px; display: flex; align-items: center; justify-content: center;
+    }
+    .cast-shake-slot {
+      position: relative; display: flex; align-items: center; justify-content: center;
+      width: 56px; height: 150px; padding: 8px 4px; box-sizing: border-box;
+      border: 2px solid #56442f; border-radius: 28px; color: #fff8e8; cursor: pointer;
+      user-select: none; touch-action: none;
+      background: linear-gradient(180deg, #8b7451, #655139);
+      box-shadow: inset 0 0 0 3px rgba(255,248,225,.12), 0 4px 10px rgba(73,54,34,.14);
+      font: inherit; letter-spacing: .2em; writing-mode: vertical-rl;
+    }
+    .cast-shake-slot.pressed {
+      background: linear-gradient(180deg, #7a6545, #54422f); transform: scale(.97);
+    }
+    .cast-shake-slot.is-disabled { opacity: .55; pointer-events: none; cursor: default; }
     .gua-side {
-      flex: 0.85; min-width: 96px; min-height: 180px; padding: 0 2px 0 10px;
+      flex: 0.75; min-width: 88px; min-height: 180px; padding: 0 2px 0 8px;
       border-left: 1px dashed var(--line); box-sizing: border-box;
       display: flex; flex-direction: column; align-items: center;
       position: relative;
     }
-    .stage-live .gua-side {
-      min-height: 0; border-left: 1px dashed var(--line);
-      transform: translateY(-10px);
-    }
+    .stage-live .gua-side { min-height: 0; border-left: 1px dashed var(--line); transform: translateY(-6px); }
     .gua-side .gua-lab {
       margin: 0 0 10px; font-size: 14px; letter-spacing: 0.28em; text-indent: 0.28em;
       color: var(--bronze); text-align: center;
     }
     .stage-live .gua-side .gua-lab {
-      position: absolute; left: 10px; right: 2px; top: -28px; margin: 0;
+      position: absolute; left: 8px; right: 2px; top: -26px; margin: 0;
     }
     .gua-side .gua-lines {
       flex: 1; width: 100%; height: 100%;
@@ -388,99 +342,86 @@
       background: linear-gradient(90deg, transparent, rgba(90,70,40,.28), transparent);
       pointer-events: none;
     }
-    .shake .coin-body {
+    /* 按住：持续跳动翻转 */
+    .holding .coin-body {
       transform-style: preserve-3d; transform-origin: center center;
-      animation: toss-drop 1.35s cubic-bezier(.33,.02,.2,1) both;
-      will-change: transform;
+      animation: coin-juggle-a .4s ease-in-out infinite; will-change: transform;
     }
-    .shake .coin:nth-child(1) .coin-body {
-      animation-name: toss-drop-a; animation-duration: 1.32s; animation-delay: 0ms;
+    .holding .coin:nth-child(1) .coin-body { animation-name: coin-juggle-a; animation-duration: .38s; }
+    .holding .coin:nth-child(2) .coin-body { animation-name: coin-juggle-b; animation-duration: .44s; animation-delay: .04s; }
+    .holding .coin:nth-child(3) .coin-body { animation-name: coin-juggle-c; animation-duration: .4s; animation-delay: .08s; }
+    .holding .coin-shadow { animation: juggle-shadow .4s ease-in-out infinite; }
+    .holding .coin:nth-child(1) .coin-shadow { animation-duration: .38s; }
+    .holding .coin:nth-child(2) .coin-shadow { animation-duration: .44s; animation-delay: .04s; }
+    .holding .coin:nth-child(3) .coin-shadow { animation-duration: .4s; animation-delay: .08s; }
+    @keyframes coin-juggle-a {
+      0% { transform: translate3d(-3px, 0, 0) rotateX(8deg) rotateY(0) rotateZ(-14deg) scale(.98); }
+      35% { transform: translate3d(-6px, -58px, 0) rotateX(-12deg) rotateY(160deg) rotateZ(8deg) scale(.92); }
+      55% { transform: translate3d(-4px, -20px, 0) rotateX(6deg) rotateY(250deg) rotateZ(-6deg) scale(1.02); }
+      100% { transform: translate3d(-3px, 0, 0) rotateX(8deg) rotateY(360deg) rotateZ(-14deg) scale(.98); }
     }
-    .shake .coin:nth-child(2) .coin-body {
-      animation-name: toss-drop-b; animation-duration: 1.4s; animation-delay: 55ms;
+    @keyframes coin-juggle-b {
+      0% { transform: translate3d(0, 0, 0) rotateX(4deg) rotateY(20deg) rotateZ(8deg) scale(.98); }
+      40% { transform: translate3d(2px, -66px, 0) rotateX(-16deg) rotateY(200deg) rotateZ(-10deg) scale(.9); }
+      60% { transform: translate3d(1px, -18px, 0) rotateX(8deg) rotateY(300deg) rotateZ(6deg) scale(1.03); }
+      100% { transform: translate3d(0, 0, 0) rotateX(4deg) rotateY(380deg) rotateZ(8deg) scale(.98); }
     }
-    .shake .coin:nth-child(3) .coin-body {
-      animation-name: toss-drop-c; animation-duration: 1.48s; animation-delay: 110ms;
+    @keyframes coin-juggle-c {
+      0% { transform: translate3d(4px, 0, 0) rotateX(10deg) rotateY(-10deg) rotateZ(12deg) scale(.97); }
+      30% { transform: translate3d(7px, -52px, 0) rotateX(-8deg) rotateY(-170deg) rotateZ(-8deg) scale(.91); }
+      58% { transform: translate3d(5px, -22px, 0) rotateX(5deg) rotateY(-260deg) rotateZ(10deg) scale(1.02); }
+      100% { transform: translate3d(4px, 0, 0) rotateX(10deg) rotateY(-370deg) rotateZ(12deg) scale(.97); }
     }
-    .shake .coin-shadow {
-      animation: toss-shadow 1.35s cubic-bezier(.33,.02,.2,1) both;
-      will-change: transform, opacity;
+    @keyframes juggle-shadow {
+      0%, 100% { transform: scaleX(1); opacity: .3; }
+      40% { transform: scaleX(.35); opacity: .08; }
+      60% { transform: scaleX(.7); opacity: .18; }
     }
-    .shake .coin:nth-child(1) .coin-shadow {
-      animation-name: toss-shadow-a; animation-duration: 1.32s; animation-delay: 0ms;
+    .holding .coin-obverse { animation: hold-face-yang .4s steps(1) infinite; }
+    .holding .coin-reverse { animation: hold-face-yin .4s steps(1) infinite; }
+    .holding .coin:nth-child(2) .coin-obverse,
+    .holding .coin:nth-child(2) .coin-reverse { animation-delay: .08s; }
+    .holding .coin:nth-child(3) .coin-obverse,
+    .holding .coin:nth-child(3) .coin-reverse { animation-delay: .14s; }
+    @keyframes hold-face-yang {
+      0%, 49% { opacity: 1; z-index: 2; }
+      50%, 100% { opacity: 0; z-index: 1; }
     }
-    .shake .coin:nth-child(2) .coin-shadow {
-      animation-name: toss-shadow-b; animation-duration: 1.4s; animation-delay: 55ms;
+    @keyframes hold-face-yin {
+      0%, 49% { opacity: 0; z-index: 1; }
+      50%, 100% { opacity: 1; z-index: 2; }
     }
-    .shake .coin:nth-child(3) .coin-shadow {
-      animation-name: toss-shadow-c; animation-duration: 1.48s; animation-delay: 110ms;
+    .landing .coin-obverse, .landing .coin-reverse { animation: none; }
+    /* 松手落下 */
+    .landing .coin-body {
+      transform-style: preserve-3d; transform-origin: center center;
+      animation: coin-settle-a .7s cubic-bezier(.28,.02,.2,1) both; will-change: transform;
     }
-    @keyframes toss-drop-a {
-      0% { transform: translate3d(-4px, -20px, 0) rotateX(12deg) rotateY(0deg) rotateZ(-28deg) scale(.94); }
-      12% { transform: translate3d(-10px, -112px, 0) rotateX(-8deg) rotateY(110deg) rotateZ(-12deg) scale(.9); }
-      36% { transform: translate3d(-12px, 2px, 0) rotateX(6deg) rotateY(290deg) rotateZ(16deg) scale(1.04); }
-      48% { transform: translate3d(-8px, -38px, 0) rotateX(-4deg) rotateY(400deg) rotateZ(-10deg) scale(.97); }
-      62% { transform: translate3d(-5px, 1px, 0) rotateX(3deg) rotateY(500deg) rotateZ(8deg) scale(1.02); }
-      74% { transform: translate3d(-3px, -15px, 0) rotateX(-2deg) rotateY(580deg) rotateZ(-4deg) scale(.99); }
-      86% { transform: translate3d(-1px, 1px, 0) rotateX(1deg) rotateY(660deg) rotateZ(2deg) scale(1.005); }
-      100% { transform: translate3d(0, 0, 0) rotateX(0) rotateY(720deg) rotateZ(0) scale(1); }
+    .landing .coin:nth-child(1) .coin-body { animation-name: coin-settle-a; animation-duration: .66s; }
+    .landing .coin:nth-child(2) .coin-body { animation-name: coin-settle-b; animation-duration: .72s; animation-delay: 30ms; }
+    .landing .coin:nth-child(3) .coin-body { animation-name: coin-settle-c; animation-duration: .68s; animation-delay: 60ms; }
+    .landing .coin-shadow { animation: settle-shadow .7s cubic-bezier(.28,.02,.2,1) both; }
+    @keyframes coin-settle-a {
+      0% { transform: translate3d(-5px, -52px, 0) rotateX(-10deg) rotateY(40deg) rotateZ(-16deg) scale(.92); }
+      45% { transform: translate3d(-2px, 2px, 0) rotateX(4deg) rotateY(200deg) rotateZ(8deg) scale(1.04); }
+      62% { transform: translate3d(-1px, -18px, 0) rotateX(-2deg) rotateY(280deg) rotateZ(-4deg) scale(.98); }
+      100% { transform: translate3d(0, 0, 0) rotateX(0) rotateY(360deg) rotateZ(0) scale(1); }
     }
-    @keyframes toss-drop-b {
-      0% { transform: translate3d(0, -14px, 0) rotateX(8deg) rotateY(20deg) rotateZ(10deg) scale(.95); }
-      10% { transform: translate3d(2px, -122px, 0) rotateX(-12deg) rotateY(160deg) rotateZ(4deg) scale(.88); }
-      34% { transform: translate3d(3px, 3px, 0) rotateX(8deg) rotateY(340deg) rotateZ(-14deg) scale(1.05); }
-      46% { transform: translate3d(1px, -44px, 0) rotateX(-6deg) rotateY(450deg) rotateZ(10deg) scale(.96); }
-      60% { transform: translate3d(1px, 2px, 0) rotateX(4deg) rotateY(540deg) rotateZ(-6deg) scale(1.02); }
-      72% { transform: translate3d(0, -17px, 0) rotateX(-2deg) rotateY(610deg) rotateZ(4deg) scale(.99); }
-      85% { transform: translate3d(0, 1px, 0) rotateX(1deg) rotateY(680deg) rotateZ(-1deg) scale(1.005); }
-      100% { transform: translate3d(0, 0, 0) rotateX(0) rotateY(720deg) rotateZ(0) scale(1); }
+    @keyframes coin-settle-b {
+      0% { transform: translate3d(0, -60px, 0) rotateX(-14deg) rotateY(-20deg) rotateZ(10deg) scale(.9); }
+      42% { transform: translate3d(1px, 3px, 0) rotateX(6deg) rotateY(160deg) rotateZ(-10deg) scale(1.05); }
+      60% { transform: translate3d(0, -20px, 0) rotateX(-3deg) rotateY(250deg) rotateZ(6deg) scale(.97); }
+      100% { transform: translate3d(0, 0, 0) rotateX(0) rotateY(360deg) rotateZ(0) scale(1); }
     }
-    @keyframes toss-drop-c {
-      0% { transform: translate3d(5px, -18px, 0) rotateX(10deg) rotateY(-15deg) rotateZ(24deg) scale(.93); }
-      13% { transform: translate3d(12px, -106px, 0) rotateX(-6deg) rotateY(-130deg) rotateZ(8deg) scale(.9); }
-      38% { transform: translate3d(14px, 2px, 0) rotateX(5deg) rotateY(-300deg) rotateZ(-18deg) scale(1.04); }
-      50% { transform: translate3d(9px, -35px, 0) rotateX(-3deg) rotateY(-410deg) rotateZ(12deg) scale(.97); }
-      64% { transform: translate3d(5px, 1px, 0) rotateX(2deg) rotateY(-510deg) rotateZ(-7deg) scale(1.02); }
-      76% { transform: translate3d(3px, -13px, 0) rotateX(-1deg) rotateY(-590deg) rotateZ(3deg) scale(.99); }
-      88% { transform: translate3d(1px, 1px, 0) rotateX(1deg) rotateY(-670deg) rotateZ(-1deg) scale(1.005); }
-      100% { transform: translate3d(0, 0, 0) rotateX(0) rotateY(-720deg) rotateZ(0) scale(1); }
+    @keyframes coin-settle-c {
+      0% { transform: translate3d(6px, -50px, 0) rotateX(-8deg) rotateY(30deg) rotateZ(14deg) scale(.92); }
+      48% { transform: translate3d(3px, 2px, 0) rotateX(4deg) rotateY(210deg) rotateZ(-8deg) scale(1.04); }
+      65% { transform: translate3d(1px, -16px, 0) rotateX(-2deg) rotateY(290deg) rotateZ(4deg) scale(.98); }
+      100% { transform: translate3d(0, 0, 0) rotateX(0) rotateY(360deg) rotateZ(0) scale(1); }
     }
-    @keyframes toss-shadow-a {
-      0% { transform: translateX(-2px) scaleX(.55); opacity: .12; }
-      12% { transform: translateX(-5px) scaleX(.28); opacity: .05; }
-      36% { transform: translateX(-6px) scaleX(1.18); opacity: .42; }
-      48% { transform: translateX(-4px) scaleX(.48); opacity: .12; }
-      62% { transform: translateX(-3px) scaleX(1.1); opacity: .36; }
-      74% { transform: translateX(-2px) scaleX(.62); opacity: .16; }
-      86% { transform: translateX(-1px) scaleX(1.04); opacity: .3; }
-      100% { transform: translateX(0) scaleX(1); opacity: .28; }
-    }
-    @keyframes toss-shadow-b {
-      0% { transform: scaleX(.55); opacity: .12; }
-      10% { transform: scaleX(.24); opacity: .04; }
-      34% { transform: scaleX(1.22); opacity: .44; }
-      46% { transform: scaleX(.42); opacity: .1; }
-      60% { transform: scaleX(1.12); opacity: .38; }
-      72% { transform: scaleX(.58); opacity: .14; }
-      85% { transform: scaleX(1.05); opacity: .3; }
-      100% { transform: scaleX(1); opacity: .28; }
-    }
-    @keyframes toss-shadow-c {
-      0% { transform: translateX(2px) scaleX(.55); opacity: .12; }
-      13% { transform: translateX(6px) scaleX(.28); opacity: .05; }
-      38% { transform: translateX(7px) scaleX(1.18); opacity: .42; }
-      50% { transform: translateX(5px) scaleX(.48); opacity: .12; }
-      64% { transform: translateX(3px) scaleX(1.1); opacity: .36; }
-      76% { transform: translateX(2px) scaleX(.64); opacity: .16; }
-      88% { transform: translateX(1px) scaleX(1.04); opacity: .3; }
-      100% { transform: translateX(0) scaleX(1); opacity: .28; }
-    }
-    @keyframes toss-drop {
-      0% { transform: translate3d(0, -20px, 0) rotateY(0) scale(.94); }
-      100% { transform: translate3d(0, 0, 0) rotateY(720deg) scale(1); }
-    }
-    @keyframes toss-shadow {
-      0% { transform: scaleX(.4); opacity: .1; }
+    @keyframes settle-shadow {
+      0% { transform: scaleX(.32); opacity: .06; }
+      45% { transform: scaleX(1.15); opacity: .4; }
       100% { transform: scaleX(1); opacity: .28; }
     }
     .coin {
@@ -533,21 +474,11 @@
     }
     .yao-label { font-size: 21px; letter-spacing: 0.28em; }
     .mark { color: var(--cinnabar); }
-    .manual-live {
-      display: flex; gap: 14px; align-items: stretch; margin-top: 10px;
-    }
-    .manual-live .manual-grid {
-      flex: 1.2; min-width: 0; display: grid; grid-template-columns: 1fr; gap: 8px;
-    }
-    .manual-live .gua-side {
-      flex: .8; min-width: 96px; min-height: 224px;
-      padding-left: 12px; border-left: 1px dashed var(--line);
-    }
-    .manual-live .gua-lines { justify-content: space-between; }
+    .manual-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
     .manual-item {
-      min-height: 46px; padding: 8px; text-align: center; border: 1px solid var(--line-strong);
+      padding: 12px 8px; text-align: center; border: 1px solid var(--line-strong);
       letter-spacing: .14em; background: rgba(246,237,216,.55); cursor: pointer;
-      display: flex; flex-direction: row; align-items: center; justify-content: center; gap: 10px;
+      display: flex; flex-direction: column; align-items: center; gap: 8px;
     }
     .yao-line {
       display: flex; justify-content: space-between; align-items: center;
@@ -570,12 +501,10 @@
       padding-left: 0.18em;
     }
     .ask-before-note {
-      margin: 12px 0 4px; padding: 15px 14px 13px;
-      border: 1px solid rgba(154, 54, 42, .32);
-      background: linear-gradient(180deg, rgba(168,52,38,.07), rgba(246,237,216,.34));
-      box-shadow: inset 0 1px 0 rgba(255,255,255,.45);
-      color: var(--ink-soft); text-align: center; font-family: inherit;
-      font-size: 14px; font-weight: 400; line-height: 1.7; letter-spacing: .08em;
+      margin-top: 8px; padding: 10px 12px;
+      border-top: 1px solid var(--line); border-bottom: 1px solid var(--line);
+      color: var(--ink-soft); font-size: 13px; line-height: 1.7;
+      letter-spacing: .05em; text-align: center;
     }
     .ask-picker { margin: 14px 0 18px; }
     .ask-hint { font-size: 14px; letter-spacing: .06em; margin: 6px 0 8px; min-height: 22px; }
@@ -587,28 +516,27 @@
       text-align: center;
     }
     .ask-category-grid {
-      display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 12px;
+      display: grid; grid-template-columns: 1fr 1fr; gap: 9px; margin-top: 9px;
     }
     .ask-category {
-      min-height: 54px; padding: 10px 8px; cursor: pointer; text-align: center;
+      min-height: 74px; padding: 12px 11px; cursor: pointer; text-align: center;
       border: 1px solid var(--line-strong); background: rgba(246,237,216,.5);
-      color: var(--ink); font-family: inherit; display: flex; align-items: center;
-      justify-content: center;
+      color: var(--ink); font-family: inherit;
     }
-    .ask-category-name { display: block; font-size: 15px; letter-spacing: .14em; }
+    .ask-category-name { display: block; font-size: 15px; letter-spacing: .12em; }
+    .ask-category-tip {
+      display: block; margin-top: 4px; font-size: 11px; line-height: 1.35;
+      color: var(--ink-soft); letter-spacing: .02em;
+    }
     .ask-category-head {
-      text-align: center;
-    }
-    .ask-category-row {
       display: flex; position: relative; justify-content: center; align-items: center;
-      min-height: 34px; margin-top: 2px;
+      gap: 12px; text-align: center;
     }
     .ask-current-category {
-      font-size: 21px; color: var(--cinnabar); letter-spacing: .14em;
+      margin-top: 2px; font-size: 21px; color: var(--cinnabar); letter-spacing: .14em;
     }
     .ask-change-category {
-      position: absolute; right: 0; top: 50%; transform: translateY(-50%);
-      border: 0; background: transparent; white-space: nowrap;
+      position: absolute; right: 0; border: 0; background: transparent;
       cursor: pointer; font-family: inherit; padding: 8px 0 8px 12px;
     }
     .ask-picker .field-label { text-align: center; }
@@ -618,11 +546,11 @@
     }
     .ask-option {
       display: flex; align-items: center; justify-content: center;
-      box-sizing: border-box; width: 100%; min-height: 44px; max-height: 56px;
-      padding: 7px 5px; cursor: pointer; text-align: center; font: inherit; font-size: 12.5px;
+      box-sizing: border-box; width: 100%; min-height: 48px;
+      padding: 8px 7px; cursor: pointer; text-align: center; font: inherit; font-size: 12.5px;
       border: 1px solid var(--line-strong); background: transparent; color: var(--ink-soft);
-      letter-spacing: .02em; line-height: 1.3; word-break: break-all;
-      overflow: hidden; white-space: normal;
+      letter-spacing: .02em; line-height: 1.4; word-break: break-word;
+      overflow-wrap: break-word; white-space: normal;
     }
     .ask-option.wide { grid-column: auto; }
     .ask-option.on {
@@ -630,13 +558,9 @@
     }
     .chip-wrap { display: flex; flex-wrap: wrap; gap: 8px; }
     .ask-picker .chip-wrap { justify-content: center; }
-    .ask-time-grid {
-      display: grid; grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 8px; margin-top: 8px;
-    }
     .ask-chip {
       font: inherit; cursor: pointer;
-      width: 100%; font-size: 13px; padding: 7px 6px;
+      font-size: 13px; padding: 6px 12px;
       border: 1px solid var(--line-strong);
       color: var(--ink-soft); background: transparent;
       letter-spacing: .04em; line-height: 1.35;
@@ -772,15 +696,6 @@
     .verdict .advice {
       margin-top: 4px; padding-top: 10px; border-top: 1px dashed var(--line-strong);
       font-size: 13px; color: var(--bronze); text-align: left; line-height: 1.8;
-    }
-    .verdict .pointer {
-      margin-top: 10px; padding: 10px 11px;
-      background: rgba(255,255,255,.34); border-left: 3px solid var(--cinnabar);
-      color: var(--ink); font-size: 14px; line-height: 1.75; text-align: justify;
-    }
-    .verdict .pointer-label {
-      color: var(--cinnabar); font-weight: 600; letter-spacing: .12em;
-      margin-right: 7px; white-space: nowrap;
     }
 
     /* meihua */
@@ -923,18 +838,18 @@
       margin-bottom: 8px; padding: 10px 0 6px; border-top: 1px solid var(--line);
     }
     .sec-head {
-      display: flex; align-items: center; margin-bottom: 5px;
+      display: flex; align-items: center; gap: 8px; margin-bottom: 4px;
     }
     .sec-no {
-      display: none;
+      min-width: 22px; height: 22px; border: 1px solid var(--cinnabar);
+      color: var(--cinnabar); display: inline-flex; align-items: center; justify-content: center;
+      font-size: 13px; letter-spacing: 0;
     }
-    .sec-title { letter-spacing: .12em; color: var(--cinnabar); font-size: 15px; font-weight: 600; }
+    .sec-title { letter-spacing: .16em; color: var(--ink-2); font-size: 15px; }
     .point {
-      padding: 7px 0 9px; border-top: 0;
-      font-size: 15.5px; color: var(--mist); line-height: 1.95; text-align: justify;
-      letter-spacing: .025em;
+      padding: 8px 0 8px 30px; border-top: 1px dashed var(--line);
+      font-size: 15px; color: var(--mist); line-height: 1.8; text-align: justify;
     }
-    .point + .point { border-top: 1px dashed var(--line); }
     .article { padding: 11px 0; border-top: 1px solid var(--line); cursor: pointer; }
     .center { text-align: center; }
 
@@ -1215,6 +1130,7 @@
     <div class="content" id="app"></div>
   </div>
   <script>
+/* auto-generated by preview/build.js — do not edit by hand */
 /* auto-generated by preview/build.js — do not edit by hand */
 window.LiuYao = {};
 ;(function(){
@@ -13100,6 +13016,7 @@ window.LiuYao = {
 })();
 </script>
   <script>
+/* synced from app-preview.js by preview/build.js */
 (function () {
   const app = document.getElementById('app')
   const nav = document.getElementById('navTitle')
@@ -13118,6 +13035,8 @@ window.LiuYao = {
     yaos: [],
     current: null,
     shaking: false,
+    holding: false,
+    landing: false,
     displayCoins: ['', '', ''],
     cast: null,
     meihua: null,
@@ -13219,7 +13138,6 @@ window.LiuYao = {
     scrollPageTop()
     return true
   }
-  /** 左上角：始终回首页 */
   function goHomeFromNav() {
     stack.length = 0
     state.page = 'index'
@@ -13230,9 +13148,7 @@ window.LiuYao = {
     scrollPageTop()
   }
   function render() {
-    const oldFooter = shell.querySelector('.page-footer')
-    if (oldFooter) oldFooter.remove()
-    const renderPage = ({
+    ({
       index: renderIndex,
       ask: renderAsk,
       cast: renderCast,
@@ -13245,44 +13161,8 @@ window.LiuYao = {
       learn: renderLearn,
       detail: renderDetail,
       feedback: renderFeedback
-    })[state.page]
-    renderPage()
-    mountPageFooter()
+    })[state.page]()
     updateBackUi()
-  }
-
-  function pageFooterSelectors() {
-    if (state.page === 'ask') return ['button[data-back]', '#askConfirm']
-    if (state.page === 'cast') {
-      if (state.step >= 6) return ['button[data-back]', '#submit']
-      return state.mode === 'shake' ? ['button[data-back]', '#submit'] : ['button[data-back]', '#undoYao']
-    }
-    if (state.page === 'result') return ['#recast', 'button[data-go="interpret"]']
-    if (state.page === 'interpret') return ['button[data-back]', 'button[data-go="index"]']
-    if (state.page === 'meihua') return ['button[data-back]', '#mhSubmit']
-    if (state.page === 'meihuaResult') return ['#mhRecast', 'button[data-go="index"]']
-    if (state.page === 'feedback') return ['button[data-back]', '#feedbackSubmit']
-    if (state.page === 'history' || state.page === 'learn' || state.page === 'detail') return ['button[data-back]']
-    if (state.page === 'account') {
-      if (state.user && state.accountEditing) return ['#accountEditCancel', '#accountEditSave']
-      if (state.user) return ['#accountEdit', '#accountLogout']
-      return ['#btnLogin']
-    }
-    return []
-  }
-
-  function mountPageFooter() {
-    const existing = shell.querySelector('.page-footer')
-    if (existing) existing.remove()
-    const controls = pageFooterSelectors()
-      .map((selector) => app.querySelector(selector))
-      .filter((el, index, list) => el && list.indexOf(el) === index)
-    app.classList.toggle('has-page-footer', controls.length > 0)
-    if (!controls.length) return
-    const footer = document.createElement('div')
-    footer.className = `page-footer${controls.length === 1 ? ' single' : ''}`
-    controls.forEach((control) => footer.appendChild(control))
-    shell.appendChild(footer)
   }
   function corners() {
     return '<i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i>'
@@ -13380,7 +13260,6 @@ window.LiuYao = {
       <svg viewBox="0 0 400 456" xmlns="http://www.w3.org/2000/svg" aria-label="后天八卦罗盘 · 准星指南针">
         <defs></defs>
         <g id="luopan-plate" transform="rotate(${rot} 200 200)">
-          <!-- 无装饰自转：仅由指南针/拖动改 transform -->
           <circle cx="200" cy="200" r="198" fill="#e6d4b0" stroke="#46341c" stroke-width="3"/>
           <circle cx="200" cy="200" r="191" fill="none" stroke="rgba(248,240,222,0.55)" stroke-width="5"/>
           <circle cx="200" cy="200" r="186" fill="none" stroke="rgba(90,70,40,0.22)" stroke-width="1.2"/>
@@ -13512,6 +13391,7 @@ window.LiuYao = {
 
   function paintLuopanLive() {
     if (state.page !== 'index') return
+    const plate = document.getElementById('luopan-plate')
     const hudDir = document.getElementById('hud-dir')
     const hudDeg = document.getElementById('hud-deg')
     const hudMountain = document.getElementById('hud-mountain')
@@ -13523,7 +13403,7 @@ window.LiuYao = {
     const h = state.compassReady
       ? state.compassHeading
       : headingFromPlate(state.plateDeg)
-    setPlateRotation(state.plateDeg)
+    if (plate) plate.setAttribute('transform', `rotate(${state.plateDeg} 200 200)`)
     if (hudDir) hudDir.textContent = dirNameOf(h)
     if (hudDeg) hudDeg.textContent = `${(Math.round(h * 10) / 10)}°`
     if (hudMountain) hudMountain.textContent = `${mountainOf(h)}山`
@@ -13538,37 +13418,25 @@ window.LiuYao = {
     }
   }
 
-  /**
-   * 只旋转盘面 g#luopan-plate；准星、太极、底部天干五行保持不动
-   */
-  function setPlateRotation(deg) {
-    const plate = document.getElementById('luopan-plate')
-    if (!plate) return
-    plate.querySelectorAll('animateTransform').forEach((n) => n.remove())
-    const d = Number(deg) || 0
-    plate.setAttribute('transform', `rotate(${d} 200 200)`)
-  }
-
   function applyLiveHeading(heading) {
     if (state._dragging || state.locked) return
     const h = ((Number(heading) % 360) + 360) % 360
+    state._headingSamples = state._headingSamples || []
+    state._headingSamples.push(h)
+    if (state._headingSamples.length > 8) state._headingSamples.shift()
+    let motion = 0
+    for (let i = 1; i < state._headingSamples.length; i += 1) {
+      let delta = state._headingSamples[i] - state._headingSamples[i - 1]
+      while (delta > 180) delta -= 360
+      while (delta < -180) delta += 360
+      motion += Math.abs(delta)
+    }
+    const avg = state._headingSamples.length > 1 ? motion / (state._headingSamples.length - 1) : 99
+    state.compassStability = avg < 1.5 ? '读数稳定' : avg < 4 ? '轻微波动' : '请远离磁性与金属物'
     state.compassHeading = h
     state.compassReady = true
-    // 准星固定在屏顶：盘面反向转，北/子随地磁归位
-    state.plateDeg = -h - 180
-    // 归一化，避免数值过大
-    let n = state.plateDeg % 360
-    if (n > 180) n -= 360
-    if (n <= -180) n += 360
-    state.plateDeg = n
-    setPlateRotation(state.plateDeg)
-    const hudDir = document.getElementById('hud-dir')
-    const hudDeg = document.getElementById('hud-deg')
-    const hudMountain = document.getElementById('hud-mountain')
-    if (hudDir) hudDir.textContent = dirNameOf(h)
-    if (hudDeg) hudDeg.textContent = `${Math.round(h * 10) / 10}°`
-    if (hudMountain) hudMountain.textContent = `${mountainOf(h)}山`
-    state.compassStability = '读数稳定'
+    state.plateDeg = plateFromHeading(h)
+    paintLuopanLive()
   }
 
   function bindLuopanInteractions() {
@@ -13607,18 +13475,7 @@ window.LiuYao = {
         ev.stopPropagation()
         state.locked = !state.locked
         paintLuopanLive()
-        if (!state.locked) requestCompassPermission(true)
-      }
-    }
-    const hud = document.getElementById('luopan-hud')
-    if (hud) {
-      hud.onclick = (ev) => {
-        ev.preventDefault()
-        ev.stopPropagation()
-        state.compassReady = false
-        state._dragHint = '正在重试方向感应…'
-        paintLuopanLive()
-        requestCompassPermission(true)
+        if (!state.locked) requestCompassPermission(false)
       }
     }
     const centerOf = () => {
@@ -13629,21 +13486,18 @@ window.LiuYao = {
     const angleAt = (clientX, clientY, c) =>
       (Math.atan2(clientY - c.y, clientX - c.x) * 180) / Math.PI
 
+    wrap.onmousedown = (e) => {
+      if (state.locked) return
+      e.preventDefault()
+      state._dragging = true
+      state._lastDragAng = angleAt(e.clientX, e.clientY, centerOf())
+    }
     wrap.ontouchstart = (e) => {
-      // 点盘面即申请方向权限（iOS 手势栈）
-      try { requestCompassPermission(true) } catch (err) { /* ignore */ }
       if (state.locked) return
       const t = e.touches[0]
       if (!t) return
       state._dragging = true
       state._lastDragAng = angleAt(t.clientX, t.clientY, centerOf())
-    }
-    wrap.onmousedown = (e) => {
-      try { requestCompassPermission(true) } catch (err) { /* ignore */ }
-      if (state.locked) return
-      e.preventDefault()
-      state._dragging = true
-      state._lastDragAng = angleAt(e.clientX, e.clientY, centerOf())
     }
     wrap.ontouchmove = (e) => {
       const t = e.touches[0]
@@ -13773,11 +13627,19 @@ window.LiuYao = {
     if (goAskMeihua) goAskMeihua.onclick = () => { state.askNext = 'meihua'; go('ask') }
   }
 
+  function clearCastTimers() {
+    if (state._flipTimer) { clearInterval(state._flipTimer); state._flipTimer = null }
+    if (state._releaseTimer) { clearTimeout(state._releaseTimer); state._releaseTimer = null }
+    if (state._settleTimer) { clearTimeout(state._settleTimer); state._settleTimer = null }
+  }
+
   function pushYao(result) {
     state.yaos = state.yaos.concat([result])
     state.step = state.yaos.length
     state.current = result
     state.shaking = false
+    state.holding = false
+    state.landing = false
     state.displayCoins = result.coins
     render()
   }
@@ -13833,6 +13695,7 @@ window.LiuYao = {
           <div class="ask-category-grid">${groups.map((g) => `
             <button type="button" class="ask-category" data-group="${g.key}">
               <span class="ask-category-name">${g.label}</span>
+              ${g.tip ? `<span class="ask-category-tip">${g.tip}</span>` : ''}
             </button>`).join('')}</div>
         </div>`
     }
@@ -13842,18 +13705,19 @@ window.LiuYao = {
     return `
       <div class="ask-picker">
         <div class="ask-category-head">
-          <div class="field-label">当前类别</div>
-          <div class="ask-category-row">
+          <div>
+            <div class="field-label">当前类别</div>
             <div class="ask-current-category">${selectedGroup.label}</div>
-            <button type="button" class="change-link ask-change-category" data-change-group>返回上一层</button>
           </div>
+          <button type="button" class="change-link ask-change-category" data-change-group>更换类别</button>
         </div>
+        ${selectedGroup.tip ? `<div class="ask-group-tip muted">${selectedGroup.tip}</div>` : ''}
         <div class="field-label" style="margin-top:16px">选择具体事项</div>
         <div class="ask-option-list">${selectedGroup.options.map((o) =>
           `<button type="button" class="ask-option ${o.wide ? 'wide' : ''} ${state.selectedOptionId === o.id ? 'on' : ''}" data-opt="${o.id}">${o.label}</button>`
         ).join('')}</div>
         <div class="field-label" style="margin-top:18px">时间范围</div>
-        <div class="ask-time-grid">${timeHtml}</div>
+        <div class="chip-wrap">${timeHtml}</div>
         <div class="ask-hint muted">${state.question || emptyHint}</div>
       </div>`
   }
@@ -13934,10 +13798,18 @@ window.LiuYao = {
     setNav('卜卦')
     if (!requirePendingAsk('cast')) return
 
+    const shakeLabel = state.step >= 6
+      ? '六爻已成'
+      : state.landing
+        ? '落下…'
+        : state.holding
+          ? '松手成爻'
+          : '按住摇卦'
+    const coinAnim = state.holding ? 'holding' : (state.landing ? 'landing' : '')
     const stageBody = state.mode === 'shake' ? `
       <div class="stage-live">
         <div class="coin-stage">
-          <div class="coins ${state.shaking ? 'shake' : ''}">
+          <div class="coins ${coinAnim}">
             ${[0,1,2].map((i) => {
               const c = (state.displayCoins && state.displayCoins[i]) || null
               const face = c ? (c === 'yang' ? 'yang' : 'yin') : 'yang idle'
@@ -13953,25 +13825,29 @@ window.LiuYao = {
           <div class="result-line">${state.current
             ? `<i class="yao-bar lg ${state.current.yinYang ? 'yang' : 'yin'} ${state.current.changing ? 'moving' : ''}"></i>
                <div class="yao-label">${state.current.type}<span class="mark"> ${state.current.mark}</span></div>`
-            : '<span class="muted" style="font-size:14px;letter-spacing:.14em">静心片刻，然后摇卦</span>'}</div>
+            : state.holding
+              ? '<span class="muted" style="font-size:14px;letter-spacing:.14em">按住摇动，松手成爻</span>'
+              : state.landing
+                ? '<span class="muted" style="font-size:14px;letter-spacing:.14em">铜钱落下…</span>'
+                : '<span class="muted" style="font-size:14px;letter-spacing:.14em">按住右侧按钮摇卦</span>'}</div>
+        </div>
+        <div class="shake-ctrl">
+          <div class="cast-shake-slot ${state.holding ? 'pressed' : ''} ${state.step >= 6 || state.landing ? 'is-disabled' : ''}" id="shake" role="button">${shakeLabel}</div>
         </div>
         ${miniGua()}
       </div>` : `
-      <div class="muted center" style="margin-bottom:8px">按实摇结果点选（字阳背阴）</div>
-      <div class="manual-live">
-        <div class="manual-grid">
-          <div class="manual-item" data-manual="laoYang"><i class="yao-bar yang moving"></i><span>老阳 ○</span></div>
-          <div class="manual-item" data-manual="shaoYin"><i class="yao-bar yin"></i><span>少阴 --</span></div>
-          <div class="manual-item" data-manual="shaoYang"><i class="yao-bar yang"></i><span>少阳 —</span></div>
-          <div class="manual-item" data-manual="laoYin"><i class="yao-bar yin moving"></i><span>老阴 ×</span></div>
-        </div>
-        ${miniGua()}
+      <div class="muted center" style="margin-bottom:10px">按实摇结果点选（字阳背阴）</div>
+      <div class="manual-grid">
+        <div class="manual-item" data-manual="laoYang"><i class="yao-bar yang moving"></i><span>老阳 ○</span></div>
+        <div class="manual-item" data-manual="shaoYin"><i class="yao-bar yin"></i><span>少阴 --</span></div>
+        <div class="manual-item" data-manual="shaoYang"><i class="yao-bar yang"></i><span>少阳 —</span></div>
+        <div class="manual-item" data-manual="laoYin"><i class="yao-bar yin moving"></i><span>老阴 ×</span></div>
       </div>
-      `
+      <div style="margin-top:16px">${miniGua()}</div>`
 
     app.innerHTML = `
-      <div class="title-zh cast-title">卜卦</div>
-      <div class="subtitle cast-subtitle">六次成爻 · 自下而上</div>
+      <div class="title-zh">卜卦</div>
+      <div class="subtitle">六次成爻 · 自下而上</div>
       <div class="mode-row">
         <div class="mode ${state.mode === 'shake' ? 'on' : ''}" id="modeShake">摇铜钱</div>
         <div class="mode ${state.mode === 'manual' ? 'on' : ''}" id="modeManual">手记爻象</div>
@@ -13982,37 +13858,91 @@ window.LiuYao = {
           <span class="seal">第 ${Math.min(state.step + 1, 6)} 爻</span>
           <span class="muted">${state.step} / 6</span>
         </div>
-        ${state.mode === 'shake'
-          ? `<button class="btn btn-primary cast-shake-slot" id="shake" ${state.shaking || state.step >= 6 ? 'disabled' : ''}><span class="shell-inset" aria-hidden="true"></span><span class="shell-label">${state.step >= 6 ? '六爻已成' : state.shaking ? '摇卦中…' : '摇铜钱'}</span></button>`
-          : beads()}
+        ${beads()}
         ${stageBody}
       </div>
       ${state.step >= 6
-        ? `<div class="row"><button class="btn btn-ghost" data-back>返回</button><button class="btn btn-primary" id="submit">排卦</button></div>`
-        : state.mode === 'manual'
-          ? `<div class="row"><button class="btn btn-ghost" data-back>返回</button><button class="btn btn-primary" id="undoYao" ${state.step ? '' : 'disabled'}>${state.step ? '撤回一爻' : '请选择爻象'}</button></div>`
-          : `<div class="row"><button class="btn btn-ghost" data-back>返回</button><button class="btn btn-primary" id="submit" disabled>排卦</button></div>`}`
+        ? `<div class="row"><button class="btn btn-ghost" id="reset">重摇</button><button class="btn btn-primary" id="submit">排卦</button></div>`
+        : `<button class="btn btn-ghost" data-back>返回</button>`}`
     bindNav()
     const changeAsk = document.getElementById('changeAsk')
     if (changeAsk) changeAsk.onclick = () => { state.askNext = 'cast'; go('ask') }
     document.getElementById('modeShake').onclick = () => {
+      clearCastTimers()
       state.mode = 'shake'; state.step = 0; state.yaos = []; state.current = null
+      state.shaking = false; state.holding = false; state.landing = false
       state.displayCoins = ['', '', '']; render()
     }
     document.getElementById('modeManual').onclick = () => {
+      clearCastTimers()
       state.mode = 'manual'; state.step = 0; state.yaos = []; state.current = null
+      state.shaking = false; state.holding = false; state.landing = false
       state.displayCoins = ['', '', '']; render()
     }
     const shake = document.getElementById('shake')
-    if (shake) shake.onclick = () => {
-      if (state.shaking || state.step >= 6) return
-      if (!ensureAskSelected()) { state.askNext = 'cast'; go('ask'); return }
-      const result = window.LiuYao.tossThreeCoins()
-      state.shaking = true
-      state.current = null
-      state.displayCoins = result.coins
-      render()
-      setTimeout(() => pushYao(result), 1600)
+    if (shake) {
+      const randCoins = () => [0, 1, 2].map(() => (Math.random() > 0.5 ? 'yang' : 'yin'))
+      const onPress = (e) => {
+        e.preventDefault()
+        if (state.holding || state.landing || state.step >= 6) return
+        if (!ensureAskSelected()) { state.askNext = 'cast'; go('ask'); return }
+        clearCastTimers()
+        state._pressAt = Date.now()
+        state.holding = true
+        state.landing = false
+        state.shaking = true
+        state.current = null
+        state.displayCoins = randCoins()
+        render()
+        state._flipTimer = setInterval(() => {
+          if (!state.holding) return
+          state.displayCoins = randCoins()
+          // 只更新硬币面，避免整页重绘打断动画：轻量局部刷新
+          const coins = app.querySelectorAll('.coins .coin')
+          coins.forEach((el, i) => {
+            const c = state.displayCoins[i]
+            el.className = `coin ${c === 'yin' ? 'yin' : 'yang'}`
+          })
+          const slot = document.getElementById('shake')
+          if (slot) {
+            slot.classList.add('pressed')
+            slot.textContent = '松手成爻'
+          }
+        }, 90)
+      }
+      const onRelease = (e) => {
+        if (e) e.preventDefault()
+        if (!state.holding || state.landing) return
+        clearCastTimers()
+        const held = Date.now() - (state._pressAt || 0)
+        const wait = Math.max(0, 220 - held)
+        const settle = () => {
+          if (state.step >= 6) {
+            state.holding = false; state.landing = false; state.shaking = false; render()
+            return
+          }
+          const result = window.LiuYao.tossThreeCoins()
+          state.holding = false
+          state.landing = true
+          state.shaking = true
+          state.displayCoins = result.coins
+          render()
+          state._settleTimer = setTimeout(() => {
+            state._settleTimer = null
+            state.landing = false
+            state.shaking = false
+            pushYao(result)
+          }, 720)
+        }
+        if (wait > 0) state._releaseTimer = setTimeout(settle, wait)
+        else settle()
+      }
+      shake.addEventListener('mousedown', onPress)
+      shake.addEventListener('touchstart', onPress, { passive: false })
+      shake.addEventListener('mouseup', onRelease)
+      shake.addEventListener('mouseleave', () => { if (state.holding) onRelease() })
+      shake.addEventListener('touchend', onRelease, { passive: false })
+      shake.addEventListener('touchcancel', onRelease, { passive: false })
     }
     app.querySelectorAll('[data-manual]').forEach((el) => {
       el.onclick = () => {
@@ -14025,15 +13955,6 @@ window.LiuYao = {
     if (reset) reset.onclick = () => {
       state.step = 0; state.yaos = []; state.current = null
       state.displayCoins = ['', '', '']; render()
-    }
-    const undoYao = document.getElementById('undoYao')
-    if (undoYao) undoYao.onclick = () => {
-      if (!state.step) return
-      state.yaos = state.yaos.slice(0, -1)
-      state.step = state.yaos.length
-      state.current = state.yaos[state.yaos.length - 1] || null
-      state.displayCoins = state.current ? state.current.coins : ['', '', '']
-      render()
     }
     const submit = document.getElementById('submit')
     if (submit) submit.onclick = () => {
@@ -14138,12 +14059,12 @@ window.LiuYao = {
     app.innerHTML = `
       <div class="title-zh interpret-title-center">断卦</div>
       <div class="subtitle interpret-title-center">明所问 · 察卦变 · 定进退</div>
-      ${result.question ? `<div class="ask-box"><div class="ask-lab">所问</div><div class="ask-q">${accountEsc(result.question)}</div></div>` : ''}
       <div class="verdict ${result.tendency ? result.tendency.tone : ''}">
         ${corners()}
-        <div class="summary">${result.summary}</div>
+        <div class="summary">判断：${result.summary}</div>
         ${result.reply ? `<div class="reply">${result.reply}</div>` : ''}
         <div class="judgment">${result.summaryNote || ''}</div>
+        ${result.advice ? `<div class="advice">${result.advice}</div>` : ''}
       </div>
       <div class="frame">${corners()}${sections}</div>
       <div class="row" style="margin:12px 0 8px">
@@ -14476,7 +14397,7 @@ window.LiuYao = {
   let accountRenderTimer = null
   function renderAccountSoon() {
     clearTimeout(accountRenderTimer)
-    accountRenderTimer = setTimeout(render, 60)
+    accountRenderTimer = setTimeout(renderAccount, 60)
   }
 
   function renderAccount() {
@@ -14894,261 +14815,113 @@ window.LiuYao = {
     shell.addEventListener('touchend', onSwipeEnd, { passive: true })
   }
 
-  /* ───────── 朝向跟随（预览）─────────
-     目标：手机一转，盘面就转。
-     iOS Safari 必须 HTTPS + 用户手势授权；安卓多数可 HTTP。
-  */
   let compassTick = 0
   let pendingHeading = null
   let compassBound = false
-  let orientHandler = null
-  let motionHandler = null
-  let absoluteSensor = null
-  let sensorEventCount = 0
-  let lastSensorNote = '未开启'
-  let relativeAlphaZero = null
-
-  function isIOS() {
-    return /iPhone|iPad|iPod/i.test(navigator.userAgent || '')
-  }
-
-  function isSecureForSensors() {
-    if (typeof window === 'undefined') return false
-    if (window.isSecureContext) return true
-    const host = String(location.hostname || '')
-    return host === 'localhost' || host === '127.0.0.1'
-  }
-
-  function httpsPreviewUrl() {
-    try {
-      const u = new URL(location.href)
-      u.protocol = 'https:'
-      if (u.port === '8765' || !u.port) u.port = '8766'
-      if (!u.searchParams.get('v')) u.searchParams.set('v', 'compass3')
-      return u.toString()
-    } catch (e) {
-      return 'https://192.168.1.12:8766/liuyao-standalone.html?v=compass3'
-    }
-  }
-
-  function setSensorNote(msg) {
-    lastSensorNote = msg
-    state._dragHint = msg
-  }
 
   function headingFromOrientEvent(e) {
     if (!e) return null
-    // iOS：正北夹角（度）
     if (typeof e.webkitCompassHeading === 'number' && !Number.isNaN(e.webkitCompassHeading)) {
-      return ((Number(e.webkitCompassHeading) % 360) + 360) % 360
+      return e.webkitCompassHeading
     }
     if (e.alpha == null || Number.isNaN(Number(e.alpha))) return null
-    const alpha = Number(e.alpha)
-    // 绝对方位
-    if (e.absolute === true || e.absolute === 1) {
-      return ((360 - alpha) % 360 + 360) % 360
-    }
-    // 相对方位：以首次读数为 0，保证「手机转 → 盘转」
-    if (relativeAlphaZero == null) relativeAlphaZero = alpha
-    let rel = alpha - relativeAlphaZero
-    rel = ((rel % 360) + 360) % 360
-    return ((360 - rel) % 360 + 360) % 360
+    // 绝对方位优先；相对方位仍可转盘（相对初始朝向）
+    return (360 - Number(e.alpha)) % 360
   }
 
-  let orientSeenAt = 0
-  let gyroYaw = 0
-  let lastMotionT = 0
+  function flushPreviewCompass() {
+    if (pendingHeading == null) return
+    const next = pendingHeading
+    pendingHeading = null
+    applyLiveHeading(next)
+  }
 
   function applyPreviewCompass(heading) {
-    sensorEventCount += 1
-    orientSeenAt = Date.now()
-    const h = ((Number(heading) % 360) + 360) % 360
-    pendingHeading = h
+    pendingHeading = Math.round(((Number(heading) % 360) + 360) % 360)
     const now = Date.now()
-    if (now - compassTick < 16) {
-      if (!applyPreviewCompass._raf) {
-        applyPreviewCompass._raf = requestAnimationFrame(() => {
-          applyPreviewCompass._raf = 0
-          compassTick = Date.now()
-          if (pendingHeading != null) applyLiveHeading(pendingHeading)
-        })
-      }
+    if (now - compassTick < 50) {
+      // 保证最后一帧也会刷上
+      clearTimeout(applyPreviewCompass._t)
+      applyPreviewCompass._t = setTimeout(flushPreviewCompass, 50)
       return
     }
     compassTick = now
-    applyLiveHeading(h)
+    flushPreviewCompass()
   }
 
-  function unbindDeviceOrientation() {
-    if (orientHandler) {
-      window.removeEventListener('deviceorientation', orientHandler, true)
-      window.removeEventListener('deviceorientation', orientHandler, false)
-      window.removeEventListener('deviceorientationabsolute', orientHandler, true)
-      window.removeEventListener('deviceorientationabsolute', orientHandler, false)
-      orientHandler = null
-    }
-    if (motionHandler) {
-      window.removeEventListener('devicemotion', motionHandler, true)
-      window.removeEventListener('devicemotion', motionHandler, false)
-      motionHandler = null
-    }
-    compassBound = false
-    if (absoluteSensor) {
-      try { absoluteSensor.stop() } catch (e) { /* ignore */ }
-      absoluteSensor = null
-    }
-  }
-
-  function bindDeviceOrientation(force) {
-    if (typeof window === 'undefined') return false
-    if (!window.DeviceOrientationEvent && typeof AbsoluteOrientationSensor !== 'function') return false
-    if (compassBound && !force) return true
-    if (force) unbindDeviceOrientation()
-    relativeAlphaZero = null
-    sensorEventCount = 0
-    orientSeenAt = 0
-    lastMotionT = 0
-
-    orientHandler = (e) => {
-      const h = headingFromOrientEvent(e)
-      if (h == null || Number.isNaN(h)) return
-      applyPreviewCompass(h)
-    }
-
-    if (window.DeviceOrientationEvent) {
-      window.addEventListener('deviceorientation', orientHandler, true)
-      window.addEventListener('deviceorientation', orientHandler, false)
-      window.addEventListener('deviceorientationabsolute', orientHandler, true)
-      window.addEventListener('deviceorientationabsolute', orientHandler, false)
-    }
-
-    // 陀螺：orientation 静默时仍跟手（不抢占有 orientation 的时段）
-    motionHandler = (e) => {
-      if (Date.now() - orientSeenAt < 180) return
-      const rr = e && e.rotationRate
-      if (!rr || rr.alpha == null) return
-      let rate = Number(rr.alpha)
-      if (Number.isNaN(rate)) return
-      // 部分浏览器给 rad/s
-      if (Math.abs(rate) <= 0.8) rate = (rate * 180) / Math.PI
-      const t = e.timeStamp || Date.now()
-      if (!lastMotionT) {
-        lastMotionT = t
-        return
-      }
-      const dt = Math.min(0.05, Math.max(0, (t - lastMotionT) / 1000))
-      lastMotionT = t
-      gyroYaw = ((gyroYaw - rate * dt) % 360 + 360) % 360
-      applyPreviewCompass(gyroYaw)
-    }
-    window.addEventListener('devicemotion', motionHandler, true)
-    window.addEventListener('devicemotion', motionHandler, false)
-
-    if (typeof AbsoluteOrientationSensor === 'function' && window.isSecureContext) {
-      try {
-        const sensor = new AbsoluteOrientationSensor({ frequency: 30, referenceFrame: 'device' })
-        sensor.addEventListener('reading', () => {
-          if (!sensor.quaternion) return
-          const [x, y, z, w] = sensor.quaternion
-          const siny = 2 * (w * z + x * y)
-          const cosy = 1 - 2 * (y * y + z * z)
-          let yaw = (Math.atan2(siny, cosy) * 180) / Math.PI
-          yaw = ((-yaw % 360) + 360) % 360
-          applyPreviewCompass(yaw)
-        })
-        sensor.start()
-        absoluteSensor = sensor
-      } catch (e) { /* ignore */ }
-    }
-
+  function bindDeviceOrientation() {
+    if (typeof window === 'undefined' || !window.DeviceOrientationEvent) return
+    if (compassBound) return
     compassBound = true
-    return true
+    const onOrient = (e) => {
+      const h = headingFromOrientEvent(e)
+      if (h != null && !Number.isNaN(h)) applyPreviewCompass(h)
+    }
+    window.addEventListener('deviceorientation', onOrient, true)
+    window.addEventListener('deviceorientationabsolute', onOrient, true)
   }
 
-  /**
-   * iOS：必须在用户手势同步调用栈里直接 requestPermission。
-   * 不要在此函数开头 await/setTimeout，否则会“点了没反应”。
-   */
   function requestCompassPermission(fromUser) {
-    // 1) 先挂监听（同步）
-    try { bindDeviceOrientation(true) } catch (e) { /* ignore */ }
-
+    bindDeviceOrientation()
     const DOE = window.DeviceOrientationEvent
-    const DME = window.DeviceMotionEvent
-    const needOri = !!(DOE && typeof DOE.requestPermission === 'function')
-    const needMot = !!(DME && typeof DME.requestPermission === 'function')
-
-    // 2) 立刻在手势栈内调权限（iOS 关键）
-    if (needOri || needMot) {
-      let oriP = Promise.resolve('granted')
-      let motP = Promise.resolve('granted')
-      try {
-        if (needOri) oriP = DOE.requestPermission()
-      } catch (e) {
-        oriP = Promise.reject(e)
-      }
-      try {
-        if (needMot) motP = DME.requestPermission()
-      } catch (e) {
-        motP = Promise.resolve('denied')
-      }
-      Promise.all([oriP.catch(() => 'denied'), motP.catch(() => 'denied')])
-        .then(([ori]) => {
-          relativeAlphaZero = null
-          lastMotionT = 0
-          try { bindDeviceOrientation(true) } catch (e) { /* ignore */ }
-          if (fromUser && ori !== 'granted' && !state.compassReady) {
-            setSensorNote('请允许「运动与方向」后再次点击盘面')
+    const req = DOE && DOE.requestPermission
+    if (typeof req === 'function') {
+      req.call(DOE)
+        .then((stateName) => {
+          if (stateName === 'granted') {
+            bindDeviceOrientation()
+            if (fromUser) {
+              state._dragHint = '已授权，请转动手机'
+              paintLuopanLive()
+            }
+          } else if (fromUser) {
+            state._dragHint = '未授权方向感应 · 可拖动转盘'
+            paintLuopanLive()
           }
-          paintLuopanLive()
         })
-      return true
+        .catch(() => {
+          if (fromUser) {
+            state._dragHint = '无法开启方向感应 · 可拖动转盘'
+            paintLuopanLive()
+          }
+        })
+      return
     }
-
-    // 3) 安卓等：无权限 API，直接听传感器
-    paintLuopanLive()
-    return true
+    // 非 iOS：直接监听；若仍无数据则提示拖动
+    if (fromUser) {
+      state._dragHint = '请转动手机；若无反应可拖动转盘'
+      paintLuopanLive()
+      setTimeout(() => {
+        if (!state.compassReady) {
+          state._dragHint = '当前环境无罗盘 · 请拖动转盘'
+          paintLuopanLive()
+        }
+      }, 2500)
+    }
   }
 
-  /** 在传感器就绪前，每次点击/触摸都重新申请（避免 once 失败后永远不再弹） */
-  function armCompassOnGesture() {
-    const arm = () => {
-      if (state.compassReady && sensorEventCount > 2) return
+  function enableCompassOnFirstGesture() {
+    let handled = false
+    const activate = () => {
+      if (handled) return
+      handled = true
       requestCompassPermission(true)
+      document.removeEventListener('touchend', activate, true)
+      document.removeEventListener('click', activate, true)
     }
-    document.addEventListener('touchend', arm, { capture: true, passive: true })
-    document.addEventListener('click', arm, { capture: true })
-    // 盘面区域额外绑定，保证点罗盘必触发
-    document.addEventListener('touchstart', (ev) => {
-      const t = ev.target
-      if (!t) return
-      if (t.closest && (t.closest('#luopan-wrap') || t.closest('#luopan-hud') || t.closest('.luopan-controls'))) {
-        requestCompassPermission(true)
-      }
-    }, { capture: true, passive: true })
+    document.addEventListener('touchend', activate, { capture: true, once: true })
+    document.addEventListener('click', activate, { capture: true, once: true })
   }
 
-  // 启动：先挂监听；非 iOS 直接开；iOS 等用户点盘面/屏幕
-  try { bindDeviceOrientation(false) } catch (e) { /* ignore */ }
-  if (!isIOS()) {
-    try { requestCompassPermission(false) } catch (e) { /* ignore */ }
-  }
-  armCompassOnGesture()
+  // 预览页默认开启方向监听；受浏览器权限策略限制时仍可手动拖动转盘。
+  bindDeviceOrientation()
+  requestCompassPermission(false)
+  enableCompassOnFirstGesture()
 
   hydratePreviewAccount()
-  window.__liuyaoPreview = {
-    state, go, back, render, stack,
-    requestCompassPermission,
-    httpsPreviewUrl
-  }
-  try {
-    render()
-  } catch (e) {
-    console.error('[liuyao] render failed', e)
-    if (app) app.innerHTML = '<p style="padding:24px;line-height:1.6">页面加载异常，请刷新重试。</p>'
-  }
+  window.__liuyaoPreview = { state, go, back, render, stack }
+  render()
 })()
-
 </script>
 </body>
 </html>
