@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-  <!-- liuyao-preview-build:2026-08-05T06:57:08Z -->
+  <!-- liuyao-preview-build:2026-08-05T06:57:50Z -->
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover" />
   <title>周易研习</title>
@@ -537,19 +537,14 @@
       cursor: pointer; font-family: inherit; padding: 8px 0 8px 12px;
     }
     .ask-picker .field-label { text-align: center; }
-    .ask-option-list {
-      display: grid; grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 8px; margin-top: 8px;
-    }
+    .ask-option-list { display: grid; grid-template-columns: 1fr 1fr; gap: 7px; margin-top: 8px; }
     .ask-option {
-      display: flex; align-items: center; justify-content: center;
-      box-sizing: border-box; width: 100%; min-height: 48px;
-      padding: 8px 7px; cursor: pointer; text-align: center; font: inherit; font-size: 12.5px;
+      display: flex; align-items: center; justify-content: center; min-height: 52px;
+      padding: 9px 10px; cursor: pointer; text-align: center; font: inherit; font-size: 13px;
       border: 1px solid var(--line-strong); background: transparent; color: var(--ink-soft);
-      letter-spacing: .02em; line-height: 1.4; word-break: break-word;
-      overflow-wrap: break-word; white-space: normal;
+      letter-spacing: .04em; line-height: 1.4;
     }
-    .ask-option.wide { grid-column: auto; }
+    .ask-option.wide { grid-column: 1 / -1; }
     .ask-option.on {
       color: var(--cinnabar); border-color: var(--cinnabar); background: var(--cinnabar-soft);
     }
