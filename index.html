@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-  <!-- liuyao-preview-build:2026-08-05T03:28:56Z -->
+  <!-- liuyao-preview-build:2026-08-05T03:29:21Z -->
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover" />
   <title>周易研习</title>
@@ -7097,7 +7097,9 @@ function whenAdviceNatural(parsed, tone, whenHint, clockHint) {
   }
   // 日期/期限
   if (whenHint) {
-    let tip = `可把日子对到${whenHint}，前后也留观察。`
+    let tip = /前后|附近/.test(whenHint)
+      ? `可把日子对到${whenHint}，留意窗口变化。`
+      : `可把日子对到${whenHint}附近，前后也留观察。`
     if (kind === 'paper') tip += ' 修回和补材料尽量赶在窗口前做完。'
     else if (kind === 'exam') tip += ' 窗口前把最拉分的弱项再过一遍。'
     else if (kind === 'career') tip += ' 业绩和材料尽量在窗口前递到决策人。'
