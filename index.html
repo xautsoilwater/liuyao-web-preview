@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-  <!-- liuyao-preview-build:2026-08-05T01:36:27Z -->
+  <!-- liuyao-preview-build:2026-08-05T01:54:59Z -->
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover" />
   <title>周易研习</title>
@@ -5807,37 +5807,55 @@ const DOMAINS = [
     key: 'emotion',
     label: '感情婚姻',
     topicHint: 'marriage',
-    re: /婚|恋|感情|对象|分手|复合|相亲|女友|男友|老婆|丈夫|表白|相处|桃花|姻缘|第三者|喜不喜欢|见家长|断联|彩礼|嫁妆|条件/
+    re: /婚|恋|感情|对象|分手|复合|相亲|女友|男友|老婆|丈夫|表白|相处|桃花|姻缘|第三者|喜不喜欢|见家长|断联|彩礼|嫁妆/
   },
   {
     key: 'family',
     label: '家庭亲眷',
-    topicHint: 'general',
-    re: /家里|家和|父母|父亲|母亲|孩子|子女|亲眷|家人|婆媳|家事|择校|长辈/
+    topicHint: 'family',
+    re: /家里|家和|亲眷|家人|婆媳|家事/
+  },
+  {
+    key: 'family_parent',
+    label: '父母长辈',
+    topicHint: 'family_parent',
+    re: /父母|父亲|母亲|长辈|爸|妈/
+  },
+  {
+    key: 'family_child',
+    label: '子女晚辈',
+    topicHint: 'family_child',
+    re: /孩子|子女|儿子|女儿|小孩|择校/
   },
   {
     key: 'pregnancy',
     label: '孕产生育',
-    topicHint: 'health',
+    topicHint: 'pregnancy',
     re: /怀孕|受孕|胎|生产|顺产|剖腹|胎儿|生男|生女|孕产/
   },
   {
     key: 'exam',
     label: '学业考试',
     topicHint: 'exam',
-    re: /考试|考研|考公|面试|录取|论文|答辩|过关|上岸|分数|笔试|升学|证书|执照|事业编|调剂|留学|驾考|资格考/
+    re: /考试|考研|考公|面试|录取|论文|答辩|过关|上岸|分数|笔试|升学|证书|执照|事业编|调剂|留学|驾考|资格考|实验/
   },
   {
     key: 'career',
     label: '事业职场',
     topicHint: 'career',
-    re: /升职|晋升|工作|跳槽|入职|转正|岗位|职称|项目|官运|功名|辞职|上级|职场|裁员|降薪|创业|副业|续约|绩效|考核/
+    re: /升职|晋升|工作|跳槽|入职|转正|岗位|职称|官运|功名|辞职|上级|职场|裁员|降薪|创业|副业|续约|绩效|考核/
   },
   {
     key: 'wealth',
     label: '求财经营',
     topicHint: 'wealth',
-    re: /财|钱|回款|进账|生意|合同|签约|成交|利润|赚|亏|货款|收债|求财|借款|借出|担保|尾款|毁约/
+    re: /财|钱|进账|生意|合同|签约|成交|利润|赚|亏|求财|借款|借出|担保|毁约|项目单/
+  },
+  {
+    key: 'receivable',
+    label: '回款讨债',
+    topicHint: 'receivable',
+    re: /回款|讨债|要账|欠款|尾款|收债|货款|打款|对方给钱/
   },
   {
     key: 'invest',
@@ -5854,8 +5872,8 @@ const DOMAINS = [
   {
     key: 'partner',
     label: '合伙合作',
-    topicHint: 'wealth',
-    re: /合伙|合作|合伙人|搭伙/
+    topicHint: 'partner',
+    re: /合伙|合作|合伙人|搭伙|入股/
   },
   {
     key: 'health',
@@ -5866,31 +5884,31 @@ const DOMAINS = [
   {
     key: 'visit',
     label: '来客来访',
-    topicHint: 'travel',
+    topicHint: 'visit',
     re: /客人|来客|来访|访客|有人来|谁来|上门|拜访|串门|作客|做客|见客|会客|宾客/
   },
   {
     key: 'seek',
     label: '寻人来找',
-    topicHint: 'travel',
+    topicHint: 'visit',
     re: /找我|来找|有人找|来电找|打电话来|联系我|人找/
   },
   {
     key: 'meeting',
     label: '会见约见',
-    topicHint: 'travel',
+    topicHint: 'social',
     re: /见面|约见|会见|见他|见她|约出来|见一面|宜见|应酬/
   },
   {
     key: 'message',
     label: '来电信息',
-    topicHint: 'travel',
+    topicHint: 'visit',
     re: /来电|电话|短信|微信消息|重要消息|通知/
   },
   {
     key: 'delivery',
     label: '送达到来',
-    topicHint: 'travel',
+    topicHint: 'delivery',
     re: /快递|包裹|外卖|送到|到货|邮包|信件到|东西到/
   },
   {
@@ -5908,38 +5926,44 @@ const DOMAINS = [
   {
     key: 'document',
     label: '文书审批',
-    topicHint: 'exam',
+    topicHint: 'document',
     re: /申请|签证|审批|批复|手续|办证|证件|贷款批|公文|落户|理赔|报销|再签/
   },
   {
     key: 'home',
     label: '家宅迁居',
-    topicHint: 'travel',
+    topicHint: 'home',
     re: /搬家|迁居|租房|装修|动土|家宅|居住|住这里|开业|安床|邻里|物业/
   },
   {
     key: 'social',
     label: '人际应酬',
-    topicHint: 'general',
-    re: /求人|托人|帮得上|人情|关系网/
+    topicHint: 'social',
+    re: /求人|托人|帮得上|人情|关系网|送礼/
   },
   {
     key: 'weather',
     label: '天气雨晴',
-    topicHint: 'general',
+    topicHint: 'weather_rain',
     re: /下雨|雨|下雪|雪|天晴|晴天|阴天|台风|刮风|降温|天气|雷阵雨/
   },
   {
     key: 'lawsuit',
     label: '官司是非',
     topicHint: 'lawsuit',
-    re: /官司|诉讼|起诉|纠纷|是非|仲裁|法院|警察|告状|口舌|和解|报警|诈骗|被骗|劳动仲裁|离婚/
+    re: /官司|诉讼|起诉|纠纷|是非|仲裁|法院|警察|告状|口舌|和解|报警|诈骗|被骗|劳动仲裁/
   },
   {
     key: 'lost',
-    label: '失物寻人',
+    label: '失物',
     topicHint: 'lost',
-    re: /丢|失物|找回|找不着|遗失|钥匙|手机丢|找得到|寻物|寻人|失踪|宠物|账号/
+    re: /丢|失物|找回|找不着|遗失|钥匙|手机丢|找得到|寻物|宠物|账号/
+  },
+  {
+    key: 'lost_person',
+    label: '寻人',
+    topicHint: 'lost_person',
+    re: /寻人|失踪|失联|找人|人找不到|走失/
   }
 ]
 
@@ -7182,7 +7206,7 @@ const ASK_GROUPS =
       {
         id: "fa-harmony",
         label: "家里和不和睦",
-        topicKey: "general",
+        topicKey: "family",
         focus: "家和",
         mode: "jixiong",
         domain: "family",
@@ -7228,7 +7252,7 @@ const ASK_GROUPS =
       {
         id: "fa-inlaw",
         label: "婆媳/亲眷关系顺不顺",
-        topicKey: "general",
+        topicKey: "family",
         focus: "亲眷关系",
         mode: "jixiong",
         domain: "family",
@@ -7265,7 +7289,7 @@ const ASK_GROUPS =
       {
         id: "fa-how",
         label: "家里事怎么办",
-        topicKey: "general",
+        topicKey: "family",
         focus: "家事",
         mode: "how",
         domain: "family",
@@ -7291,7 +7315,7 @@ const ASK_GROUPS =
       {
         id: "ex-experiment",
         label: "实验能不能做成",
-        topicKey: "general",
+        topicKey: "exam",
         focus: "实验做成",
         mode: "yesno",
         yesKind: "can",
@@ -7381,7 +7405,7 @@ const ASK_GROUPS =
       {
         id: "ex-cert",
         label: "证件/执照过不过得了",
-        topicKey: "exam",
+        topicKey: "document",
         focus: "证件过关",
         mode: "yesno",
         yesKind: "can",
@@ -7391,7 +7415,7 @@ const ASK_GROUPS =
       {
         id: "ex-drive",
         label: "驾考/资格考过不过得了",
-        topicKey: "exam",
+        topicKey: "document",
         focus: "资格考试",
         mode: "yesno",
         yesKind: "can",
@@ -7603,7 +7627,7 @@ const ASK_GROUPS =
       {
         id: "we-back",
         label: "这笔回款能不能到",
-        topicKey: "wealth",
+        topicKey: "receivable",
         focus: "回款",
         mode: "yesno",
         yesKind: "can",
@@ -7644,7 +7668,7 @@ const ASK_GROUPS =
       {
         id: "we-partner",
         label: "合伙合不合适",
-        topicKey: "wealth",
+        topicKey: "partner",
         focus: "合伙",
         mode: "yesno",
         yesKind: "suit",
@@ -7684,7 +7708,7 @@ const ASK_GROUPS =
       {
         id: "we-debt",
         label: "这笔债收不收得回",
-        topicKey: "wealth",
+        topicKey: "receivable",
         focus: "收债",
         mode: "yesno",
         yesKind: "can",
@@ -8060,7 +8084,7 @@ const ASK_GROUPS =
       {
         id: "so-visit",
         label: "有没有客人来",
-        topicKey: "travel",
+        topicKey: "visit",
         focus: "客人",
         mode: "yesno",
         yesKind: "occur",
@@ -8070,7 +8094,7 @@ const ASK_GROUPS =
       {
         id: "so-who",
         label: "会是什么人来",
-        topicKey: "travel",
+        topicKey: "visit",
         focus: "来客",
         mode: "who",
         domain: "visit",
@@ -8089,7 +8113,7 @@ const ASK_GROUPS =
       {
         id: "so-clock",
         label: "客人大概几点到",
-        topicKey: "travel",
+        topicKey: "visit",
         focus: "客人到",
         mode: "when",
         whenKind: "clock",
@@ -8109,7 +8133,7 @@ const ASK_GROUPS =
       {
         id: "so-seek",
         label: "有没有人来找我",
-        topicKey: "travel",
+        topicKey: "visit",
         focus: "人来找",
         mode: "yesno",
         yesKind: "occur",
@@ -8139,7 +8163,7 @@ const ASK_GROUPS =
       {
         id: "so-help",
         label: "求人能不能帮得上",
-        topicKey: "general",
+        topicKey: "social",
         focus: "求人",
         mode: "yesno",
         yesKind: "can",
@@ -8149,7 +8173,7 @@ const ASK_GROUPS =
       {
         id: "so-gift",
         label: "这次送礼/人情适不适合",
-        topicKey: "general",
+        topicKey: "social",
         focus: "人情送礼",
         mode: "yesno",
         yesKind: "suit",
@@ -8159,7 +8183,7 @@ const ASK_GROUPS =
       {
         id: "so-rift",
         label: "这段关系会不会决裂",
-        topicKey: "general",
+        topicKey: "social",
         focus: "关系决裂",
         mode: "yesno",
         yesKind: "occur",
@@ -8170,7 +8194,7 @@ const ASK_GROUPS =
       {
         id: "so-jx",
         label: "这场应酬吉凶",
-        topicKey: "travel",
+        topicKey: "social",
         focus: "应酬",
         mode: "jixiong",
         domain: "social",
@@ -8186,7 +8210,7 @@ const ASK_GROUPS =
       {
         id: "dl-ok",
         label: "快递能不能到",
-        topicKey: "travel",
+        topicKey: "delivery",
         focus: "快递",
         mode: "yesno",
         yesKind: "occur",
@@ -8196,7 +8220,7 @@ const ASK_GROUPS =
       {
         id: "dl-when",
         label: "快递什么时候到",
-        topicKey: "travel",
+        topicKey: "delivery",
         focus: "快递到",
         mode: "when",
         whenKind: "day",
@@ -8206,7 +8230,7 @@ const ASK_GROUPS =
       {
         id: "dl-clock",
         label: "快递大概几点到",
-        topicKey: "travel",
+        topicKey: "delivery",
         focus: "快递到",
         mode: "when",
         whenKind: "clock",
@@ -8216,7 +8240,7 @@ const ASK_GROUPS =
       {
         id: "dl-food",
         label: "外卖能不能准时到",
-        topicKey: "travel",
+        topicKey: "delivery",
         focus: "外卖",
         mode: "yesno",
         yesKind: "occur",
@@ -8226,7 +8250,7 @@ const ASK_GROUPS =
       {
         id: "dl-customs",
         label: "清关/海关顺不顺",
-        topicKey: "travel",
+        topicKey: "delivery",
         focus: "清关",
         mode: "jixiong",
         domain: "delivery",
@@ -8235,7 +8259,7 @@ const ASK_GROUPS =
       {
         id: "dl-lost",
         label: "包裹会不会丢",
-        topicKey: "lost",
+        topicKey: "delivery",
         focus: "包裹丢失",
         mode: "yesno",
         yesKind: "occur",
@@ -8253,7 +8277,7 @@ const ASK_GROUPS =
       {
         id: "do-pass",
         label: "这份申请过不过得了",
-        topicKey: "exam",
+        topicKey: "document",
         focus: "申请过关",
         mode: "yesno",
         yesKind: "can",
@@ -8263,7 +8287,7 @@ const ASK_GROUPS =
       {
         id: "do-visa",
         label: "签证/证件办不办得下",
-        topicKey: "exam",
+        topicKey: "document",
         focus: "签证",
         mode: "yesno",
         yesKind: "can",
@@ -8273,7 +8297,7 @@ const ASK_GROUPS =
       {
         id: "do-visa-retry",
         label: "签证拒签后再签能不能过",
-        topicKey: "exam",
+        topicKey: "document",
         focus: "再签",
         mode: "yesno",
         yesKind: "can",
@@ -8283,7 +8307,7 @@ const ASK_GROUPS =
       {
         id: "do-when",
         label: "手续什么时候能批下来",
-        topicKey: "exam",
+        topicKey: "document",
         focus: "批复",
         mode: "when",
         whenKind: "day",
@@ -8293,7 +8317,7 @@ const ASK_GROUPS =
       {
         id: "do-loan",
         label: "贷款批不批得下",
-        topicKey: "wealth",
+        topicKey: "document",
         focus: "贷款审批",
         mode: "yesno",
         yesKind: "can",
@@ -8303,7 +8327,7 @@ const ASK_GROUPS =
       {
         id: "do-hukou",
         label: "落户/入学材料过不过得了",
-        topicKey: "exam",
+        topicKey: "document",
         focus: "落户入学",
         mode: "yesno",
         yesKind: "can",
@@ -8313,7 +8337,7 @@ const ASK_GROUPS =
       {
         id: "do-claim",
         label: "保险理赔/报销批不批得下",
-        topicKey: "wealth",
+        topicKey: "document",
         focus: "理赔报销",
         mode: "yesno",
         yesKind: "can",
@@ -8323,7 +8347,7 @@ const ASK_GROUPS =
       {
         id: "do-how",
         label: "手续怎么办更顺",
-        topicKey: "exam",
+        topicKey: "document",
         focus: "办手续",
         mode: "how",
         domain: "document",
@@ -8332,7 +8356,7 @@ const ASK_GROUPS =
       {
         id: "do-jx",
         label: "这桩文书吉凶",
-        topicKey: "exam",
+        topicKey: "document",
         focus: "文书",
         mode: "jixiong",
         domain: "document",
@@ -8348,7 +8372,7 @@ const ASK_GROUPS =
       {
         id: "ho-move",
         label: "适不适合搬家",
-        topicKey: "travel",
+        topicKey: "home",
         focus: "搬家",
         mode: "yesno",
         yesKind: "suit",
@@ -8358,7 +8382,7 @@ const ASK_GROUPS =
       {
         id: "ho-choice",
         label: "搬还是不搬",
-        topicKey: "travel",
+        topicKey: "home",
         focus: "搬家",
         mode: "choice",
         domain: "home",
@@ -8371,7 +8395,7 @@ const ASK_GROUPS =
       {
         id: "ho-rent",
         label: "这处房子适不适合租",
-        topicKey: "wealth",
+        topicKey: "home",
         focus: "租房",
         mode: "yesno",
         yesKind: "suit",
@@ -8381,7 +8405,7 @@ const ASK_GROUPS =
       {
         id: "ho-live",
         label: "住这里安不安",
-        topicKey: "general",
+        topicKey: "home",
         focus: "居住",
         mode: "jixiong",
         domain: "home",
@@ -8390,7 +8414,7 @@ const ASK_GROUPS =
       {
         id: "ho-reno",
         label: "适不适合装修/动土",
-        topicKey: "general",
+        topicKey: "home",
         focus: "装修",
         mode: "yesno",
         yesKind: "suit",
@@ -8400,7 +8424,7 @@ const ASK_GROUPS =
       {
         id: "ho-open",
         label: "适不适合开业/安床",
-        topicKey: "general",
+        topicKey: "home",
         focus: "开业安床",
         mode: "yesno",
         yesKind: "suit",
@@ -8410,7 +8434,7 @@ const ASK_GROUPS =
       {
         id: "ho-neighbor",
         label: "邻里/物业纠纷利不利",
-        topicKey: "lawsuit",
+        topicKey: "home",
         focus: "邻里纠纷",
         mode: "jixiong",
         domain: "home",
@@ -8419,7 +8443,7 @@ const ASK_GROUPS =
       {
         id: "ho-when",
         label: "什么时候适合迁居",
-        topicKey: "travel",
+        topicKey: "home",
         focus: "迁居",
         mode: "when",
         whenKind: "day",
@@ -8429,7 +8453,7 @@ const ASK_GROUPS =
       {
         id: "ho-how",
         label: "家宅事怎么办",
-        topicKey: "general",
+        topicKey: "home",
         focus: "家宅",
         mode: "how",
         domain: "home",
@@ -8474,7 +8498,7 @@ const ASK_GROUPS =
       {
         id: "lo-person",
         label: "这个人找不找得到",
-        topicKey: "lost",
+        topicKey: "lost_person",
         focus: "寻人",
         mode: "yesno",
         yesKind: "find",
@@ -8675,7 +8699,7 @@ const ASK_GROUPS =
       {
         id: "wx-out",
         label: "天气适不适合出门",
-        topicKey: "travel",
+        topicKey: "weather_rain",
         focus: "出门",
         mode: "yesno",
         yesKind: "suit",
@@ -8933,7 +8957,7 @@ function buildAskSelection(optionId, timeKey) {
       answerShape: opt.whenKind === 'clock' ? 'clock' : (opt.yesKind || opt.mode || 'outlook'),
       domain: opt.domain || 'general',
       domainLabel: domainLabel || '综合事务',
-      topicHint: opt.topicKey || 'general',
+      topicHint: opt.topicKey || opt.domain || 'general',
       modes: [opt.mode || 'outlook'],
       timeHint,
       shortAsk: timeHint ? `${timeHint}·${opt.focus || opt.label}` : (opt.focus || opt.label),
@@ -8984,23 +9008,33 @@ const {
 } = require('./ask')
 const { getGuaCi } = require('../data/guaci')
 
-/** 问事类别：用神=主要看什么；元神=帮你的；忌神=碍事的 */
+/** 问事类别：用神=主要看什么；元神=帮你的；忌神=碍事的（已按事体细分，减少「综合」笼统取用） */
 const TOPIC_YONGSHEN = [
-  { key: 'wealth', label: '求财', yongshen: '妻财', yuanShen: '子孙', jiShen: '兄弟', tip: '求财主要看「妻财」（钱财）。「子孙」能生财，是助力；「兄弟」容易分财、争利，要小心。' },
-  { key: 'career', label: '功名官运', yongshen: '官鬼', yuanShen: '妻财', jiShen: '子孙', tip: '功名官运主要看「官鬼」（职位/名分）。「妻财」生官，是助力；「子孙」克官，发动时要防绊脚。' },
-  { key: 'health', label: '疾病健康', yongshen: '世爻', yuanShen: '子孙', jiShen: '官鬼', useShiYing: true, tip: '自占健康先看世爻承受力；「官鬼」常代表病气，「子孙」常代表医药、调养与化解。卦象不能代替诊断。' },
-  { key: 'pregnancy', label: '孕产生育', yongshen: '子孙', yuanShen: '兄弟', jiShen: '父母', tip: '孕产问事以「子孙」为主要象意，再参世爻与医护现实；卦象不能判断胎儿性别或替代产检。' },
-  { key: 'family_parent', label: '父母长辈', yongshen: '父母', yuanShen: '官鬼', jiShen: '妻财', tip: '问父母长辈以「父母」为用，合看旺衰、空破与动化；健康问题仍以现实医疗为准。' },
-  { key: 'family_child', label: '子女晚辈', yongshen: '子孙', yuanShen: '兄弟', jiShen: '父母', tip: '问子女晚辈以「子孙」为用，合看旺衰、空破与动化；现实沟通与照护优先。' },
-  { key: 'lawsuit', label: '官司是非', yongshen: '世爻', yuanShen: '父母', jiShen: '', useShiYing: true, tip: '官司宜比较世应强弱，并参「官鬼」（官方程序）与「父母」（证据文书）；不能只凭官鬼旺衰判输赢。' },
-  { key: 'marriage', label: '婚姻感情', yongshen: '应爻', yuanShen: '', jiShen: '', useShiYing: true, tip: '未区分问卦者性别时，以应爻代表对方，合看世应生克；不强套男财女官，避免取错用神。' },
-  { key: 'marriage_f', label: '婚姻（女测）', yongshen: '官鬼', yuanShen: '妻财', jiShen: '子孙', useShiYing: true, tip: '明确女测感情时可看「官鬼」（夫星），「妻财」生官为助力；仍须合看应爻与现实互动。' },
-  { key: 'travel', label: '出行行人', yongshen: '父母', yuanShen: '官鬼', jiShen: '妻财', tip: '出行、行人多看「父母」（文书、行程、道路信息），并参世应与动爻；实时交通和天气应以官方信息为准。' },
-  { key: 'weather_rain', label: '雨雪天气', yongshen: '父母', yuanShen: '官鬼', jiShen: '妻财', tip: '传统天气占以「父母」多主雨雪云气；这里只作象意，必须对照官方预报与预警。' },
-  { key: 'weather_clear', label: '雨止天晴', yongshen: '子孙', yuanShen: '兄弟', jiShen: '父母', tip: '传统天气占以「子孙」多主晴霁、止雨；这里只作象意，必须对照官方预报与预警。' },
-  { key: 'exam', label: '考试文书', yongshen: '父母', yuanShen: '官鬼', jiShen: '妻财', tip: '考试、论文与文书主要看「父母」。「官鬼」生父母，是助力；「妻财」克父母，发动时要防分心或手续受损。' },
-  { key: 'lost', label: '失物寻人', yongshen: '妻财', yuanShen: '子孙', jiShen: '兄弟', tip: '失物常看「妻财」（所失之物）；寻人亦可参所求对应的六亲。玄武多主隐匿。' },
-  { key: 'general', label: '综合问事', yongshen: '世爻', yuanShen: '', jiShen: '', useShiYing: true, tip: '问事不明确时，先看「世爻」（自己）与「应爻」（事体/对方），再合看动变。' }
+  { key: 'wealth', label: '求财经营', yongshen: '妻财', yuanShen: '子孙', jiShen: '兄弟', tip: '求财、生意进账主看「妻财」。「子孙」生财为助力；「兄弟」分财争利为忌。' },
+  { key: 'receivable', label: '回款讨债', yongshen: '妻财', yuanShen: '子孙', jiShen: '兄弟', useShiYing: true, tip: '回款讨债主看「妻财」是否有气，并合看应爻（付款方）是否发动配合；财有气而应静，多见款在而迟。' },
+  { key: 'partner', label: '合伙合作', yongshen: '应爻', yuanShen: '', jiShen: '兄弟', useShiYing: true, tip: '合伙主看应爻（对方）与世应生克；兄弟爻发动常主分利、掣肘或意见不合。' },
+  { key: 'career', label: '功名职场', yongshen: '官鬼', yuanShen: '妻财', jiShen: '子孙', tip: '职位、升迁、名分主看「官鬼」。「妻财」生官为助力；「子孙」克官，发动时防绊脚。' },
+  { key: 'exam', label: '考试学业', yongshen: '父母', yuanShen: '官鬼', jiShen: '妻财', tip: '考试、论文、答卷主看「父母」。「官鬼」生父母为助力（名次/门槛）；「妻财」克父母，防分心或手续受损。' },
+  { key: 'document', label: '文书审批', yongshen: '父母', yuanShen: '官鬼', jiShen: '妻财', tip: '签证、批文、证件、贷款批复主看「父母」（文书）与「官鬼」（审核节点）；不宜只当普通考试断。' },
+  { key: 'health', label: '疾病健康', yongshen: '世爻', yuanShen: '子孙', jiShen: '官鬼', useShiYing: true, tip: '自占健康先看世爻承受力；「官鬼」多主病气，「子孙」多主医药调养。卦象不能代替诊断。' },
+  { key: 'pregnancy', label: '孕产生育', yongshen: '子孙', yuanShen: '兄弟', jiShen: '父母', tip: '孕产以「子孙」为主，再参世爻与医护现实；不能断胎儿性别或替代产检。' },
+  { key: 'family_parent', label: '父母长辈', yongshen: '父母', yuanShen: '官鬼', jiShen: '妻财', tip: '问父母长辈以「父母」为用；健康仍以现实医疗为准。' },
+  { key: 'family_child', label: '子女晚辈', yongshen: '子孙', yuanShen: '兄弟', jiShen: '父母', tip: '问子女晚辈以「子孙」为用；现实沟通与照护优先。' },
+  { key: 'family', label: '家和亲眷', yongshen: '世爻', yuanShen: '', jiShen: '兄弟', useShiYing: true, tip: '家和、婆媳、亲眷关系合看世应是否相生相合；兄弟发动常主口舌争执。' },
+  { key: 'lawsuit', label: '官司是非', yongshen: '世爻', yuanShen: '父母', jiShen: '', useShiYing: true, tip: '官司比较世应强弱，并参「官鬼」（程序官方）与「父母」（证据文书）；不能只凭一爻判输赢。' },
+  { key: 'marriage', label: '感情（中立）', yongshen: '应爻', yuanShen: '', jiShen: '兄弟', useShiYing: true, tip: '未标明男女测时，以应爻为对方，合看世应生克；兄弟发动常主竞争、分神或第三者压力。' },
+  { key: 'marriage_f', label: '感情（女测）', yongshen: '官鬼', yuanShen: '妻财', jiShen: '子孙', useShiYing: true, tip: '女测感情可取「官鬼」为夫星，「妻财」生官为助力；仍须合看应爻与现实互动。' },
+  { key: 'marriage_m', label: '感情（男测）', yongshen: '妻财', yuanShen: '子孙', jiShen: '兄弟', useShiYing: true, tip: '男测感情可取「妻财」为妻星，「子孙」生财为助力；兄弟发动防争风或分耗。' },
+  { key: 'travel', label: '出行路途', yongshen: '父母', yuanShen: '官鬼', jiShen: '妻财', tip: '出行、路途、航班车次多看「父母」（文书行程）；实时交通以官方信息为准。' },
+  { key: 'visit', label: '来客来访', yongshen: '应爻', yuanShen: '父母', jiShen: '', useShiYing: true, tip: '来客、来访、人来找主看应爻（来方）是否有气发动；父母可参消息文书。' },
+  { key: 'delivery', label: '快递送达', yongshen: '妻财', yuanShen: '子孙', jiShen: '兄弟', tip: '快递包裹等以「妻财」（物）为主，合看动爻与父母（单据物流信息）。' },
+  { key: 'home', label: '家宅迁居', yongshen: '父母', yuanShen: '官鬼', jiShen: '妻财', useShiYing: true, tip: '家宅、装修、迁居、开业安床多看「父母」（房屋宅气），并参世爻是否安住。' },
+  { key: 'social', label: '人际求人', yongshen: '应爻', yuanShen: '', jiShen: '兄弟', useShiYing: true, tip: '求人、人情、关系网主看应爻是否生世、发动；兄弟发动防推诿或争竞。' },
+  { key: 'weather_rain', label: '雨雪天气', yongshen: '父母', yuanShen: '官鬼', jiShen: '妻财', tip: '传统以「父母」多主雨雪云气；必须对照官方预报。' },
+  { key: 'weather_clear', label: '雨止天晴', yongshen: '子孙', yuanShen: '兄弟', jiShen: '父母', tip: '传统以「子孙」多主晴霁止雨；必须对照官方预报。' },
+  { key: 'lost', label: '失物', yongshen: '妻财', yuanShen: '子孙', jiShen: '兄弟', tip: '失物主看「妻财」（所失之物）旺衰空破与方位；玄武多主隐匿。' },
+  { key: 'lost_person', label: '寻人', yongshen: '应爻', yuanShen: '', jiShen: '', useShiYing: true, tip: '寻人主看应爻（所寻之人）旺衰动静与方位；有危险须立即报警，不等待卦象。' },
+  { key: 'general', label: '综合问事', yongshen: '世爻', yuanShen: '', jiShen: '', useShiYing: true, tip: '问事笼统时先看世应，再合看动变；能细分事体时勿长期停在综合类。' }
 ]
 
 /** 六十四卦的叙事主旨：用于把卦名、卦辞和所问连成自然断语。 */
@@ -9072,27 +9106,40 @@ const HEXAGRAM_THEME = {
   未济: '已经接近结果，但最后一步最易失误，仍不可掉以轻心'
 }
 
-/** 根据所问文字自动匹配问事类别，便于断语对准所问 */
+/** 根据所问文字自动匹配细分用神类别（顺序：先细后粗） */
 function guessTopicKey(question) {
   const q = String(question || '').trim()
   if (!q) return 'general'
-  if (/雨停|停雨|天晴|放晴/.test(q)) return 'weather_clear'
-  if (/下雨|下雪|雨雪|降温|天气/.test(q)) return 'weather_rain'
-  // 先用事体域映射（来客→行人、失物→失物…）
+  if (/雨停|停雨|天晴|放晴|雨会不会停|会不会停雨|什么时候晴/.test(q)) return 'weather_clear'
+  if (/下雨|下雪|雨雪|降温|天气|刮风|台风|阴天|会不会下雨/.test(q)) return 'weather_rain'
+  // 优先：菜单/解析带来的 domain → topic
   try {
     const parsed = parseQuestion(q)
     if (parsed && parsed.topicHint && parsed.topicHint !== 'general') return parsed.topicHint
   } catch (e) { /* ignore */ }
   const rules = [
-    { key: 'wealth', re: /财|钱|生意|投资|买卖|进账|回款|赚|亏|项目|合同|签约|签下|甲方|成交|谈成|提成|开单|利润|客户单/ },
-    { key: 'exam', re: /考试|考研|考公|面试笔试|分数|录取|论文|答辩|审批|证件|执照|报名|过关|上岸|考上|升学|中考|高考/ },
-    { key: 'career', re: /升职|晋升|官运|功名|职位|岗位|职称|调动|仕途|当官|提拔|入职|跳槽|工作机会|转正/ },
-    { key: 'health', re: /病|疾|疼|痛|手术|住院|康复|治疗|身体|发烧|炎症|孕产|体检|痊愈|好转|严重/ },
-    { key: 'lawsuit', re: /官司|诉讼|起诉|纠纷|是非|仲裁|法院|警察|告状|口舌官非/ },
-    { key: 'marriage_f', re: /嫁|夫君|老公|他会不会|男友.*婚|女方|我嫁|娶我/ },
-    { key: 'marriage', re: /婚|恋|感情|对象|分手|复合|相亲|女友|老婆|妻子|相处|表白|在一起|喜欢我|爱我|有没有心|第三者/ },
-    { key: 'travel', re: /出行|出门|旅行|出差|行人|归来|航班|火车|路途|搬家远行|客人|来访|来客|快递|送达/ },
-    { key: 'lost', re: /丢|失物|寻人|找不着|失踪|遗失|找回|钥匙|手机丢|找得到/ }
+    { key: 'lost_person', re: /寻人|失踪|找人|人找不到|走失|失联/ },
+    { key: 'lost', re: /丢|失物|找不着|遗失|找回|钥匙|手机丢|找得到|宠物丢|账号丢/ },
+    { key: 'pregnancy', re: /怀孕|受孕|胎|生产|顺产|剖腹|孕产|生男|生女/ },
+    { key: 'health', re: /病|疾|疼|痛|手术|住院|康复|治疗|身体|发烧|炎症|体检|痊愈|好转|病情|就医/ },
+    { key: 'lawsuit', re: /官司|诉讼|起诉|纠纷|是非|仲裁|法院|警察|告状|口舌|和解|报警|诈骗/ },
+    { key: 'receivable', re: /回款|讨债|要账|欠款|尾款|收债|货款回来|对方给钱|打款/ },
+    { key: 'partner', re: /合伙|合作|合伙人|搭伙|入股一起/ },
+    { key: 'document', re: /签证|审批|批复|办证|落户|理赔|报销|贷款批|公文|手续办/ },
+    { key: 'exam', re: /考试|考研|考公|面试笔试|分数|录取|论文|答辩|过关|上岸|考上|升学|中考|高考|驾考|证书/ },
+    { key: 'career', re: /升职|晋升|官运|功名|职位|岗位|职称|调动|仕途|提拔|入职|跳槽|转正|裁员|绩效|创业/ },
+    { key: 'wealth', re: /财|钱|生意|投资|买卖|进账|赚|亏|合同|签约|成交|利润|提成|理财|股票|基金/ },
+    { key: 'marriage_f', re: /我嫁|女测|女方测|夫君|老公会|他爱不爱我|男友.*婚/ },
+    { key: 'marriage_m', re: /我娶|男测|男方测|老婆|妻子|女友会不会|她爱不爱我/ },
+    { key: 'marriage', re: /婚|恋|感情|对象|分手|复合|相亲|相处|表白|在一起|喜欢我|第三者|桃花|姻缘/ },
+    { key: 'family_parent', re: /父母|父亲|母亲|长辈|爸|妈/ },
+    { key: 'family_child', re: /孩子|子女|儿子|女儿|小孩/ },
+    { key: 'family', re: /家里|家和|婆媳|亲眷|家人|家事/ },
+    { key: 'visit', re: /客人|来客|来访|有人来|人来找|来找我|拜访|串门|会客/ },
+    { key: 'delivery', re: /快递|包裹|外卖|到货|邮包/ },
+    { key: 'home', re: /搬家|迁居|租房|装修|动土|家宅|住这里|开业|安床|邻里|物业/ },
+    { key: 'social', re: /求人|托人|人情|送礼|帮得上|关系网/ },
+    { key: 'travel', re: /出行|出门|旅行|出差|航班|火车|路途|远行|到家|归来|抵达/ }
   ]
   for (let i = 0; i < rules.length; i++) {
     if (rules[i].re.test(q)) return rules[i].key
