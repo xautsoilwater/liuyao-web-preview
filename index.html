@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-  <!-- liuyao-preview-build:2026-08-05T01:27:57Z -->
+  <!-- liuyao-preview-build:2026-08-05T01:28:18Z -->
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover" />
   <title>周易研习</title>
@@ -9539,11 +9539,12 @@ function buildJudgment(ctx) {
       }
     }
     if (gap.fix) {
-      // 卦上具体改法并入「怎么做」，避免两套话重复
+      // 用卦上实点重写「怎么做」：先说具体改法，再点趋吉避凶
+      const how = `【怎么做】${gap.fix}。趋吉：按上面做。避凶：别硬顶、别一次押满。`
       if (/【怎么做】/.test(reply)) {
-        reply = reply.replace(/【怎么做】/, `【怎么做】${gap.fix}。另：`)
+        reply = reply.replace(/【怎么做】[\s\S]*$/, how)
       } else {
-        reply += `【怎么做】${gap.fix}。`
+        reply += how
       }
     }
   }
