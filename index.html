@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-  <!-- liuyao-preview-build:2026-08-05T02:57:19Z -->
+  <!-- liuyao-preview-build:2026-08-05T03:03:17Z -->
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover" />
   <title>周易研习</title>
@@ -7165,15 +7165,72 @@ function resolveParsed(question, topic, askMeta) {
     const base = askMeta.parsed
     return Object.assign({}, base, {
       raw: question || base.raw || '',
-      shortAsk: base.shortAsk || base.focus || question || '此事'
+      shortAsk: base.shortAsk || base.focus || question || '此事',
+      optionId: base.optionId || askMeta.optionId || '',
+      topicKey: base.topicKey || askMeta.topicKey || base.topicHint || ''
     })
   }
-  return parseQuestion(question, topic)
+  const p = parseQuestion(question, topic)
+  if (askMeta && askMeta.optionId) p.optionId = askMeta.optionId
+  if (askMeta && askMeta.topicKey) p.topicKey = askMeta.topicKey
+  return p
+}
+
+/**
+ * 深度匹配：把「所问主体 + 问法 + 卦上哪一环强弱」收成一段自然话
+ * matchCtx: { strong[], weak[], action, stage, resultName }
+ */
+function composeMatchedYesNo(parsed, tone, mild, timeHint, matchCtx) {
+  const subj = parsed.focus || '此事'
+  const result = (matchCtx && matchCtx.resultName) || subj
+  const strong = (matchCtx && matchCtx.strong) || []
+  const weak = (matchCtx && matchCtx.weak) || []
+  const action = (matchCtx && matchCtx.action) || ''
+  const stage = (matchCtx && matchCtx.stage) || ''
+  const sk = subjectKind(parsed)
+  const when = timeHint || '眼下'
+
+  // 先用主体专属底稿
+  let text = canReplyBySubject(subj, sk, tone, mild, timeHint)
+
+  // 用「哪一环强/弱」点破所问结构（自然嵌进正文）
+  const linkBit = () => {
+    if (strong.length && weak.length) {
+      return `具体看：${strong.join('、')}还行，但${weak.join('、')}没接上，${result}就卡在这里。`
+    }
+    if (weak.length) {
+      return `关键是${weak.join('、')}这一环还没处理好，${result}就难往下走。`
+    }
+    if (strong.length) {
+      return `好在${strong.join('、')}还撑得住，这是${result}能往前的地方。`
+    }
+    return ''
+  }
+  const lb = linkBit()
+  if (lb) {
+    text = text.replace(/（[^）]{4,40}）\s*$/, '')
+    const parts = text.split('。').filter((p) => p.trim())
+    if (parts.length >= 2) {
+      // 结论句 + 环节句 + 其余怎么做（去掉重复的空泛句，最多再留两句）
+      const rest = parts.slice(1, 3).join('。')
+      text = `${parts[0]}。${lb}${rest ? `${rest}。` : ''}`
+    } else {
+      text = `${text}${lb}`
+    }
+  }
+  if (stage && !/处在|阶段/.test(text)) {
+    text = text.replace(/。\s*$/, '') + ` 你现在更像处在「${stage}」这一步。`
+  }
+  return text.replace(/\s+/g, ' ').replace(/。\s*。/g, '。').trim()
 }
 
 module.exports = {
   MODE_LABEL,
   WHEN_KIND_LABEL,
+  subjectKind,
+  canReplyBySubject,
+  canAdviceBySubject,
+  composeMatchedYesNo,
   ZHI_DIR,
   GUA_DIR,
   GUA_SCENE,
@@ -9164,6 +9221,8 @@ function buildAskSelection(optionId, timeKey) {
       domain: opt.domain || 'general',
       domainLabel: domainLabel || '综合事务',
       topicHint: opt.topicKey || opt.domain || 'general',
+      topicKey: opt.topicKey || 'general',
+      optionId: opt.id,
       modes: [opt.mode || 'outlook'],
       timeHint,
       shortAsk: timeHint ? `${timeHint}·${opt.focus || opt.label}` : (opt.focus || opt.label),
@@ -9198,6 +9257,7 @@ const {
   parseQuestion,
   resolveParsed,
   directReply,
+  composeMatchedYesNo,
   ZHI_DIR,
   GUA_DIR,
   GUA_SCENE,
@@ -9210,7 +9270,9 @@ const {
   invertTone,
   safetyAdvice,
   safetyLevel,
-  safetyJudgmentLine
+  safetyJudgmentLine,
+  canAdviceBySubject,
+  subjectKind
 } = require('./ask')
 const { getGuaCi } = require('../data/guaci')
 
@@ -9601,6 +9663,120 @@ function philosophyGuidance(tone, focus, parsed) {
 }
 
 /**
+ * 深度匹配上下文：把用神/世应/六亲强弱，映射成「所问的关键环节」名称
+ * 这样断语说的是「稿件/审稿/修改」而不是空「行不行」
+ */
+function buildMatchContext(ctx, topic, judgment) {
+  const parsed = judgment.parsed || {}
+  const profile = questionProfile(ctx, judgment)
+  const y = ctx.primaryYong || (ctx.yongList && ctx.yongList[0])
+  const shi = ctx.shi
+  const ying = ctx.ying
+  const ben = ctx.ben
+  const strong = []
+  const weak = []
+
+  const axisOk = (axis) => {
+    if (!axis) return null
+    if (axis.role === 'shi' && shi) {
+      if (shi.wangshuai === '旺' || shi.wangshuai === '相') return true
+      if (shi.wangshuai === '囚' || shi.wangshuai === '死' || shi.kong) return false
+      return null
+    }
+    if (axis.role === 'ying' && ying) {
+      if (ying.changing || ying.wangshuai === '旺' || ying.wangshuai === '相') return true
+      if (ying.kong || ying.wangshuai === '死' || ying.wangshuai === '囚') return false
+      return null
+    }
+    if (axis.role === 'yong' && y) {
+      if ((y.wangshuai === '旺' || y.wangshuai === '相') && !y.kong) return true
+      if (y.kong || y.wangshuai === '囚' || y.wangshuai === '死') return false
+      return null
+    }
+    if (axis.role === 'shi-ying' && shi && ying) {
+      const sy = relationWuxing(shi.wuxing, ying.wuxing)
+      if (sy === '被生' || sy === '比和') return true
+      if (sy === '被克') return false
+      return null
+    }
+    if (/^liuqin:/.test(axis.role || '') && ben && ben.yaos) {
+      const name = axis.role.split(':')[1]
+      const lines = ben.yaos.filter((l) => l.liuqin === name)
+      if (!lines.length) return false
+      const best = lines.slice().sort((a, b) => {
+        const sc = (l) => (l.changing ? 3 : 0) + (l.wangshuai === '旺' || l.wangshuai === '相' ? 2 : 0) - (l.kong ? 2 : 0)
+        return sc(b) - sc(a)
+      })[0]
+      if (axis.polarity === 'risk') {
+        // 风险轴：有气/发动 = 风险真，算「弱项」（对所问不利）
+        if (best.changing || best.wangshuai === '旺' || best.wangshuai === '相') return false
+        return true
+      }
+      if ((best.wangshuai === '旺' || best.wangshuai === '相') && !best.kong) return true
+      if (best.kong || best.wangshuai === '死' || best.wangshuai === '囚') return false
+      return null
+    }
+    if (/^liushen:/.test(axis.role || '') && ben && ben.yaos) {
+      const name = axis.role.split(':')[1]
+      const hit = ben.yaos.find((l) => l.liushen === name && (l.changing || l.role === '应' || l.role === '世'))
+      if (axis.polarity === 'risk') return hit ? false : true
+      return hit ? true : null
+    }
+    return null
+  }
+
+  ;(profile.axes || []).forEach((axis) => {
+    const ok = axisOk(axis)
+    if (axis.polarity === 'risk') {
+      // 风险轴：有气=坏事在，记入 weak；无气=干扰不大，不吹成「强项」
+      if (ok === false) weak.push(axis.label)
+      return
+    }
+    if (ok === true) strong.push(axis.label)
+    if (ok === false) weak.push(axis.label)
+  })
+
+  // 无画像轴时，退回用神状态 → 仍用主体词
+  if (!strong.length && !weak.length && y) {
+    const subj = parsed.focus || profile.result || '此事'
+    if ((y.wangshuai === '旺' || y.wangshuai === '相') && !y.kong) strong.push(`${subj}的根基`)
+    if (y.kong) weak.push(`${subj}还不踏实`)
+    if (y.wangshuai === '囚' || y.wangshuai === '死') weak.push(`${subj}力气不够`)
+    if (y.dayMonth && y.dayMonth.heRi) weak.push(`${subj}被拖住的节点`)
+  }
+
+  // 阶段：从原文猜用户卡在哪一步
+  const raw = String(parsed.raw || '')
+  let stage = ''
+  if (/已投|投出去|在审|审稿|外审|修回|大修|小修|接收|拒稿/.test(raw) || /论文|稿/.test(parsed.focus || '')) {
+    if (/修回|大修|小修|改稿/.test(raw)) stage = '按意见修改、等再审'
+    else if (/已投|在审|外审|投出去/.test(raw)) stage = '稿已在审、等结果'
+    else if (/拒|换刊|重投/.test(raw)) stage = '受挫后调整策略'
+    else stage = '准备稿件或准备投稿'
+  } else if (/面试|笔试|成绩|录取|上岸/.test(raw + (parsed.focus || ''))) {
+    if (/面试/.test(raw)) stage = '临近或等待面试'
+    else if (/成绩|出分/.test(raw)) stage = '等成绩/出分'
+    else if (/录取|上岸/.test(raw)) stage = '等录取结果'
+    else stage = '备考冲刺'
+  } else if (/升职|提拔|转正|入职/.test(raw + (parsed.focus || ''))) {
+    if (/口头|说了|暗示/.test(raw)) stage = '已有口头说法、等名分'
+    else stage = '争取岗位/名分'
+  } else if (/回款|欠|债|尾款/.test(raw + (parsed.focus || ''))) {
+    stage = /催|要账|起诉/.test(raw) ? '催收进行中' : '等对方付款'
+  }
+
+  return {
+    resultName: profile.result || parsed.focus || '此事',
+    strong: strong.slice(0, 2),
+    weak: weak.slice(0, 2),
+    action: profile.action || '',
+    premise: profile.premise || '',
+    stage,
+    profileKind: profile.kind || ''
+  }
+}
+
+/**
  * 从卦上提炼「问题 / 怎么做」——必须挂在所问主体上，禁止万能套话
  */
 function guaProblemAndFix(ctx, topic, primaryYong, fu, fanYin, fuYin, answerTone, parsed) {
@@ -9826,11 +10002,25 @@ function buildJudgment(ctx) {
     choicePick,
     outcomeTone: tone
   })
-  // 成否类：最多补一句卦上要点，避免把短断语又拉长
+  // 成否类：用「所问环节强弱」深度贴合（仅 can；有无/发生保持各自话术）
+  let matchCtx = null
   if (parsed.mode === 'yesno' && !guardedLevel) {
-    const gap = guaProblemAndFix(ctx, topic, primaryYong, fu, fanYin, fuYin, answerTone, parsed)
-    if (gap.problem && reply.length < 120) {
-      reply += `（${gap.problem}）`
+    matchCtx = buildMatchContext(ctx, topic, {
+      parsed,
+      level,
+      tone: answerTone
+    })
+    const yk = parsed.yesKind || 'can'
+    if (yk === 'can') {
+      try {
+        reply = composeMatchedYesNo(parsed, answerTone, mild, parsed.timeHint || '', matchCtx)
+      } catch (e) { /* 回退 directReply */ }
+    } else if ((yk === 'have' || yk === 'should' || yk === 'suit') && matchCtx && (matchCtx.weak.length || matchCtx.strong.length)) {
+      // 轻量贴合：只补一句「卡在哪一环」，不改结论词
+      const bit = matchCtx.weak.length
+        ? `眼下更要注意「${matchCtx.weak.slice(0, 2).join('、')}」。`
+        : `眼下「${matchCtx.strong.slice(0, 2).join('、')}」还撑得住。`
+      if (!reply.includes(bit.slice(0, 8))) reply = `${reply.replace(/。\s*$/, '')}。${bit}`
     }
   }
 
@@ -9882,7 +10072,13 @@ function buildJudgment(ctx) {
           ? `当下怎么做：「${focus}」宜重视，该求助时别拖。`
           : `当下怎么做：持续观察「${focus}」变化，勿自行下死结论。`
   } else if (parsed.mode === 'yesno') {
-    advice = yesNoAdvice(parsed, answerTone)
+    // 一条建议说透：优先画像 action（按选项定制），否则主体专属
+    if (matchCtx && matchCtx.action && String(matchCtx.action).length > 12) {
+      advice = String(matchCtx.action)
+      if (advice.length > 120) advice = `${advice.slice(0, 116)}…`
+    } else {
+      advice = yesNoAdvice(parsed, answerTone)
+    }
   } else if (tone === 'good') {
     advice = `当下怎么做：围绕「${focus}」推进；盯近应，防忌神搅局。`
   } else if (tone === 'bad') {
