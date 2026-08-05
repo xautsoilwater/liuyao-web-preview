@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-  <!-- liuyao-preview-build:2026-08-05T03:03:31Z -->
+  <!-- liuyao-preview-build:2026-08-05T03:08:28Z -->
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover" />
   <title>周易研习</title>
@@ -740,7 +740,7 @@
     }
     .topic.on { color: #fff; background: #8d8579; border-color: #756e64; }
     .verdict {
-      text-align: center; padding: 16px 12px; margin-bottom: 12px;
+      text-align: left; padding: 16px 12px; margin-bottom: 12px;
       border: 1.5px solid var(--line-strong);
       background:
         radial-gradient(ellipse at top, rgba(160,40,32,0.06), transparent 55%),
@@ -750,18 +750,23 @@
     .verdict.good { border-color: rgba(70,110,75,.45); }
     .verdict.bad { border-color: rgba(160,40,32,.55); }
     .verdict.mid { border-color: rgba(143,117,82,.45); }
-    .verdict .summary { margin: 8px 0 6px; font-size: 22px; letter-spacing: .16em; font-weight: 600; color: var(--ink); }
+    /* 断语标题居中，正文左对齐 */
+    .verdict .summary {
+      margin: 8px 0 10px; font-size: 22px; letter-spacing: .16em;
+      font-weight: 600; color: var(--ink); text-align: center;
+      text-indent: 0; padding-left: .16em;
+    }
     .verdict .reply {
       margin: 0 0 8px; font-size: 16px; letter-spacing: .06em;
-      color: var(--cinnabar); font-weight: 600;
+      color: var(--cinnabar); font-weight: 600; text-align: left; line-height: 1.75;
     }
     .verdict .judgment {
-      margin: 0 2px 8px; font-size: 14px; color: var(--ink-2);
-      text-align: justify; line-height: 1.85; letter-spacing: .04em;
+      margin: 0 0 8px; font-size: 14px; color: var(--ink-2);
+      text-align: left; line-height: 1.85; letter-spacing: .04em;
     }
     .verdict .advice {
       margin-top: 4px; padding-top: 10px; border-top: 1px dashed var(--line-strong);
-      font-size: 13px; color: var(--bronze); text-align: justify; line-height: 1.8;
+      font-size: 13px; color: var(--bronze); text-align: left; line-height: 1.8;
     }
     .verdict .pointer {
       margin-top: 10px; padding: 10px 11px;
