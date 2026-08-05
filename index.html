@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-  <!-- liuyao-preview-build:2026-08-05T02:07:58Z -->
+  <!-- liuyao-preview-build:2026-08-05T02:08:19Z -->
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover" />
   <title>周易研习</title>
@@ -6647,18 +6647,18 @@ function directReply(parsed, tone, level, extra) {
     if (kind === 'occur') {
       const phrase = occurPhrase(domain, focus)
       if (domain === 'visit' || domain === 'seek') {
-        const who = domain === 'seek' ? '有人来找' : '有客人来'
+        const who = domain === 'seek' ? '人来找' : '客人来'
         if (tone === 'good') {
           return mild
-            ? `问「${subj}」：${dayRef}多半会${who.replace(/^有/, '')}，但不一定准时。留点接待时间就好，不必整天空等。`
+            ? `问「${subj}」：${dayRef}多半会有${who}，但不一定准时。留点接待时间就好，不必整天空等。`
             : `问「${subj}」：${dayRef}有${who}的意思，可以按这个准备，时间放宽一点，别钉死某一分钟。`
         }
         if (tone === 'bad') {
           return mild
             ? `问「${subj}」：${dayRef}${who}的象偏弱，正事照常做就行，别空等。`
-            : `问「${subj}」：${dayRef}暂看不会${who.replace(/^有/, '')}，该忙正事，不必特意候着。`
+            : `问「${subj}」：${dayRef}暂看不会有${who}，该忙正事，不必特意候着。`
         }
-        return `问「${subj}」：${dayRef}说不准会不会来，两手准备最稳。`
+        return `问「${subj}」：${dayRef}说不准会不会有${who}，两手准备最稳。`
       }
       if (domain === 'weather') {
         if (tone === 'good') return `问「${subj}」：${dayRef}「${phrase}」象偏有，备伞或改行程，并对照预报。`
