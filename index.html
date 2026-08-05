@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-  <!-- liuyao-preview-build:2026-08-05T06:57:50Z -->
+  <!-- liuyao-preview-build:2026-08-05T07:42:27Z -->
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover" />
   <title>周易研习</title>
@@ -264,18 +264,21 @@
     .bead.on { background: var(--cinnabar); border-color: var(--cinnabar); }
     .stage-live {
       display: flex; gap: 12px; align-items: stretch;
-      margin-top: 8px; overflow: visible; padding-top: 96px; min-height: 200px;
+      margin-top: 8px; overflow: visible; padding-top: 72px; min-height: 220px;
+      position: relative;
     }
     .coin-stage {
       flex: 1.25; text-align: center;
       display: flex; flex-direction: column; overflow: visible;
+      padding-top: 28px; box-sizing: border-box;
     }
-    /* 小按钮在卦象列顶部（靠左） */
+    /* 浮在卦象列上方，不占卦象高度 */
     .cast-shake-slot {
-      position: relative; display: inline-flex; align-items: center; justify-content: center;
-      align-self: flex-start; width: auto; min-width: 72px; height: 30px;
-      padding: 0 12px; box-sizing: border-box; margin: 0 0 8px;
-      border: 1px solid #56442f; border-radius: 15px; color: #fff8e8; cursor: pointer;
+      position: absolute; left: 10px; top: -34px; z-index: 5;
+      display: inline-flex; align-items: center; justify-content: center;
+      width: auto; min-width: 68px; height: 28px;
+      padding: 0 11px; box-sizing: border-box; margin: 0;
+      border: 1px solid #56442f; border-radius: 14px; color: #fff8e8; cursor: pointer;
       user-select: none; touch-action: none; font: inherit; font-size: 12px; letter-spacing: .1em;
       background: linear-gradient(180deg, #8b7451, #655139);
       box-shadow: inset 0 0 0 2px rgba(255,248,225,.1), 0 2px 6px rgba(73,54,34,.12);
@@ -288,17 +291,17 @@
     .gua-side {
       flex: 0.78; min-width: 92px; min-height: 180px; padding: 0 2px 0 10px;
       border-left: 1px dashed var(--line); box-sizing: border-box;
-      display: flex; flex-direction: column; align-items: flex-start;
+      display: flex; flex-direction: column; align-items: center;
       position: relative;
     }
-    .stage-live .gua-side { min-height: 0; border-left: 1px dashed var(--line); transform: translateY(-6px); }
+    .stage-live .gua-side { min-height: 0; border-left: 1px dashed var(--line); transform: none; }
     .gua-side .gua-lab {
       margin: 0 0 8px; font-size: 13px; letter-spacing: 0.22em; text-indent: 0.22em;
-      color: var(--bronze); text-align: center; width: 100%; align-self: center;
+      color: var(--bronze); text-align: center; width: 100%;
     }
     .stage-live .gua-side .gua-lab { position: static; }
     .gua-side .gua-lines {
-      flex: 1; width: 100%; min-height: 140px;
+      flex: 1; width: 100%; min-height: 160px;
       display: flex; flex-direction: column;
       justify-content: space-between; align-items: center; gap: 0;
     }
