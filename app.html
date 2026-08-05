@@ -376,6 +376,21 @@
       40% { transform: scaleX(.35); opacity: .08; }
       60% { transform: scaleX(.7); opacity: .18; }
     }
+    .holding .coin-obverse { animation: hold-face-yang .4s steps(1) infinite; }
+    .holding .coin-reverse { animation: hold-face-yin .4s steps(1) infinite; }
+    .holding .coin:nth-child(2) .coin-obverse,
+    .holding .coin:nth-child(2) .coin-reverse { animation-delay: .08s; }
+    .holding .coin:nth-child(3) .coin-obverse,
+    .holding .coin:nth-child(3) .coin-reverse { animation-delay: .14s; }
+    @keyframes hold-face-yang {
+      0%, 49% { opacity: 1; z-index: 2; }
+      50%, 100% { opacity: 0; z-index: 1; }
+    }
+    @keyframes hold-face-yin {
+      0%, 49% { opacity: 0; z-index: 1; }
+      50%, 100% { opacity: 1; z-index: 2; }
+    }
+    .landing .coin-obverse, .landing .coin-reverse { animation: none; }
     /* 松手落下 */
     .landing .coin-body {
       transform-style: preserve-3d; transform-origin: center center;
