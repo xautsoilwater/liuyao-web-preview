@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-  <!-- liuyao-preview-build:2026-08-05T01:35:47Z -->
+  <!-- liuyao-preview-build:2026-08-05T01:36:27Z -->
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover" />
   <title>周易研习</title>
@@ -6624,18 +6624,18 @@ function directReply(parsed, tone, level, extra) {
     if (kind === 'occur') {
       const phrase = occurPhrase(domain, focus)
       if (domain === 'visit' || domain === 'seek') {
-        const who = domain === 'seek' ? '有人来找' : '有客人来'
+        const who = domain === 'seek' ? '人来找' : '客人来'
         if (tone === 'good') {
           return mild
-            ? `${head}就「${subj}」：偏会有。【当前】${dayRef || '近段'}${who}的象偏有，但未必准时。【未来】留窗口能接上；空等过久易空耗。【怎么做】趋吉：留一点接待时间。避凶：别整天空等。`
-            : `${head}就「${subj}」：会有。【当前】${dayRef || '近段'}有${who}的象。【未来】按「有人/有客」准备更顺。【怎么做】趋吉：备茶水与时间窗口。避凶：别把时间钉死到某一分钟。`
+            ? `${head}就「${subj}」：偏会有。【当前】${dayRef || '近段'}「${who}」象偏有，但未必准时。【未来】留窗口能接上；空等过久易空耗。【怎么做】趋吉：留一点接待时间。避凶：别整天空等。`
+            : `${head}就「${subj}」：会有。【当前】${dayRef || '近段'}有「${who}」的象。【未来】按有客/有人来准备更顺。【怎么做】趋吉：备茶水与时间窗口。避凶：别把时间钉死到某一分钟。`
         }
         if (tone === 'bad') {
           return mild
-            ? `${head}就「${subj}」：偏不会。【当前】${dayRef || '近段'}${who}的象弱。【未来】有事照常安排；来了再接待。【怎么做】趋吉：正事照旧。避凶：别空等。`
-            : `${head}就「${subj}」：暂不会。【当前】${dayRef || '近段'}暂看无${who}。【未来】不必特意候客。【怎么做】趋吉：该忙正事。避凶：别干等。`
+            ? `${head}就「${subj}」：偏不会。【当前】${dayRef || '近段'}「${who}」象弱。【未来】有事照常安排；来了再接待。【怎么做】趋吉：正事照旧。避凶：别空等。`
+            : `${head}就「${subj}」：暂不会。【当前】${dayRef || '近段'}暂看无「${who}」。【未来】不必特意候客。【怎么做】趋吉：该忙正事。避凶：别干等。`
         }
-        return `${head}就「${subj}」：说不准。【当前】${dayRef || '近段'}${who}未明。【怎么做】趋吉：两边都留一点准备。避凶：别只赌一种结果。`
+        return `${head}就「${subj}」：说不准。【当前】${dayRef || '近段'}「${who}」未明。【怎么做】趋吉：两边都留一点准备。避凶：别只赌一种结果。`
       }
       if (domain === 'weather') {
         if (tone === 'good') {
