@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-  <!-- liuyao-preview-build:2026-08-05T02:05:08Z -->
+  <!-- liuyao-preview-build:2026-08-05T02:05:38Z -->
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover" />
   <title>周易研习</title>
@@ -6460,19 +6460,19 @@ function safetyAdvice(parsed) {
   const domain = parsed && parsed.domain
   const focus = String((parsed && parsed.focus) || '')
   if (domain === 'health' || domain === 'pregnancy') {
-    return '现实校验：卦象不能诊断病情、判断手术适应证、推断胎儿性别或替代产检；请以医生、检查结果和紧急症状处置为准。'
+    return '现实校验：以医生和检查为准，卦不能代诊。'
   }
   if (domain === 'invest' || domain === 'property') {
-    return '现实校验：投资和大额买卖须核对现金流、合同、估值与最坏损失，不可仅据卦象下注。'
+    return '现实校验：先尽调，勿只据卦下注。'
   }
   if (domain === 'lawsuit') {
-    return '现实校验：是否报警、起诉或和解应依据事实证据、时限与专业法律意见；有人身危险时应立即求助或报警。'
+    return '现实校验：依证据与律师意见，有危险即报警。'
   }
   if (domain === 'weather') {
-    return '现实校验：天气与出行安全以官方预报、预警和现场交通信息为准。'
+    return '现实校验：以官方预报为准。'
   }
   if (domain === 'lost' && /寻人|人/.test(focus)) {
-    return '现实校验：人员失联应先联系亲友、核对行程；存在危险或异常失联时应及时报警，不要等待卦象应期。'
+    return '现实校验：先找人，危险即报警。'
   }
   return ''
 }
@@ -9355,11 +9355,14 @@ function philosophyGuidance(tone, focus, parsed) {
     return '寻人之要：先找人、必要时报警。'
   }
   if (parsed && parsed.mode === 'choice') return '取舍之道：先小步试，再重注。'
-  // yesno 主答复已含宜忌，不再叠长句
-  if (parsed && parsed.mode === 'yesno') return ''
+  if (parsed && parsed.mode === 'yesno') {
+    if (tone === 'good') return '趋吉之道：守正有节。'
+    if (tone === 'bad') return '避凶之道：先退后谋。'
+    return '指迷之要：小步验证。'
+  }
   if (tone === 'good') return `趋吉之道：办「${focus}」守规矩、留余地。`
-  if (tone === 'bad') return `避凶之道：先止损，别跟「${focus}」硬顶。`
-  return `指迷之要：小步验证「${focus}」再定。`
+  if (tone === 'bad') return `避凶之道：先止损，别硬顶。`
+  return `指迷之要：小步验证再定。`
 }
 
 /**
