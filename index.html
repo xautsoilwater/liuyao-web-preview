@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-  <!-- liuyao-preview-build:2026-08-05T02:08:19Z -->
+  <!-- liuyao-preview-build:2026-08-05T02:57:19Z -->
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover" />
   <title>周易研习</title>
@@ -6510,6 +6510,243 @@ function safetyJudgmentLine(parsed, tone) {
   return `判断：传统象意对「${focus}」目前${symbolic}；人员失联不得等待卦象，应立即按现实线索查找并在必要时报警。`
 }
 
+/** 成否类：按主体选话术包（论文/考试/升职…），避免千题一句「行、补一环」 */
+function subjectKind(parsed) {
+  const s = `${parsed.focus || ''} ${parsed.raw || ''} ${parsed.domain || ''} ${parsed.topicHint || ''}`
+  if (/论文|稿件|投稿|接收|审稿|修回|录用/.test(s)) return 'paper'
+  if (/实验|课题|科研/.test(s)) return 'experiment'
+  if (/项目中标|获批|立项|中标/.test(s)) return 'project'
+  if (/签证|证件|审批|批复|办证|落户|理赔|报销|再签/.test(s) || parsed.domain === 'document') return 'document'
+  if (/考试|过关|录取|上岸|成绩|驾考|资格|笔试|考研|考公/.test(s) || parsed.domain === 'exam') return 'exam'
+  if (/升职|提拔|转正|入职|跳槽|岗位|编制|晋升/.test(s) || parsed.domain === 'career') return 'career'
+  if (/回款|讨债|欠款|尾款|货款|要账|打款/.test(s)) return 'receivable'
+  if (/投资|股票|基金|加仓|理财|收益/.test(s) || parsed.domain === 'invest') return 'invest'
+  if (/合伙|合作|入股/.test(s) || parsed.domain === 'partner') return 'partner'
+  if (/怀孕|受孕|生产|孕产/.test(s) || parsed.domain === 'pregnancy') return 'pregnancy'
+  if (/病|手术|康复|体检|治疗/.test(s) || parsed.domain === 'health') return 'health'
+  if (/官司|诉讼|起诉|仲裁/.test(s) || parsed.domain === 'lawsuit') return 'lawsuit'
+  if (/买房|卖房|置业|房价/.test(s) || parsed.domain === 'property') return 'property'
+  return 'general'
+}
+
+/**
+ * 能不能：主体专属短断（结论 + 跟这事相关的怎么做）
+ */
+function canReplyBySubject(subj, kind, tone, mild, timeHint) {
+  const when = timeHint || '眼下'
+  const pack = {
+    paper: {
+      good: mild
+        ? `问「${subj}」：有希望接收，但还差临门一脚。${when}稿子站得住，审稿或修改意见还没完全合上。先盯最可能被拒的那条质疑补证据、改表述，别平均润色全文；也别以为「差不多了」就不回修。`
+        : `问「${subj}」：能过这一关。${when}接收偏顺，按审稿意见一项项闭环改就好；别拖回复、别敷衍修改。`,
+      bad: mild
+        ? `问「${subj}」：现在难接收，不是永无希望。关键质疑或门槛还卡着，硬投、硬催没用。先把致命问题改掉或换策略（补实验、缩结论、换刊），比反复小修强。`
+        : `问「${subj}」：眼下不容易接收。阻力大，先别死磕这一个结果；把硬伤补齐或调整投稿策略再来。`,
+      mid: `问「${subj}」：接不接收还说不准。稿件和评审门槛在拉扯，先补最硬的那条证据链，再等消息。`
+    },
+    experiment: {
+      good: mild
+        ? `问「${subj}」：实验做得成，但条件还没齐。${when}方法大方向对，关键变量或材料还差一块。先验证最核心假设，留好失败判据，别全面铺开。`
+        : `问「${subj}」：实验偏能做成。${when}按既定方案推进，关键步骤做扎实；别急着扩规模。`,
+      bad: mild
+        ? `问「${subj}」：现在难做成。方法或条件有缺口，硬做只会耗材料。先改方案、补条件，再开一轮。`
+        : `问「${subj}」：眼下做不成。先停无效重复，把关键瓶颈找出来再动。`,
+      mid: `问「${subj}」：成不成还两可。先做一步可回退的预实验验证关键假设。`
+    },
+    project: {
+      good: mild
+        ? `问「${subj}」：中标/获批有希望，材料或关系还差一环。${when}别当已定，先把标书/申请里最弱的一节补强，并确认评审节点。`
+        : `问「${subj}」：偏能中标或获批。${when}按节点交材料、对接评审要求；别掉以轻心。`,
+      bad: mild
+        ? `问「${subj}」：现在难。竞争或材料门槛卡着，硬冲耗力。先补硬伤、看清评审口径，再投。`
+        : `问「${subj}」：眼下希望不大。先止损，改方案或等下一批次。`,
+      mid: `问「${subj}」：还说不准。先把材料硬伤清掉，再谈运气。`
+    },
+    exam: {
+      good: mild
+        ? `问「${subj}」：能过，但还差一口气。${when}基础在，薄弱项或临场/程序还可能拖后腿。优先补最拉分的那一块，报名材料、时间规则别翻车。`
+        : `问「${subj}」：能过。${when}按复习节奏走，规范答题、守时；别临时开新战线。`,
+      bad: mild
+        ? `问「${subj}」：眼下悬。短板明显，硬刷无效项没用。集中火力补最致命的知识点/题型，程序别出错。`
+        : `问「${subj}」：现在难过。先认清短板，调策略；别死磕无效努力。`,
+      mid: `问「${subj}」：过不过两可。先攻最影响得分的那一环，再看整体。`
+    },
+    document: {
+      good: mild
+        ? `问「${subj}」：办得下，材料或审核节点还差一点。${when}按清单补件，盯审批进度；别漏交、别超期。`
+        : `问「${subj}」：能办下来。${when}材料齐、按节点跟；别拖补件。`,
+      bad: mild
+        ? `问「${subj}」：现在卡着，材料或规则不合。先按拒因改，别盲目重交。`
+        : `问「${subj}」：眼下难办。先弄清卡在哪条规则，补齐再送。`,
+      mid: `问「${subj}」：过不过还看材料与审核。先把清单和时限核死。`
+    },
+    career: {
+      good: mild
+        ? `问「${subj}」：有希望，名分或签字还没落。${when}别把口头认可当升职。先确认决策人、时间表和可量化业绩，再推进。`
+        : `问「${subj}」：行。${when}可以往上推，业绩和汇报递到能拍板的人手里；别只停在态度好。`,
+      bad: mild
+        ? `问「${subj}」：眼下难。岗位或决策还没接上，硬争耗关系。先补业绩节点、看清编制/流程，再谈。`
+        : `问「${subj}」：不行。阻力大，先稳住本职，改条件或等窗口，别硬顶。`,
+      mid: `问「${subj}」：成不成还看决策节点。先把能证明的业绩和流程走清楚。`
+    },
+    receivable: {
+      good: mild
+        ? `问「${subj}」：款有望回来，对方或节点还拖着。${when}别当已到账。书面催、对账、约付款日；别只口头问。`
+        : `问「${subj}」：回款偏顺。${when}按约定跟节点，单据留好。`,
+      bad: mild
+        ? `问「${subj}」：眼下难回。对方动力不足，硬催易僵。先对账、留痕，必要时走程序，别空等一句「马上付」。`
+        : `问「${subj}」：难回。先止损、留证据，评估催收或法律途径，别把希望全押在态度上。`,
+      mid: `问「${subj}」：回不回还两可。先把账和凭证理清，再定催还是等。`
+    },
+    invest: {
+      good: mild
+        ? `问「${subj}」：象偏顺，不等于稳赚。${when}先定最坏能亏多少和退出条件，再谈加仓。`
+        : `问「${subj}」：象偏顺，仍要风控。仓位和止损先设好。`,
+      bad: mild
+        ? `问「${subj}」：风险偏大。${when}别加码，先减风险、核逻辑。`
+        : `问「${subj}」：不宜重仓。先止损或观望，别逆势加码。`,
+      mid: `问「${subj}」：得失未分。小仓验证，别一把梭。`
+    },
+    partner: {
+      good: mild
+        ? `问「${subj}」：合作谈得拢，权益或分工还没写清。${when}先把权责、分成、退出写进约定，再深绑。`
+        : `问「${subj}」：合作偏顺。对方愿配合，条款谈清楚再开工。`,
+      bad: mild
+        ? `问「${subj}」：现在难合。意见或利益拧着，硬推易撕。先谈清分歧，谈不拢就止损。`
+        : `问「${subj}」：不宜硬合伙。先停，避免更大牵扯。`,
+      mid: `问「${subj}」：合不合还看条款与信任。先小范围试合作。`
+    },
+    pregnancy: {
+      good: mild
+        ? `问「${subj}」：象偏有希望，仍须听产检和医生，别拿卦当确认。规律随访、调作息。`
+        : `问「${subj}」：象偏顺，按医嘱产检即可，卦不能代替检查。`,
+      bad: mild
+        ? `问「${subj}」：象偏难，先别焦虑硬断。以检查为准，该复查复查。`
+        : `问「${subj}」：象偏逆，务必遵医嘱，勿自行停药或延误。`,
+      mid: `问「${subj}」：卦上未定，一切以检查和医生意见为准。`
+    },
+    health: {
+      good: mild
+        ? `问「${subj}」：象偏缓，仍要看病、复查，别自行停药。`
+        : `问「${subj}」：象偏稳，按医嘱随访即可。`,
+      bad: mild
+        ? `问「${subj}」：象提醒重视，有症状及时就医，别拖。`
+        : `问「${subj}」：象偏重，尽快专业评估，别靠卦硬扛。`,
+      mid: `问「${subj}」：轻重未定，以检查为准。`
+    },
+    lawsuit: {
+      good: mild
+        ? `问「${subj}」：程序上有承接，不能当已赢。证据、时限先抓牢，听律师的。`
+        : `问「${subj}」：象略有利，仍靠证据和程序，别松劲。`,
+      bad: mild
+        ? `问「${subj}」：压力偏大。先保证据与时限，策略听专业意见。`
+        : `问「${subj}」：象偏不利。收缩风险，勿只凭声势硬拼。`,
+      mid: `问「${subj}」：输赢未定，证据和程序比心态重要。`
+    },
+    property: {
+      good: mild
+        ? `问「${subj}」：交易象偏顺，合同和资金链还要核。别只看价格顺眼。`
+        : `问「${subj}」：象偏可做，尽调做完再签。`,
+      bad: mild
+        ? `问「${subj}」：眼下不宜急。风险点先查清。`
+        : `问「${subj}」：不宜现在做，先停、再核。`,
+      mid: `问「${subj}」：适不适合还看尽调结果。`
+    },
+    general: {
+      good: mild
+        ? `问「${subj}」：行，还差一点。${when}大体能成，关键条件没齐。先补最相关的那一块，小步推进；别硬闯、别一次押满。`
+        : `问「${subj}」：行。${when}可以办，盯着关键步骤往前；别急躁、留退路。`,
+      bad: mild
+        ? `问「${subj}」：眼下不行，不是永远不行。先改条件或换时机，别死磕。`
+        : `问「${subj}」：不行。阻力大，先止损，条件齐了再动。`,
+      mid: `问「${subj}」：暂时说不准。先补最关键的一环验证一下。`
+    }
+  }
+  const p = pack[kind] || pack.general
+  if (tone === 'good') return p.good
+  if (tone === 'bad') return p.bad
+  return p.mid
+}
+
+function canAdviceBySubject(subj, kind, tone) {
+  const pack = {
+    paper: {
+      good: '优先回最重的审稿意见，证据和表述改到位再交；别拖、别敷衍。',
+      bad: '先解决致命质疑或调整投稿策略，别无效小修空转。',
+      mid: '找出最硬的那条短板补上，再等结果。'
+    },
+    experiment: {
+      good: '抓住关键变量做扎实，预实验通过再扩。',
+      bad: '停无效重复，改方法或条件后再开。',
+      mid: '先做一步可回退的预实验。'
+    },
+    project: {
+      good: '材料按评审口径补强，节点别漏。',
+      bad: '补硬伤、看清规则，别盲目重投。',
+      mid: '先清材料硬伤。'
+    },
+    exam: {
+      good: '主攻最拉分的薄弱项，程序和时间别出错。',
+      bad: '集中补致命短板，别平均用力。',
+      mid: '先攻最影响得分的一环。'
+    },
+    document: {
+      good: '按清单补件，盯审批时限。',
+      bad: '按拒因改材料，弄清规则再送。',
+      mid: '清单和时限先核死。'
+    },
+    career: {
+      good: '业绩和材料递到能拍板的人，要时间表。',
+      bad: '先稳住本职、补节点，别硬争。',
+      mid: '把可证明的业绩和流程走清楚。'
+    },
+    receivable: {
+      good: '书面催、对账、约付款日，单据留痕。',
+      bad: '对账留痕，必要时走程序，别空等「马上付」。',
+      mid: '账和凭证先理清。'
+    },
+    invest: {
+      good: '止损和仓位先设好，再谈收益。',
+      bad: '减风险、别逆势加仓。',
+      mid: '小仓验证，别一把梭。'
+    },
+    partner: {
+      good: '权责分成退出写清楚再深绑。',
+      bad: '谈不拢就止损，别硬绑。',
+      mid: '先小范围试合作。'
+    },
+    pregnancy: {
+      good: '按产检和医嘱来，卦不能确认结果。',
+      bad: '遵医嘱，该查查，别自行停药。',
+      mid: '一切以检查为准。'
+    },
+    health: {
+      good: '该复查复查，别自行停药。',
+      bad: '有症状及时就医。',
+      mid: '以检查和医生为准。'
+    },
+    lawsuit: {
+      good: '证据时限抓牢，听律师。',
+      bad: '保证据与时限，听专业意见。',
+      mid: '证据和程序比心态重要。'
+    },
+    property: {
+      good: '尽调做完再签。',
+      bad: '先停，风险查清再说。',
+      mid: '看尽调结果再定。'
+    },
+    general: {
+      good: `「${subj}」该办的办，关键步骤盯紧；别拖、别一次押满。`,
+      bad: `先停硬推，改条件或换时机再办「${subj}」。`,
+      mid: `先补「${subj}」最关键的一块再验证。`
+    }
+  }
+  const p = pack[kind] || pack.general
+  if (tone === 'good') return p.good
+  if (tone === 'bad') return p.bad
+  return p.mid
+}
+
 /**
  * 直接答复：形态必须对上所问
  * extra: { place, whenHint, clockHint, choicePick, whoHint }
@@ -6759,19 +6996,8 @@ function directReply(parsed, tone, level, extra) {
       return `问「${subj}」：有没有还说不准，短观察、用事实验证。`
     }
 
-    // 能不能 / 成不成
-    const when = timeHint ? `${timeHint}` : '眼下'
-    if (tone === 'good') {
-      return mild
-        ? `问「${subj}」：行，但还差一点。${when}大体能成，条件没齐，别当已经办成了。先把最缺的一环补上，小步往前；别硬闯，也别一次押满。`
-        : `问「${subj}」：行。${when}可以按「行」来办，盯着关键节点推进就好；别急躁、别乱来，留点退路。`
-    }
-    if (tone === 'bad') {
-      return mild
-        ? `问「${subj}」：眼下不行，不是永远不行。现在难，别硬推；改条件、换个时机再办，比死磕强。`
-        : `问「${subj}」：不行。阻力大，先别强求；止损、把条件补齐再动，逆势里别加码。`
-    }
-    return `问「${subj}」：暂时说不准。行与不行都有可能，先补最关键的一环验证一下，别急着下死结论。`
+    // 能不能 / 成不成：按主体（论文/考试/升职…）说人话
+    return canReplyBySubject(subj, subjectKind(parsed), tone, mild, timeHint)
   }
 
   // 走势类
@@ -6924,9 +7150,8 @@ function yesNoAdvice(parsed, tone) {
     if (tone === 'bad') return '看对方主不主动；空等、硬耗没必要。'
     return '观察几天，看行动再定。'
   }
-  if (tone === 'good') return `「${focus}」相关节点盯紧，该办的办；别拖，也别一次押满。`
-  if (tone === 'bad') return `先停对「${focus}」的硬推，改条件或换时机再来；逆势里别加码。`
-  return `先补「${focus}」最缺的那一块，验证一下再定，别急着下死结论。`
+  // 能不能：建议也跟主体走
+  return canAdviceBySubject(focus, subjectKind(parsed), tone)
 }
 
 /**
@@ -9404,8 +9629,20 @@ function guaProblemAndFix(ctx, topic, primaryYong, fu, fanYin, fuYin, answerTone
       fixes.push(`换更好时机，或先找能帮「${subj}」的人/资源`)
     }
     if (y.dayMonth && y.dayMonth.heRi) {
-      problems.push(`「${subj}」一时被拖住、推不动`)
-      fixes.push(`先别猛催「${subj}」，等卡住的环节松开再推`)
+      // 按主体说「卡住」指什么，避免论文也说「猛催」
+      if (/论文|稿|接收|审稿/.test(subj)) {
+        problems.push('稿子或审稿进度一时被粘住')
+        fixes.push('先把修回意见改到位，别空催编辑')
+      } else if (/回款|款|债/.test(subj)) {
+        problems.push('付款节点被拖住')
+        fixes.push('书面催、对账，别只口头问')
+      } else if (/升职|职|录取|考试/.test(subj)) {
+        problems.push('决策或成绩节点一时没动静')
+        fixes.push('先把该交的材料和业绩备齐，少空催')
+      } else {
+        problems.push(`「${subj}」一时被拖住`)
+        fixes.push('条件没松之前少空催，先把自己侧准备齐')
+      }
     }
     if (y.changing && y.changeTo && y.changeTo.analysis) {
       const a = y.changeTo.analysis
