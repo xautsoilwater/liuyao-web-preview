@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-  <!-- liuyao-preview-build:2026-08-06T01:50:01Z -->
+  <!-- liuyao-preview-build:2026-08-06T01:55:28Z -->
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover" />
   <title>周易研习</title>
@@ -5966,6 +5966,12 @@ const DOMAINS = [
     label: '寻人',
     topicHint: 'lost_person',
     re: /寻人|失踪|失联|找人|人找不到|走失/
+  },
+  {
+    key: 'game',
+    label: '棋牌方位',
+    topicHint: 'game',
+    re: /棋牌|麻将|扑克|打牌|牌局|座位|方位选择|上家|下家|对家|坐东|坐西|坐南|坐北|换位置|这局/
   }
 ]
 
@@ -6535,6 +6541,7 @@ function subjectKind(parsed) {
   if (/客人|来访|拜访|见面|约见/.test(s) || domain === 'visit' || domain === 'seek' || domain === 'social') return 'social'
   if (/丢失|失物|找不|寻物/.test(s) || domain === 'lost') return 'lost'
   if (/出行|路程|机票|火车|航班/.test(s) || domain === 'travel' || domain === 'arrival') return 'travel'
+  if (/棋牌|麻将|扑克|打牌|牌局|座位|换位置|这局/.test(s) || domain === 'game') return 'general'
   if (/怀孕|受孕|生产|孕产/.test(s) || domain === 'pregnancy') return 'pregnancy'
   if (/病|手术|康复|体检|治疗/.test(s) || domain === 'health') return 'health'
   if (/官司|诉讼|起诉|仲裁/.test(s) || domain === 'lawsuit') return 'lawsuit'
@@ -9358,6 +9365,88 @@ const ASK_GROUPS =
     ]
   },
   {
+    key: "game",
+    label: "棋牌方位",
+    tip: "座位、方位、牌局进退",
+    options: [
+      {
+        id: "gm-seat",
+        label: "哪个座位更好",
+        topicKey: "game",
+        focus: "座位",
+        mode: "where",
+        domain: "game",
+        modeLabel: "方位"
+      },
+      {
+        id: "gm-dir",
+        label: "哪个方位更顺",
+        topicKey: "game",
+        focus: "方位",
+        mode: "where",
+        domain: "game",
+        modeLabel: "方位"
+      },
+      {
+        id: "gm-side",
+        label: "坐这边吉不吉",
+        topicKey: "game",
+        focus: "座位",
+        mode: "jixiong",
+        domain: "game",
+        modeLabel: "吉凶"
+      },
+      {
+        id: "gm-win",
+        label: "这局能不能赢",
+        topicKey: "game",
+        focus: "这局",
+        mode: "yesno",
+        yesKind: "can",
+        domain: "game",
+        modeLabel: "成否"
+      },
+      {
+        id: "gm-when",
+        label: "什么时候适合打",
+        topicKey: "game",
+        focus: "开局",
+        mode: "when",
+        whenKind: "day",
+        domain: "game",
+        modeLabel: "日期"
+      },
+      {
+        id: "gm-change",
+        label: "要不要换位置",
+        topicKey: "game",
+        focus: "换位置",
+        mode: "yesno",
+        yesKind: "should",
+        domain: "game",
+        modeLabel: "宜否"
+      },
+      {
+        id: "gm-how",
+        label: "牌局怎么办更好",
+        topicKey: "game",
+        focus: "牌局",
+        mode: "how",
+        domain: "game",
+        modeLabel: "对策"
+      },
+      {
+        id: "gm-outlook",
+        label: "这局走势如何",
+        topicKey: "game",
+        focus: "牌局走势",
+        mode: "outlook",
+        domain: "game",
+        modeLabel: "走势"
+      }
+    ]
+  },
+  {
     key: "weather",
     label: "天气时令",
     tip: "雨晴、出行天气（卦象示意）",
@@ -9747,6 +9836,7 @@ const TOPIC_YONGSHEN = [
   { key: 'weather_clear', label: '雨止天晴', yongshen: '子孙', yuanShen: '兄弟', jiShen: '父母', tip: '传统以「子孙」多主晴霁止雨；必须对照官方预报。' },
   { key: 'lost', label: '失物', yongshen: '妻财', yuanShen: '子孙', jiShen: '兄弟', tip: '失物主看「妻财」（所失之物）旺衰空破与方位；玄武多主隐匿。' },
   { key: 'lost_person', label: '寻人', yongshen: '应爻', yuanShen: '', jiShen: '', useShiYing: true, tip: '寻人主看应爻（所寻之人）旺衰动静与方位；有危险须立即报警，不等待卦象。' },
+  { key: 'game', label: '棋牌方位', yongshen: '世爻', yuanShen: '父母', jiShen: '官鬼', useShiYing: true, tip: '棋牌座位、方位选择主看世爻安危与用神地支方位（十二支合八方）；仅作传统象意参考，勿当必胜依据。' },
   { key: 'general', label: '综合问事', yongshen: '世爻', yuanShen: '', jiShen: '', useShiYing: true, tip: '问事笼统时先看世应，再合看动变；能细分事体时勿长期停在综合类。' }
 ]
 
@@ -9852,7 +9942,8 @@ function guessTopicKey(question) {
     { key: 'delivery', re: /快递|包裹|外卖|到货|邮包/ },
     { key: 'home', re: /搬家|迁居|租房|装修|动土|家宅|住这里|开业|安床|邻里|物业/ },
     { key: 'social', re: /求人|托人|人情|送礼|帮得上|关系网/ },
-    { key: 'travel', re: /出行|出门|旅行|出差|航班|火车|路途|远行|到家|归来|抵达/ }
+    { key: 'travel', re: /出行|出门|旅行|出差|航班|火车|路途|远行|到家|归来|抵达/ },
+    { key: 'game', re: /棋牌|麻将|扑克|打牌|牌局|座位|上家|下家|对家|换位置|这局|方位选择/ }
   ]
   for (let i = 0; i < rules.length; i++) {
     if (rules[i].re.test(q)) return rules[i].key
@@ -10912,6 +11003,19 @@ function questionProfile(ctx, judgment) {
       { key: 'time', label: '触发时段', role: 'moving', purpose: '天气变化何时容易被触发' }
     ],
     action: '把卦象时段只当作观察窗口，并立即对照雷达、短临预报和预警；涉及出行与安全时以官方信息为准。'
+  }
+  if (/^gm-/.test(id) || domain === 'game') return {
+    kind: 'game', result: parsed.focus || '棋牌方位',
+    premise: '棋牌方位、座位选择主看世爻是否安稳、应爻与外部环境是否配合，再用神地支合八方取方位；卦象只作传统参考，不可当作必胜依据。',
+    axes: [
+      { key: 'self', label: '你的座位承接', role: 'shi', purpose: '当前座位/方位对你是否安稳' },
+      { key: 'table', label: '牌桌与对手环境', role: 'ying', purpose: '对家、环境是否利于你' },
+      { key: 'seat', label: '方位信号', role: 'yong', purpose: '用神地支所示方位是否清晰' },
+      { key: 'risk', label: '搅局与损耗', role: 'liuqin:官鬼', polarity: 'risk', purpose: '官鬼发动是否主阻滞、破财或牌局不顺' }
+    ],
+    action: parsed.mode === 'where'
+      ? '先按卦上方位作优先参考，到桌后再对照门、窗、主位与自身习惯；方位只是象意，仍要控制注码与时长。'
+      : '先定可承受的注码与止损，再谈座位与时机；象顺也不宜重注硬冲，象逆则换位、改时或先歇一局。'
   }
   if (parsed.mode === 'choice') return {
     kind: 'choice', result: parsed.focus || '当前抉择',
