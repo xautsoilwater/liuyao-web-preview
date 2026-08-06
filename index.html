@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-  <!-- liuyao-preview-build:2026-08-06T01:18:26Z -->
+  <!-- liuyao-preview-build:2026-08-06T01:21:53Z -->
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover" />
   <title>周易研习</title>
@@ -14107,10 +14107,12 @@ window.LiuYao = {
       </div>`
     bindNav()
     document.getElementById('recast').onclick = () => {
+      // 再起：回到所问并替换当前页，避免返回又落到旧盘
       state.step = 0; state.yaos = []; state.current = null
       state.displayCoins = ['', '', '']
+      state.cast = null
       state.askNext = 'cast'
-      go('ask')
+      go('ask', {}, { replace: true })
     }
   }
 
@@ -14331,7 +14333,11 @@ window.LiuYao = {
         <button class="btn btn-primary" data-go="index">返回首页</button>
       </div>`
     bindNav()
-    document.getElementById('mhRecast').onclick = () => { state.askNext = 'meihua'; go('ask') }
+    document.getElementById('mhRecast').onclick = () => {
+      state.meihua = null
+      state.askNext = 'meihua'
+      go('ask', {}, { replace: true })
+    }
   }
 
   function formatAccountTime(iso) {
