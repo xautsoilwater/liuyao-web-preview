@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-  <!-- liuyao-preview-build:2026-08-06T01:21:53Z -->
+  <!-- liuyao-preview-build:2026-08-06T01:25:21Z -->
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover" />
   <title>周易研习</title>
@@ -13826,11 +13826,26 @@ window.LiuYao = {
         ${askPickerHtml('请点选一项')}
       </div>
       <div class="footer-actions">
-        <button class="btn btn-ghost" data-back>返回</button>
+        <button class="btn btn-ghost" id="askBack">返回</button>
         <button class="btn btn-primary" id="askConfirm" ${canConfirm ? '' : 'disabled'}>${canConfirm ? confirmLabel : '选择所问'}</button>
       </div>`
     bindNav()
     bindAskPicker()
+    const askBack = document.getElementById('askBack')
+    if (askBack) {
+      askBack.onclick = () => {
+        // 细致事项层 → 分类界面；分类层 → 上一页
+        if (state.selectedGroupKey) {
+          state.selectedGroupKey = ''
+          state.selectedOptionId = ''
+          state.selectedTimeKey = ''
+          syncAskSelection()
+          render()
+          return
+        }
+        if (!back()) goHomeFromNav()
+      }
+    }
     const confirm = document.getElementById('askConfirm')
     if (confirm) confirm.onclick = () => {
       if (!ensureAskSelected()) return
