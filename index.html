@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-  <!-- liuyao-preview-build:2026-08-06T00:10:03Z -->
+  <!-- liuyao-preview-build:2026-08-06T00:17:42Z -->
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover" />
   <title>周易研习</title>
@@ -85,25 +85,36 @@
     .content {
       padding: 10px 16px 40px;
       flex: 1;
+      min-height: 0;
+      overflow: auto;
       animation: pageIn .42s ease both;
     }
-    /* 固定底栏：一行两钮，贴屏幕底 */
+    /* 固定底栏：内容区滚动，底栏贴住壳底部不跟着滚 */
     .content.has-fixed-footer {
-      padding-bottom: 96px;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      padding: 10px 0 0;
+    }
+    .content.has-fixed-footer .page-scroll {
+      flex: 1 1 auto;
+      min-height: 0;
+      overflow-y: auto;
+      -webkit-overflow-scrolling: touch;
+      padding: 0 16px 16px;
+      box-sizing: border-box;
     }
     .footer-actions {
+      flex: 0 0 auto;
       display: flex;
       flex-direction: row;
       align-items: stretch;
       gap: 10px;
-      position: fixed;
-      left: 16px;
-      right: 16px;
-      bottom: 0;
+      position: relative;
       z-index: 20;
       box-sizing: border-box;
       margin: 0;
-      padding: 12px 0 max(12px, env(safe-area-inset-bottom));
+      padding: 12px 16px max(12px, env(safe-area-inset-bottom));
       border-top: 1px solid rgba(110, 90, 62, 0.2);
       background: linear-gradient(180deg, rgba(235,224,200,.92), rgba(235,224,200,.98) 12px, #dccdb0 100%);
       box-shadow: 0 -10px 24px rgba(28,24,20,.08);
@@ -13787,12 +13798,14 @@ window.LiuYao = {
     const canConfirm = !!(state.selectedOptionId && state.question)
     app.classList.add('has-fixed-footer')
     app.innerHTML = `
-      <div class="title-zh ask-title-center">所问</div>
-      <div class="ask-before-note">
-        <div>占贵诚敬，一事一问；毋以戏筮，毋再三渎问。</div>
-        <div>澄心定念，明所求而后起卦。</div>
+      <div class="page-scroll">
+        <div class="title-zh ask-title-center">所问</div>
+        <div class="ask-before-note">
+          <div>占贵诚敬，一事一问；毋以戏筮，毋再三渎问。</div>
+          <div>澄心定念，明所求而后起卦。</div>
+        </div>
+        ${askPickerHtml('请点选一项')}
       </div>
-      ${askPickerHtml('请点选一项')}
       <div class="footer-actions">
         <button class="btn btn-ghost" data-back>返回</button>
         <button class="btn btn-primary" id="askConfirm" ${canConfirm ? '' : 'disabled'}>${canConfirm ? confirmLabel : '选择所问'}</button>
@@ -13871,6 +13884,7 @@ window.LiuYao = {
 
     app.classList.add('has-fixed-footer')
     app.innerHTML = `
+      <div class="page-scroll">
       <div class="title-zh">卜卦</div>
       <div class="subtitle">六次成爻 · 自下而上</div>
       <div class="mode-row">
@@ -13885,7 +13899,8 @@ window.LiuYao = {
         </div>
         ${beads()}
         ${stageBody}
-      </div>
+      </div>      </div>
+
       <div class="footer-actions">
         ${state.step >= 6
           ? `<button class="btn btn-ghost" id="reset">重摇</button><button class="btn btn-primary" id="submit">排卦</button>`
@@ -14026,45 +14041,51 @@ window.LiuYao = {
     const changes = (cast.ben.yaos || []).filter((y) => y.changing && y.changeTo)
       .map((y) => `${y.name}${y.liuqin} → ${y.changeTo.text}`)
 
+    const guideHtml = (() => {
+      const guide = cast.guide && cast.guide.length
+        ? cast.guide
+        : (window.LiuYao.buildPaipanGuide ? window.LiuYao.buildPaipanGuide(cast) : [])
+      if (!guide.length) return ''
+      return `<div class="guide">
+        <div class="guide-head">
+          <div class="guide-title">本卦象辞解读</div>
+          <div class="muted" style="margin-top:6px">取象释名与盘面说明；动爻优先，再参世应纳甲。</div>
+        </div>
+        ${guide.map((sec) => `
+          <div class="guide-sec">
+            <div class="guide-sec-title">${sec.title}</div>
+            ${sec.items.map((line) => `<div class="guide-item">${line}</div>`).join('')}
+          </div>`).join('')}
+      </div>`
+    })()
     app.innerHTML = `
-      <div class="head">
-        <div class="gua-name">${cast.ben.name}</div>
-        <div class="muted">${cast.ben.upper.symbol}${cast.ben.upper.name}${cast.ben.upper.nature}／${cast.ben.lower.symbol}${cast.ben.lower.name}${cast.ben.lower.nature} · ${cast.ben.palaceName}宫</div>
-        <div class="ornament">${cast.calendar ? `${cast.calendar.year.text} · ${cast.calendar.month.text} · ${cast.calendar.day.text} · 空${cast.calendar.kongwang.text}` : ''}</div>
-        <div class="muted">动爻 ${cast.changingIndexes.length || '无'}</div>
-      </div>
-      <div class="pan-board">
-        <div class="pan-heads">
-          <div class="ph"><span class="ph-lab">本卦</span><span class="ph-name">${cast.ben.name}</span></div>
-          <div class="ph"><span class="ph-lab">变卦</span><span class="ph-name">${cast.bian ? cast.bian.name : '无动'}</span></div>
+      <div class="page-scroll">
+        <div class="head">
+          <div class="gua-name">${cast.ben.name}</div>
+          <div class="muted">${cast.ben.upper.symbol}${cast.ben.upper.name}${cast.ben.upper.nature}／${cast.ben.lower.symbol}${cast.ben.lower.name}${cast.ben.lower.nature} · ${cast.ben.palaceName}宫</div>
+          <div class="ornament">${cast.calendar ? `${cast.calendar.year.text} · ${cast.calendar.month.text} · ${cast.calendar.day.text} · 空${cast.calendar.kongwang.text}` : ''}</div>
+          <div class="muted">动爻 ${cast.changingIndexes.length || '无'}</div>
         </div>
-        <div class="table-head">
-          <span>神</span><span>亲</span><span>本爻</span><span>位</span><span>支</span><span>变爻</span><span>亲</span>
-        </div>
-        ${rows}
-      </div>
-      <div class="footer-actions"><button class="btn btn-ghost" id="recast">再起</button><button class="btn btn-primary" data-go="interpret">断卦</button></div>
-      ${tags.length ? `<div class="chip-row" style="margin-bottom:10px">${[...new Set(tags)].slice(0, 8).map((t) => `<span class="chip ${/空|死|囚|日冲/.test(t) ? 'hot' : ''}">${t}</span>`).join('')}</div>` : ''}
-      ${fushen.length ? `<div class="block"><div class="block-title">伏神</div>${fushen.map((f) => `<div class="muted">· ${f.text}</div>`).join('')}</div>` : ''}
-      ${rel.length ? `<div class="block"><div class="block-title">动爻关系</div><div class="chip-row">${rel.map((t) => `<span class="chip">${t}</span>`).join('')}</div></div>` : ''}
-      ${changes.length ? `<div class="block"><div class="block-title">动化</div>${changes.map((t) => `<div class="muted" style="color:var(--cinnabar)">· ${t}</div>`).join('')}</div>` : ''}
-      ${(() => {
-        const guide = cast.guide && cast.guide.length
-          ? cast.guide
-          : (window.LiuYao.buildPaipanGuide ? window.LiuYao.buildPaipanGuide(cast) : [])
-        if (!guide.length) return ''
-        return `<div class="guide">
-          <div class="guide-head">
-            <div class="guide-title">本卦象辞解读</div>
-            <div class="muted" style="margin-top:6px">取象释名与盘面说明；动爻优先，再参世应纳甲。</div>
+        <div class="pan-board">
+          <div class="pan-heads">
+            <div class="ph"><span class="ph-lab">本卦</span><span class="ph-name">${cast.ben.name}</span></div>
+            <div class="ph"><span class="ph-lab">变卦</span><span class="ph-name">${cast.bian ? cast.bian.name : '无动'}</span></div>
           </div>
-          ${guide.map((sec) => `
-            <div class="guide-sec">
-              <div class="guide-sec-title">${sec.title}</div>
-              ${sec.items.map((line) => `<div class="guide-item">${line}</div>`).join('')}
-            </div>`).join('')}
-        </div>`
-      })()}`
+          <div class="table-head">
+            <span>神</span><span>亲</span><span>本爻</span><span>位</span><span>支</span><span>变爻</span><span>亲</span>
+          </div>
+          ${rows}
+        </div>
+        ${tags.length ? `<div class="chip-row" style="margin-bottom:10px">${[...new Set(tags)].slice(0, 8).map((t) => `<span class="chip ${/空|死|囚|日冲/.test(t) ? 'hot' : ''}">${t}</span>`).join('')}</div>` : ''}
+        ${fushen.length ? `<div class="block"><div class="block-title">伏神</div>${fushen.map((f) => `<div class="muted">· ${f.text}</div>`).join('')}</div>` : ''}
+        ${rel.length ? `<div class="block"><div class="block-title">动爻关系</div><div class="chip-row">${rel.map((t) => `<span class="chip">${t}</span>`).join('')}</div></div>` : ''}
+        ${changes.length ? `<div class="block"><div class="block-title">动化</div>${changes.map((t) => `<div class="muted" style="color:var(--cinnabar)">· ${t}</div>`).join('')}</div>` : ''}
+        ${guideHtml}
+      </div>
+      <div class="footer-actions">
+        <button class="btn btn-ghost" id="recast">再起</button>
+        <button class="btn btn-primary" data-go="interpret">断卦</button>
+      </div>`
     bindNav()
     document.getElementById('recast').onclick = () => {
       state.step = 0; state.yaos = []; state.current = null
@@ -14077,6 +14098,7 @@ window.LiuYao = {
   function renderInterpret() {
     setNav('断卦')
     if (!state.cast) { go('ask', {}, { replace: true }); return }
+    app.classList.add('has-fixed-footer')
     state.topicKey = (state.cast.askMeta && state.cast.askMeta.topicKey) || 'general'
     const result = window.LiuYao.interpret(state.cast, state.topicKey)
     const sections = (result.sections || []).map((sec, idx) => `
@@ -14085,21 +14107,22 @@ window.LiuYao = {
         ${sec.items.map((it) => `<div class="point">${it}</div>`).join('')}
       </div>`).join('')
     app.innerHTML = `
-      <div class="title-zh interpret-title-center">断卦</div>
-      <div class="subtitle interpret-title-center">明所问 · 察卦变 · 定进退</div>
-      <div class="verdict ${result.tendency ? result.tendency.tone : ''}">
-        ${corners()}
-        <div class="summary">判断：${result.summary}</div>
-        ${result.reply ? `<div class="reply">${result.reply}</div>` : ''}
-        <div class="judgment">${result.summaryNote || ''}</div>
-        ${result.advice ? `<div class="advice">${result.advice}</div>` : ''}
+      <div class="page-scroll">
+        <div class="title-zh interpret-title-center">断卦</div>
+        <div class="subtitle interpret-title-center">明所问 · 察卦变 · 定进退</div>
+        <div class="verdict ${result.tendency ? result.tendency.tone : ''}">
+          ${corners()}
+          <div class="summary">判断：${result.summary}</div>
+          ${result.reply ? `<div class="reply">${result.reply}</div>` : ''}
+          <div class="judgment">${result.summaryNote || ''}</div>
+          ${result.advice ? `<div class="advice">${result.advice}</div>` : ''}
+        </div>
+        <div class="frame">${corners()}${sections}</div>
       </div>
-      <div class="frame">${corners()}${sections}</div>
       <div class="footer-actions">
         <button class="btn btn-ghost" data-back>返回排盘</button>
         <button class="btn btn-primary" data-go="index">返回首页</button>
       </div>`
-    app.classList.add('has-fixed-footer')
     bindNav()
   }
 
