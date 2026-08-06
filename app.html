@@ -566,17 +566,24 @@
       text-align: center;
     }
     .ask-category-grid {
-      display: grid; grid-template-columns: 1fr 1fr; gap: 9px; margin-top: 9px;
+      display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 9px;
     }
+    /* 分类格：一行大字 + 一行小字，固定两行高度 */
     .ask-category {
-      min-height: 74px; padding: 12px 11px; cursor: pointer; text-align: center;
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      box-sizing: border-box; width: 100%; height: 52px; min-height: 0;
+      padding: 7px 8px; cursor: pointer; text-align: center; overflow: hidden;
       border: 1px solid var(--line-strong); background: rgba(246,237,216,.5);
       color: var(--ink); font-family: inherit;
     }
-    .ask-category-name { display: block; font-size: 15px; letter-spacing: .12em; }
+    .ask-category-name {
+      display: block; width: 100%; font-size: 15px; line-height: 1.25;
+      letter-spacing: .1em; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+    }
     .ask-category-tip {
-      display: block; margin-top: 4px; font-size: 11px; line-height: 1.35;
+      display: block; width: 100%; margin-top: 2px; font-size: 11px; line-height: 1.25;
       color: var(--ink-soft); letter-spacing: .02em;
+      white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
     }
     .ask-category-head {
       display: flex; position: relative; justify-content: center; align-items: center;
