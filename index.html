@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-  <!-- liuyao-preview-build:2026-08-06T00:04:49Z -->
+  <!-- liuyao-preview-build:2026-08-06T00:10:03Z -->
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover" />
   <title>周易研习</title>
@@ -86,6 +86,33 @@
       padding: 10px 16px 40px;
       flex: 1;
       animation: pageIn .42s ease both;
+    }
+    /* 固定底栏：一行两钮，贴屏幕底 */
+    .content.has-fixed-footer {
+      padding-bottom: 96px;
+    }
+    .footer-actions {
+      display: flex;
+      flex-direction: row;
+      align-items: stretch;
+      gap: 10px;
+      position: fixed;
+      left: 16px;
+      right: 16px;
+      bottom: 0;
+      z-index: 20;
+      box-sizing: border-box;
+      margin: 0;
+      padding: 12px 0 max(12px, env(safe-area-inset-bottom));
+      border-top: 1px solid rgba(110, 90, 62, 0.2);
+      background: linear-gradient(180deg, rgba(235,224,200,.92), rgba(235,224,200,.98) 12px, #dccdb0 100%);
+      box-shadow: 0 -10px 24px rgba(28,24,20,.08);
+    }
+    .footer-actions .btn {
+      flex: 1 1 0;
+      width: auto;
+      min-width: 0;
+      margin: 0;
     }
     .hero.quiet { padding: 8px 4px 2px; }
     @keyframes pageIn {
@@ -13136,7 +13163,8 @@ window.LiuYao = {
     scrollPageTop()
   }
   function render() {
-    ({
+    if (app) app.classList.remove('has-fixed-footer')
+    ;({
       index: renderIndex,
       ask: renderAsk,
       cast: renderCast,
@@ -13757,6 +13785,7 @@ window.LiuYao = {
     const nextLabel = next === 'meihua' ? '梅花起卦' : '六爻卜卦'
     const confirmLabel = '去卜卦'
     const canConfirm = !!(state.selectedOptionId && state.question)
+    app.classList.add('has-fixed-footer')
     app.innerHTML = `
       <div class="title-zh ask-title-center">所问</div>
       <div class="ask-before-note">
@@ -13764,8 +13793,10 @@ window.LiuYao = {
         <div>澄心定念，明所求而后起卦。</div>
       </div>
       ${askPickerHtml('请点选一项')}
-      <button class="btn btn-primary" id="askConfirm" ${canConfirm ? '' : 'disabled'}>${canConfirm ? confirmLabel : '选择所问'}</button>
-      <button class="btn btn-ghost" data-back style="margin-top:12px">返回</button>`
+      <div class="footer-actions">
+        <button class="btn btn-ghost" data-back>返回</button>
+        <button class="btn btn-primary" id="askConfirm" ${canConfirm ? '' : 'disabled'}>${canConfirm ? confirmLabel : '选择所问'}</button>
+      </div>`
     bindNav()
     bindAskPicker()
     const confirm = document.getElementById('askConfirm')
@@ -13838,6 +13869,7 @@ window.LiuYao = {
       </div>
       <div style="margin-top:16px">${miniGua()}</div>`
 
+    app.classList.add('has-fixed-footer')
     app.innerHTML = `
       <div class="title-zh">卜卦</div>
       <div class="subtitle">六次成爻 · 自下而上</div>
@@ -13854,9 +13886,11 @@ window.LiuYao = {
         ${beads()}
         ${stageBody}
       </div>
-      ${state.step >= 6
-        ? `<div class="row"><button class="btn btn-ghost" id="reset">重摇</button><button class="btn btn-primary" id="submit">排卦</button></div>`
-        : `<button class="btn btn-ghost" data-back>返回</button>`}`
+      <div class="footer-actions">
+        ${state.step >= 6
+          ? `<button class="btn btn-ghost" id="reset">重摇</button><button class="btn btn-primary" id="submit">排卦</button>`
+          : `<button class="btn btn-ghost" data-back>返回</button><button class="btn btn-primary" id="submit" disabled>排卦</button>`}
+      </div>`
     bindNav()
     const changeAsk = document.getElementById('changeAsk')
     if (changeAsk) changeAsk.onclick = () => { state.askNext = 'cast'; go('ask') }
@@ -13964,6 +13998,7 @@ window.LiuYao = {
 
   function renderResult() {
     setNav('排盘')
+    app.classList.add('has-fixed-footer')
     const cast = state.cast
     if (!cast) { go('ask', {}, { replace: true }); return }
     const paired = (cast.ben.yaos || []).map((ben, i) => ({
@@ -14008,7 +14043,7 @@ window.LiuYao = {
         </div>
         ${rows}
       </div>
-      <div class="row" style="margin:12px 0 8px"><button class="btn btn-ghost" id="recast">再起</button><button class="btn btn-primary" data-go="interpret">断卦</button></div>
+      <div class="footer-actions"><button class="btn btn-ghost" id="recast">再起</button><button class="btn btn-primary" data-go="interpret">断卦</button></div>
       ${tags.length ? `<div class="chip-row" style="margin-bottom:10px">${[...new Set(tags)].slice(0, 8).map((t) => `<span class="chip ${/空|死|囚|日冲/.test(t) ? 'hot' : ''}">${t}</span>`).join('')}</div>` : ''}
       ${fushen.length ? `<div class="block"><div class="block-title">伏神</div>${fushen.map((f) => `<div class="muted">· ${f.text}</div>`).join('')}</div>` : ''}
       ${rel.length ? `<div class="block"><div class="block-title">动爻关系</div><div class="chip-row">${rel.map((t) => `<span class="chip">${t}</span>`).join('')}</div></div>` : ''}
@@ -14060,10 +14095,11 @@ window.LiuYao = {
         ${result.advice ? `<div class="advice">${result.advice}</div>` : ''}
       </div>
       <div class="frame">${corners()}${sections}</div>
-      <div class="row" style="margin:12px 0 8px">
+      <div class="footer-actions">
         <button class="btn btn-ghost" data-back>返回排盘</button>
         <button class="btn btn-primary" data-go="index">返回首页</button>
       </div>`
+    app.classList.add('has-fixed-footer')
     bindNav()
   }
 
