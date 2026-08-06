@@ -263,28 +263,29 @@
     .bead.on { background: var(--cinnabar); border-color: var(--cinnabar); }
     .stage-live {
       display: flex; gap: 12px; align-items: stretch;
-      margin-top: 8px; overflow: visible; padding-top: 72px; min-height: 220px;
+      margin-top: 8px; overflow: visible; padding-top: 88px; min-height: 240px;
       position: relative;
     }
     .coin-stage {
       flex: 1.25; text-align: center;
       display: flex; flex-direction: column; overflow: visible;
-      padding-top: 48px; box-sizing: border-box;
+      padding-top: 64px; box-sizing: border-box;
     }
-    /* 浮在卦象列上方，不占卦象高度 */
+    /* 浮在卦象列上方居中，不占卦象高度 */
     .cast-shake-slot {
-      position: absolute; left: 10px; top: -52px; z-index: 5;
+      position: absolute; left: 50%; top: -58px; z-index: 5;
+      transform: translateX(-50%);
       display: inline-flex; align-items: center; justify-content: center;
-      width: auto; min-width: 88px; height: 34px;
-      padding: 0 14px; box-sizing: border-box; margin: 0;
-      border: 1px solid #56442f; border-radius: 17px; color: #fff8e8; cursor: pointer;
-      user-select: none; touch-action: none; font: inherit; font-size: 13.5px; letter-spacing: .12em;
+      width: auto; min-width: 104px; height: 40px;
+      padding: 0 18px; box-sizing: border-box; margin: 0;
+      border: 1px solid #56442f; border-radius: 20px; color: #fff8e8; cursor: pointer;
+      user-select: none; touch-action: none; font: inherit; font-size: 14.5px; letter-spacing: .14em;
       background: linear-gradient(180deg, #8b7451, #655139);
       box-shadow: inset 0 0 0 2px rgba(255,248,225,.1), 0 2px 6px rgba(73,54,34,.12);
       writing-mode: horizontal-tb; white-space: nowrap;
     }
     .cast-shake-slot.pressed {
-      background: linear-gradient(180deg, #7a6545, #54422f); transform: scale(.97);
+      background: linear-gradient(180deg, #7a6545, #54422f); transform: translateX(-50%) scale(.97);
     }
     .cast-shake-slot.is-disabled { opacity: .55; pointer-events: none; cursor: default; }
     .gua-side {
@@ -355,20 +356,20 @@
     .holding .coin:nth-child(3) .coin-shadow { animation-duration: .4s; animation-delay: .08s; }
     @keyframes coin-juggle-a {
       0% { transform: translate3d(-3px, 0, 0) rotateX(8deg) rotateY(0) rotateZ(-14deg) scale(.98); }
-      35% { transform: translate3d(-6px, -58px, 0) rotateX(-12deg) rotateY(160deg) rotateZ(8deg) scale(.92); }
-      55% { transform: translate3d(-4px, -20px, 0) rotateX(6deg) rotateY(250deg) rotateZ(-6deg) scale(1.02); }
+      35% { transform: translate3d(-7px, -96px, 0) rotateX(-12deg) rotateY(160deg) rotateZ(8deg) scale(.9); }
+      55% { transform: translate3d(-4px, -28px, 0) rotateX(6deg) rotateY(250deg) rotateZ(-6deg) scale(1.02); }
       100% { transform: translate3d(-3px, 0, 0) rotateX(8deg) rotateY(360deg) rotateZ(-14deg) scale(.98); }
     }
     @keyframes coin-juggle-b {
       0% { transform: translate3d(0, 0, 0) rotateX(4deg) rotateY(20deg) rotateZ(8deg) scale(.98); }
-      40% { transform: translate3d(2px, -66px, 0) rotateX(-16deg) rotateY(200deg) rotateZ(-10deg) scale(.9); }
-      60% { transform: translate3d(1px, -18px, 0) rotateX(8deg) rotateY(300deg) rotateZ(6deg) scale(1.03); }
+      40% { transform: translate3d(2px, -108px, 0) rotateX(-16deg) rotateY(200deg) rotateZ(-10deg) scale(.88); }
+      60% { transform: translate3d(1px, -24px, 0) rotateX(8deg) rotateY(300deg) rotateZ(6deg) scale(1.03); }
       100% { transform: translate3d(0, 0, 0) rotateX(4deg) rotateY(380deg) rotateZ(8deg) scale(.98); }
     }
     @keyframes coin-juggle-c {
       0% { transform: translate3d(4px, 0, 0) rotateX(10deg) rotateY(-10deg) rotateZ(12deg) scale(.97); }
-      30% { transform: translate3d(7px, -52px, 0) rotateX(-8deg) rotateY(-170deg) rotateZ(-8deg) scale(.91); }
-      58% { transform: translate3d(5px, -22px, 0) rotateX(5deg) rotateY(-260deg) rotateZ(10deg) scale(1.02); }
+      30% { transform: translate3d(8px, -90px, 0) rotateX(-8deg) rotateY(-170deg) rotateZ(-8deg) scale(.9); }
+      58% { transform: translate3d(5px, -30px, 0) rotateX(5deg) rotateY(-260deg) rotateZ(10deg) scale(1.02); }
       100% { transform: translate3d(4px, 0, 0) rotateX(10deg) rotateY(-370deg) rotateZ(12deg) scale(.97); }
     }
     @keyframes juggle-shadow {
