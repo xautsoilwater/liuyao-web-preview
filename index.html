@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-  <!-- liuyao-preview-build:2026-08-06T01:25:21Z -->
+  <!-- liuyao-preview-build:2026-08-06T01:39:37Z -->
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover" />
   <title>周易研习</title>
@@ -605,7 +605,8 @@
       border: 1px solid var(--line-strong); background: transparent; color: var(--ink-soft);
       letter-spacing: .04em; line-height: 1.4;
     }
-    .ask-option.wide { grid-column: 1 / -1; }
+    /* 禁止整行占满，始终一行两列 */
+    .ask-option.wide { grid-column: auto; }
     .ask-option.on {
       color: var(--cinnabar); border-color: var(--cinnabar); background: var(--cinnabar-soft);
     }
@@ -9607,7 +9608,8 @@ function listGroups() {
       id: o.id,
       label: o.label,
       topicKey: o.topicKey,
-      wide: o.label.length > 10
+      // 一律两列，不整行占满
+      wide: false
     }))
   }))
 }
@@ -13760,7 +13762,7 @@ window.LiuYao = {
         ${selectedGroup.tip ? `<div class="ask-group-tip muted">${selectedGroup.tip}</div>` : ''}
         <div class="field-label" style="margin-top:16px">选择具体事项</div>
         <div class="ask-option-list">${selectedGroup.options.map((o) =>
-          `<button type="button" class="ask-option ${o.wide ? 'wide' : ''} ${state.selectedOptionId === o.id ? 'on' : ''}" data-opt="${o.id}">${o.label}</button>`
+          `<button type="button" class="ask-option ${state.selectedOptionId === o.id ? 'on' : ''}" data-opt="${o.id}">${o.label}</button>`
         ).join('')}</div>
         <div class="field-label" style="margin-top:18px">时间范围</div>
         <div class="chip-wrap">${timeHtml}</div>

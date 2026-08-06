@@ -604,7 +604,8 @@
       border: 1px solid var(--line-strong); background: transparent; color: var(--ink-soft);
       letter-spacing: .04em; line-height: 1.4;
     }
-    .ask-option.wide { grid-column: 1 / -1; }
+    /* 禁止整行占满，始终一行两列 */
+    .ask-option.wide { grid-column: auto; }
     .ask-option.on {
       color: var(--cinnabar); border-color: var(--cinnabar); background: var(--cinnabar-soft);
     }
