@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-  <!-- liuyao-preview-build:2026-08-06T01:47:01Z -->
+  <!-- liuyao-preview-build:2026-08-06T01:49:00Z -->
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover" />
   <title>周易研习</title>
@@ -13792,11 +13792,32 @@ window.LiuYao = {
       </div>`
   }
 
+  /** 点选事项/时间时局部更新，避免整页 render 导致滚动跳顶 */
+  function patchAskSelectionUi() {
+    syncAskSelection()
+    app.querySelectorAll('[data-time]').forEach((el) => {
+      const on = (el.dataset.time || '') === (state.selectedTimeKey || '')
+      el.classList.toggle('on', on)
+    })
+    app.querySelectorAll('[data-opt]').forEach((el) => {
+      el.classList.toggle('on', el.dataset.opt === state.selectedOptionId)
+    })
+    const hint = app.querySelector('.ask-hint')
+    if (hint) hint.textContent = state.question || '请点选一项'
+    const confirm = document.getElementById('askConfirm')
+    if (confirm) {
+      const can = !!(state.selectedOptionId && state.question)
+      confirm.disabled = !can
+      confirm.textContent = can ? '去卜卦' : '选择所问'
+    }
+  }
+
   function bindAskPicker() {
     app.querySelectorAll('[data-group]').forEach((el) => {
       el.onclick = () => {
         state.selectedGroupKey = el.dataset.group || ''
         state.selectedOptionId = ''
+        state.selectedTimeKey = ''
         syncAskSelection()
         render()
       }
@@ -13806,6 +13827,7 @@ window.LiuYao = {
       changeGroup.onclick = () => {
         state.selectedGroupKey = ''
         state.selectedOptionId = ''
+        state.selectedTimeKey = ''
         syncAskSelection()
         render()
       }
@@ -13813,15 +13835,13 @@ window.LiuYao = {
     app.querySelectorAll('[data-time]').forEach((el) => {
       el.onclick = () => {
         state.selectedTimeKey = el.dataset.time || ''
-        syncAskSelection()
-        render()
+        patchAskSelectionUi()
       }
     })
     app.querySelectorAll('[data-opt]').forEach((el) => {
       el.onclick = () => {
         state.selectedOptionId = el.dataset.opt || ''
-        syncAskSelection()
-        render()
+        patchAskSelectionUi()
       }
     })
   }
