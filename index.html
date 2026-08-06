@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-  <!-- liuyao-preview-build:2026-08-06T01:02:08Z -->
+  <!-- liuyao-preview-build:2026-08-06T01:13:14Z -->
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover" />
   <title>周易研习</title>
@@ -14147,6 +14147,7 @@ window.LiuYao = {
   function renderMeihua() {
     setNav('梅花易数')
     if (!requirePendingAsk('meihua')) return
+    app.classList.add('has-fixed-footer')
     const mode = state.meihuaMode || 'number'
     const stage = mode === 'number' ? `
       <div class="hint muted">静心片刻，随口报两个正整数：先上卦、后下卦。两数不是算出来的，宜诚敬一念，报后勿改。</div>
@@ -14161,7 +14162,6 @@ window.LiuYao = {
         </div>
       </div>
       <div class="tip muted">先天：乾1兑2离3震4巽5坎6艮7坤8；两数之和取动爻。</div>
-      <button class="btn btn-primary" id="mhSubmit">起卦</button>
       <div class="howto">
         <div class="howto-title">数一般如何取</div>
         <div class="howto-item">触目成数：眼前人、车、字数、楼层等随手所见</div>
@@ -14174,26 +14174,35 @@ window.LiuYao = {
         <div class="time-lab">此刻</div>
         <div class="time-val">${formatMeihuaNow()}</div>
       </div>
-      <div class="tip muted">上卦＝农历年支数＋农历月＋农历日；下卦再加时支数；总数取动爻。</div>
-      <button class="btn btn-primary" id="mhSubmit">按此刻起卦</button>` : `
-      <div class="hint muted">随机得两数起卦，便于练习体用；正式决疑仍宜报数或时间。</div>
-      <button class="btn btn-primary" id="mhSubmit">${state.meihuaRolling ? '起卦中…' : '随机起卦'}</button>`
+      <div class="tip muted">上卦＝农历年支数＋农历月＋农历日；下卦再加时支数；总数取动爻。</div>` : `
+      <div class="hint muted">随机得两数起卦，便于练习体用；正式决疑仍宜报数或时间。</div>`
+
+    const submitLabel = mode === 'number'
+      ? '起卦'
+      : mode === 'time'
+        ? '按此刻起卦'
+        : (state.meihuaRolling ? '起卦中…' : '随机起卦')
 
     app.innerHTML = `
-      <div class="title-zh">梅花</div>
-      <div class="subtitle">体用生克 · 本互变</div>
-      <div class="mode-row">
-        <div class="mode ${mode === 'number' ? 'on' : ''}" data-mh-mode="number">报数</div>
-        <div class="mode ${mode === 'time' ? 'on' : ''}" data-mh-mode="time">时间</div>
-        <div class="mode ${mode === 'random' ? 'on' : ''}" data-mh-mode="random">随机</div>
+      <div class="page-scroll">
+        <div class="title-zh">梅花</div>
+        <div class="subtitle">体用生克 · 本互变</div>
+        <div class="mode-row">
+          <div class="mode ${mode === 'number' ? 'on' : ''}" data-mh-mode="number">报数</div>
+          <div class="mode ${mode === 'time' ? 'on' : ''}" data-mh-mode="time">时间</div>
+          <div class="mode ${mode === 'random' ? 'on' : ''}" data-mh-mode="random">随机</div>
+        </div>
+        <div class="frame">
+          ${corners()}
+          <span class="seal">梅花易数</span>
+          ${stage}
+        </div>
+        <div class="muted center" style="margin-top:14px;font-size:14px;letter-spacing:.12em">教学演示 · 与六爻铜钱法对照学习</div>
       </div>
-      <div class="frame">
-        ${corners()}
-        <span class="seal">梅花易数</span>
-        ${stage}
-      </div>
-      <div class="muted center" style="margin-top:14px;font-size:14px;letter-spacing:.12em">教学演示 · 与六爻铜钱法对照学习</div>
-      <button class="btn btn-ghost" data-back style="margin-top:12px">返回</button>`
+      <div class="footer-actions">
+        <button class="btn btn-ghost" data-back>返回</button>
+        <button class="btn btn-primary" id="mhSubmit" ${state.meihuaRolling ? 'disabled' : ''}>${submitLabel}</button>
+      </div>`
     bindNav()
     const changeAsk = document.getElementById('changeAsk')
     if (changeAsk) changeAsk.onclick = () => { state.askNext = 'meihua'; go('ask') }
@@ -14240,6 +14249,7 @@ window.LiuYao = {
     setNav('梅花排盘')
     const cast = state.meihua
     if (!cast) { go('ask', {}, { replace: true }); return }
+    app.classList.add('has-fixed-footer')
     const tiIsUpper = cast.tiYong.tiSide.indexOf('外') >= 0
     const labels = ['初', '二', '三', '四', '五', '上']
     const yaoRows = []
@@ -14256,58 +14266,60 @@ window.LiuYao = {
     }
     const guide = cast.guide || []
     app.innerHTML = `
-      <div class="head">
-        <div class="gua-name">${cast.ben.name}</div>
-        <div class="muted">${cast.ben.text}</div>
-        <div class="ornament">${cast.methodLabel} · 动${cast.dongLabel}</div>
-      </div>
-      <div class="verdict ${cast.verdict.tone || ''}">
-        ${corners()}
-        <div class="summary">判断：${cast.summary}</div>
-        ${cast.reply ? `<div class="reply">${cast.reply}</div>` : ''}
-        <div class="judgment">${cast.judgment || cast.verdict.note || ''}</div>
-        ${cast.advice ? `<div class="advice">${cast.advice}</div>` : ''}
-      </div>
-      <div class="tri-board">
-        <div class="tri-col">
-          <div class="tri-lab">本卦</div>
-          <div class="tri-name">${cast.ben.alias || cast.ben.name}</div>
-          <div class="tri-sym">${cast.ben.upper.symbol}${cast.ben.lower.symbol}</div>
-          <div class="tri-sub">体${cast.tiYong.ti.name} · 用${cast.tiYong.yong.name}</div>
+      <div class="page-scroll">
+        <div class="head">
+          <div class="gua-name">${cast.ben.name}</div>
+          <div class="muted">${cast.ben.text}</div>
+          <div class="ornament">${cast.methodLabel} · 动${cast.dongLabel}</div>
         </div>
-        <div class="tri-col">
-          <div class="tri-lab">互卦</div>
-          <div class="tri-name">${cast.hu.alias || cast.hu.name}</div>
-          <div class="tri-sym">${cast.hu.upper.symbol}${cast.hu.lower.symbol}</div>
-          <div class="tri-sub">过程</div>
+        <div class="verdict ${cast.verdict.tone || ''}">
+          ${corners()}
+          <div class="summary">判断：${cast.summary}</div>
+          ${cast.reply ? `<div class="reply">${cast.reply}</div>` : ''}
+          <div class="judgment">${cast.judgment || cast.verdict.note || ''}</div>
+          ${cast.advice ? `<div class="advice">${cast.advice}</div>` : ''}
         </div>
-        <div class="tri-col">
-          <div class="tri-lab">变卦</div>
-          <div class="tri-name">${cast.bian.alias || cast.bian.name}</div>
-          <div class="tri-sym">${cast.bian.upper.symbol}${cast.bian.lower.symbol}</div>
-          <div class="tri-sub">趋向</div>
+        <div class="tri-board">
+          <div class="tri-col">
+            <div class="tri-lab">本卦</div>
+            <div class="tri-name">${cast.ben.alias || cast.ben.name}</div>
+            <div class="tri-sym">${cast.ben.upper.symbol}${cast.ben.lower.symbol}</div>
+            <div class="tri-sub">体${cast.tiYong.ti.name} · 用${cast.tiYong.yong.name}</div>
+          </div>
+          <div class="tri-col">
+            <div class="tri-lab">互卦</div>
+            <div class="tri-name">${cast.hu.alias || cast.hu.name}</div>
+            <div class="tri-sym">${cast.hu.upper.symbol}${cast.hu.lower.symbol}</div>
+            <div class="tri-sub">过程</div>
+          </div>
+          <div class="tri-col">
+            <div class="tri-lab">变卦</div>
+            <div class="tri-name">${cast.bian.alias || cast.bian.name}</div>
+            <div class="tri-sym">${cast.bian.upper.symbol}${cast.bian.lower.symbol}</div>
+            <div class="tri-sub">趋向</div>
+          </div>
         </div>
+        <div class="yao-board">
+          ${yaoRows.map((row) => `
+            <div class="yao-row">
+              <span class="y-name">${row.name}</span>
+              <i class="yao-bar ${row.yang ? 'yang' : 'yin'} ${row.dong ? 'moving' : ''}"></i>
+              <span class="y-tag">${row.tag}</span>
+            </div>`).join('')}
+        </div>
+        ${guide.length ? `<div class="guide">
+          <div class="guide-head">
+            <div class="guide-title">梅花体用解读</div>
+            <div class="muted" style="margin-top:6px">专业说法并附说明；先本卦，再互、变。</div>
+          </div>
+          ${guide.map((sec) => `
+            <div class="guide-sec">
+              <div class="guide-sec-title">${sec.title}</div>
+              ${(sec.items || []).map((line) => `<div class="guide-item">${line}</div>`).join('')}
+            </div>`).join('')}
+        </div>` : ''}
       </div>
-      <div class="yao-board">
-        ${yaoRows.map((row) => `
-          <div class="yao-row">
-            <span class="y-name">${row.name}</span>
-            <i class="yao-bar ${row.yang ? 'yang' : 'yin'} ${row.dong ? 'moving' : ''}"></i>
-            <span class="y-tag">${row.tag}</span>
-          </div>`).join('')}
-      </div>
-      ${guide.length ? `<div class="guide">
-        <div class="guide-head">
-          <div class="guide-title">梅花体用解读</div>
-          <div class="muted" style="margin-top:6px">专业说法并附说明；先本卦，再互、变。</div>
-        </div>
-        ${guide.map((sec) => `
-          <div class="guide-sec">
-            <div class="guide-sec-title">${sec.title}</div>
-            ${(sec.items || []).map((line) => `<div class="guide-item">${line}</div>`).join('')}
-          </div>`).join('')}
-      </div>` : ''}
-      <div class="row" style="margin:12px 0 8px">
+      <div class="footer-actions">
         <button class="btn btn-ghost" id="mhRecast">再起</button>
         <button class="btn btn-primary" data-go="index">返回首页</button>
       </div>`
