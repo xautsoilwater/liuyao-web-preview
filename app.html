@@ -23,11 +23,13 @@
       --line-strong: rgba(28, 24, 20, 0.2);
     }
     * { box-sizing: border-box; }
-    html, body { margin: 0; min-height: 100%; }
+    html, body { margin: 0; height: 100%; overflow: hidden; }
     body {
       font-family: "Songti SC", "STSong", "Noto Serif SC", "SimSun", serif;
       color: var(--ink);
       background: #dccdb0;
+      height: 100%;
+      overflow: hidden;
       letter-spacing: 0.02em;
       line-height: 1.8;
     }
@@ -56,8 +58,11 @@
       position: relative; z-index: 1;
       width: min(393px, 100%);
       margin: 0 auto;
+      height: 100vh;
+      max-height: 100vh;
       min-height: 100vh;
       display: flex; flex-direction: column;
+      overflow: hidden;
     }
     .nav {
       position: sticky; top: 0; z-index: 20;
@@ -83,24 +88,30 @@
     .shell.swipe-hint { box-shadow: inset 3px 0 0 rgba(160, 40, 32, 0.35); }
     .content {
       padding: 10px 16px 40px;
-      flex: 1;
+      flex: 1 1 auto;
       min-height: 0;
+      height: 0; /* 强制吃满 shell 剩余高度，才能内部滚动 */
       overflow: auto;
       animation: pageIn .42s ease both;
     }
-    /* 固定底栏：内容区滚动，底栏贴住壳底部不跟着滚 */
+    /* 固定底栏：只有 .page-scroll 滚动，底栏始终贴 shell 底部 */
     .content.has-fixed-footer {
       display: flex;
       flex-direction: column;
       overflow: hidden;
       padding: 10px 0 0;
+      height: 0;
+      flex: 1 1 auto;
+      min-height: 0;
     }
     .content.has-fixed-footer .page-scroll {
       flex: 1 1 auto;
       min-height: 0;
+      height: 0;
+      overflow-x: hidden;
       overflow-y: auto;
       -webkit-overflow-scrolling: touch;
-      padding: 0 16px 16px;
+      padding: 0 16px 20px;
       box-sizing: border-box;
     }
     .footer-actions {
@@ -110,13 +121,13 @@
       align-items: stretch;
       gap: 10px;
       position: relative;
-      z-index: 20;
+      z-index: 30;
       box-sizing: border-box;
       margin: 0;
       padding: 12px 16px max(12px, env(safe-area-inset-bottom));
       border-top: 1px solid rgba(110, 90, 62, 0.2);
-      background: linear-gradient(180deg, rgba(235,224,200,.92), rgba(235,224,200,.98) 12px, #dccdb0 100%);
-      box-shadow: 0 -10px 24px rgba(28,24,20,.08);
+      background: linear-gradient(180deg, rgba(235,224,200,.96), #dccdb0 100%);
+      box-shadow: 0 -10px 24px rgba(28,24,20,.1);
     }
     .footer-actions .btn {
       flex: 1 1 0;
