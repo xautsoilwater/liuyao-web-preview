@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-  <!-- liuyao-preview-build:2026-08-06T01:39:37Z -->
+  <!-- liuyao-preview-build:2026-08-06T01:43:26Z -->
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover" />
   <title>周易研习</title>
@@ -525,11 +525,33 @@
     }
     .yao-label { font-size: 21px; letter-spacing: 0.28em; }
     .mark { color: var(--cinnabar); }
-    .manual-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+    /* 手记爻象：左选项 · 右卦象 */
+    .manual-live {
+      display: flex; flex-direction: row; gap: 12px; align-items: stretch; margin-top: 4px;
+    }
+    .manual-left { flex: 1.35; min-width: 0; display: flex; flex-direction: column; }
+    .manual-grid {
+      display: flex; flex-direction: column; gap: 8px; flex: 1;
+    }
     .manual-item {
-      padding: 12px 8px; text-align: center; border: 1px solid var(--line-strong);
-      letter-spacing: .14em; background: rgba(246,237,216,.55); cursor: pointer;
-      display: flex; flex-direction: column; align-items: center; gap: 8px;
+      flex: 1; min-height: 40px; padding: 10px 8px; text-align: center;
+      border: 1px solid var(--line-strong); letter-spacing: .12em;
+      background: rgba(246,237,216,.55); cursor: pointer;
+      display: flex; flex-direction: row; align-items: center; justify-content: center; gap: 8px;
+      box-sizing: border-box; font: inherit; color: inherit;
+    }
+    .manual-live .gua-side {
+      flex: 0 0 88px; min-width: 88px; min-height: 200px;
+      padding: 4px 2px 4px 10px; border-left: 1px dashed var(--line);
+      display: flex; flex-direction: column; align-items: center; box-sizing: border-box;
+    }
+    .manual-live .cast-shake-slot { display: none; }
+    .manual-live .gua-side .gua-lab {
+      position: static; margin: 0 0 10px; width: 100%; text-align: center; font-size: 13px;
+    }
+    .manual-live .gua-side .gua-lines {
+      flex: 1; width: 100%; min-height: 170px;
+      display: flex; flex-direction: column; justify-content: space-between; align-items: center;
     }
     .yao-line {
       display: flex; justify-content: space-between; align-items: center;
@@ -13909,14 +13931,18 @@ window.LiuYao = {
           }).join('')}</div>
         </div>
       </div>` : `
-      <div class="muted center" style="margin-bottom:10px">按实摇结果点选（字阳背阴）</div>
-      <div class="manual-grid">
-        <div class="manual-item" data-manual="laoYang"><i class="yao-bar yang moving"></i><span>老阳 ○</span></div>
-        <div class="manual-item" data-manual="shaoYin"><i class="yao-bar yin"></i><span>少阴 --</span></div>
-        <div class="manual-item" data-manual="shaoYang"><i class="yao-bar yang"></i><span>少阳 —</span></div>
-        <div class="manual-item" data-manual="laoYin"><i class="yao-bar yin moving"></i><span>老阴 ×</span></div>
-      </div>
-      <div style="margin-top:16px">${miniGua()}</div>`
+      <div class="manual-live">
+        <div class="manual-left">
+          <div class="muted hint" style="margin:0 0 8px;text-align:left;font-size:13px;letter-spacing:.08em">按实摇结果点选</div>
+          <div class="manual-grid">
+            <div class="manual-item" data-manual="laoYang"><i class="yao-bar yang moving"></i><span>老阳 ○</span></div>
+            <div class="manual-item" data-manual="shaoYin"><i class="yao-bar yin"></i><span>少阴 --</span></div>
+            <div class="manual-item" data-manual="shaoYang"><i class="yao-bar yang"></i><span>少阳 —</span></div>
+            <div class="manual-item" data-manual="laoYin"><i class="yao-bar yin moving"></i><span>老阴 ×</span></div>
+          </div>
+        </div>
+        ${miniGua()}
+      </div>`
 
     app.classList.add('has-fixed-footer')
     app.innerHTML = `
