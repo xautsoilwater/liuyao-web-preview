@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-  <!-- liuyao-preview-build:2026-08-09T03:52:22Z -->
+  <!-- liuyao-preview-build:2026-08-09T03:56:59Z -->
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover" />
   <title>周易研习</title>
@@ -17132,48 +17132,53 @@ window.LiuYao = {
       items.splice(after >= 0 ? after + 1 : 0, 0, entry)
       return Object.assign({}, grp, { items })
     })
+    app.classList.add('has-fixed-footer')
     app.innerHTML = `
-      <div class="learn-hero">
-        <span class="seal">读易八卷</span>
-        <div class="title-zh" style="text-align:center;margin-top:10px">研习典要</div>
-        <div class="subtitle" style="text-align:center">由理入术，由术回理 · 表诀卦例备齐，可当教材用</div>
-        <div class="ornament">观象玩辞</div>
-      </div>
-      <div class="track-hint">${track.map((t) => `<span>${t}</span>`).join('<span class="sep">→</span>')}</div>
-      <div class="guadian-banner" id="openGuadianBanner">
-        <span class="gb-seal">京房八宫</span>
-        <div class="gb-main">
-          <div class="gb-title">六十四卦卦典</div>
-          <div class="muted" style="font-size:13px;margin-top:4px">卦画 + 卦名总图 · 点选任意一卦详解</div>
+      <div class="page-scroll">
+        <div class="learn-hero">
+          <span class="seal">读易八卷</span>
+          <div class="title-zh" style="text-align:center;margin-top:10px">研习典要</div>
+          <div class="subtitle" style="text-align:center">由理入术，由术回理 · 表诀卦例备齐，可当教材用</div>
+          <div class="ornament">观象玩辞</div>
         </div>
-        <span class="gb-go">›</span>
-      </div>
-      ${groups.map((grp) => `
-        <div class="frame" style="margin-top:14px">
-          ${corners()}
-          <div style="display:flex;align-items:baseline;justify-content:space-between;gap:10px;margin-bottom:6px">
-            <div>
-              <div class="block-title" style="margin-top:0;color:var(--cinnabar)">${grp.label || grp.category}</div>
-              ${grp.subtitle ? `<div class="muted" style="font-size:14px;letter-spacing:.1em;margin-top:2px">${grp.subtitle}</div>` : ''}
-            </div>
-            <div class="muted" style="font-size:14px;flex-shrink:0">${(grp.items || []).length}篇</div>
+        <div class="track-hint">${track.map((t) => `<span>${t}</span>`).join('<span class="sep">→</span>')}</div>
+        <div class="guadian-banner" id="openGuadianBanner">
+          <span class="gb-seal">京房八宫</span>
+          <div class="gb-main">
+            <div class="gb-title">六十四卦卦典</div>
+            <div class="muted" style="font-size:13px;margin-top:4px">卦画 + 卦名总图 · 点选任意一卦详解</div>
           </div>
-          ${(grp.items || []).map((a, i) => `
-            <div class="article" data-id="${a.id}">
-              <div style="display:flex;justify-content:space-between;gap:10px;align-items:center">
-                <div style="display:flex;gap:10px;flex:1;min-width:0;align-items:flex-start">
-                  <span style="color:var(--bronze);opacity:.7;font-size:14px;min-width:14px">${i + 1}</span>
-                  <div style="flex:1;min-width:0">
-                    <div style="letter-spacing:.12em;margin-bottom:4px;font-weight:600">${a.title}</div>
-                    <div class="muted">${a.summary}</div>
-                  </div>
-                </div>
-                <span style="color:var(--bronze);opacity:.8">◇</span>
+          <span class="gb-go">›</span>
+        </div>
+        ${groups.map((grp) => `
+          <div class="frame" style="margin-top:14px">
+            ${corners()}
+            <div style="display:flex;align-items:baseline;justify-content:space-between;gap:10px;margin-bottom:6px">
+              <div>
+                <div class="block-title" style="margin-top:0;color:var(--cinnabar)">${grp.label || grp.category}</div>
+                ${grp.subtitle ? `<div class="muted" style="font-size:14px;letter-spacing:.1em;margin-top:2px">${grp.subtitle}</div>` : ''}
               </div>
-            </div>`).join('')}
-        </div>`).join('')}
-      <div class="muted" style="text-align:center;margin-top:18px;letter-spacing:.1em;font-size:14px">占以决疑，学以修身</div>
-      <button class="btn btn-ghost" data-back style="margin-top:12px">返回</button>`
+              <div class="muted" style="font-size:14px;flex-shrink:0">${(grp.items || []).length}篇</div>
+            </div>
+            ${(grp.items || []).map((a, i) => `
+              <div class="article" data-id="${a.id}">
+                <div style="display:flex;justify-content:space-between;gap:10px;align-items:center">
+                  <div style="display:flex;gap:10px;flex:1;min-width:0;align-items:flex-start">
+                    <span style="color:var(--bronze);opacity:.7;font-size:14px;min-width:14px">${i + 1}</span>
+                    <div style="flex:1;min-width:0">
+                      <div style="letter-spacing:.12em;margin-bottom:4px;font-weight:600">${a.title}</div>
+                      <div class="muted">${a.summary}</div>
+                    </div>
+                  </div>
+                  <span style="color:var(--bronze);opacity:.8">◇</span>
+                </div>
+              </div>`).join('')}
+          </div>`).join('')}
+        <div class="muted" style="text-align:center;margin-top:18px;letter-spacing:.1em;font-size:14px">占以决疑，学以修身</div>
+      </div>
+      <div class="footer-actions">
+        <button class="btn btn-ghost" data-back>返回</button>
+      </div>`
     bindNav()
     const banner = app.querySelector('#openGuadianBanner')
     if (banner) banner.onclick = () => go('guadian')
@@ -17193,43 +17198,47 @@ window.LiuYao = {
     setNav('六十四卦卦典')
     const palaces = (window.LiuYao.buildPalaceCatalog && window.LiuYao.buildPalaceCatalog()) || []
     const stages = window.LiuYao.GUA_STAGE || ['本宫', '一世', '二世', '三世', '四世', '五世', '游魂', '归魂']
+    app.classList.add('has-fixed-footer')
     app.innerHTML = `
-      <div class="gd-hero">
-        <span class="seal">京房八宫</span>
-        <div class="title-zh cast-title" style="margin-top:10px">六十四卦卦典</div>
-        <div class="subtitle cast-subtitle">八宫总图 · 点选任意一卦查看详解</div>
-      </div>
-      <div class="gd-legend">${stages.map((s) => `<span>${s}</span>`).join('')}</div>
-      <div class="gd-map">
-        ${palaces.map((p) => `
-          <div class="palace-card">
-            <div class="palace-head">
-              <span class="palace-sym">${p.symbol || ''}</span>
-              <div>
-                <div class="palace-name">${p.title}·${p.wuxing}</div>
-                <div class="muted" style="font-size:13px;margin-top:2px">${p.tip || ''}</div>
+      <div class="page-scroll">
+        <div class="gd-hero">
+          <span class="seal">京房八宫</span>
+          <div class="title-zh cast-title" style="margin-top:10px">六十四卦卦典</div>
+          <div class="subtitle cast-subtitle">八宫总图 · 点选任意一卦查看详解</div>
+        </div>
+        <div class="gd-legend">${stages.map((s) => `<span>${s}</span>`).join('')}</div>
+        <div class="gd-map">
+          ${palaces.map((p) => `
+            <div class="palace-card">
+              <div class="palace-head">
+                <span class="palace-sym">${p.symbol || ''}</span>
+                <div>
+                  <div class="palace-name">${p.title}·${p.wuxing}</div>
+                  <div class="muted" style="font-size:13px;margin-top:2px">${p.tip || ''}</div>
+                </div>
               </div>
-            </div>
-            <div class="gua-grid">
-              ${(p.guas || []).map((g) => `
-                <div class="gua-cell" data-alias="${g.alias}">
-                  <div class="gua-stage">${g.stage}</div>
-                  <div class="mini-gua">${(g.yaoView || []).map((row) => row.yang
-                    ? '<div class="mini-yao yang"></div>'
-                    : '<div class="mini-yao yin"><i class="seg"></i><i class="gap"></i><i class="seg"></i></div>').join('')}</div>
-                  <div class="gua-alias">${g.alias}</div>
-                  <div class="muted gua-full">${g.fullName}</div>
-                </div>`).join('')}
-            </div>
-          </div>`).join('')}
+              <div class="gua-grid">
+                ${(p.guas || []).map((g) => `
+                  <div class="gua-cell" data-alias="${g.alias}">
+                    <div class="gua-stage">${g.stage}</div>
+                    <div class="mini-gua">${(g.yaoView || []).map((row) => row.yang
+                      ? '<div class="mini-yao yang"></div>'
+                      : '<div class="mini-yao yin"><i class="seg"></i><i class="gap"></i><i class="seg"></i></div>').join('')}</div>
+                    <div class="gua-alias">${g.alias}</div>
+                    <div class="muted gua-full">${g.fullName}</div>
+                  </div>`).join('')}
+              </div>
+            </div>`).join('')}
+        </div>
+        <div class="muted" style="text-align:center;margin:16px 0;font-size:13px;letter-spacing:.12em">点选卦名进入详解</div>
       </div>
-      <div class="muted" style="text-align:center;margin:16px 0;font-size:13px;letter-spacing:.12em">点选卦名进入详解</div>
-      <button class="btn btn-ghost" id="gdBackLearn">返回研习</button>`
+      <div class="footer-actions">
+        <button class="btn btn-ghost" id="gdBackLearn">返回研习</button>
+      </div>`
     bindNav()
     const backLearn = app.querySelector('#gdBackLearn')
     if (backLearn) {
       backLearn.onclick = () => {
-        // 优先退一页；若未回到研习目录则强制进入
         back()
         if (state.page !== 'learn') go('learn', {}, { replace: true })
       }
@@ -17278,32 +17287,37 @@ window.LiuYao = {
       </div>`
     }).join('')
     const plainZhan = (a.plainZhan || []).map((z) => `<div class="plain-zhan">· ${z}</div>`).join('')
+    app.classList.add('has-fixed-footer')
     app.innerHTML = `
-      <div class="frame gd-detail-frame">
-        ${corners()}
-        <span class="seal">${a.categoryLabel || '卦典'}</span>
-        <div class="title-zh cast-title" style="margin-top:12px">${a.title}</div>
-        <div class="gd-struct muted">${a.structureText || a.summary || ''}</div>
-        <div class="gd-theme">${a.theme || ''}</div>
-        <div class="gd-section-head">卦辞</div>
-        ${a.guaci ? `<div class="gd-guaci-box"><div class="gd-guaci-classic">${a.guaci}</div><div class="gd-guaci-from">—— ${a.alias}·卦辞</div></div>` : ''}
-        <div class="gd-section-head">卦象 · 爻辞</div>
-        <div class="yao-board">${board}</div>
-        <div class="yao-board-tip muted">自上而下为上爻→初爻；阳连阴断</div>
-        ${xiangExplainHtml(a.xiangExplain)}
-        <div class="gd-section-head">卦辞解释</div>
-        <div class="plain-block">
-          <div class="plain-text">${a.plainGuaci || ''}</div>
+      <div class="page-scroll">
+        <div class="frame gd-detail-frame">
+          ${corners()}
+          <span class="seal">${a.categoryLabel || '卦典'}</span>
+          <div class="title-zh cast-title" style="margin-top:12px">${a.title}</div>
+          <div class="gd-struct muted">${a.structureText || a.summary || ''}</div>
+          <div class="gd-theme">${a.theme || ''}</div>
+          <div class="gd-section-head">卦辞</div>
+          ${a.guaci ? `<div class="gd-guaci-box"><div class="gd-guaci-classic">${a.guaci}</div><div class="gd-guaci-from">—— ${a.alias}·卦辞</div></div>` : ''}
+          <div class="gd-section-head">卦象 · 爻辞</div>
+          <div class="yao-board">${board}</div>
+          <div class="yao-board-tip muted">自上而下为上爻→初爻；阳连阴断</div>
+          ${xiangExplainHtml(a.xiangExplain)}
+          <div class="gd-section-head">卦辞解释</div>
+          <div class="plain-block">
+            <div class="plain-text">${a.plainGuaci || ''}</div>
+          </div>
+          <div class="gd-section-head">爻辞解释</div>
+          <div class="plain-block">
+            ${plainYao}
+          </div>
+          ${a.plainYili ? `<div class="plain-block"><div class="plain-label">义理提要</div><div class="plain-text">${a.plainYili}</div></div>` : ''}
+          ${plainZhan ? `<div class="plain-block"><div class="plain-label">占事要点</div>${plainZhan}</div>` : ''}
+          <div class="detail-note muted">断具体人事仍须合用神、动变、日月；本篇为卦德与辞象教材，不作绝对预言。</div>
         </div>
-        <div class="gd-section-head">爻辞解释</div>
-        <div class="plain-block">
-          ${plainYao}
-        </div>
-        ${a.plainYili ? `<div class="plain-block"><div class="plain-label">义理提要</div><div class="plain-text">${a.plainYili}</div></div>` : ''}
-        ${plainZhan ? `<div class="plain-block"><div class="plain-label">占事要点</div>${plainZhan}</div>` : ''}
-        <div class="detail-note muted">断具体人事仍须合用神、动变、日月；本篇为卦德与辞象教材，不作绝对预言。</div>
       </div>
-      <button class="btn btn-ghost" id="gdBackCatalog">‹ 返回八宫目录</button>`
+      <div class="footer-actions">
+        <button class="btn btn-ghost" id="gdBackCatalog">‹ 返回八宫目录</button>
+      </div>`
     bindNav()
     const backBtn = app.querySelector('#gdBackCatalog')
     if (backBtn) backBtn.onclick = () => go('guadian', {}, { replace: true })
@@ -17322,15 +17336,20 @@ window.LiuYao = {
     const blocks = a.blocks || (a.content || []).map((text) => ({ type: 'p', text }))
     const seal = a.categoryLabel || a.category
     setNav(a.title)
+    app.classList.add('has-fixed-footer')
     app.innerHTML = `
-      <div class="frame">
-        ${corners()}
-        <span class="seal">${seal}</span>
-        <div class="title-zh" style="margin-top:12px">${a.title}</div>
-        <div class="subtitle">${a.summary}</div>
-        <div class="article-body">${renderBlocks(blocks)}</div>
+      <div class="page-scroll">
+        <div class="frame">
+          ${corners()}
+          <span class="seal">${seal}</span>
+          <div class="title-zh" style="margin-top:12px">${a.title}</div>
+          <div class="subtitle">${a.summary}</div>
+          <div class="article-body">${renderBlocks(blocks)}</div>
+        </div>
       </div>
-      <button class="btn btn-ghost" data-back>返回目录</button>`
+      <div class="footer-actions">
+        <button class="btn btn-ghost" data-back>返回目录</button>
+      </div>`
     bindNav()
   }
 
