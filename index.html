@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-  <!-- liuyao-preview-build:2026-08-09T03:32:23Z -->
+  <!-- liuyao-preview-build:2026-08-09T03:44:30Z -->
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover" />
   <title>周易研习</title>
@@ -703,27 +703,12 @@
     .plain-block { margin: 0 0 12px; padding: 10px 12px; border: 1px solid var(--line); background: rgba(255,252,245,.8); }
     .plain-label { font-size: 13px; letter-spacing: .16em; color: var(--cinnabar); margin-bottom: 6px; }
     .plain-text { font-size: 14px; line-height: 1.7; color: var(--ink-soft); text-align: justify; }
-    .plain-yao { display: flex; gap: 8px; padding: 6px 0; border-bottom: 1px dashed var(--line); }
+    .plain-yao { display: flex; gap: 6px; padding: 4px 0; border-bottom: 1px dashed var(--line); align-items: flex-start; }
     .plain-yao:last-child { border-bottom: none; }
-    .py-pos { width: 28px; flex-shrink: 0; font-size: 12px; font-weight: 600; color: var(--bronze); padding-top: 2px; }
-    .py-body { flex: 1; min-width: 0; }
-    .py-classic {
-      font-family: "Songti SC", "Noto Serif SC", "STSong", "SimSun", serif;
-      font-size: 13px; line-height: 1.5; letter-spacing: .06em;
-      font-weight: 600; color: var(--ink); margin-bottom: 4px;
-    }
-    .py-tip {
-      font-family: -apple-system, "PingFang SC", "Helvetica Neue", "Microsoft YaHei", sans-serif;
-      font-size: 13.5px; line-height: 1.55; letter-spacing: .03em;
-      font-weight: 400; color: var(--ink-soft);
-    }
-    .py-sage {
-      margin-top: 4px; padding: 5px 8px;
-      border-left: 2px solid rgba(155, 45, 36, .35);
-      background: rgba(155, 45, 36, .04);
-      font-family: "Songti SC", "Noto Serif SC", "STSong", "SimSun", serif;
-      font-size: 12px; line-height: 1.55; letter-spacing: .04em;
-      color: var(--bronze); text-align: justify;
+    .py-pos { width: 28px; flex-shrink: 0; font-size: 12px; font-weight: 600; color: var(--bronze); line-height: 1.55; }
+    .py-flow {
+      flex: 1; min-width: 0; font-size: 13px; line-height: 1.55;
+      letter-spacing: .03em; color: var(--ink-soft); text-align: justify;
     }
     .plain-zhan { font-size: 14px; line-height: 1.6; color: var(--ink-soft); padding: 2px 0; }
     .xiang-structure {
@@ -3662,18 +3647,20 @@ function getGuaXiangjie(alias) {
     plainGuaci: g.guaciYi,
     plainYili: g.yili,
     plainZhan: g.zhan || [],
-    // 爻辞解释：原文 → 白话 → 圣言旁参（《象》+名句）
+    // 爻辞解释：原文+白话+圣言连写，一行通顺、不拆块
     plainYao: yaoBoard.map((row) => {
       const classic = row.classic || row.classicFull || ''
       const xx = getXiaoxiang(g.alias, row.lineIndex)
       let tip = cleanYaoExplain(row.tip, row.posLabel, classic)
       tip = enrichYaoTip(tip, xx)
       const sage = buildYaoSageLine(g.alias, row.lineIndex, classic, tip)
+      const text = joinYaoExplainFlow(classic, tip, sage)
       return {
         posLabel: row.posLabel,
         classic,
         tip,
-        sage
+        sage,
+        text
       }
     }),
     blocks: blocksForGua(g, { standalone: true })
@@ -3685,9 +3672,52 @@ function escapeRegExp(s) {
   return String(s || '').replace(/[.*+?^${}()|[\]\\]/g, (ch) => '\\' + ch)
 }
 
+/** 句末补句号，便于连写 */
+function ensureSentenceEnd(s) {
+  let t = String(s || '').trim()
+  if (!t) return ''
+  if (!/[。．！？；…」』）)]$/.test(t)) t += '。'
+  return t
+}
+
+/**
+ * 爻辞 + 白话 + 圣言连成一段，标点通顺、不硬换行
+ * 例：乘马班如……无不利。时机对了再求。《象》曰：「…」——…
+ */
+function joinYaoExplainFlow(classic, tip, sage) {
+  const parts = []
+  const c = ensureSentenceEnd(classic)
+  let t = String(tip || '').trim()
+  let s = String(sage || '').trim()
+
+  if (c) parts.push(c)
+
+  if (t) {
+    // 白话勿与原文完全重复起头
+    if (c) {
+      const cCore = c.replace(/[。．！？；…]+$/, '')
+      if (t === cCore || t.indexOf(cCore) === 0) {
+        t = t.slice(cCore.length).replace(/^[：:，,\s]+/, '')
+      }
+    }
+    t = ensureSentenceEnd(t)
+    if (t) parts.push(t)
+  }
+
+  if (s) {
+    // 圣言前若已有句号则直接接；「旁参」前用句号断开更顺
+    s = s.replace(/^[。．\s]+/, '')
+    if (s && !/^《/.test(s) && !/^旁参/.test(s)) {
+      // keep
+    }
+    parts.push(s)
+  }
+
+  return parts.join('').replace(/。{2,}/g, '。').replace(/——。/g, '——').trim()
+}
+
 /**
  * 爻辞解释区的白话：直接说意思，不重复位名、不贴套话。
- * 原文单独一行展示，这里只返回解释句。
  */
 function cleanYaoExplain(tip, posLabel, classicBody) {
   let t = String(tip || '').trim()
@@ -17231,11 +17261,7 @@ window.LiuYao = {
     const plainYao = (a.plainYao || []).map((py) => `
       <div class="plain-yao">
         <span class="py-pos">${py.posLabel}</span>
-        <div class="py-body">
-          ${py.classic ? `<div class="py-classic">${py.classic}</div>` : ''}
-          ${py.tip ? `<div class="py-tip">${py.tip}</div>` : ''}
-          ${py.sage ? `<div class="py-sage">${py.sage}</div>` : ''}
-        </div>
+        <div class="py-flow">${py.text || [py.classic, py.tip, py.sage].filter(Boolean).join('')}</div>
       </div>`).join('')
     const plainZhan = (a.plainZhan || []).map((z) => `<div class="plain-zhan">· ${z}</div>`).join('')
     app.innerHTML = `
