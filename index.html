@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-  <!-- liuyao-preview-build:2026-08-09T03:04:40Z -->
+  <!-- liuyao-preview-build:2026-08-09T03:08:35Z -->
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover" />
   <title>周易研习</title>
@@ -705,9 +705,18 @@
     .plain-text { font-size: 14px; line-height: 1.7; color: var(--ink-soft); text-align: justify; }
     .plain-yao { display: flex; gap: 8px; padding: 6px 0; border-bottom: 1px dashed var(--line); }
     .plain-yao:last-child { border-bottom: none; }
-    .py-pos { width: 28px; flex-shrink: 0; font-size: 12px; font-weight: 600; color: var(--bronze); }
-    .py-classic { font-size: 12px; line-height: 1.45; margin-bottom: 2px; }
-    .py-tip { font-size: 14px; line-height: 1.55; color: var(--ink); }
+    .py-pos { width: 28px; flex-shrink: 0; font-size: 12px; font-weight: 600; color: var(--bronze); padding-top: 2px; }
+    .py-body { flex: 1; min-width: 0; }
+    .py-classic {
+      font-family: "Songti SC", "Noto Serif SC", "STSong", "SimSun", serif;
+      font-size: 13px; line-height: 1.5; letter-spacing: .06em;
+      font-weight: 600; color: var(--ink); margin-bottom: 4px;
+    }
+    .py-tip {
+      font-family: -apple-system, "PingFang SC", "Helvetica Neue", "Microsoft YaHei", sans-serif;
+      font-size: 13.5px; line-height: 1.55; letter-spacing: .03em;
+      font-weight: 400; color: var(--ink-soft);
+    }
     .plain-zhan { font-size: 14px; line-height: 1.6; color: var(--ink-soft); padding: 2px 0; }
     .detail-note { font-size: 12px; line-height: 1.6; margin: 8px 0; color: var(--mist); }
     .ask-before-note {
@@ -2708,10 +2717,11 @@ function getGuaXiangjie(alias) {
     plainGuaci: g.guaciYi,
     plainYili: g.yili,
     plainZhan: g.zhan || [],
-    // 爻辞解释只保留说明，不重复卦象板上已展示的原文
+    // 爻辞解释：先原文、后白话（两行；位名只写一次）
     plainYao: yaoBoard.map((row) => ({
       posLabel: row.posLabel,
-      tip: stripYaoExplainLead(row.tip, row.posLabel, row.classic)
+      classic: row.classic || row.classicFull || '',
+      tip: cleanYaoExplain(row.tip, row.posLabel, row.classic)
     })),
     blocks: blocksForGua(g, { standalone: true })
   })
@@ -2723,14 +2733,14 @@ function escapeRegExp(s) {
 }
 
 /**
- * 爻辞解释清洗：左侧已有 posLabel（初六/六四…），tip 里勿再写一遍位名。
- * 爻辞原文在「卦象·爻辞」区展示即可；这里只留白话说明。
+ * 爻辞解释区的白话：直接说意思，不重复位名、不贴套话。
+ * 原文单独一行展示，这里只返回解释句。
  */
-function stripYaoExplainLead(tip, posLabel, classicBody) {
+function cleanYaoExplain(tip, posLabel, classicBody) {
   let t = String(tip || '').trim()
   if (!t) return ''
 
-  // 1) 先剥扩写前缀「四爻（接近结果）：」——必须先于位名，否则「六四：」剥不到
+  // 1) 先剥「四爻（接近结果）：」——须先于位名
   t = t.replace(/^[初上]爻（[^）]*）[：:]\s*/, '')
   t = t.replace(/^[二三四五]爻（[^）]*）[：:]\s*/, '')
 
@@ -2742,29 +2752,39 @@ function stripYaoExplainLead(tip, posLabel, classicBody) {
     t = t.replace(new RegExp('^' + ep + '『[^』]*』[：:]\\s*'), '')
     t = t.replace(new RegExp('^' + ep + '[：:]\\s*'), '')
   }
-  // 兜底：任意初九/上六/九二/六三…（防止 pos 与文首写法略异）
   t = t.replace(/^(?:初[九六]|上[九六]|[九六][二三四五])「[^」]*」[：:]\s*/, '')
   t = t.replace(/^(?:初[九六]|上[九六]|[九六][二三四五])[：:]\s*/, '')
 
-  // 3) 剥仍贴在开头的「原文」：
+  // 3) 去掉「经文大意 / 零基础可记」套话
+  t = t.replace(/。?\s*经文大意是「[^」]*」[。.]?/g, '')
+  t = t.replace(/。?\s*零基础可记[：:][^。]*[。.]?/g, '')
+
+  // 4) 「辞意复述——白话」：只留破折号后的直接解释
+  const dashParts = t.split(/[—－]{1,2}/)
+  if (dashParts.length >= 2) {
+    const right = dashParts.slice(1).join('—').trim()
+    if (right.length >= 2) t = right
+  }
+
+  // 5) 若仍以完整原文起头，剥掉
   if (classicBody) {
     const body = String(classicBody).replace(/[。．.]+$/, '').trim()
     if (body) {
       const esc = escapeRegExp(body)
       t = t.replace(new RegExp('^「' + esc + '」[：:]\\s*'), '')
-      t = t.replace(new RegExp('^' + esc + '[：:——\\-]+\\s*'), '')
+      t = t.replace(new RegExp('^' + esc + '[：:，,\\s]*'), '')
     }
   }
   t = t.replace(/^「[^」]+」[：:]\s*/, '')
 
-  // 4) 去掉扩写模板尾部套话（原文已在卦象区，不必再贴「经文大意」）
-  t = t.replace(/。?\s*经文大意是「[^」]*」[。.]?/g, '')
-  t = t.replace(/。?\s*零基础可记[：:][^。]*[。.]?/g, '')
-
   t = t.replace(/。{2,}/g, '。').replace(/^[。\s]+/, '').trim()
-  // 保留句中句号；仅当全文只剩一个「。」时清空
   if (t === '。') t = ''
   return t
+}
+
+/** @deprecated 兼容旧调用名 */
+function stripYaoExplainLead(tip, posLabel, classicBody) {
+  return cleanYaoExplain(tip, posLabel, classicBody)
 }
 
 module.exports = {
@@ -16248,6 +16268,7 @@ window.LiuYao = {
       <div class="plain-yao">
         <span class="py-pos">${py.posLabel}</span>
         <div class="py-body">
+          ${py.classic ? `<div class="py-classic">${py.classic}</div>` : ''}
           ${py.tip ? `<div class="py-tip">${py.tip}</div>` : ''}
         </div>
       </div>`).join('')

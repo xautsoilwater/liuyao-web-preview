@@ -704,9 +704,18 @@
     .plain-text { font-size: 14px; line-height: 1.7; color: var(--ink-soft); text-align: justify; }
     .plain-yao { display: flex; gap: 8px; padding: 6px 0; border-bottom: 1px dashed var(--line); }
     .plain-yao:last-child { border-bottom: none; }
-    .py-pos { width: 28px; flex-shrink: 0; font-size: 12px; font-weight: 600; color: var(--bronze); }
-    .py-classic { font-size: 12px; line-height: 1.45; margin-bottom: 2px; }
-    .py-tip { font-size: 14px; line-height: 1.55; color: var(--ink); }
+    .py-pos { width: 28px; flex-shrink: 0; font-size: 12px; font-weight: 600; color: var(--bronze); padding-top: 2px; }
+    .py-body { flex: 1; min-width: 0; }
+    .py-classic {
+      font-family: "Songti SC", "Noto Serif SC", "STSong", "SimSun", serif;
+      font-size: 13px; line-height: 1.5; letter-spacing: .06em;
+      font-weight: 600; color: var(--ink); margin-bottom: 4px;
+    }
+    .py-tip {
+      font-family: -apple-system, "PingFang SC", "Helvetica Neue", "Microsoft YaHei", sans-serif;
+      font-size: 13.5px; line-height: 1.55; letter-spacing: .03em;
+      font-weight: 400; color: var(--ink-soft);
+    }
     .plain-zhan { font-size: 14px; line-height: 1.6; color: var(--ink-soft); padding: 2px 0; }
     .detail-note { font-size: 12px; line-height: 1.6; margin: 8px 0; color: var(--mist); }
     .ask-before-note {
