@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-  <!-- liuyao-preview-build:2026-08-06T01:55:28Z -->
+  <!-- liuyao-preview-build:2026-08-09T01:47:01Z -->
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover" />
   <title>周易研习</title>
@@ -560,6 +560,23 @@
     .yao-line .sym-wrap { flex: 1; display: flex; justify-content: center; padding-right: 12px; }
     .field-label { letter-spacing: 0.28em; font-size: 13px; color: var(--bronze); }
     .ask-title-center { text-align: center; }
+    /* 六爻摇卦页：「卜卦」加粗居中 + 副标题八字居中 */
+    .title-zh.cast-title {
+      text-align: center;
+      text-indent: 0;
+      font-weight: 700;
+      font-size: 36px;
+      letter-spacing: 0.28em;
+      padding-left: 0.28em;
+      line-height: 1.25;
+    }
+    .subtitle.cast-subtitle {
+      text-align: center;
+      text-indent: 0;
+      letter-spacing: 0.2em;
+      padding-left: 0.2em;
+      font-size: 15px;
+    }
     /* 断卦结果页：仅标题「断卦」与副标题九字居中 */
     .interpret-title-center {
       text-align: center;
@@ -2544,8 +2561,130 @@ const EXTRA_ARTICLES = [
   },
 
   /* ═══════════════════════════════════════════════════════
-     卷五 · 排盘 · 扩展
+     卷三 / 卷五 · 六十四卦与京房八宫（详解 + 全表）
   ═══════════════════════════════════════════════════════ */
+
+  {
+    id: 'jingfang-bagong',
+    category: '排盘',
+    title: '京房八宫详解',
+    summary: '西汉京房纳甲筮法：八宫如何生成、世应如何安、与周易序卦有何不同；附乾宫逐步演示。',
+    cover: 'shiying',
+    blocks: [
+      figure('shiying', '八宫定世，应与世隔两位'),
+      p('京房（西汉）把《易》用于占筮，形成后世六爻（纳甲筮法）的骨架：八宫、纳甲、世应、六亲。本程序排盘用的「×宫×世」「世/应」标注，即此系统。本篇尽量讲细：它从哪里来、八宫怎么变出来、世应怎么定、和《周易》六十四卦序有何不同。'),
+      quote('定世之爻，所居之位，即是卦主。', '京氏易通义'),
+
+      p('【一、为什么要八宫】若只有卦名与爻画，仍不知：① 哪一爻代表「我」；② 六亲以谁为「我」来排；③ 所求六亲不上卦时从哪找伏神。京房的办法是：把六十四卦编成八个家族（宫），每家族八个成员，用固定规则安「世」（族长之位），再安「应」（对门之位），并用宫的五行当「我」排六亲。'),
+      list([
+        '八宫名＝八纯卦：乾、坤、震、巽、坎、离、艮、兑',
+        '每宫五行：乾兑金，震巽木，坎水，离火，坤艮土',
+        '每宫八卦顺序：本宫、一世、二世、三世、四世、五世、游魂、归魂',
+        '本程序 data 与排盘引擎即按此八组存储与识别'
+      ]),
+
+      p('【二、八宫是怎么「变」出来的】以本宫八纯卦为起点，按「从下往上依次变爻」的规则推出一世至五世，再按固定规则得游魂、归魂。（变＝阴阳对调那一爻。）'),
+      list([
+        '本宫：八纯卦，上下经卦相同（如乾为天 ☰☰）',
+        '一世：变初爻 → 新卦；世在初爻',
+        '二世：再变二爻 → 新卦；世在二爻',
+        '三世：再变三爻 → 新卦；世在三爻',
+        '四世：再变四爻 → 新卦；世在四爻',
+        '五世：再变五爻 → 新卦；世在五爻（上爻始终未在「一世～五世」这条链上单独当「变点」的终点规则以宫表为准）',
+        '游魂：在五世基础上，把第四爻变回（与五世相对），世在四爻',
+        '归魂：在游魂基础上，把内卦三爻变回本宫内卦，世在三爻'
+      ]),
+      p('口诀助记：本宫为体，自下逐变；变到五世，外游其魂；游而思归，内返本象。初学不必手推每一卦，但要理解：宫次不是随便贴的标签，而是「从纯卦出发变了几次、变到哪一步」。'),
+
+      p('【三、乾宫完整演示】（爻画自下而上；1 阳 0 阴，便于对照程序）'),
+      list([
+        '本宫 乾：六爻皆阳。世在上。宫属金',
+        '一世 姤：变初爻为阴。世在初',
+        '二世 遁（遯）：再变二爻为阴。世在二',
+        '三世 否：再变三爻为阴。世在三',
+        '四世 观：再变四爻为阴。世在四',
+        '五世 剥：再变五爻为阴。世在五',
+        '游魂 晋：由剥变第四爻（规则得晋）。世在四',
+        '归魂 大有：内卦返乾之象得大有。世在三'
+      ]),
+      p('坤宫同理，从全阴起步，一世复、二世临、三世泰、四世大壮、五世夬、游魂需、归魂比。其余六宫各以本纯卦为根，规则相同，卦名不同——全表见「六十四卦分宫一览」。'),
+
+      p('【四、世应安法】世位只看「本宫/几世/游魂/归魂」，不看所问事项：'),
+      list([
+        '本宫 → 世在上（第六爻）',
+        '一世 → 世在初；二世 → 世在二；三世 → 世在三',
+        '四世 → 世在四；五世 → 世在五',
+        '游魂 → 世在四；归魂 → 世在三',
+        '应爻：与世隔两位。世1应4，世2应5，世3应6，世4应1，世5应2，世6应3'
+      ]),
+      figure('shiying', '应与世永远隔两位，形成主客对峙或相应'),
+      p('人事用法提要：世为我，应为彼或事体。世生应，多主我去付出、推动；应生世，多主对方/环境来助；应克世，我承压；世克应，我能制人但仍防过刚。细断见卷六。'),
+
+      p('【五、八宫与纳甲、六亲的关系】'),
+      list([
+        '纳甲：各爻安干支（见「纳甲全表与口诀」），爻始有五行',
+        '六亲：以「本宫五行」为「我」，与各爻五行比：生我为父母，我生为子孙，克我为官鬼，我克为妻财，同我为兄弟',
+        '故：同一「子水」爻，在乾宫金为妻财，在坤宫土可为父母——宫一错，六亲全盘错',
+        '伏神：用神不上卦时，从本宫八纯之纳甲里找该六亲，伏在对应爻下'
+      ]),
+
+      p('【六、与《周易》序卦的分工】'),
+      list([
+        '序卦：乾坤屯蒙……重义理生成、卦辞爻辞阅读顺序',
+        '八宫：乾姤遁否……重占筮结构、世应六亲',
+        '同一「水火既济」：在序卦里是上经将终之卦；在八宫里是坎宫三世，世在三、应在上',
+        '学易：玩辞走序卦与说卦；占筮走八宫与纳甲。本典卷三讲卦体与辞象入口，卷五把八宫用到盘上'
+      ]),
+
+      p('【七、在本程序里怎么练】'),
+      list([
+        '起一卦 → 看顶栏卦名与「×宫×世」→ 用本篇口诀核世应位置是否与盘面一致',
+        '打开「六十四卦分宫一览」→ 核对本卦是否在该宫该世',
+        '看六亲列 → 回想「宫五行是什么」，抽查一两爻是否符合生克定义',
+        '变卦若有 → 再看变卦宫次世应，只作终局主客参考，取用仍以本卦为主'
+      ]),
+      note('全表查阅见下篇「六十四卦分宫一览」。纳甲口诀见「纳甲全表与口诀」。')
+    ]
+  },
+
+  {
+    id: 'liushisi-fengong',
+    category: '象数',
+    title: '六十四卦分宫一览',
+    summary: '京房八宫全表：每宫本宫至归魂八卦之名、世位；供查宫次与记卦名，与周易序卦对照用。',
+    cover: 'bagua',
+    blocks: [
+      p('本表按京房八宫编排六十四卦，专供查「此卦属何宫、第几世、世在第几爻」。卦辞爻辞仍以《周易》文本为准（断卦页象辞解读）；本表不替代序卦阅读，而是占筮认宫的字典。'),
+      p('世位说明：初＝1 … 上＝6。应位＝世位加 3（超过 6 则减 6）。本程序识别与下表一致。'),
+
+      p('【乾宫 · 金】本宫乾（世6）→ 一世姤（世1）→ 二世遁（世2）→ 三世否（世3）→ 四世观（世4）→ 五世剥（世5）→ 游魂晋（世4）→ 归魂大有（世3）。'),
+      p('【坤宫 · 土】本宫坤（世6）→ 一世复（世1）→ 二世临（世2）→ 三世泰（世3）→ 四世大壮（世4）→ 五世夬（世5）→ 游魂需（世4）→ 归魂比（世3）。'),
+      p('【震宫 · 木】本宫震（世6）→ 一世豫（世1）→ 二世解（世2）→ 三世恒（世3）→ 四世升（世4）→ 五世井（世5）→ 游魂大过（世4）→ 归魂随（世3）。'),
+      p('【巽宫 · 木】本宫巽（世6）→ 一世小畜（世1）→ 二世家人（世2）→ 三世益（世3）→ 四世无妄（世4）→ 五世噬嗑（世5）→ 游魂颐（世4）→ 归魂蛊（世3）。'),
+      p('【坎宫 · 水】本宫坎（世6）→ 一世节（世1）→ 二世屯（世2）→ 三世既济（世3）→ 四世革（世4）→ 五世丰（世5）→ 游魂明夷（世4）→ 归魂师（世3）。'),
+      p('【离宫 · 火】本宫离（世6）→ 一世旅（世1）→ 二世鼎（世2）→ 三世未济（世3）→ 四世蒙（世4）→ 五世涣（世5）→ 游魂讼（世4）→ 归魂同人（世3）。'),
+      p('【艮宫 · 土】本宫艮（世6）→ 一世贲（世1）→ 二世大畜（世2）→ 三世损（世3）→ 四世睽（世4）→ 五世履（世5）→ 游魂中孚（世4）→ 归魂渐（世3）。'),
+      p('【兑宫 · 金】本宫兑（世6）→ 一世困（世1）→ 二世萃（世2）→ 三世咸（世3）→ 四世蹇（世4）→ 五世谦（世5）→ 游魂小过（世4）→ 归魂归妹（世3）。'),
+
+      p('【宫次与人事的粗象（助记，不可单凭宫次定吉凶）】'),
+      list([
+        '本宫：事体纯正、根基在本类；世在尊位，主事在我或事之「本体」',
+        '一世、二世：事在下层、起始或渐进，世位偏低',
+        '三世、归魂：多涉内外交接、归复、关系与契约之象（归魂尤主「回到本类」）',
+        '四世、游魂：事在外层、游离、未定，宜防反复',
+        '五世：逼近高位，事关枢纽，亦防过亢'
+      ]),
+      p('【怎么用这张表】'),
+      list([
+        '起卦后：用表核对程序给出的宫次是否与传统一致',
+        '背诵：先背八纯本宫，再背本宫「一世是谁」（乾姤、坤复、震豫……）',
+        '辞象：查到卦名后，到断卦结果页读该卦卦辞爻辞，或查《周易》白文',
+        '六亲：先确认宫五行，再对照纳甲五行推六亲（见纳甲全表）'
+      ]),
+      quote('因而重之，爻在其中矣。', '《系辞上》'),
+      note('原理见「六十四卦详说」「京房八宫详解」。类象见「八卦类象详表」。')
+    ]
+  },
 
   {
     id: 'najia-quanbiao',
@@ -3723,9 +3862,9 @@ const ARTICLES = [
       list([
         '卷一开宗：为何学、如何学；卜与修身的边界；教材用法',
         '卷二易理：太极阴阳、三义、象数理、三才、时位中正、观象玩辞',
-        '卷三象数：八卦取象、六十四卦、爻位内外、老少阴阳、本变互卦、类象与先后天',
+        '卷三象数：八卦取象、六十四卦详说、分宫一览、爻位内外、本变互卦、类象与先后天',
         '卷四卜卦：一事一问、诚敬、铜钱成爻成卦',
-        '卷五排盘：世应八宫、纳甲全表、六亲、六神起例、旬空旺衰、伏神',
+        '卷五排盘：世应与八宫、京房八宫详解、纳甲全表、六亲、六神、旬空旺衰、伏神',
         '卷六断卦：入门六步、用神原忌细表、合冲刑害、应期口诀、主客、常见问事',
         '卷七梅花：先天数、报数时间物象起卦、体用生克、本互变、与六爻对照',
         '卷八附录：断卦口诀、术语速查、求财婚恋求职卦例——随时查阅，相当于书后索引与习题'
@@ -3971,34 +4110,63 @@ const ARTICLES = [
         '细：六亲人事与六神，仍要能回到八卦本象上解释'
       ]),
       p('例如外坎内震为屯：水下有雷，云雷郁结，主始生之难；再落六亲用神，才不至空说「难」。'),
-      note('续读「六十四卦略说」「爻位与内外」。背不全表无妨，先熟八纯之象。')
+      note('续读「六十四卦详说」「六十四卦分宫一览」「爻位与内外」。背不全表无妨，先熟八纯之象。')
     ]
   },
   {
     id: 'liushisi-gua',
     category: '象数',
-    title: '六十四卦略说',
-    summary: '两经卦相叠成别卦；下内上外，贞悔始成，八宫统摄。',
+    title: '六十四卦详说',
+    summary: '重卦结构、内外贞悔、卦名取象、周易序与京房八宫分统；辞象与占法如何对接。',
     cover: 'bagua',
     blocks: [
-      p('两经卦相叠成六十四别卦（重卦）。下卦为内（贞），上卦为外（悔）。卦名多由上下之象合成，如水雷屯、天地否、火水未济、地天泰。识名先识象：看见「水火」就想到既济/未济之别，看见「天地」就想到泰/否之交与不交。'),
-      list([
-        '内卦（下）：事之始、近、己身、目前、内在条件',
-        '外卦（上）：事之终、远、对方、趋向、外部环境',
-        '六爻自下而上：初、二、三、四、五、上',
-        '初二三属内卦，四五上属外卦'
-      ]),
+      p('三爻为经卦（八卦），两经卦相叠为别卦，共六十四。六十四卦是《周易》的全文骨架，也是六爻排盘「看见的那一盘」：每摇一卦，本卦、变卦都落在这六十四之中。本篇先把「卦是怎么叠出来的、名字怎么读、两套排序各干什么」讲透；京房八宫定世应的操作细节，在卷五「世应与八宫」「京房八宫详解」中展开。'),
       quote('八卦成列，象在其中矣；因而重之，爻在其中矣。', '《系辞上》'),
-      p('京氏易又以八宫统摄六十四卦：每宫以八纯卦为本，依次一世、二世、三世、四世、五世、游魂、归魂。世爻随宫次而移，应爻与世爻隔两位相对。八宫是排盘「定世应」的骨架，详见卷五「世应与八宫」。'),
+
+      p('【一、怎么叠成六十四】下卦为内，亦称贞；上卦为外，亦称悔。读盘时先分内外：内看始、近、己、目前条件；外看终、远、彼、环境趋向。六爻自下而上记为初、二、三、四、五、上——初二三属内卦，四五上属外卦。'),
       list([
-        '八纯：乾、兑、离、震、巽、坎、艮、坤（本宫世在上或初，依传统口诀）',
-        '一世至五世：世爻由下向上推移（具体口诀以盘面为准）',
-        '游魂：世在四；归魂：世在三（常见京氏口径）',
-        '初学：不必先背全表，卜卦后查卦名与宫次即可'
+        '内卦（下）：事之始、近处、己身、内在条件',
+        '外卦（上）：事之终、远处、对方、外部环境',
+        '识名先识象：水雷屯＝上坎下震，天地否＝上乾下坤',
+        '同两经卦，上下一换，卦义常对翻（如地天泰 ↔ 天地否）'
       ]),
-      p('本卦与变卦都是六十四卦之一。有动则成变卦：本看始，变看终。无动则静盘，以本卦世应用神与日月为主。互卦（二三四、三四五）多主中间过程，属进阶选读，见「本卦·变卦·互卦」。'),
-      p('学习建议：每摇一卦，写下「内××、外××、卦名××、属×宫×世」，三五卦后自然熟悉，比死背更快。'),
-      note('排盘顶部即显示卦名与宫次。可与卷五「世应与八宫」对照。')
+      p('八纯卦：上下同卦。乾为天、坤为地、震为雷、巽为风、坎为水、离为火、艮为山、兑为泽。其余五十六卦皆「异卦相重」，卦名多由上下之象合成（水火既济、火水未济、雷火丰、火山旅等）。看见「水火」要想既济/未济之别，看见「天地」要想泰交/否隔——名是象的压缩，不是随便起的标签。'),
+
+      p('【二、周易序卦与京房八宫：两套「六十四」】同一六十四卦，至少有两套常用编排，用途不同，不可混为一谈：'),
+      list([
+        '《周易》序卦：上经起乾坤、下经起咸恒，重义理与事物生成次第；读卦辞爻辞、玩辞观象，主要走这条线',
+        '京房八宫：以八纯卦为八个「宫门」，每宫统八个卦（本宫→一世…→五世→游魂→归魂），专为纳甲筮法服务',
+        '六爻排盘看「属何宫、第几世、世应在哪」，用的是京房系统',
+        '断语页「本卦象辞解读」引用卦辞爻辞，用的是周易辞象系统；两套并行，各管一摊'
+      ]),
+      p('为何六爻非用八宫不可？因为世爻、应爻、六亲的「我」都以宫为单位：宫有五行（乾兑金、震巽木、坎水、离火、坤艮土），六亲以「宫五行」为「我」去比各爻五行；世位又随「本宫/几世/游魂/归魂」固定移动。不懂八宫，只能认卦名，认不出「谁是我、谁是对方、六亲为何这样排」。'),
+
+      p('【三、京房八宫在象数层的粗轮廓】（操作级细则见卷五）每宫八卦，顺序固定：'),
+      list([
+        '本宫：八纯卦本身，世多在上爻（第六爻）',
+        '一世～五世：自下而上逐爻「变」出新卦，世爻随世次落在初、二、三、四、五',
+        '游魂：外卦再变其「归魂前」格局，世多在四爻',
+        '归魂：内卦回到本宫经卦之象，世多在三爻',
+        '应爻：与世爻永远隔两位（世初应四、世二应五、世三应上……）'
+      ]),
+      p('记忆口诀（世位，爻序从下往上数）：本宫世六，一世世初，二世世二，三世世三，四世世四，五世世五，游魂世四，归魂世三。八宫分宫全表（每卦属哪宫哪世）见扩展篇「六十四卦分宫一览」。'),
+
+      p('【四、本卦、变卦都是六十四之一】有动则成变卦：动爻阴阳对换，静爻照抄，得到另一个别卦名。本看始，变看终；无动则静盘，不另立变卦。互卦（二三四、三四五）多主过程，见「本卦·变卦·互卦」。'),
+      list([
+        '起卦后先写：内××、外××、卦名××、×宫×世、世在×爻、应在×爻',
+        '再看动爻几个、变卦何名——三五卦后，比死背六十四名更快',
+        '辞象进阶：同一卦名，可到断卦页读「取象释名、卦辞、爻辞」',
+        '术数进阶：同一卦名，要会查它落在京房哪一宫、世应在哪'
+      ]),
+
+      p('【五、与后文怎么衔接】'),
+      list([
+        '续本卷：爻位与内外、老少阴阳、本变互卦——把「一个卦」拆开看',
+        '卷五：世应与八宫、京房八宫详解、纳甲全表——把「宫」用起来',
+        '扩展：六十四卦分宫一览——当表查，不必一次背完',
+        '附录术语：八宫、本宫、游魂、归魂、世应等可速查'
+      ]),
+      note('本篇讲「六十四是什么、两套序各管什么」；京房如何一步步变出八宫卦、世应如何安，务必接读卷五「京房八宫详解」。')
     ]
   },
   {
@@ -4149,26 +4317,33 @@ const ARTICLES = [
     id: 'shiying',
     category: '排盘',
     title: '世应与八宫',
-    summary: '世为自己，应为对方或所问之方；八宫定世，应与世隔两位。',
+    summary: '世为自己，应为对方；八宫定世位，应与世隔两位；宫五行定六亲之「我」。',
     cover: 'shiying',
     blocks: [
       figure('shiying', '世应相对：中间隔两位'),
-      p('京氏易以八宫统六十四卦。每宫八卦：本宫、一世至五世、游魂、归魂。世爻随宫次而移；应爻与世爻永远隔两位相对。世应是六爻人事的「主客坐标」。'),
+      p('六爻盘面上，最先要找到的两根「钉子」往往是世与应。世应从哪来？从京房八宫来。本篇先把世应含义与八宫总纲说清；变爻规律、八宫全表、口诀演示，见扩展篇「京房八宫详解」「六十四卦分宫一览」。'),
+
+      p('【世与应：主客坐标】'),
       list([
-        '世爻：自己、主体、求测之人、我方立场',
+        '世爻：自己、主体、求测之人、我方立场与承受力',
         '应爻：对方、环境、事体所在、客方或标的',
-        '世在初则应在四；世在二则应在五；世在三则应在六；余类推',
-        '世应比和、相生、相克，构成主客态势的大纲（见卷六）'
+        '世在初则应在四；世在二则应在五；世在三则应在上（六）；世在四则应在初……永远隔两位',
+        '世应比和、相生、相克，构成主客态势大纲（细断见卷六「世应与主客」）'
       ]),
-      p('排盘步骤（概念上）：先定本卦属何宫、何世（宫次），再定世位，应位随之而定。盘面上「位」列标出世/应，变卦亦有其宫次与世应，可作终局主客参考，但仍以本卦取用为主。'),
+      p('问人际、合作、诉讼、感情：世应尤其关键。问自身疾苦、求名求财：世爻与用神并重。世空世衰，多主己方未备或力不足；应空应衰，多主对方/事体未实。'),
+
+      p('【八宫总纲】京氏易把六十四卦编进八个「宫」，每宫八个卦：'),
       list([
-        '问人际、合作、诉讼、感情：世应尤其关键',
-        '问自身疾苦、求财求名：世爻与用神并重',
-        '世空世衰：自身条件未备或力不足',
-        '应空应衰：对方/事体未实或力量不足'
+        '八宫名＝八纯卦：乾、坤、震、巽、坎、离、艮、兑',
+        '每宫顺序：本宫 → 一世 → 二世 → 三世 → 四世 → 五世 → 游魂 → 归魂',
+        '世爻位置随「第几世」固定（见下），不随占问而改',
+        '宫有五行：乾兑金、震巽木、坎水、离火、坤艮土——六亲以宫五行为「我」'
       ]),
-      p('八宫与五行：宫有五行（如乾宫金、坤宫土），六亲以宫五行为「我」来定。故「属哪一宫」不只是标签，更决定六亲结构。'),
-      note('世应五行生克，详卷六「世应与主客」。先在盘上找到世、应两爻再往下看。')
+      p('世位口诀（爻自下而上为初至上）：本宫世在上，一世世在初，二世世在二，三世世在三，四世世在四，五世世在五，游魂世在四，归魂世在三。'),
+      p('【为何必须懂八宫】① 定世应：没有宫次，就没有固定世位。② 定六亲：父母、兄弟、子孙、妻财、官鬼，是拿「宫之五行」去比各爻五行推出来的；同一爻支，在乾宫与在震宫，六亲可以完全不同。③ 定伏神：某六亲不上卦时，从本宫八纯卦中寻伏，也依赖「属哪一宫」。'),
+
+      p('排盘时程序已自动标宫次与世应；你要会的是：看见「乾宫二世」就知道世在二爻、应在五爻，六亲以金为「我」。变卦亦有宫次世应，可参终局主客，取用仍以本卦为主。'),
+      note('务必续读「京房八宫详解」（如何一步步变出八宫卦）与「六十四卦分宫一览」（全表查阅）。')
     ]
   },
   {
@@ -6558,12 +6733,12 @@ function canReplyBySubject(subj, kind, tone, mild, timeHint) {
   const pack = {
     paper: {
       good: mild
-        ? `问「${subj}」：行。${when}能接收，但还有一环没合上（审稿意见或证据）。先盯最可能被拒的那条质疑补证据、改表述，别平均润色；别拖回修。`
-        : `问「${subj}」：行。${when}接收顺，按审稿意见一项项闭环改就好；别拖回复、别敷衍修改。`,
+        ? `问「${subj}」：行。${when}接收之象可成，然审稿或证据尚有一环未合。宜先就最可能被拒之处补证据、改表述，勿平均润色，亦勿拖延回修。`
+        : `问「${subj}」：行。${when}接收之势颇顺，宜依审稿之见逐条改之；回覆宜速，敷衍无益。`,
       bad: mild
-        ? `问「${subj}」：不行。${when}难接收，关键质疑或门槛还卡着；略有转机也要先改硬伤。硬投、硬催没用，先补致命问题或换策略（补实验、缩结论、换刊）。`
-        : `问「${subj}」：不行。阻力大，这轮接收不成。先别死磕这一个结果，把硬伤补齐或调整投稿策略再来。`,
-      mid: `问「${subj}」：未定。稿件和评审门槛在拉扯，先补最硬的那条证据链，再等消息。`
+        ? `问「${subj}」：不行。${when}难望接收，关键质疑或门槛仍卡；纵有转机，亦须先改硬伤。硬投、硬催无益，宜补致命之失或易其道（补实验、缩结论、换刊）。`
+        : `问「${subj}」：不行。阻力已显，此轮接收难成。勿死磕一处结果，宜先补硬伤或调整策略，再图之。`,
+      mid: `问「${subj}」：未定。稿件与评审门槛相持，宜先补最硬之证据链，再观消息。`
     },
     experiment: {
       good: mild
@@ -6603,21 +6778,21 @@ function canReplyBySubject(subj, kind, tone, mild, timeHint) {
     },
     career: {
       good: mild
-        ? `问「${subj}」：行。${when}能成，但名分或签字还没落。别把口头认可当结果。先确认决策人、时间表和可量化业绩，再推进。`
-        : `问「${subj}」：行。${when}可以往上推，业绩和汇报递到能拍板的人手里；别只停在态度好。`,
+        ? `问「${subj}」：行。${when}有可成之象，然名分或签字未落。口惠不可尽信。宜先明决策人、时程与可量化业绩，再推进。`
+        : `问「${subj}」：行。${when}可往上推，业绩与汇报宜达于能决之人；不可只停在态度好。`,
       bad: mild
-        ? `问「${subj}」：不行。岗位或决策还没接上，硬争耗关系。先补业绩节点、看清编制/流程，再谈。`
-        : `问「${subj}」：不行。阻力大，先稳住本职，改条件或等窗口，别硬顶。`,
-      mid: `问「${subj}」：未定。先把能证明的业绩和流程走清楚。`
+        ? `问「${subj}」：不行。岗位或决策尚未接上，硬争则耗关系。宜先补业绩节点、看清编制与流程，再议。`
+        : `问「${subj}」：不行。阻力已显，宜先安其本职，改条件或待窗口，勿硬顶。`,
+      mid: `问「${subj}」：未定。宜先把可证明之业绩与流程走清，再观其机。`
     },
     receivable: {
       good: mild
-        ? `问「${subj}」：行。${when}款回得来，但对方或节点还拖着。别当已到账。书面催、对账、约付款日；别只口头问。`
-        : `问「${subj}」：行。${when}回款顺，按约定跟节点，单据留好。`,
+        ? `问「${subj}」：行。${when}款有可回之象，然对方或节点仍拖。未可当作已到账。宜书面催、对账、约付款日；不可只凭口头。`
+        : `问「${subj}」：行。${when}回款之势颇顺，宜按约定跟节点，单据留痕。`,
       bad: mild
-        ? `问「${subj}」：不行。${when}难回，对方动力不足。先对账、留痕，必要时走程序，别空等「马上付」。`
-        : `问「${subj}」：不行。难回。先止损、留证据，评估催收或法律途径，别把希望全押在态度上。`,
-      mid: `问「${subj}」：未定。先把账和凭证理清，再定催还是等。`
+        ? `问「${subj}」：不行。${when}难回，对方动力不足。宜先对账、留痕，必要时走程序，勿空等一句「马上付」。`
+        : `问「${subj}」：不行。难回。宜先止损、留证据，评估催收或法律之途，勿把希望尽押在态度上。`,
+      mid: `问「${subj}」：未定。宜先理清账与凭证，再定是催是等。`
     },
     invest: {
       good: mild
@@ -6675,12 +6850,12 @@ function canReplyBySubject(subj, kind, tone, mild, timeHint) {
     },
     emotion: {
       good: mild
-        ? `问「${subj}」：行。${when}能往一起走，但旧问题或行动还没接上。先谈清一件具体事，约好可验证的下一步；对方有连续行动再加投入。`
-        : `问「${subj}」：行。${when}可以往一起走，对方有回馈再加投入；别一厢情愿一次押满。`,
+        ? `问「${subj}」：行。${when}有可近之象，然旧结或行动尚未接上。宜先谈清一件实事，约可验证之下一步；对方有连续行动，再加投入。`
+        : `问「${subj}」：行。${when}可往一起走；对方有回馈，再加投入。情贵相向，忌一厢情愿、一次押满。`,
       bad: mild
-        ? `问「${subj}」：不行。心意或行动没对齐，硬追易耗。先看对方主不主动，无效付出先停停。`
-        : `问「${subj}」：不行。阻力大，先收着，别死磕一个结果。`,
-      mid: `问「${subj}」：未定。先看对方连续行动，再决定加不加大投入。`
+        ? `问「${subj}」：不行。心意或行动未齐，硬追则易耗。宜先观对方主不主动，无效之付，可先止。`
+        : `问「${subj}」：不行。阻力已显，宜收不宜耗；勿死磕一结果。`,
+      mid: `问「${subj}」：未定。宜先观对方连续行动，再定加码或收手。`
     },
     family: {
       good: mild
@@ -6720,12 +6895,12 @@ function canReplyBySubject(subj, kind, tone, mild, timeHint) {
     },
     general: {
       good: mild
-        ? `问「${subj}」：行。${when}能成，但关键条件还没齐。先补最相关的那一块，小步推进；别硬闯、别一次押满。`
-        : `问「${subj}」：行。${when}可以办，盯着关键步骤往前；别急躁、留退路。`,
+        ? `问「${subj}」：行。${when}有可成之象，然关键条件未齐。宜先补最紧要之一环，小步徐进；不可硬闯，亦不可一掷。`
+        : `问「${subj}」：行。${when}可办，宜循关键步骤而进；顺势而不躁，留退路则久。`,
       bad: mild
-        ? `问「${subj}」：不行。${when}难成。先改条件或换时机，别死磕；略有转机也要等条件齐。`
-        : `问「${subj}」：不行。阻力大，先止损，条件齐了再动。`,
-      mid: `问「${subj}」：未定。先补最关键的一环验证一下。`
+        ? `问「${subj}」：不行。${when}难成。宜先改条件或易其时，勿死磕；纵有转机，亦须条件既备。`
+        : `问「${subj}」：不行。阻力已显，宜先止损；待条件齐备，再图进取。`,
+      mid: `问「${subj}」：未定。宜先补最紧要之一环而验之，机未显时勿赌全局。`
     }
   }
   const p = pack[kind] || pack.general
@@ -6827,9 +7002,9 @@ function canAdviceBySubject(subj, kind, tone) {
       mid: '看尽调结果再定。'
     },
     general: {
-      good: `「${subj}」该办的办，关键步骤盯紧；别拖、别一次押满。`,
-      bad: `先停硬推，改条件或换时机再办「${subj}」。`,
-      mid: `先补「${subj}」最关键的一块再验证。`
+      good: `「${subj}」当为则为，关键处盯紧；勿拖延，亦勿一掷。`,
+      bad: `宜先止硬推，改条件或易其时，再办「${subj}」。`,
+      mid: `宜先补「${subj}」最紧要之一环而验之。`
     }
   }
   const p = pack[kind] || pack.general
@@ -6934,9 +7109,9 @@ function howReplyBySubject(subj, kind, tone) {
       mid: `问「${subj}」怎么办：看尽调结果再定，小步验证。`
     },
     general: {
-      good: `问「${subj}」怎么办：先做最能打开局面的一步，条件够就推进；别拖，也别一次押满。`,
-      bad: `问「${subj}」怎么办：先收一收、止损，改条件或换时机；硬顶多半耗力。`,
-      mid: `问「${subj}」怎么办：先补最关键的一环，小步验证，看清了再加码。`
+      good: `问「${subj}」怎么办：宜先做最能开局的一步，条件既备则推进；勿拖延，亦勿一掷。`,
+      bad: `问「${subj}」怎么办：宜先收、先止损，改条件或易其时；硬顶多半耗力。`,
+      mid: `问「${subj}」怎么办：宜先补最紧要之一环，小步验之，看清再加码。`
     }
   }
   const p = pack[kind] || pack.general
@@ -6980,9 +7155,9 @@ function jixiongReplyBySubject(subj, kind, tone, mild, timeHint) {
       mid: `问吉凶：${about}平。账和凭证先理清。`
     },
     general: {
-      good: mild ? `问吉凶：${about}吉。有利，条件未满；可做，留退路。` : `问吉凶：${about}吉。整体顺，可推进，别做过了头。`,
-      bad: mild ? `问吉凶：${about}凶。不顺，宜缓、先收一收。` : `问吉凶：${about}凶。阻力大，宜避或改期，别硬上。`,
-      mid: `问吉凶：${about}平。小步看清，别一次押死。`
+      good: mild ? `问吉凶：${about}吉。有利而条件未满；可做，宜留退路。` : `问吉凶：${about}吉。整体顺，可推进；盛时不可忘危，过犹不及。`,
+      bad: mild ? `问吉凶：${about}凶。不顺，宜缓、先收。` : `问吉凶：${about}凶。阻力已显，宜避或改期，勿硬上。`,
+      mid: `问吉凶：${about}平。宜小步看清，勿一掷。`
     }
   }
   // 无专属时用 general，invest 等复用 general 语义足够
@@ -7026,9 +7201,9 @@ function outlookReplyBySubject(subj, kind, tone, mild) {
       mid: `问走势：「${subj}」两可，账证先理清。`
     },
     general: {
-      good: mild ? `问走势：「${subj}」偏顺，还能再推一把，但还没满；稳着来，别躁进。` : `问走势：「${subj}」偏好，顺势做就好，别做过了头。`,
-      bad: mild ? `问走势：「${subj}」有点逆，先止损、改条件，别硬顶。` : `问走势：「${subj}」偏逆，先退后谋，别跟逆势硬争。`,
-      mid: `问走势：「${subj}」两可，先备后动，看哪边条件先变。`
+      good: mild ? `问走势：「${subj}」偏顺，仍可再推，然未满；宜稳，勿躁进。` : `问走势：「${subj}」偏好，顺势为之即可；过犹不及。`,
+      bad: mild ? `问走势：「${subj}」稍逆，宜先止损、改条件，勿硬顶。` : `问走势：「${subj}」偏逆，宜退而谋，勿与逆势硬争。`,
+      mid: `问走势：「${subj}」两可，宜先备后动，静观哪边条件先变。`
     }
   }
   const aliases = {
@@ -7365,40 +7540,40 @@ function directReply(parsed, tone, level, extra) {
       if (parsed.negativeEvent) {
         if (tone === 'good') {
           return mild
-            ? `问「${subj}」：有。风险迹象在，条件未满也按「有」处理。能核实的先查清、留证据；别凭卦指认具体人。`
-            : `问「${subj}」：有。风险迹象明确，不能当没事。核实、留证据；别凭卦指认具体人。`
+            ? `问「${subj}」：有。风险之象在，条件未满亦当按「有」处之。能核实者先查清、留证据；不可凭卦指认其人。`
+            : `问「${subj}」：有。风险之象已明，不可当无事。核实、留证据；不可凭卦指认其人。`
         }
         if (tone === 'bad') {
           return mild
-            ? `问「${subj}」：无。不宜断定已有；象略存疑也先按无，该防的仍防，别拿一卦给人定罪。`
-            : `问「${subj}」：无。不宜断定已有。该防的仍要防，也别拿一卦给人定罪。`
+            ? `问「${subj}」：无。不宜断定已有；象略存疑亦先按无，该防仍防，勿以一卦罪人。`
+            : `问「${subj}」：无。不宜断定已有。该防仍防，亦勿以一卦罪人。`
         }
-        return `问「${subj}」：有无未定，只有疑点。先查事实，别猜、别武断。`
+        return `问「${subj}」：有无未定，仅有疑点。宜先查事实，勿猜、勿武断。`
       }
       if (domain === 'emotion' || /感情|心意|喜欢|爱/.test(subj)) {
         if (tone === 'good') {
           return mild
-            ? `问「${subj}」：有。对方有回应，但还没落到持续行动。见面、联系这些实在的，比逼问更管用。`
-            : `问「${subj}」：有。可以按「有」来看，对方有回馈再加投入，别一厢情愿往里砸。`
+            ? `问「${subj}」：有。对方有回应，然尚未落到持续之行。见面、联系这些实事，胜于逼问。`
+            : `问「${subj}」：有。可按「有」来看；对方有回馈，再加投入。情贵相向，忌一厢情愿。`
         }
         if (tone === 'bad') {
           return mild
-            ? `问「${subj}」：无。迹象不够，别当成已经有了。先看对方主不主动；无效付出可以先停停。`
-            : `问「${subj}」：无。眼下偏虚。设几天观察期，别死等、别硬耗。`
+            ? `问「${subj}」：无。迹象不足，勿当作已有。宜先观对方主不主动；无效之付，可先止。`
+            : `问「${subj}」：无。眼下偏虚。宜设数日观察，勿死等、勿硬耗。`
         }
-        return `问「${subj}」：有无未定。先看行动再定，别急着下生死结论。`
+        return `问「${subj}」：有无未定。宜先观其行，再定深浅；勿急着下生死之断。`
       }
       if (tone === 'good') {
         return mild
-          ? `问「${subj}」：有。苗头在，还没完全落实。跟进验证，别当已经到手。`
-          : `问「${subj}」：有。偏实。窗口在就抓紧推进，别一次押死。`
+          ? `问「${subj}」：有。苗头在，尚未完全落实。宜跟进而验之，勿当作已到手。`
+          : `问「${subj}」：有。偏实。窗口在则抓紧推进，勿一次押死。`
       }
       if (tone === 'bad') {
         return mild
-          ? `问「${subj}」：无。迹象不足。先按「没有」做预案，别一厢情愿。`
-          : `问「${subj}」：无。偏虚。改条件或另寻，别空等。`
+          ? `问「${subj}」：无。迹象不足。宜先按「没有」做预案，勿一厢情愿。`
+          : `问「${subj}」：无。偏虚。宜改条件或另寻，勿空等。`
       }
-      return `问「${subj}」：有无未定。短观察、用事实验证。`
+      return `问「${subj}」：有无未定。宜短观，以事实验之。`
     }
 
     // 能不能 / 成不成：按主体（论文/考试/升职…）说人话
@@ -7467,25 +7642,26 @@ function yesNoJudgmentLine(parsed, tone) {
   const kind = parsed.yesKind || 'can'
   const time = parsed.timeHint || ''
   const domain = parsed.domain || ''
+  const ask = parsed.raw || focus
   if (kind === 'occur') {
     const phrase = occurPhrase(domain, focus)
-    if (tone === 'good') return `判断：就「${parsed.raw || focus}」而言，${time}${phrase}的象偏有。`
-    if (tone === 'bad') return `判断：就「${parsed.raw || focus}」而言，${time}${phrase}的象偏弱。`
-    return `判断：就「${parsed.raw || focus}」而言，${time}${phrase}是否发生未明。`
+    if (tone === 'good') return `判断：就「${ask}」观之，${time}${phrase}之象偏有。`
+    if (tone === 'bad') return `判断：就「${ask}」观之，${time}${phrase}之象偏弱。`
+    return `判断：就「${ask}」观之，${time}${phrase}是否发生，尚未可定。`
   }
   if (kind === 'find') {
-    return `判断：就「${parsed.raw || focus}」而言，${tone === 'good' ? `「${focus}」找得到` : tone === 'bad' ? `「${focus}」难找回` : `「${focus}」能否找到未定`}。`
+    return `判断：就「${ask}」观之，${tone === 'good' ? `「${focus}」犹可寻得` : tone === 'bad' ? `「${focus}」难望找回` : `「${focus}」能否寻得，尚未可定`}。`
   }
   if (kind === 'should') {
-    return `判断：就「${parsed.raw || focus}」而言，${tone === 'good' ? `宜「${focus}」` : tone === 'bad' ? `不宜「${focus}」` : `「${focus}」尚定不了`}。`
+    return `判断：就「${ask}」观之，${tone === 'good' ? `宜「${focus}」` : tone === 'bad' ? `不宜「${focus}」` : `「${focus}」宜与不宜，尚未可定`}。`
   }
   if (kind === 'suit') {
-    return `判断：就「${parsed.raw || focus}」而言，${tone === 'good' ? `「${focus}」合适` : tone === 'bad' ? `「${focus}」不合适` : `「${focus}」合适与否未分`}。`
+    return `判断：就「${ask}」观之，${tone === 'good' ? `「${focus}」尚属合适` : tone === 'bad' ? `「${focus}」未为合适` : `「${focus}」合适与否，尚未可分`}。`
   }
   if (kind === 'have') {
-    return `判断：就「${parsed.raw || focus}」而言，${tone === 'good' ? `「${focus}」偏有` : tone === 'bad' ? `「${focus}」偏无` : `「${focus}」有无未明`}。`
+    return `判断：就「${ask}」观之，${tone === 'good' ? `「${focus}」偏有` : tone === 'bad' ? `「${focus}」偏无` : `「${focus}」有无，尚未可明`}。`
   }
-  return `判断：就「${parsed.raw || focus}」而言，${time ? time : ''}${tone === 'good' ? `「${focus}」可成` : tone === 'bad' ? `「${focus}」难成` : `「${focus}」未定`}。`
+  return `判断：就「${ask}」观之，${time ? time : ''}${tone === 'good' ? `「${focus}」可成` : tone === 'bad' ? `「${focus}」难成` : `「${focus}」尚未可定`}。`
 }
 
 function yesNoAdvice(parsed, tone) {
@@ -7619,37 +7795,38 @@ function composeMatchedYesNo(parsed, tone, mild, timeHint, matchCtx) {
   let text = canReplyBySubject(subj, sk, tone, mild, timeHint)
 
   // 环节强弱只解释「为什么」，不能把「行」说成「卡死」——忌与结论打架
+  // 措辞略带古白话，结论词仍跟 tone
   const linkBit = () => {
     if (tone === 'good') {
       if (strong.length && weak.length) {
-        return `依据：${strong.join('、')}有力，同时要注意${weak.join('、')}还没齐。`
+        return `观象：${strong.join('、')}已有力，而${weak.join('、')}尚未齐备。`
       }
       if (weak.length) {
-        return `依据：结论能成，但${weak.join('、')}这一环还要补上。`
+        return `观象：大局可成，然${weak.join('、')}一环未满，宜补之。`
       }
       if (strong.length) {
-        return `依据：${strong.join('、')}撑得住，这是${result}能成的底子。`
+        return `观象：${strong.join('、')}能撑住，此乃「${result}」可成之根基。`
       }
       return ''
     }
     if (tone === 'bad') {
       if (strong.length && weak.length) {
-        return `依据：虽有${strong.join('、')}，但${weak.join('、')}没接上，所以难成。`
+        return `观象：虽有${strong.join('、')}，然${weak.join('、')}未接，故难成。`
       }
       if (weak.length) {
-        return `依据：主要卡在${weak.join('、')}，所以难成。`
+        return `观象：其难多在${weak.join('、')}，故所问难遂。`
       }
       if (strong.length) {
-        return `依据：整体仍逆，仅${strong.join('、')}略有支撑，扭转不够。`
+        return `观象：气势仍逆，仅${strong.join('、')}略有支撑，不足以扭转。`
       }
       return ''
     }
     // mid
     if (strong.length && weak.length) {
-      return `依据：${strong.join('、')}与${weak.join('、')}在拉扯，尚未定局。`
+      return `观象：${strong.join('、')}与${weak.join('、')}相持，尚未定局。`
     }
-    if (weak.length) return `依据：${weak.join('、')}这一环未明，先补再看。`
-    if (strong.length) return `依据：${strong.join('、')}有一点支撑，还不够定局。`
+    if (weak.length) return `观象：${weak.join('、')}一环未明，宜先补再观。`
+    if (strong.length) return `观象：${strong.join('、')}稍有支撑，仍不足以定局。`
     return ''
   }
   const lb = linkBit()
@@ -7662,8 +7839,8 @@ function composeMatchedYesNo(parsed, tone, mild, timeHint, matchCtx) {
       text = `${text}${lb}`
     }
   }
-  if (stage && !/处在|阶段/.test(text)) {
-    text = text.replace(/[。\s]*$/, '') + `。你现在更像处在「${stage}」这一步。`
+  if (stage && !/处在|阶段|目下/.test(text)) {
+    text = text.replace(/[。\s]*$/, '') + `。目下更似处于「${stage}」这一阶段。`
   }
   return text.replace(/\s+/g, ' ').replace(/。\s*。/g, '。').trim()
 }
@@ -10011,18 +10188,432 @@ function scoreTendency(parts) {
   const hinder = parts.hinder || 0
   const diff = help - hinder
   if (diff >= 2) {
-    return { level: '可成', tone: 'good', note: '助力大于阻碍，所问之事有望落实。', diff }
+    return { level: '可成', tone: 'good', note: '助力胜于阻碍，所问之事有望得成。', diff }
   }
   if (diff >= 1) {
-    return { level: '偏可成', tone: 'good', note: '略占上风，所问可推进，仍防空亡与反复。', diff }
+    return { level: '偏可成', tone: 'good', note: '稍占上风，可徐图之，仍防虚象与反复。', diff }
   }
   if (diff <= -2) {
-    return { level: '难成', tone: 'bad', note: '阻碍明显，所问难遂；宜止或改道。', diff }
+    return { level: '难成', tone: 'bad', note: '阻碍已显，所问难遂；宜止步或改道。', diff }
   }
   if (diff <= -1) {
-    return { level: '偏难成', tone: 'bad', note: '略落下风，所问推进费力；宜缓或另图。', diff }
+    return { level: '偏难成', tone: 'bad', note: '略落下风，推进费力；宜缓图，勿躁进。', diff }
   }
-  return { level: '两可', tone: 'mid', note: '助力与阻碍相当，所问未分高下。', diff }
+  return { level: '两可', tone: 'mid', note: '助力与阻碍相持，所问尚未定局。', diff }
+}
+
+/**
+ * 结构化裁决信号：从卦上抽取会改变结论的关键象
+ * （用神动静空破、动化进退回头、忌神/元神发动、世应、反伏吟）
+ */
+function collectVerdictSignals(ctx) {
+  const topic = ctx.topic || {}
+  const y = ctx.primaryYong || (ctx.yongList && ctx.yongList[0]) || null
+  const fu = ctx.fu || null
+  const ben = ctx.ben
+  const shi = ctx.shi
+  const ying = ctx.ying
+  const changingIndexes = ctx.changingIndexes || []
+  const yinPattern = ctx.yinPattern || null
+
+  let huiTou = null
+  let jinTui = null
+  let changeText = ''
+  if (y && y.changeTo && y.changeTo.analysis) {
+    const a = y.changeTo.analysis
+    if (a.huiTou && a.huiTou.type) huiTou = a.huiTou.type
+    if (a.jinTui && a.jinTui.type) jinTui = a.jinTui.type
+    changeText = y.changeTo.text || a.text || ''
+  }
+
+  const jiMoving = []
+  if (topic.jiShen && ben && ben.yaos) {
+    ben.yaos
+      .filter((line) => line.liuqin === topic.jiShen && line.changing)
+      .forEach((line) => {
+        const effective = line.wangshuai !== '死'
+          || (line.dayMonth && line.dayMonth.tags && line.dayMonth.tags.includes('临日'))
+        if (effective) {
+          jiMoving.push({
+            name: yaoName(line),
+            wangshuai: line.wangshuai,
+            strong: line.wangshuai === '旺' || line.wangshuai === '相'
+              || (line.dayMonth && line.dayMonth.tags
+                && (line.dayMonth.tags.includes('临日') || line.dayMonth.tags.includes('临月')))
+          })
+        }
+      })
+  }
+
+  const yuanMoving = []
+  if (topic.yuanShen && ben && ben.yaos) {
+    ben.yaos
+      .filter((line) => line.liuqin === topic.yuanShen && line.changing)
+      .forEach((line) => {
+        const effective = !line.kong
+          || (line.dayMonth && (line.dayMonth.chongRi
+            || (line.dayMonth.tags && line.dayMonth.tags.includes('临日'))))
+        if (effective) {
+          yuanMoving.push({ name: yaoName(line), wangshuai: line.wangshuai })
+        }
+      })
+  }
+
+  let shiYing = null
+  if (shi && ying) {
+    shiYing = relationWuxing(shi.wuxing, ying.wuxing)
+  }
+
+  const yongMissing = !y && !fu && topic.yongshen && topic.yongshen !== '世爻'
+  const yongFuOnly = !y && !!fu
+  const yongKong = !!(y && y.kong) || !!(fu && fu.kong)
+  const yongWeak = !!(y && (y.wangshuai === '囚' || y.wangshuai === '死'))
+  const yongStrong = !!(y && (y.wangshuai === '旺' || y.wangshuai === '相') && !y.kong)
+  const yongYuePo = !!(y && y.dayMonth && y.dayMonth.chongYue
+    && !(y.dayMonth.tags && y.dayMonth.tags.includes('临日')))
+
+  return {
+    yong: y,
+    yongPresent: !!y,
+    yongFuOnly,
+    yongMissing,
+    yongKong,
+    yongWeak,
+    yongStrong,
+    yongYuePo,
+    yongChanging: !!(y && y.changing),
+    huiTou,
+    jinTui,
+    changeText,
+    jiMoving,
+    yuanMoving,
+    jiShenName: topic.jiShen || '',
+    yuanShenName: topic.yuanShen || '',
+    shiYing,
+    useShiYing: !!topic.useShiYing,
+    fanYin: !!(yinPattern && yinPattern.fanYin),
+    fuYin: !!(yinPattern && yinPattern.fuYin),
+    quiet: !changingIndexes.length,
+    diff: null
+  }
+}
+
+/**
+ * 固定裁决优先级（高优先级可改写低优先级分数结论）：
+ * 1. 用神未现 → 事未明
+ * 2. 用神仅伏藏 → 待引出
+ * 3. 用神回头克 → 不得喊「行」，主因自卡
+ * 4. 用神化退神 → 至少降为两可/后劲不足
+ * 5. 忌神发动有力 + 原结论偏吉 → 不得仍喊「行」
+ * 6. 用神月破/空亡/囚死 → 吉降档
+ * 7. 回头生/化进/元神动 → 凶可略抬、平可抬
+ * 8. 世应被克（取世应类）→ 吉降档
+ * 9. 反吟/伏吟 → 降置信度，语气留反复/胶着
+ * 10. 其余保留 help/hinder 底分
+ *
+ * 返回结构化 verdict，供 buildJudgment 写进断语正文。
+ */
+function adjudicateTendency(ctx, score) {
+  const base = scoreTendency(score || { help: 0, hinder: 0 })
+  const signals = collectVerdictSignals(ctx)
+  signals.diff = base.diff
+
+  let tone = base.tone
+  let level = base.level
+  let confidence = 'medium'
+  let mild = false
+  const factors = []
+  const vetoes = []
+  let primaryReason = base.note
+
+  const set = (nextTone, nextLevel, reason, vetoKey, conf) => {
+    tone = nextTone
+    level = nextLevel
+    if (reason) primaryReason = reason
+    if (vetoKey) vetoes.push(vetoKey)
+    if (conf) confidence = conf
+  }
+
+  // 1. 用神未现
+  if (signals.yongMissing) {
+    set('mid', '事未明', '所问主象未现，条件未备，此时未可遽下定论。', 'yong_missing', 'low')
+    mild = true
+    return packVerdict({ tone, level, confidence, mild, primaryReason, factors, vetoes, signals, base })
+  }
+
+  // 2. 用神仅伏藏
+  if (signals.yongFuOnly) {
+    if (tone === 'good') {
+      set('good', '可望·待引出', '主象仍伏而未显，有机而未出台，宜俟局面自露。', 'yong_fu', 'low')
+    } else if (tone === 'bad') {
+      set('bad', '难成·仍伏', '主象伏藏而气势偏逆，近日内难望落实。', 'yong_fu', 'medium')
+    } else {
+      set('mid', '未出台·宜等', '主象伏藏，宜俟引出或冲开之后，再断成败。', 'yong_fu', 'low')
+    }
+    mild = true
+    factors.push('用神伏藏')
+    return packVerdict({ tone, level, confidence, mild, primaryReason, factors, vetoes, signals, base })
+  }
+
+  // 3. 回头克：硬否决「行」
+  if (signals.huiTou === '回头克') {
+    factors.push('用神动化回头克')
+    if (tone === 'good' || tone === 'mid') {
+      set(
+        'bad',
+        tone === 'good' ? '难成' : '偏难成',
+        '用神发动而回头克，一动自卡，如行路而自设关卡，所问难顺成。',
+        'huitou_ke',
+        'high'
+      )
+    } else {
+      primaryReason = '用神动而回头克，自相掣肘，阻碍更实。'
+      confidence = 'high'
+      vetoes.push('huitou_ke')
+    }
+  }
+
+  // 4. 化退神：后劲不足，吉至少降两可
+  if (signals.jinTui === '化退神' && !vetoes.includes('huitou_ke')) {
+    factors.push('用神化退神')
+    if (tone === 'good') {
+      set(
+        'mid',
+        '两可·后劲不足',
+        '用神化退，如潮之将落，先有动意而后劲不足，未可把「行」说满。',
+        'hua_tui',
+        'medium'
+      )
+      mild = true
+    } else if (tone === 'mid') {
+      factors.push('后劲不足')
+      primaryReason = primaryReason || '用神化退，后劲不足，宜防先热后冷。'
+      mild = true
+    }
+  }
+
+  // 5. 忌神发动有力：用神再旺也不得仍喊「行」
+  if (signals.jiMoving.length && !vetoes.includes('huitou_ke')) {
+    const strongJi = signals.jiMoving.some((j) => j.strong)
+    const jiLabel = signals.jiShenName || '忌神'
+    factors.push(`忌神「${jiLabel}」发动`)
+    if (tone === 'good') {
+      // 铁律：忌神有效发动时，不能输出干净的「可成/行」
+      set(
+        'mid',
+        strongJi ? '两可·有阻' : '偏可成·有阻',
+        `主象虽有力，而忌神「${jiLabel}」已动，如舟行遇逆流，成败未可一口咬定。`,
+        strongJi ? 'jishen_move_strong' : 'jishen_move',
+        strongJi ? 'high' : 'medium'
+      )
+      mild = true
+    } else if (tone === 'mid') {
+      primaryReason = `忌神「${jiLabel}」发动，助力与阻碍相持，势在两可。`
+      mild = true
+    } else {
+      primaryReason = `忌神「${jiLabel}」发动，阻力既成，宜慎。`
+    }
+  }
+
+  // 6. 用神月破 / 空亡 / 囚死：吉降档
+  if (signals.yongYuePo && tone === 'good' && !vetoes.includes('huitou_ke')) {
+    factors.push('用神月破')
+    set('mid', '两可·根基受损', '用神逢月破，根基已损，未可断成。', 'yong_yuepo', 'medium')
+    mild = true
+  } else if (signals.yongKong && tone === 'good' && !vetoes.length) {
+    factors.push('用神空亡')
+    set(
+      'good',
+      level === '可成' ? '可成·待实' : '偏可成·有虚',
+      '主象逢空，有其象而未落实，如雾中望月，宜俟出空或冲实。',
+      'yong_kong',
+      'medium'
+    )
+    mild = true
+  } else if (signals.yongWeak && tone === 'good' && !vetoes.length) {
+    factors.push('用神偏弱')
+    set(
+      'mid',
+      '两可·力不足',
+      '主象气力偏弱，如负重远行，不宜把结果说满。',
+      'yong_weak',
+      'medium'
+    )
+    mild = true
+  } else if (signals.yongWeak && tone === 'mid') {
+    factors.push('用神偏弱')
+    set('bad', '把握不大', '主象气力不足，把握不大，宜养势而后动。', 'yong_weak', 'medium')
+    mild = true
+  }
+
+  // 7. 吉象加持：回头生 / 化进 / 元神动（仅当未被硬否决）
+  if (!vetoes.includes('huitou_ke') && !vetoes.includes('jishen_move_strong')) {
+    if (signals.huiTou === '回头生') {
+      factors.push('用神回头生')
+      if (tone === 'bad') {
+        set('mid', '偏难·有转机', '势虽偏逆，用神动而得回头生，仍存转机。', null, 'medium')
+        mild = true
+      } else if (tone === 'mid' && !signals.jiMoving.length) {
+        set('good', '勉强可成', '用神回头生，自有续力，局面可借势而进。', null, 'medium')
+        mild = true
+      }
+    }
+    if (signals.jinTui === '化进神') {
+      factors.push('用神化进神')
+      if (tone === 'mid' && !signals.jiMoving.length && !signals.yongKong) {
+        set('good', '偏可成', '用神化进，事有由近及远、向前推进之意。', null, 'medium')
+        mild = true
+      } else if (tone === 'good') {
+        factors.push('进取之象')
+      }
+    }
+    if (signals.yuanMoving.length && tone === 'bad') {
+      factors.push(`元神「${signals.yuanShenName}」发动`)
+      set('mid', '偏难·有转机', `势虽偏逆，元神「${signals.yuanShenName}」发动，尚可借力一转。`, null, 'medium')
+      mild = true
+    } else if (signals.yuanMoving.length) {
+      factors.push(`元神「${signals.yuanShenName}」发动`)
+    }
+  }
+
+  // 8. 世应被克（取世应类问事）
+  if (signals.useShiYing && signals.shiYing === '被克' && tone === 'good' && !vetoes.includes('huitou_ke')) {
+    factors.push('应克世')
+    if (!vetoes.includes('jishen_move') && !vetoes.includes('jishen_move_strong')) {
+      set(
+        'mid',
+        '两可·对方有压',
+        '对方或环境克制我方，虽有利象，亦须防受压。',
+        'shiying_ke',
+        'medium'
+      )
+      mild = true
+    }
+  } else if (signals.useShiYing && signals.shiYing === '被生') {
+    factors.push('应生世')
+  } else if (signals.useShiYing && signals.shiYing === '比和') {
+    factors.push('世应比和')
+  }
+
+  // 9. 反吟 / 伏吟：降置信，不单独改 tone
+  if (signals.fanYin) {
+    factors.push('反吟·易反复')
+    confidence = confidence === 'high' ? 'medium' : 'low'
+    mild = true
+    if (!primaryReason || primaryReason === base.note) {
+      primaryReason = `${primaryReason || base.note}卦见反吟，事多反复，一喜一忧未可定。`
+    }
+  }
+  if (signals.fuYin) {
+    factors.push('伏吟·易胶着')
+    confidence = confidence === 'high' ? 'medium' : 'low'
+    mild = true
+  }
+
+  // 用神旺而无否决时抬置信
+  if (signals.yongStrong && tone === 'good' && !vetoes.length && !mild) {
+    confidence = 'high'
+    factors.push('用神旺相')
+  }
+
+  // 分数层 mild 注脚
+  if (/偏|勉|虚|待|小|两可|未明|把握|有阻|后劲|有虚|待实|待引出/.test(String(level))) {
+    mild = true
+  }
+
+  return packVerdict({ tone, level, confidence, mild, primaryReason, factors, vetoes, signals, base })
+}
+
+function packVerdict(parts) {
+  const {
+    tone, level, confidence, mild, primaryReason, factors, vetoes, signals, base
+  } = parts
+  return {
+    tone,
+    level,
+    confidence: confidence || 'medium',
+    mild: !!mild,
+    primaryReason: primaryReason || '',
+    factors: (factors || []).filter((item, index, list) => item && list.indexOf(item) === index),
+    vetoes: vetoes || [],
+    signals: signals || null,
+    scoreNote: (base && base.note) || '',
+    scoreDiff: base && typeof base.diff === 'number' ? base.diff : 0,
+    // 兼容旧 tendency 字段
+    note: primaryReason || (base && base.note) || '',
+    diff: base && typeof base.diff === 'number' ? base.diff : 0
+  }
+}
+
+/** 把裁决主因写成一句古白话，写入判断正文 */
+function verdictReasonLine(verdict, parsed) {
+  if (!verdict) return ''
+  const focus = (parsed && parsed.focus) || '所问'
+  const bits = []
+  if (verdict.primaryReason) {
+    bits.push(verdict.primaryReason.replace(/。+$/, ''))
+  }
+  const sig = verdict.signals || {}
+  if (sig.huiTou === '回头克') {
+    bits.push('回头克而一动自卡，如行路而自设关卡')
+  } else if (sig.huiTou === '回头生') {
+    bits.push('回头生而自有续力')
+  }
+  if (sig.jinTui === '化退神') {
+    bits.push('化退神，后劲不足，易先热后冷')
+  } else if (sig.jinTui === '化进神') {
+    bits.push('化进神，事有由近及远、向前之意')
+  }
+  if (sig.jiMoving && sig.jiMoving.length) {
+    bits.push(`忌神「${sig.jiShenName || '忌'}」已动，牵制已成`)
+  }
+  if (sig.useShiYing && sig.shiYing === '被克') {
+    bits.push('对方或环境克制我方，宜守不宜躁')
+  } else if (sig.useShiYing && sig.shiYing === '被生') {
+    bits.push('对方或环境有扶助之意，可顺势借力')
+  }
+  // 去重压缩
+  const uniq = []
+  bits.forEach((b) => {
+    const s = String(b || '').trim()
+    if (!s) return
+    if (uniq.some((u) => u.indexOf(s.slice(0, 8)) >= 0 || s.indexOf(u.slice(0, 8)) >= 0)) return
+    uniq.push(s)
+  })
+  if (!uniq.length) return ''
+  return `观「${focus}」之机（主因）：${uniq.slice(0, 2).join('；')}。`
+}
+
+/** 给 matchCtx 补上动化/忌神弱项标签，让成否断语正文能点到 */
+function enrichMatchCtxWithVerdict(matchCtx, verdict) {
+  if (!matchCtx || !verdict || !verdict.signals) return matchCtx
+  const sig = verdict.signals
+  const weak = (matchCtx.weak || []).slice()
+  const strong = (matchCtx.strong || []).slice()
+  if (sig.huiTou === '回头克' && !weak.some((w) => /自卡|回头克/.test(w))) {
+    weak.unshift('一动自卡（回头克）')
+  }
+  if (sig.jinTui === '化退神' && !weak.some((w) => /后劲|化退/.test(w))) {
+    weak.unshift('后劲不足（化退）')
+  }
+  if (sig.jiMoving && sig.jiMoving.length && !weak.some((w) => /忌|阻力|掣肘/.test(w))) {
+    weak.push(`阻力已动（${sig.jiShenName || '忌神'}）`)
+  }
+  if (sig.huiTou === '回头生' && !strong.some((s) => /回头生|续力/.test(s))) {
+    strong.unshift('自有续力（回头生）')
+  }
+  if (sig.jinTui === '化进神' && !strong.some((s) => /化进|进取/.test(s))) {
+    strong.push('进取之象（化进）')
+  }
+  if (sig.useShiYing && sig.shiYing === '被克' && !weak.some((w) => /被压|应克|克制/.test(w))) {
+    weak.push('对方或环境有压')
+  }
+  return Object.assign({}, matchCtx, {
+    weak: weak.slice(0, 3),
+    strong: strong.slice(0, 3),
+    verdictFactors: verdict.factors || [],
+    primaryReason: verdict.primaryReason || ''
+  })
 }
 
 /** 应期要点：把用神状态落成「何时」可读句 */
@@ -10178,85 +10769,111 @@ function choicePickFromParsed(parsed, tone) {
 }
 
 function philosophyGuidance(tone, focus, parsed) {
-  // 自然短收束（保留测试所需关键词）；按问法/主体换说法，避免句句「稳着办」
-  if (parsed && parsed.negativeEvent) return '明理之道：把事实查清，别急着给人定性。'
+  // 古白话哲理收束（保留测试关键词 趋吉/避凶/指迷/明理/取舍/寻人）
+  if (parsed && parsed.negativeEvent) {
+    return '明理之道：先明事实，后定是非；不可凭一象便遽指其人。'
+  }
   if (parsed && (parsed.domain === 'health' || parsed.domain === 'pregnancy')) {
-    return '明理之道：卦能安心，看病还是听医生的。'
+    return '明理之道：卦可安其心，治病仍当听医；象不可代诊。'
   }
-  if (parsed && parsed.domain === 'weather') return '明理之道：天气以预报为准。'
+  if (parsed && parsed.domain === 'weather') {
+    return '明理之道：天时难强，仍以预报为凭。'
+  }
   if (parsed && parsed.domain === 'lost' && /寻人|人/.test(String(parsed.focus || ''))) {
-    return '寻人之要：先找人，情况不对就报警。'
+    return '寻人之要：寻人贵速，有险即报；不可坐等卦象。'
   }
-  if (parsed && parsed.mode === 'choice') return '取舍之道：先小步试，再决定押多重。'
+  if (parsed && parsed.mode === 'choice') {
+    return '取舍之道：见几而作，先试可退之路，再定所押之重。'
+  }
 
   const sk = subjectKind(parsed || {})
   const mode = (parsed && parsed.mode) || ''
   const yk = (parsed && parsed.yesKind) || ''
 
   if (mode === 'how') {
-    if (tone === 'good') return '趋吉之道：一步做实，再谈下一步。'
-    if (tone === 'bad') return '避凶之道：先改条件，再谈进取。'
-    return '指迷之要：小步验证，比空想有用。'
+    if (tone === 'good') return '趋吉之道：积小以成大，一步既实，再图其次。'
+    if (tone === 'bad') return '避凶之道：势未可进，宜先立本、改其条件，而后图成。'
+    return '指迷之要：与其空想终局，不如小步验之。'
   }
   if (mode === 'jixiong') {
-    if (tone === 'good') return sk === 'emotion' ? '趋吉之道：顺势靠近，仍看对方行动。' : '趋吉之道：顺势推进，留退路。'
-    if (tone === 'bad') return sk === 'emotion' ? '避凶之道：先收着，少逼问。' : '避凶之道：先收缩，别硬上。'
-    return '指迷之要：吉凶未分时，别一次押死。'
+    if (tone === 'good') {
+      return sk === 'emotion'
+        ? '趋吉之道：顺势而近，仍观其行；情贵有常，不贵一热。'
+        : '趋吉之道：顺势而进，亦须留退路；盛时不可忘危。'
+    }
+    if (tone === 'bad') {
+      return sk === 'emotion'
+        ? '避凶之道：宜收不宜逼；强问反伤其情。'
+        : '避凶之道：宜收不宜进；硬顶则耗。'
+    }
+    return '指迷之要：吉凶未分，不可一掷；先立可退之地。'
   }
   if (mode === 'when') {
-    if (tone === 'good') return '趋吉之道：窗口内做事，窗口外少空等。'
-    if (tone === 'bad') return '避凶之道：时机不齐就先筹备，别死等。'
-    return '指迷之要：信号清楚再钉日期。'
+    if (tone === 'good') return '趋吉之道：时至则行，窗内着力；窗外空等，无益。'
+    if (tone === 'bad') return '避凶之道：时未至则备，不可死守一日。'
+    return '指迷之要：机未显时，先备其具；信号既明，再定其期。'
   }
-  if (mode === 'where') return '指迷之要：方位作参考，现场核对更准。'
+  if (mode === 'where') return '指迷之要：方位可参，实地为证；不可执一隅而废全局。'
   if (mode === 'outlook') {
-    if (tone === 'good') return sk === 'career' ? '趋吉之道：顺势做，名分落到书面再算数。' : '趋吉之道：顺势做，别做过了头。'
-    if (tone === 'bad') return '避凶之道：先退后谋，别跟逆势硬争。'
-    return '指迷之要：两可时先备后动。'
+    if (tone === 'good') {
+      return sk === 'career'
+        ? '趋吉之道：顺势而做，名分落于书面方为实；口惠未可尽信。'
+        : '趋吉之道：顺势而做，过犹不及；知止则不殆。'
+    }
+    if (tone === 'bad') return '避凶之道：宜退而谋，勿与逆势硬争。'
+    return '指迷之要：两可之时，先备后动；静观哪边条件先变。'
   }
   if (mode === 'yesno') {
     if (yk === 'occur') {
-      if (tone === 'good') return '趋吉之道：按可能发生留余量，别空等。'
-      if (tone === 'bad') return '避凶之道：少空等，正事照做。'
-      return '指迷之要：两手准备最稳。'
+      if (tone === 'good') return '趋吉之道：按可能发生留余地，不可空等一念。'
+      if (tone === 'bad') return '避凶之道：少作空等，正事照行。'
+      return '指迷之要：两手准备，最为稳妥。'
     }
     if (yk === 'find') {
-      if (tone === 'good') return '趋吉之道：动作要快，线索别拖。'
-      if (tone === 'bad') return '避凶之道：止损与备用先做起来。'
-      return '指迷之要：再搜一轮，记下线索。'
+      if (tone === 'good') return '趋吉之道：寻物贵速，线索勿拖；时过则迹灭。'
+      if (tone === 'bad') return '避凶之道：先止损、备替代，不可无限期死守。'
+      return '指迷之要：再搜一轮，记下线索，徐徐图之。'
     }
     if (yk === 'should' || yk === 'suit') {
-      if (tone === 'good') return '趋吉之道：能做就小步做，留可收回的余地。'
-      if (tone === 'bad') return '避凶之道：先别硬做，条件够了再议。'
-      return '指迷之要：信息补齐再拍板。'
+      if (tone === 'good') return '趋吉之道：可做则小步为之，留可收回之地。'
+      if (tone === 'bad') return '避凶之道：势未可，勿强为；条件既备，再议。'
+      return '指迷之要：信息未齐，未可遽定。'
     }
     if (yk === 'have') {
-      if (tone === 'good') return sk === 'emotion' ? '趋吉之道：用行动验证，别逼问。' : '趋吉之道：有苗头就跟进验证，别当已到手。'
-      if (tone === 'bad') return sk === 'emotion' ? '避凶之道：看对方主不主动，少空耗。' : '避凶之道：先按没有做预案。'
-      return '指迷之要：用事实验证，别急着定性。'
+      if (tone === 'good') {
+        return sk === 'emotion'
+          ? '趋吉之道：情以行验，勿以言逼；有常方为真。'
+          : '趋吉之道：有苗头则跟而验之，未可当作已到手。'
+      }
+      if (tone === 'bad') {
+        return sk === 'emotion'
+          ? '避凶之道：观其主不主动；空耗无益。'
+          : '避凶之道：先按无有作预案，勿把虚象当真。'
+      }
+      return '指迷之要：以事实验之，勿急着定性。'
     }
     // can
     if (tone === 'good') {
-      if (sk === 'paper') return '趋吉之道：意见闭环改到位，别拖回复。'
-      if (sk === 'exam') return '趋吉之道：盯薄弱项，程序别翻车。'
-      if (sk === 'career') return '趋吉之道：业绩递到拍板人，要时间表。'
-      if (sk === 'receivable') return '趋吉之道：书面跟节点，单据留痕。'
-      if (sk === 'emotion') return '趋吉之道：对方有回馈再加投入。'
-      return '趋吉之道：该办的办，关键步骤盯紧。'
+      if (sk === 'paper') return '趋吉之道：意见改到位，回覆宜速；积善改过，事乃可成。'
+      if (sk === 'exam') return '趋吉之道：补其短板，守其规矩；功夫在平日，临事不乱。'
+      if (sk === 'career') return '趋吉之道：业绩达于能决之人，要其时程；名实相符，方为真成。'
+      if (sk === 'receivable') return '趋吉之道：书面跟节点，单据留痕；有据则不惧。'
+      if (sk === 'emotion') return '趋吉之道：对方有回馈，再加投入；情贵相向，忌一厢情愿。'
+      return '趋吉之道：当为则为，关键处盯紧；顺势而不躁进。'
     }
     if (tone === 'bad') {
-      if (sk === 'paper') return '避凶之道：先改硬伤或换策略。'
-      if (sk === 'exam') return '避凶之道：集中补致命短板。'
-      if (sk === 'career') return '避凶之道：先稳住，别硬争。'
-      if (sk === 'receivable') return '避凶之道：留痕止损，别空等。'
-      if (sk === 'emotion') return '避凶之道：先收着，少硬耗。'
-      return '避凶之道：先改条件，再谈进取。'
+      if (sk === 'paper') return '避凶之道：先改硬伤，或易其道；无效空转，徒耗心力。'
+      if (sk === 'exam') return '避凶之道：集中补致命之短，勿平均用力。'
+      if (sk === 'career') return '避凶之道：先安其位，勿硬争；时未至则守。'
+      if (sk === 'receivable') return '避凶之道：留痕止损，勿空等一句「马上」；有据则进，无据则缓。'
+      if (sk === 'emotion') return '避凶之道：宜收不宜耗；强求反远。'
+      return '避凶之道：先改条件，再谈进取；势未可时，退亦是进。'
     }
-    return '指迷之要：先补最关键一环验证一下。'
+    return '指迷之要：先补最紧要之一环而验之；机未显时，勿赌全局。'
   }
-  if (tone === 'good') return `趋吉之道：「${focus}」顺势做，规矩和退路留着。`
-  if (tone === 'bad') return `避凶之道：「${focus}」先止损，别硬顶。`
-  return `指迷之要：「${focus}」小步看清再定。`
+  if (tone === 'good') return `趋吉之道：「${focus}」可顺势为之，规矩与退路宜并存；知止则久。`
+  if (tone === 'bad') return `避凶之道：「${focus}」宜先止损，勿与逆势硬顶；待时而动。`
+  return `指迷之要：「${focus}」宜小步看清，再定进退；欲速则不达。`
 }
 
 /**
@@ -10463,9 +11080,22 @@ function buildJudgment(ctx) {
   const fanYin = yinPattern && yinPattern.fanYin
   const fuYin = yinPattern && yinPattern.fuYin
 
-  let { tone, level } = adjustToneLevel(ctx, tendency.tone, tendency.level)
+  // 优先使用结构化裁决（adjudicateTendency）；无则退回旧 adjustToneLevel
+  const verdict = ctx.verdict || null
+  let tone
+  let level
+  if (verdict && verdict.tone) {
+    tone = verdict.tone
+    level = verdict.level
+  } else {
+    const adjusted = adjustToneLevel(ctx, tendency.tone, tendency.level)
+    tone = adjusted.tone
+    level = adjusted.level
+  }
   const answerTone = parsed.mode === 'yesno' && parsed.negativeEvent ? invertTone(tone) : tone
-  const mild = /偏|勉|虚|待|小|两可|未明|把握/.test(String(level))
+  const mild = (verdict && typeof verdict.mild === 'boolean')
+    ? verdict.mild
+    : /偏|勉|虚|待|小|两可|未明|把握|有阻|后劲|有虚|待实|待引出|力不足|有压|根基/.test(String(level))
 
   const place = primaryPlace(ctx)
   const tPoints = timingPoints(ctx)
@@ -10588,9 +11218,14 @@ function buildJudgment(ctx) {
     else judgment += `你提到的时间「${parsed.timeHint}」还不宜钉死。`
   }
 
-  judgment += `卦上依据：${evidence}。`
-  if (fanYin) judgment += '另有反吟，结果易反复。'
-  if (fuYin) judgment += '另有伏吟，局面易胶着。'
+  judgment += `卦象所据：${evidence}。`
+  // Phase B：动化 / 忌神 / 世应主因写入判断正文（不是只藏在建议里）
+  const reasonLine = verdictReasonLine(verdict, parsed)
+  if (reasonLine && !guardedJudgment) {
+    judgment += reasonLine
+  }
+  if (fanYin) judgment += '又见反吟，事多反复，一成未可便以为终。'
+  if (fuYin) judgment += '又见伏吟，局面易胶着，宜主动改其条件。'
 
   let reply = directReply(parsed, parsed.mode === 'yesno' ? answerTone : tone, level, {
     place,
@@ -10609,6 +11244,7 @@ function buildJudgment(ctx) {
       level,
       tone: parsed.mode === 'yesno' ? answerTone : tone
     })
+    matchCtx = enrichMatchCtxWithVerdict(matchCtx, verdict)
   }
   if (parsed.mode === 'yesno' && !guardedLevel && matchCtx) {
     const yk = parsed.yesKind || 'can'
@@ -10620,16 +11256,16 @@ function buildJudgment(ctx) {
       let bit = ''
       if (answerTone === 'good') {
         bit = matchCtx.weak.length
-          ? `依据：结论成立，但「${matchCtx.weak.slice(0, 2).join('、')}」还要补。`
-          : `依据：「${matchCtx.strong.slice(0, 2).join('、')}」撑得住。`
+          ? `观象：结论可立，然「${matchCtx.weak.slice(0, 2).join('、')}」仍须补。`
+          : `观象：「${matchCtx.strong.slice(0, 2).join('、')}」能撑住。`
       } else if (answerTone === 'bad') {
         bit = matchCtx.weak.length
-          ? `依据：主要在「${matchCtx.weak.slice(0, 2).join('、')}」。`
-          : `依据：仅「${matchCtx.strong.slice(0, 2).join('、')}」不够扭转。`
+          ? `观象：其难多在「${matchCtx.weak.slice(0, 2).join('、')}」。`
+          : `观象：仅「${matchCtx.strong.slice(0, 2).join('、')}」略有支撑，不足以扭转。`
       } else {
         bit = matchCtx.weak.length
-          ? `依据：注意「${matchCtx.weak.slice(0, 2).join('、')}」。`
-          : `依据：「${matchCtx.strong.slice(0, 2).join('、')}」略有支撑。`
+          ? `观象：宜注意「${matchCtx.weak.slice(0, 2).join('、')}」。`
+          : `观象：「${matchCtx.strong.slice(0, 2).join('、')}」稍有支撑。`
       }
       if (bit && !reply.includes(bit.slice(0, 6))) reply = `${reply.replace(/。\s*$/, '')}。${bit}`
     }
@@ -10638,16 +11274,16 @@ function buildJudgment(ctx) {
     let bit = ''
     if (tone === 'good') {
       bit = matchCtx.weak.length
-        ? `依据：吉，但「${matchCtx.weak.slice(0, 2).join('、')}」还要补。`
-        : `依据：吉，「${matchCtx.strong.slice(0, 2).join('、')}」撑得住。`
+        ? `观象：吉，然「${matchCtx.weak.slice(0, 2).join('、')}」仍须补。`
+        : `观象：吉，「${matchCtx.strong.slice(0, 2).join('、')}」能撑住。`
     } else if (tone === 'bad') {
       bit = matchCtx.weak.length
-        ? `依据：凶，主要在「${matchCtx.weak.slice(0, 2).join('、')}」。`
-        : `依据：凶，仅「${matchCtx.strong.slice(0, 2).join('、')}」略有支撑也不够。`
+        ? `观象：凶，其难多在「${matchCtx.weak.slice(0, 2).join('、')}」。`
+        : `观象：凶，仅「${matchCtx.strong.slice(0, 2).join('、')}」略有支撑，亦不足。`
     } else {
       bit = matchCtx.weak.length
-        ? `依据：平，注意「${matchCtx.weak.slice(0, 2).join('、')}」。`
-        : `依据：平，「${matchCtx.strong.slice(0, 2).join('、')}」有一点支撑。`
+        ? `观象：平，宜注意「${matchCtx.weak.slice(0, 2).join('、')}」。`
+        : `观象：平，「${matchCtx.strong.slice(0, 2).join('、')}」稍有支撑。`
     }
     if (bit && !reply.includes(bit.slice(0, 6))) reply = `${reply.replace(/。\s*$/, '')}。${bit}`
   }
@@ -10660,10 +11296,10 @@ function buildJudgment(ctx) {
   } else if (parsed.mode === 'who') {
     advice = whoHint
       ? (tone === 'good'
-        ? `优先对接「${whoHint}」，带具体方案一次说清。`
+        ? `宜优先对接「${whoHint}」，带具体方案一次说清。`
         : tone === 'bad'
-          ? `对「${whoHint}」先观再动，别一次押死；可另寻能帮上忙的人。`
-          : `可先接触「${whoHint}」，同时准备备选联系人。`)
+          ? `对「${whoHint}」宜先观后动，勿一次押死；可另寻能相助之人。`
+          : `可先接触「${whoHint}」，并备一二人选。`)
       : '人物还不清楚，先想清要找的人具体能帮什么，再对照身边人选。'
   } else if (parsed.mode === 'choice') {
     if (parsed.choice) {
@@ -10736,7 +11372,14 @@ function buildJudgment(ctx) {
     clockHint,
     whoHint,
     choicePick,
-    answerTone
+    answerTone,
+    // 结构化裁决（供展示层与回归测试）
+    verdict: verdict || null,
+    confidence: verdict ? verdict.confidence : (mild ? 'low' : 'medium'),
+    primaryReason: verdict ? verdict.primaryReason : '',
+    verdictFactors: verdict ? verdict.factors : [],
+    verdictVetoes: verdict ? verdict.vetoes : [],
+    mild
   }
 }
 
@@ -12040,10 +12683,34 @@ function interpret(cast, topicKey = 'general') {
     if (sy === '被克') score.hinder += 1
   }
 
-  const tendency = scoreTendency(score)
+  // 结构化裁决：固定优先级改写 help/hinder 底分（忌神动/回头克/化退等）
+  const verdictCtx = {
+    topic,
+    primaryYong,
+    yongList,
+    fu,
+    changingIndexes,
+    yinPattern,
+    shi,
+    ying,
+    ben,
+    calendar
+  }
+  const verdict = adjudicateTendency(verdictCtx, score)
+  const tendency = {
+    level: verdict.level,
+    tone: verdict.tone,
+    note: verdict.primaryReason || verdict.note,
+    diff: verdict.diff,
+    confidence: verdict.confidence,
+    mild: verdict.mild,
+    factors: verdict.factors,
+    vetoes: verdict.vetoes
+  }
   const judgment = buildJudgment({
     topic,
     tendency,
+    verdict,
     question,
     yongList,
     primaryYong,
@@ -12056,7 +12723,7 @@ function interpret(cast, topicKey = 'general') {
     calendar,
     askMeta: cast.askMeta || null
   })
-  // 展示用倾向：以对所问的判断为准（可能因空亡/伏藏下调）
+  // 展示用倾向：以对所问的判断为准（可能因空亡/伏藏/忌神动下调）
   const shownTendency = {
     level: judgment.level,
     tone: judgment.tone,
@@ -12292,18 +12959,26 @@ function interpret(cast, topicKey = 'general') {
   const deep = concise.deep
   // level/reply/advice 用叙事整理后的展示文；judgment 字段保留 buildJudgment 原文
   // （含安全边界、所问 mode 的「判断：…」），避免被卦理开篇冲掉
+  // verdict/置信度/主因/否决表保留结构化裁决，供测试与后续扩展
   const finalJudgment = Object.assign({}, judgment, {
     level: deep.summary,
     label: deep.summary,
     reply: deep.answer,
     judgment: judgment.judgment,
     advice: deep.action,
-    thesis: deep.thesis
+    thesis: deep.thesis,
+    verdict: judgment.verdict || verdict,
+    confidence: judgment.confidence || verdict.confidence,
+    primaryReason: judgment.primaryReason || verdict.primaryReason,
+    verdictFactors: judgment.verdictFactors || verdict.factors,
+    verdictVetoes: judgment.verdictVetoes || verdict.vetoes
   })
   const finalTendency = {
     level: deep.summary,
     tone: deep.tone,
-    note: deep.thesis
+    note: deep.thesis,
+    confidence: verdict.confidence,
+    vetoes: verdict.vetoes
   }
 
   const points = []
@@ -12321,6 +12996,7 @@ function interpret(cast, topicKey = 'general') {
     tendency: finalTendency,
     judgment: finalJudgment,
     score,
+    verdict,
     points,
     summary: deep.summary,
     summaryNote: deep.thesis,
@@ -12333,7 +13009,11 @@ function interpret(cast, topicKey = 'general') {
 module.exports = {
   TOPIC_YONGSHEN,
   guessTopicKey,
-  interpret
+  interpret,
+  scoreTendency,
+  collectVerdictSignals,
+  adjudicateTendency,
+  verdictReasonLine
 }
 
 })(__mods["./duangu"], __mods["./duangu"].exports, __require);
@@ -12671,34 +13351,40 @@ function meihuaChoicePick(parsed, tone) {
 }
 
 function philosophyGuidance(tone, focus, parsed) {
-  // 与六爻同风格：短、自然、按问法区分（保留测试关键词）
-  if (parsed && parsed.negativeEvent) return '明理之道：把事实查清，别急着给人定性。'
+  // 与六爻同调：古白话哲理收束（保留测试关键词）
+  if (parsed && parsed.negativeEvent) {
+    return '明理之道：先明事实，后定是非；不可凭一象便遽指其人。'
+  }
   if (parsed && (parsed.domain === 'health' || parsed.domain === 'pregnancy')) {
-    return '明理之道：卦能安心，看病还是听医生的。'
+    return '明理之道：卦可安其心，治病仍当听医；象不可代诊。'
   }
-  if (parsed && parsed.domain === 'weather') return '明理之道：天气以预报为准。'
+  if (parsed && parsed.domain === 'weather') {
+    return '明理之道：天时难强，仍以预报为凭。'
+  }
   if (parsed && parsed.domain === 'lost' && /寻人|人/.test(String(parsed.focus || ''))) {
-    return '寻人之要：先找人，情况不对就报警。'
+    return '寻人之要：寻人贵速，有险即报；不可坐等卦象。'
   }
-  if (parsed && parsed.mode === 'choice') return '取舍之道：先小步试，再决定押多重。'
+  if (parsed && parsed.mode === 'choice') {
+    return '取舍之道：见几而作，先试可退之路，再定所押之重。'
+  }
   if (parsed && parsed.mode === 'how') {
-    if (tone === 'good') return '趋吉之道：一步做实，再谈下一步。'
-    if (tone === 'bad') return '避凶之道：先改条件，再谈进取。'
-    return '指迷之要：小步验证，比空想有用。'
+    if (tone === 'good') return '趋吉之道：积小以成大，一步既实，再图其次。'
+    if (tone === 'bad') return '避凶之道：势未可进，宜先立本、改其条件，而后图成。'
+    return '指迷之要：与其空想终局，不如小步验之。'
   }
   if (parsed && parsed.mode === 'jixiong') {
-    if (tone === 'good') return '趋吉之道：顺势推进，留退路。'
-    if (tone === 'bad') return '避凶之道：先收缩，别硬上。'
-    return '指迷之要：吉凶未分时，别一次押死。'
+    if (tone === 'good') return '趋吉之道：顺势而进，亦须留退路；盛时不可忘危。'
+    if (tone === 'bad') return '避凶之道：宜收不宜进；硬顶则耗。'
+    return '指迷之要：吉凶未分，不可一掷；先立可退之地。'
   }
   if (parsed && parsed.mode === 'when') {
-    if (tone === 'good') return '趋吉之道：窗口内做事，窗口外少空等。'
-    if (tone === 'bad') return '避凶之道：时机不齐就先筹备，别死等。'
-    return '指迷之要：信号清楚再钉日期。'
+    if (tone === 'good') return '趋吉之道：时至则行，窗内着力；窗外空等，无益。'
+    if (tone === 'bad') return '避凶之道：时未至则备，不可死守一日。'
+    return '指迷之要：机未显时，先备其具；信号既明，再定其期。'
   }
-  if (tone === 'good') return `趋吉之道：「${focus}」顺势做，别做过了头。`
-  if (tone === 'bad') return `避凶之道：「${focus}」先止损，别硬顶。`
-  return `指迷之要：「${focus}」小步看清再定。`
+  if (tone === 'good') return `趋吉之道：「${focus}」可顺势为之，过犹不及；知止则不殆。`
+  if (tone === 'bad') return `避凶之道：「${focus}」宜先止损，勿与逆势硬顶；待时而动。`
+  return `指迷之要：「${focus}」宜小步看清，再定进退；欲速则不达。`
 }
 
 /** 按所问类型组织梅花明确答复（与六爻同构） */
@@ -14071,8 +14757,8 @@ window.LiuYao = {
     app.classList.add('has-fixed-footer')
     app.innerHTML = `
       <div class="page-scroll">
-      <div class="title-zh">卜卦</div>
-      <div class="subtitle">六次成爻 · 自下而上</div>
+      <div class="title-zh cast-title">卜卦</div>
+      <div class="subtitle cast-subtitle">六次成爻 · 自下而上</div>
       <div class="mode-row">
         <div class="mode ${state.mode === 'shake' ? 'on' : ''}" id="modeShake">摇铜钱</div>
         <div class="mode ${state.mode === 'manual' ? 'on' : ''}" id="modeManual">手记爻象</div>
