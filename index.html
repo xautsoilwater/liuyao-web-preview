@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-  <!-- liuyao-preview-build:2026-08-09T02:52:11Z -->
+  <!-- liuyao-preview-build:2026-08-09T02:53:44Z -->
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover" />
   <title>周易研习</title>
@@ -2708,13 +2708,40 @@ function getGuaXiangjie(alias) {
     plainGuaci: g.guaciYi,
     plainYili: g.yili,
     plainZhan: g.zhan || [],
+    // 爻辞解释只保留说明，不重复卦象板上已展示的原文
     plainYao: yaoBoard.map((row) => ({
       posLabel: row.posLabel,
-      classic: row.classicFull || row.classic,
-      tip: row.tip
+      tip: stripYaoExplainLead(row.tip, row.posLabel, row.classic)
     })),
     blocks: blocksForGua(g, { standalone: true })
   })
+}
+
+/** 去掉解释开头重复的「初九：… / 初九「原文」：」等前缀 */
+function stripYaoExplainLead(tip, posLabel, classicBody) {
+  let t = String(tip || '').trim()
+  if (!t) return ''
+  const pos = String(posLabel || '')
+  if (pos) {
+    t = t.replace(new RegExp('^' + pos.replace(/[.*+?^${}()|[\]\\]/g, '\\<script src="./engine.bundle.js"></script>') + '[「『]?[^」』]*[」』]?[：:]\\s*'), '')
+    t = t.replace(new RegExp('^' + pos.replace(/[.*+?^${}()|[\]\\]/g, '\\<script src="./engine.bundle.js"></script>') + '[：:]\\s*'), '')
+  }
+  // 初爻（开始）：… 这类扩写前缀
+  t = t.replace(/^[初上]爻（[^）]+）[：:]\s*/, '')
+  t = t.replace(/^[二三四五]爻（[^）]+）[：:]\s*/, '')
+  // 「原文」： 或 原文——
+  if (classicBody) {
+    const body = String(classicBody).replace(/[。．.]+$/, '').trim()
+    if (body) {
+      const esc = body.replace(/[.*+?^${}()|[\]\\]/g, '\\<script src="./engine.bundle.js"></script>')
+      t = t.replace(new RegExp('^「' + esc + '」[：:]\\s*'), '')
+      t = t.replace(new RegExp('^' + esc + '[：:——\\-]+\\s*'), '')
+    }
+  }
+  t = t.replace(/^「[^」]+」[：:]\\s*/, '')
+  // 经文大意是「…」。零基础可记：… 中的重复经文句可保留解释部分
+  t = t.replace(/。+/g, '。').replace(/^。/, '').trim()
+  return t
 }
 
 module.exports = {
@@ -16198,7 +16225,6 @@ window.LiuYao = {
       <div class="plain-yao">
         <span class="py-pos">${py.posLabel}</span>
         <div class="py-body">
-          ${py.classic ? `<div class="muted py-classic">${py.classic}</div>` : ''}
           ${py.tip ? `<div class="py-tip">${py.tip}</div>` : ''}
         </div>
       </div>`).join('')
