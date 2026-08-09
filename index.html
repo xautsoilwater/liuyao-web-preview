@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-  <!-- liuyao-preview-build:2026-08-09T04:14:23Z -->
+  <!-- liuyao-preview-build:2026-08-09T04:33:01Z -->
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover" />
   <title>周易研习</title>
@@ -15792,6 +15792,8 @@ window.LiuYao = {
   let touchStartX = 0
   let touchStartY = 0
   let touchStartT = 0
+  /** 研习典要：目录 / 卦典滚动记忆（仅此区域返回时恢复） */
+  const learnScrollMem = { learn: 0, guadian: 0 }
 
   function snapshot() {
     return {
@@ -15821,6 +15823,37 @@ window.LiuYao = {
     void app.offsetWidth
     app.style.animation = ''
   }
+  function saveLearnAreaScroll() {
+    if (state.page !== 'learn' && state.page !== 'guadian') return
+    try {
+      const el = app && app.querySelector('.page-scroll')
+      if (el) learnScrollMem[state.page] = el.scrollTop || 0
+    } catch (e) {
+      // ignore
+    }
+  }
+  function restoreLearnAreaScroll() {
+    if (state.page !== 'learn' && state.page !== 'guadian') return false
+    const top = learnScrollMem[state.page] || 0
+    if (top <= 0) return false
+    const apply = () => {
+      try {
+        const el = app && app.querySelector('.page-scroll')
+        if (el) el.scrollTop = top
+      } catch (e) {
+        // ignore
+      }
+    }
+    requestAnimationFrame(() => {
+      apply()
+      setTimeout(apply, 30)
+    })
+    return true
+  }
+  function clearLearnAreaScroll() {
+    learnScrollMem.learn = 0
+    learnScrollMem.guadian = 0
+  }
   function scrollPageTop() {
     try {
       window.scrollTo(0, 0)
@@ -15828,9 +15861,15 @@ window.LiuYao = {
       document.body.scrollTop = 0
       if (shell) shell.scrollTop = 0
       if (app) app.scrollTop = 0
+      const ps = app && app.querySelector('.page-scroll')
+      if (ps) ps.scrollTop = 0
     } catch (e) {
       // ignore
     }
+  }
+  function afterNavigateScroll() {
+    // 研习目录/卦典：恢复离开前的滚动；其它页回顶
+    if (!restoreLearnAreaScroll()) scrollPageTop()
   }
   function resetAskState() {
     state.selectedGroupKey = ''
@@ -15843,6 +15882,8 @@ window.LiuYao = {
     const replace = !!(opts && opts.replace)
     const enteringAsk = page === 'ask' && state.page !== 'ask'
     if (enteringAsk) resetAskState()
+    saveLearnAreaScroll()
+    if (page === 'index') clearLearnAreaScroll()
     Object.assign(state, extra, { page })
     if (replace) {
       stack[Math.max(stack.length - 1, 0)] = snapshot()
@@ -15859,19 +15900,21 @@ window.LiuYao = {
     }
     animatePage()
     render()
-    scrollPageTop()
+    afterNavigateScroll()
   }
   function back() {
     if (stack.length <= 1) return false
+    saveLearnAreaScroll()
     stack.pop()
     applySnap(stack[stack.length - 1])
     if (state.page === 'ask') resetAskState()
     animatePage()
     render()
-    scrollPageTop()
+    afterNavigateScroll()
     return true
   }
   function goHomeFromNav() {
+    clearLearnAreaScroll()
     stack.length = 0
     state.page = 'index'
     state.articleId = null
