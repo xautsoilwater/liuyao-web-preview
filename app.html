@@ -1182,6 +1182,46 @@
     .fig-hc i { padding: 10px 14px; border: 1px solid var(--line-strong); font-style: normal; letter-spacing: .2em; color: var(--cinnabar); }
     .fig-path { text-align: center; letter-spacing: .16em; color: var(--bronze); font-size: 15px; }
     .fig-fallback { text-align: center; font-size: 42px; color: var(--bronze); }
+    .fig-wuxing { text-align: center; }
+    .fig-wuxing .wx-ring { position: relative; width: 130px; height: 130px; margin: 0 auto 8px; }
+    .fig-wuxing .wx-ring b { position: absolute; left: 50%; top: 50%; transform: translate(-50%,-50%); width: 40px; height: 40px; border-radius: 50%; background: var(--ink); color: var(--cream); display: flex; align-items: center; justify-content: center; font-size: 13px; letter-spacing: .1em; }
+    .fig-wuxing .wx-ring i { position: absolute; left: 50%; top: 50%; width: 28px; margin: -10px 0 0 -14px; text-align: center; font-style: normal; color: var(--cinnabar); font-weight: 600; font-size: 15px; }
+    .fig-wuxing .wx-ring i.a { transform: rotate(0deg) translateY(-52px); }
+    .fig-wuxing .wx-ring i.b { transform: rotate(72deg) translateY(-52px) rotate(-72deg); }
+    .fig-wuxing .wx-ring i.c { transform: rotate(144deg) translateY(-52px) rotate(-144deg); }
+    .fig-wuxing .wx-ring i.d { transform: rotate(216deg) translateY(-52px) rotate(-216deg); }
+    .fig-wuxing .wx-ring i.e { transform: rotate(288deg) translateY(-52px) rotate(-288deg); }
+    .fig-wuxing em { font-style: normal; font-size: 12px; color: var(--mist); letter-spacing: .08em; }
+    .fig-bg-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; }
+    .fig-bg-grid span { display: flex; flex-direction: column; align-items: center; gap: 2px; padding: 8px 2px; border: 1px solid var(--line); background: rgba(255,252,245,.75); }
+    .fig-bg-grid b { font-size: 18px; font-weight: 500; }
+    .fig-bg-grid i { font-style: normal; font-size: 13px; color: var(--cinnabar); letter-spacing: .1em; }
+    .fig-bg-grid em { font-style: normal; font-size: 11px; color: var(--mist); }
+    .fig-steps6 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+    .fig-steps6 span { display: flex; flex-direction: column; align-items: center; gap: 4px; padding: 8px 4px; border: 1px solid var(--line-strong); }
+    .fig-steps6 b { width: 22px; height: 22px; border-radius: 50%; background: var(--cinnabar); color: var(--cream); display: flex; align-items: center; justify-content: center; font-size: 12px; }
+    .fig-steps6 i { font-style: normal; font-size: 12px; color: var(--ink-soft); letter-spacing: .06em; text-align: center; }
+    .fig-neiwai { display: flex; align-items: center; justify-content: center; gap: 12px; }
+    .fig-neiwai > div { display: flex; flex-direction: column; align-items: center; gap: 5px; padding: 8px 12px; border: 1px solid var(--line); }
+    .fig-neiwai b { font-size: 13px; color: var(--cinnabar); letter-spacing: .12em; }
+    .fig-neiwai .yao-bar { width: 44px; height: 4px; margin: 0; }
+    .fig-neiwai em { font-style: normal; font-size: 11px; color: var(--mist); }
+    .fig-neiwai > i { font-style: normal; color: var(--bronze); letter-spacing: .15em; }
+    .fig-hugua { display: flex; align-items: center; justify-content: center; gap: 12px; font-size: 13px; }
+    .fig-hugua > div { display: flex; flex-direction: column; align-items: center; gap: 3px; }
+    .fig-hugua b { color: var(--bronze); letter-spacing: .15em; margin-bottom: 2px; }
+    .fig-hugua i { font-style: normal; color: var(--mist); padding: 2px 10px; }
+    .fig-hugua i.on { color: var(--cinnabar); border: 1px dashed rgba(155,45,36,.35); background: rgba(155,45,36,.05); }
+    .fig-hugua em { font-style: normal; color: var(--cinnabar); }
+    .fig-vols { text-align: center; line-height: 1.9; letter-spacing: .08em; color: var(--bronze); font-size: 14px; }
+    .fig-vols span { display: inline-block; padding: 3px 8px; border: 1px solid var(--line-strong); color: var(--cinnabar); margin: 2px 1px; background: rgba(255,252,245,.85); }
+    /* 研习正文排版 */
+    .article-body .para { margin: 0 0 14px; font-size: 15.5px; line-height: 1.9; color: var(--ink-soft); text-align: justify; letter-spacing: .04em; }
+    .article-body .quote { margin: 14px 0 18px; padding: 12px 14px 12px 16px; border-left: 3px solid var(--cinnabar); background: linear-gradient(90deg, rgba(155,45,36,.07), rgba(155,45,36,.01)); }
+    .article-body .quote div { font-family: "Songti SC","Noto Serif SC",serif; font-size: 15.5px; line-height: 1.85; letter-spacing: .08em; color: var(--ink); }
+    .article-body .quote cite { display: block; margin-top: 8px; text-align: right; font-style: normal; font-size: 13px; color: var(--bronze); letter-spacing: .1em; }
+    .article-body .learn-list { margin: 6px 0 16px; padding: 4px 0 4px 4px; }
+    .article-body .learn-list li { position: relative; padding: 8px 0 8px 16px; border-bottom: 1px dashed var(--line); font-size: 14.5px; line-height: 1.7; color: var(--ink-soft); list-style: none; }
 
     /* home quiet */
     .hero.quiet {
