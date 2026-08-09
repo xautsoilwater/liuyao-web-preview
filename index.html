@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-  <!-- liuyao-preview-build:2026-08-09T03:15:22Z -->
+  <!-- liuyao-preview-build:2026-08-09T03:15:40Z -->
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover" />
   <title>周易研习</title>
@@ -2780,16 +2780,17 @@ function buildXiangExplain(g) {
   }
 
   const nameWhy = g.nameWhy || ''
-  // 白话串讲：成卦逻辑 + 上下性情怎么合在一起
-  let plain = howFormed
-  if (nameWhy) {
-    plain += nameWhy
-  }
+  // 白话串讲：有取象释名则以之为核，再补「内外怎么读」；避免与 nameWhy 重复叙述
+  let plain = nameWhy || howFormed
   if (!pure && upper.plain && lower.plain) {
-    plain += '读象时先分内外：内（下）看自己这边的状态——' + lower.de + '（' + lower.plain.replace(/。$/, '') + '）'
-      + '；外（上）看环境、对方或结果——' + upper.de + '（' + upper.plain.replace(/。$/, '') + '）。'
-  } else if (pure && upper.plain) {
-    plain += '纯卦性情专一：' + upper.plain
+    plain += ' 读象时先分内外：内卦（下）看自己这边——' + lower.de
+      + '（' + lower.plain.replace(/。$/, '') + '）'
+      + '；外卦（上）看环境、对方或结果——' + upper.de
+      + '（' + upper.plain.replace(/。$/, '') + '）。'
+  } else if (pure && upper.plain && !nameWhy) {
+    plain += ' 纯卦性情专一：' + upper.plain
+  } else if (pure && upper.plain && nameWhy) {
+    plain += ' 性情专一：' + upper.plain
   }
 
   const yaoRoles = YAO_WEI.map((w, i) => {
