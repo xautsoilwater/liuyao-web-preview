@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-  <!-- liuyao-preview-build:2026-08-09T02:50:08Z -->
+  <!-- liuyao-preview-build:2026-08-09T02:52:11Z -->
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover" />
   <title>周易研习</title>
@@ -2585,7 +2585,7 @@ function blocksForGua(g, opts) {
   }
   if (g.guaci) {
     blocks.push(quote(g.guaci, g.alias + '·卦辞'))
-    blocks.push(p('卦辞要义：' + g.guaciYi))
+    blocks.push(p('卦辞解释：' + g.guaciYi))
   }
   blocks.push(p('义理提要：' + g.yili))
   const yaoItems = (g.yaoci || []).map((line, i) => {
@@ -2593,7 +2593,7 @@ function blocksForGua(g, opts) {
     return tip ? (line + ' ／ ' + tip) : line
   })
   if (yaoItems.length) {
-    blocks.push(p('六爻详解（经文 ／ 教学提要）：'))
+    blocks.push(p('爻辞解释：'))
     blocks.push(list(yaoItems))
   }
   blocks.push(p('占事要点：'))
@@ -16216,14 +16216,12 @@ window.LiuYao = {
         <div class="gd-section-head">卦象 · 爻辞</div>
         <div class="yao-board">${board}</div>
         <div class="yao-board-tip muted">自上而下为上爻→初爻；阳连阴断</div>
-        <div class="gd-section-head">白话解释（零基础可读）</div>
-        <div class="muted" style="font-size:13px;line-height:1.6;margin:0 0 10px">下面不堆术语：先懂这卦在说什么局面，再看每一爻提醒你注意什么。</div>
+        <div class="gd-section-head">卦辞解释</div>
         <div class="plain-block">
-          <div class="plain-label">卦辞用大白话说</div>
           <div class="plain-text">${a.plainGuaci || ''}</div>
         </div>
+        <div class="gd-section-head">爻辞解释</div>
         <div class="plain-block">
-          <div class="plain-label">六爻逐条白话</div>
           ${plainYao}
         </div>
         ${a.plainYili ? `<div class="plain-block"><div class="plain-label">义理提要</div><div class="plain-text">${a.plainYili}</div></div>` : ''}
