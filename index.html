@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-  <!-- liuyao-preview-build:2026-08-09T03:44:30Z -->
+  <!-- liuyao-preview-build:2026-08-09T03:44:48Z -->
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover" />
   <title>周易研习</title>
@@ -3693,10 +3693,13 @@ function joinYaoExplainFlow(classic, tip, sage) {
   if (c) parts.push(c)
 
   if (t) {
-    // 白话勿与原文完全重复起头
     if (c) {
       const cCore = c.replace(/[。．！？；…]+$/, '')
-      if (t === cCore || t.indexOf(cCore) === 0) {
+      const norm = (s) => String(s || '').replace(/[，,。．！？；：:\s「」『』]/g, '')
+      // 白话与原文实质相同则跳过，避免「富家，大吉。富家大吉。」
+      if (norm(t) && norm(t) === norm(cCore)) {
+        t = ''
+      } else if (t === cCore || t.indexOf(cCore) === 0) {
         t = t.slice(cCore.length).replace(/^[：:，,\s]+/, '')
       }
     }
