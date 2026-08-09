@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-  <!-- liuyao-preview-build:2026-08-09T03:29:47Z -->
+  <!-- liuyao-preview-build:2026-08-09T03:32:23Z -->
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover" />
   <title>周易研习</title>
@@ -726,22 +726,16 @@
       color: var(--bronze); text-align: justify;
     }
     .plain-zhan { font-size: 14px; line-height: 1.6; color: var(--ink-soft); padding: 2px 0; }
-    .xiang-block .plain-label { margin-top: 2px; }
-    .xiang-sub { margin-top: 12px !important; }
+    .xiang-structure {
+      font-size: 13px; letter-spacing: .08em; color: var(--bronze);
+      font-weight: 600; margin-bottom: 6px; line-height: 1.45;
+    }
     .xiang-classic {
       font-family: "Songti SC", "Noto Serif SC", "STSong", "SimSun", serif;
       font-size: 13.5px; line-height: 1.65; letter-spacing: .05em;
-      font-weight: 600; color: var(--ink); margin-bottom: 6px; text-align: justify;
+      font-weight: 600; color: var(--ink); margin-bottom: 4px; text-align: justify;
     }
-    .xiang-tri-meta { font-size: 12px; letter-spacing: .08em; color: var(--bronze); margin: 2px 0 4px; }
-    .xiang-tri-xiang { font-size: 12px; line-height: 1.5; margin: 2px 0 4px; }
-    .xiang-yao { display: flex; gap: 8px; padding: 6px 0; border-bottom: 1px dashed var(--line); }
-    .xiang-yao:last-child { border-bottom: none; padding-bottom: 0; }
-    .xiang-yao-pos { width: 28px; flex-shrink: 0; font-size: 12px; font-weight: 600; color: var(--bronze); padding-top: 1px; }
-    .xiang-yao-body { flex: 1; min-width: 0; }
-    .xiang-yao-title { font-size: 13px; font-weight: 600; color: var(--ink); margin-bottom: 2px; letter-spacing: .04em; }
-    .xiang-yao-tag { font-weight: 500; color: var(--cinnabar); font-size: 11px; letter-spacing: .06em; }
-    .xiang-yao-tip { font-size: 13px; line-height: 1.55; color: var(--ink-soft); }
+    .xiang-plain { font-size: 13px; }
     .detail-note { font-size: 12px; line-height: 1.6; margin: 8px 0; color: var(--mist); }
     .ask-before-note {
       margin-top: 8px; padding: 10px 12px;
@@ -3579,68 +3573,40 @@ function trigramXiangCard(name, nature, roleLabel) {
 }
 
 /**
- * 卦象解释：为何如此成卦、上下经卦内涵、六爻位象
+ * 卦象解释（精简）：成卦一句话 + 上下经卦一行 + 读法一句
  */
 function buildXiangExplain(g) {
-  const upper = trigramXiangCard(g.upperName, g.upperNature, '上卦')
-  const lower = trigramXiangCard(g.lowerName, g.lowerNature, '下卦')
+  const upper = trigramXiangCard(g.upperName, g.upperNature, '上')
+  const lower = trigramXiangCard(g.lowerName, g.lowerNature, '下')
   const pure = g.upperName === g.lowerName
-
-  let howFormed = ''
-  if (pure) {
-    howFormed = '上下都是' + g.upperName + '（' + g.upperNature + '），是纯卦，整体取象为「' + g.upperNature + '」。'
-  } else {
-    howFormed = '上卦' + g.upperName + '为' + g.upperNature
-      + '，下卦' + g.lowerName + '为' + g.lowerNature
-      + '，两经卦重叠成「' + (g.fullName || g.alias) + '」。'
-  }
-
   const nameWhy = g.nameWhy || ''
-  // 白话串讲：有取象释名则以之为核，再补「内外怎么读」；避免与 nameWhy 重复叙述
-  let plain = nameWhy || howFormed
-  if (!pure && upper.plain && lower.plain) {
-    plain += ' 读象时先分内外：内卦（下）看自己这边——' + lower.de
-      + '（' + lower.plain.replace(/。$/, '') + '）'
-      + '；外卦（上）看环境、对方或结果——' + upper.de
-      + '（' + upper.plain.replace(/。$/, '') + '）。'
-  } else if (pure && upper.plain && !nameWhy) {
-    plain += ' 纯卦性情专一：' + upper.plain
-  } else if (pure && upper.plain && nameWhy) {
-    plain += ' 性情专一：' + upper.plain
-  }
 
-  const yaoRoles = YAO_WEI.map((w, i) => {
-    const yang = !!(g.lines && g.lines[i])
-    const bit = yang ? '九' : '六'
-    const posLabel = (w.key === '初' || w.key === '上') ? (w.key + bit) : (bit + w.key)
-    const yinYang = yang ? '阳爻' : '阴爻'
-    const tags = []
-    if (g.shiPos === i) tags.push('世')
-    if (((g.shiPos + 3) % 6) === i) tags.push('应')
-    return {
-      posLabel,
-      yinYang,
-      title: w.title,
-      body: w.body,
-      tagText: tags.length ? tags.join('·') : '',
-      line: posLabel + '（' + yinYang + '）· ' + w.title
-        + (tags.length ? '〔' + tags.join('·') + '〕' : '')
-        + '：' + w.body
-    }
-  })
+  // 上☰乾天·健（父） · 下☷坤地·顺（母）
+  const structure = '上' + (upper.symbol || '') + upper.name + (upper.nature || '')
+    + '·' + (upper.de || '') + (upper.family ? '（' + upper.family + '）' : '')
+    + '  ·  下' + (lower.symbol || '') + lower.name + (lower.nature || '')
+    + '·' + (lower.de || '') + (lower.family ? '（' + lower.family + '）' : '')
+
+  // 读法一句，不重复 nameWhy
+  let readTip = ''
+  if (pure) {
+    readTip = '纯卦，性情专一：' + (upper.plain || (upper.de + '。'))
+  } else {
+    readTip = '内（下）看自己——' + (lower.de || '') + '；外（上）看环境或对方——' + (upper.de || '') + '。'
+  }
+  const shiHint = (g.shiLabel && g.yingLabel)
+    ? '世在' + g.shiLabel + '、应在' + g.yingLabel + '。'
+    : ''
 
   return {
-    howFormed,
     nameWhy,
-    plain,
+    structure,
+    readTip: (readTip + shiHint).trim(),
+    // 兼容旧字段（预览若残留）
+    plain: nameWhy || readTip,
     upper,
     lower,
-    yaoRoles,
-    // 供简单列表渲染
-    upperLine: upper.head + ' · 德性「' + upper.de + '」· ' + upper.family
-      + '。' + upper.plain + (upper.xiang ? '取象：' + upper.xiang + '。' : ''),
-    lowerLine: lower.head + ' · 德性「' + lower.de + '」· ' + lower.family
-      + '。' + lower.plain + (lower.xiang ? '取象：' + lower.xiang + '。' : '')
+    yaoRoles: []
   }
 }
 
@@ -17235,32 +17201,12 @@ window.LiuYao = {
 
   function xiangExplainHtml(xe) {
     if (!xe) return ''
-    const yaoRows = (xe.yaoRoles || []).map((yr) => `
-      <div class="xiang-yao">
-        <span class="xiang-yao-pos">${yr.posLabel}</span>
-        <div class="xiang-yao-body">
-          <div class="xiang-yao-title">${yr.yinYang} · ${yr.title}${yr.tagText ? ` <span class="xiang-yao-tag">${yr.tagText}</span>` : ''}</div>
-          <div class="xiang-yao-tip">${yr.body}</div>
-        </div>
-      </div>`).join('')
-    const u = xe.upper || {}
-    const l = xe.lower || {}
     return `
       <div class="gd-section-head">卦象解释</div>
       <div class="plain-block xiang-block">
-        <div class="plain-label">为何成此卦</div>
+        ${xe.structure ? `<div class="xiang-structure">${xe.structure}</div>` : ''}
         ${xe.nameWhy ? `<div class="xiang-classic">${xe.nameWhy}</div>` : ''}
-        <div class="plain-text xiang-plain">${xe.plain || ''}</div>
-        <div class="plain-label xiang-sub">上卦 · ${u.name || ''}${u.nature || ''} ${u.symbol || ''}</div>
-        <div class="xiang-tri-meta">德性「${u.de || ''}」· ${u.family || ''} · 五行${u.wuxing || ''}</div>
-        <div class="plain-text">${u.plain || ''}</div>
-        ${u.xiang ? `<div class="xiang-tri-xiang muted">取象：${u.xiang}</div>` : ''}
-        <div class="plain-label xiang-sub">下卦 · ${l.name || ''}${l.nature || ''} ${l.symbol || ''}</div>
-        <div class="xiang-tri-meta">德性「${l.de || ''}」· ${l.family || ''} · 五行${l.wuxing || ''}</div>
-        <div class="plain-text">${l.plain || ''}</div>
-        ${l.xiang ? `<div class="xiang-tri-xiang muted">取象：${l.xiang}</div>` : ''}
-        <div class="plain-label xiang-sub">六爻位象</div>
-        ${yaoRows}
+        ${xe.readTip ? `<div class="plain-text xiang-plain">${xe.readTip}</div>` : ''}
       </div>`
   }
 
