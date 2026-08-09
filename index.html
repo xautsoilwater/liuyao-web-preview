@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-  <!-- liuyao-preview-build:2026-08-09T03:44:48Z -->
+  <!-- liuyao-preview-build:2026-08-09T03:47:26Z -->
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover" />
   <title>周易研习</title>
@@ -710,6 +710,8 @@
       flex: 1; min-width: 0; font-size: 13px; line-height: 1.55;
       letter-spacing: .03em; color: var(--ink-soft); text-align: justify;
     }
+    .py-classic { font-weight: 700; color: var(--ink); letter-spacing: .04em; }
+    .py-rest { font-weight: 400; color: var(--ink-soft); }
     .plain-zhan { font-size: 14px; line-height: 1.6; color: var(--ink-soft); padding: 2px 0; }
     .xiang-structure {
       font-size: 13px; letter-spacing: .08em; color: var(--bronze);
@@ -3654,13 +3656,14 @@ function getGuaXiangjie(alias) {
       let tip = cleanYaoExplain(row.tip, row.posLabel, classic)
       tip = enrichYaoTip(tip, xx)
       const sage = buildYaoSageLine(g.alias, row.lineIndex, classic, tip)
-      const text = joinYaoExplainFlow(classic, tip, sage)
+      const flow = joinYaoExplainFlow(classic, tip, sage)
       return {
         posLabel: row.posLabel,
-        classic,
+        classic: flow.classic,
+        rest: flow.rest,
         tip,
         sage,
-        text
+        text: flow.text
       }
     }),
     blocks: blocksForGua(g, { standalone: true })
@@ -3681,21 +3684,19 @@ function ensureSentenceEnd(s) {
 }
 
 /**
- * 爻辞 + 白话 + 圣言连成一段，标点通顺、不硬换行
- * 例：乘马班如……无不利。时机对了再求。《象》曰：「…」——…
+ * 拆成「原文 / 后文」便于原文加粗、白话不粗，仍连写不断行
+ * 返回 { classic, rest, text }
  */
 function joinYaoExplainFlow(classic, tip, sage) {
-  const parts = []
   const c = ensureSentenceEnd(classic)
   let t = String(tip || '').trim()
   let s = String(sage || '').trim()
-
-  if (c) parts.push(c)
+  const restParts = []
 
   if (t) {
     if (c) {
       const cCore = c.replace(/[。．！？；…]+$/, '')
-      const norm = (s) => String(s || '').replace(/[，,。．！？；：:\s「」『』]/g, '')
+      const norm = (str) => String(str || '').replace(/[，,。．！？；：:\s「」『』]/g, '')
       // 白话与原文实质相同则跳过，避免「富家，大吉。富家大吉。」
       if (norm(t) && norm(t) === norm(cCore)) {
         t = ''
@@ -3704,19 +3705,17 @@ function joinYaoExplainFlow(classic, tip, sage) {
       }
     }
     t = ensureSentenceEnd(t)
-    if (t) parts.push(t)
+    if (t) restParts.push(t)
   }
 
   if (s) {
-    // 圣言前若已有句号则直接接；「旁参」前用句号断开更顺
     s = s.replace(/^[。．\s]+/, '')
-    if (s && !/^《/.test(s) && !/^旁参/.test(s)) {
-      // keep
-    }
-    parts.push(s)
+    if (s) restParts.push(s)
   }
 
-  return parts.join('').replace(/。{2,}/g, '。').replace(/——。/g, '——').trim()
+  const rest = restParts.join('').replace(/。{2,}/g, '。').replace(/——。/g, '——').trim()
+  const text = (c + rest).replace(/。{2,}/g, '。').trim()
+  return { classic: c, rest, text }
 }
 
 /**
@@ -17261,11 +17260,15 @@ window.LiuYao = {
         </div>
         <div class="yao-ci">${row.classic || ''}</div>
       </div>`).join('')
-    const plainYao = (a.plainYao || []).map((py) => `
+    const plainYao = (a.plainYao || []).map((py) => {
+      const classic = py.classic || ''
+      const rest = py.rest || [py.tip, py.sage].filter(Boolean).join('')
+      return `
       <div class="plain-yao">
         <span class="py-pos">${py.posLabel}</span>
-        <div class="py-flow">${py.text || [py.classic, py.tip, py.sage].filter(Boolean).join('')}</div>
-      </div>`).join('')
+        <div class="py-flow"><span class="py-classic">${classic}</span><span class="py-rest">${rest}</span></div>
+      </div>`
+    }).join('')
     const plainZhan = (a.plainZhan || []).map((z) => `<div class="plain-zhan">· ${z}</div>`).join('')
     app.innerHTML = `
       <div class="frame gd-detail-frame">
