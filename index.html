@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-  <!-- liuyao-preview-build:2026-08-09T04:03:31Z -->
+  <!-- liuyao-preview-build:2026-08-09T04:05:04Z -->
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover" />
   <title>周易研习</title>
@@ -620,10 +620,18 @@
     .palace-head { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; padding-bottom: 8px; border-bottom: 1px dashed var(--line); }
     .palace-sym {
       width: 36px; height: 36px; line-height: 36px; text-align: center;
-      font-size: 22px; color: var(--cinnabar);
+      font-size: 22px; color: var(--cinnabar); flex-shrink: 0;
       border: 1px solid rgba(155,45,36,.25); background: rgba(155,45,36,.05);
     }
-    .palace-name { letter-spacing: .18em; color: var(--cinnabar); font-weight: 600; }
+    .palace-line {
+      flex: 1; min-width: 0; display: flex; flex-direction: row; align-items: baseline;
+      flex-wrap: nowrap; gap: 8px; overflow: hidden;
+    }
+    .palace-name { flex-shrink: 0; letter-spacing: .14em; color: var(--cinnabar); font-weight: 600; white-space: nowrap; }
+    .palace-tip {
+      flex: 1; min-width: 0; font-size: 12px; letter-spacing: .04em;
+      white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+    }
     .gua-grid { display: flex; flex-wrap: wrap; gap: 6px; }
     .gua-cell {
       width: calc(25% - 5px); max-width: calc(25% - 5px); box-sizing: border-box;
@@ -17210,9 +17218,9 @@ window.LiuYao = {
             <div class="palace-card">
               <div class="palace-head">
                 <span class="palace-sym">${p.symbol || ''}</span>
-                <div>
-                  <div class="palace-name">${p.title}·${p.wuxing}</div>
-                  <div class="muted" style="font-size:13px;margin-top:2px">${p.tip || ''}</div>
+                <div class="palace-line">
+                  <span class="palace-name">${p.title}·${p.wuxing}</span>
+                  ${p.tip ? `<span class="palace-tip muted">${p.tip}</span>` : ''}
                 </div>
               </div>
               <div class="gua-grid">

@@ -619,10 +619,18 @@
     .palace-head { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; padding-bottom: 8px; border-bottom: 1px dashed var(--line); }
     .palace-sym {
       width: 36px; height: 36px; line-height: 36px; text-align: center;
-      font-size: 22px; color: var(--cinnabar);
+      font-size: 22px; color: var(--cinnabar); flex-shrink: 0;
       border: 1px solid rgba(155,45,36,.25); background: rgba(155,45,36,.05);
     }
-    .palace-name { letter-spacing: .18em; color: var(--cinnabar); font-weight: 600; }
+    .palace-line {
+      flex: 1; min-width: 0; display: flex; flex-direction: row; align-items: baseline;
+      flex-wrap: nowrap; gap: 8px; overflow: hidden;
+    }
+    .palace-name { flex-shrink: 0; letter-spacing: .14em; color: var(--cinnabar); font-weight: 600; white-space: nowrap; }
+    .palace-tip {
+      flex: 1; min-width: 0; font-size: 12px; letter-spacing: .04em;
+      white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+    }
     .gua-grid { display: flex; flex-wrap: wrap; gap: 6px; }
     .gua-cell {
       width: calc(25% - 5px); max-width: calc(25% - 5px); box-sizing: border-box;
