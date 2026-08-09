@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-  <!-- liuyao-preview-build:2026-08-09T02:48:07Z -->
+  <!-- liuyao-preview-build:2026-08-09T02:50:08Z -->
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover" />
   <title>周易研习</title>
@@ -2699,7 +2699,7 @@ function getGuaXiangjie(alias) {
     + '（' + g.palaceWuxing + '）世' + g.shiLabel + ' 应' + g.yingLabel
 
   return Object.assign({}, g, {
-    title: g.fullName + '（' + g.alias + '）',
+    title: g.fullName,
     summary: g.palaceName + '宫' + g.stage + ' · ' + g.theme,
     categoryLabel: '卦典 · ' + g.palaceName + '宫',
     structureText,
@@ -16180,7 +16180,7 @@ window.LiuYao = {
     const alias = state.guaAlias
     const a = window.LiuYao.getGuaXiangjie && window.LiuYao.getGuaXiangjie(alias)
     if (!a) { go('guadian', {}, { replace: true }); return }
-    setNav(a.alias || a.title)
+    setNav(a.title || a.fullName || a.alias)
     const board = (a.yaoBoard || []).map((row) => `
       <div class="yao-row ${row.isShi ? 'is-shi' : ''} ${row.isYing ? 'is-ying' : ''}">
         <div class="yao-pos">
