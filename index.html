@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-  <!-- liuyao-preview-build:2026-08-09T03:29:12Z -->
+  <!-- liuyao-preview-build:2026-08-09T03:29:47Z -->
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover" />
   <title>周易研习</title>
@@ -3231,7 +3231,7 @@ const SAGE_EXTRA = [
   { re: /不远复|修身|频复/, quote: '吾日三省吾身。', from: '《论语·学而》' },
   { re: /迷复|反君道/, quote: '过而不改，是谓过矣。', from: '《论语·卫灵公》' },
   { re: /无妄|不可试/, quote: '非其鬼而祭之，谄也。', from: '《论语·为政》' },
-  { re: /中孚|有孚|信志|鸣鹤/, quote: '人而无信，不知其可也。', from: '《论语·为政》' },
+  { re: /中孚|有孚挛如|鸣鹤|信以发志|孚兑之吉|虞吉/, quote: '人而无信，不知其可也。', from: '《论语·为政》' },
   { re: /苦节|其道穷/, quote: '过犹不及。', from: '《论语·先进》' },
   { re: /家人|反身|嗃嗃|嘻嘻/, quote: '其身正，不令而行。', from: '《论语·子路》' },
   { re: /既济|终日戒|濡其首/, quote: '危者安其位者也，亡者保其存者也。', from: '《系辞》' },
@@ -3296,30 +3296,31 @@ function matchSageExtra(classic, tip, xiaoxiang) {
  */
 function buildYaoSageLine(alias, lineIndex, classic, tip) {
   const xx = getXiaoxiang(alias, lineIndex)
-  const parts = []
+  const chunks = []
   if (xx) {
-    parts.push('《象》曰：「' + xx.replace(/^[「"]|[」"]$/g, '') + '」')
+    const body = xx.replace(/^[「"]+/, '').replace(/[」"]+$/, '').replace(/[。．]+$/, '')
+    let block = '《象》曰：「' + body + '」'
     const gloss = glossXiaoxiang(xx)
-    if (gloss) parts.push(gloss)
+    if (gloss) block += '——' + gloss
+    chunks.push(block)
   }
   const extra = matchSageExtra(classic, tip, xx)
-  if (extra) parts.push('旁参' + extra)
-  return parts.join('。').replace(/。。+/g, '。').trim()
+  if (extra) chunks.push('旁参' + extra)
+  return chunks.join('。').replace(/。{2,}/g, '。').replace(/^[。\s]+|[。\s]+$/g, (m, off, s) => {
+    // 仅去掉首尾多余句号，保留中间
+    return off === 0 ? '' : (m.indexOf('。') >= 0 ? '。' : '')
+  }).replace(/。$/,'') // 末尾不强制句号，由展示决定
+    .trim()
 }
 
 /**
- * 略丰白话：过短则补点睛；避免重复
+ * 白话仅在空缺时用小象点睛补位；有白话则不与 sage 行重复
  */
 function enrichYaoTip(tip, xiaoxiang) {
-  let t = String(tip || '').trim()
+  const t = String(tip || '').trim()
+  if (t) return t.replace(/。{2,}/g, '。')
   const gloss = glossXiaoxiang(xiaoxiang)
-  if (!gloss) return t
-  // 白话过短时，用小象点睛补一句；详解留给 sage 行
-  if (!t) return gloss + '。'
-  if (t.length < 20 && t.indexOf(gloss.slice(0, 4)) < 0) {
-    t = t.replace(/[。．]?$/, '。') + gloss + '。'
-  }
-  return t.replace(/。{2,}/g, '。')
+  return gloss ? gloss + '。' : ''
 }
 
 module.exports = {
