@@ -660,6 +660,52 @@
     .detail-yao.yin { height: 7px; display: flex; }
     .detail-yao.yin .seg { flex: 1; background: var(--ink); border-radius: 1px; }
     .detail-yao.yin .gap { width: 18%; flex: 0 0 18%; }
+    /* 单卦详情：大卦象 + 爻辞对齐 + 白话 */
+    .gd-struct { text-align: center; font-size: 13px; margin-top: 6px; letter-spacing: .04em; }
+    .gd-theme { text-align: center; color: var(--cinnabar); margin: 8px 0; letter-spacing: .08em; font-size: 15px; line-height: 1.5; }
+    .gd-section-head {
+      margin: 16px 0 8px; padding-bottom: 4px; border-bottom: 1px solid var(--line);
+      font-size: 14px; letter-spacing: .22em; color: var(--bronze);
+    }
+    .gd-guaci-box {
+      margin: 6px 0 8px; padding: 10px 12px; border-left: 3px solid var(--cinnabar);
+      background: linear-gradient(90deg, rgba(155,45,36,.07), rgba(155,45,36,.01));
+    }
+    .gd-guaci-classic { font-size: 16px; line-height: 1.75; letter-spacing: .08em; }
+    .gd-guaci-from { text-align: right; margin-top: 6px; font-size: 12px; color: var(--bronze); }
+    .gd-namewhy { font-size: 13px; line-height: 1.65; margin: 6px 0; }
+    .yao-board {
+      margin: 6px 0; padding: 10px 8px; border: 1px solid var(--line-strong);
+      background: rgba(250,246,234,.55);
+    }
+    .yao-row {
+      display: flex; align-items: center; gap: 8px; padding: 7px 2px;
+      border-bottom: 1px dashed rgba(110,90,62,.2);
+    }
+    .yao-row:last-child { border-bottom: none; }
+    .yao-row.is-shi { background: rgba(155,45,36,.05); }
+    .yao-row.is-ying { background: rgba(70,100,90,.05); }
+    .yao-pos { width: 36px; flex-shrink: 0; display: flex; flex-direction: column; align-items: center; gap: 1px; }
+    .pos-label { font-size: 12px; font-weight: 600; letter-spacing: .04em; }
+    .pos-tag { font-size: 10px; line-height: 1.2; padding: 0 3px; color: var(--cinnabar); border: 1px solid rgba(155,45,36,.35); }
+    .pos-tag.ying { color: #3d5c52; border-color: rgba(61,92,82,.4); }
+    .yao-bar-wrap { width: 52px; flex-shrink: 0; display: flex; justify-content: center; }
+    .yao-bar.yang { width: 46px; height: 7px; background: var(--ink); border-radius: 1px; }
+    .yao-bar.yin { width: 46px; height: 7px; display: flex; justify-content: space-between; }
+    .yao-bar.yin .seg { width: 36%; flex: 0 0 36%; background: var(--ink); border-radius: 1px; }
+    .yao-bar.yin .gap { width: 28%; flex: 0 0 28%; }
+    .yao-ci { flex: 1; min-width: 0; font-size: 13px; line-height: 1.4; color: var(--ink-soft); text-align: justify; }
+    .yao-board-tip { text-align: center; font-size: 11px; margin-top: 4px; letter-spacing: .06em; }
+    .plain-block { margin: 0 0 12px; padding: 10px 12px; border: 1px solid var(--line); background: rgba(255,252,245,.8); }
+    .plain-label { font-size: 13px; letter-spacing: .16em; color: var(--cinnabar); margin-bottom: 6px; }
+    .plain-text { font-size: 14px; line-height: 1.7; color: var(--ink-soft); text-align: justify; }
+    .plain-yao { display: flex; gap: 8px; padding: 6px 0; border-bottom: 1px dashed var(--line); }
+    .plain-yao:last-child { border-bottom: none; }
+    .py-pos { width: 28px; flex-shrink: 0; font-size: 12px; font-weight: 600; color: var(--bronze); }
+    .py-classic { font-size: 12px; line-height: 1.45; margin-bottom: 2px; }
+    .py-tip { font-size: 14px; line-height: 1.55; color: var(--ink); }
+    .plain-zhan { font-size: 14px; line-height: 1.6; color: var(--ink-soft); padding: 2px 0; }
+    .detail-note { font-size: 12px; line-height: 1.6; margin: 8px 0; color: var(--mist); }
     .ask-before-note {
       margin-top: 8px; padding: 10px 12px;
       border-top: 1px solid var(--line); border-bottom: 1px solid var(--line);
