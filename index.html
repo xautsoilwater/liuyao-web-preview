@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-  <!-- liuyao-preview-build:2026-08-09T02:53:44Z -->
+  <!-- liuyao-preview-build:2026-08-09T02:59:29Z -->
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover" />
   <title>周易研习</title>
@@ -2717,14 +2717,20 @@ function getGuaXiangjie(alias) {
   })
 }
 
+/** 正则转义（勿用 replace 的 '$&' 写法，嵌入 HTML 打包时会被当成特殊替换符） */
+function escapeRegExp(s) {
+  return String(s || '').replace(/[.*+?^${}()|[\]\\]/g, (ch) => '\\' + ch)
+}
+
 /** 去掉解释开头重复的「初九：… / 初九「原文」：」等前缀 */
 function stripYaoExplainLead(tip, posLabel, classicBody) {
   let t = String(tip || '').trim()
   if (!t) return ''
   const pos = String(posLabel || '')
   if (pos) {
-    t = t.replace(new RegExp('^' + pos.replace(/[.*+?^${}()|[\]\\]/g, '\\<script src="./engine.bundle.js"></script>') + '[「『]?[^」』]*[」』]?[：:]\\s*'), '')
-    t = t.replace(new RegExp('^' + pos.replace(/[.*+?^${}()|[\]\\]/g, '\\<script src="./engine.bundle.js"></script>') + '[：:]\\s*'), '')
+    const ep = escapeRegExp(pos)
+    t = t.replace(new RegExp('^' + ep + '[「『]?[^」』]*[」』]?[：:]\\s*'), '')
+    t = t.replace(new RegExp('^' + ep + '[：:]\\s*'), '')
   }
   // 初爻（开始）：… 这类扩写前缀
   t = t.replace(/^[初上]爻（[^）]+）[：:]\s*/, '')
@@ -2733,13 +2739,12 @@ function stripYaoExplainLead(tip, posLabel, classicBody) {
   if (classicBody) {
     const body = String(classicBody).replace(/[。．.]+$/, '').trim()
     if (body) {
-      const esc = body.replace(/[.*+?^${}()|[\]\\]/g, '\\<script src="./engine.bundle.js"></script>')
+      const esc = escapeRegExp(body)
       t = t.replace(new RegExp('^「' + esc + '」[：:]\\s*'), '')
       t = t.replace(new RegExp('^' + esc + '[：:——\\-]+\\s*'), '')
     }
   }
-  t = t.replace(/^「[^」]+」[：:]\\s*/, '')
-  // 经文大意是「…」。零基础可记：… 中的重复经文句可保留解释部分
+  t = t.replace(/^「[^」]+」[：:]\s*/, '')
   t = t.replace(/。+/g, '。').replace(/^。/, '').trim()
   return t
 }
