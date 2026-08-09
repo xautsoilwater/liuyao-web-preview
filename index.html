@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-  <!-- liuyao-preview-build:2026-08-09T02:35:38Z -->
+  <!-- liuyao-preview-build:2026-08-09T02:36:01Z -->
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover" />
   <title>周易研习</title>
@@ -2650,7 +2650,9 @@ function getGuaXiangjie(alias) {
     const m = classic.match(/^[^：:]+[：:]\s*(.*)$/)
     if (m) classicBody = m[1]
     const bit = yang ? '九' : '六'
-    const posLabel = posNamesTopDown[top] + bit
+    const pos = posNamesTopDown[top]
+    // 传统称谓：初九/上六；中间为九二、六三、九四、九五
+    const posLabel = (pos === '初' || pos === '上') ? (pos + bit) : (bit + pos)
     yaoBoard.push({
       lineIndex,
       yang,
