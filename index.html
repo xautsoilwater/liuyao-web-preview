@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-  <!-- liuyao-preview-build:2026-09-19T09:45:59Z -->
+  <!-- liuyao-preview-build:2026-09-19T09:56:04Z -->
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover" />
   <title>周易研习</title>
@@ -710,6 +710,8 @@
     .yao-board-tip { text-align: center; font-size: 11px; margin-top: 4px; letter-spacing: .06em; }
     .plain-block { margin: 0 0 12px; padding: 10px 12px; border: 1px solid var(--line); background: rgba(255,252,245,.8); }
     .plain-label { font-size: 13px; letter-spacing: .16em; color: var(--cinnabar); margin-bottom: 6px; }
+    .mojia-block { border-color: rgba(110,90,62,.28); background: rgba(246,237,216,.4); }
+    .mojia-block .plain-label { color: var(--bronze); }
     .plain-text { font-size: 14px; line-height: 1.7; color: var(--ink-soft); text-align: justify; }
     .plain-yao { display: flex; gap: 6px; padding: 4px 0; border-bottom: 1px dashed var(--line); align-items: flex-start; }
     .plain-yao:last-child { border-bottom: none; }
@@ -3325,6 +3327,93 @@ module.exports = {
 __mods['./gua64-xiaoxiang'] = __mods['./gua64-xiaoxiang'];
 
 
+__mods["./gua64-mojia"] = { exports: {} };
+(function(module, exports, require){
+/**
+ * 六十四卦 · 墨家旁参
+ * 十翼义理仍以儒家为骨；此处只在卦德可对照处补兼爱、交相利、节用、非攻、尚贤、非命。
+ * 不作门户对打，也不代替占断。
+ */
+const MOJIA = {
+  乾: '墨家讲强力从事、非命：健不是听天由命，是日夜把可做的做完。刚健用来兴利除害，不拿来伐无罪之国（非攻）。',
+  姤: '突遇先问交相利：对双方有没有实利，不因私情立刻绑定。兼爱不是一见倾心，是慢慢把利摊开看。',
+  遁: '墨家不尚隐逸。退可以避不义之攻、节省民力，却不是把天下交给不义。抽身之后，该救的仍救。',
+  遯: '墨家不尚隐逸。退可以避不义之攻、节省民力，却不是把天下交给不义。抽身之后，该救的仍救。',
+  否: '上下不交，兼爱落空。先节用、保民力，等通道再开；空耗、硬攻，都是交相害。',
+  观: '省方观民近天志：看百姓是否得利、赏罚是否公。童观浅，是因为没看见「兼利」，只看见自己。',
+  剥: '基础被剥，先节用固本、止损保民。硕果不食是留公共之种，不是私藏过冬。',
+  晋: '尚贤：进用看功实，不看门第。昼日三接可以，但进位须能利人，否则只是自明。',
+  大有: '所有盛大，最要节用、散利。财聚于上而不及下，墨家以为不仁；善用比拥有更要紧。',
+  坤: '厚载可转成利人：承载不是卑屈，是让众人有所依。先迷后得主，这「主」应是能兼爱、能办事的人。',
+  复: '一阳来复，非命——路要自己走回来。兼爱从近处恢复，再推及远人，勿因一次迷途就认命。',
+  临: '亲临近爱利百姓。甘临无实，是空言悦人，墨家最戒。盛而不节，必伤民，故有八月之戒。',
+  泰: '上下交通，才有交相利。小往大来若只利一方，仍是否象。通是为了互利，不是为了吞并。',
+  大壮: '非攻。力强而用壮，正是攻伐之始；有力而不伤，才是壮得其所。',
+  夬: '除害可，即戎不可。扬于王庭是公开说理、赏罚公，不是用兵压人。',
+  需: '待时是准备，不是听命。有孚、有储备，才算强力从事；空等，是把「命」当成借口。',
+  比: '亲附要正。只比其亲、后来者凶，是偏爱。兼爱是可亲之人不限亲疏，私党则交相害。',
+  震: '震来修省，近天志警戒：怕的是亏人，不是怕命。主心不失，才能在变故里护住众人。',
+  豫: '可以动、可以鼓舞，但非乐戒逸乐耗民。建侯行师须为公利；鸣豫享乐，则与兼爱相反。',
+  解: '松动之后除害务尽，却勿转成新的攻伐。名实倒（负且乘），最易招交相害。',
+  恒: '兼爱要能久。口头爱人、行事害人，是不恒其德。交相利经得起重复，才叫恒。',
+  升: '循序上升是尚贤、积功。南征若为兴利则可；若为开边夺民，则背非攻。',
+  井: '井是公共取用。改邑不改井，近兼利；井泥不修、成功即幕，都是把公器变成私产。',
+  大过: '墨者有赴火蹈刃。过重之担可以为救人，不可以为名。栋桡则改结构，勿让众人陪葬。',
+  随: '所随之人须能利天下。随私欲、随不义之强，看着是顺，实是交相害。',
+  巽: '申命是为齐一标准（尚同），使赏罚公、民知所从。过卑而无断，则失去从事之力。',
+  小畜: '积蓄近节用。密云不雨，是尚未利人；畜而不散于用，仍止于自保。',
+  家人: '墨家不废孝慈，却要把爱从家推到「兼」：家齐之后，勿只利自家人。',
+  益: '损上益下，最合交相利。迁善改过是强力从事；贪得无厌，则益转为击。',
+  无妄: '天志：动以天，勿以伪。匪正有眚，不是宿命，是害人者必食其报。不耕而获，墨家不许。',
+  噬嗑: '明罚是去间隔、复兼利。赏贤罚暴可以，逞刑不可以；狱为公义，不为泄愤。',
+  颐: '自求口实，节饮食慎言语，近节用。养自己也养人；朵颐只顾口腹，则失兼爱。',
+  蛊: '干蛊是治旧弊。整顿为节用利民；拖延是让害继续，裕蛊则吝。',
+  坎: '行险不失信。墨家重信，险中仍交相利；再入新险，是攻伐自己和同伴。',
+  节: '节以制度，不伤财不害民，几乎是节用本义。苦节伤人，过严与奢侈一样背兼爱。',
+  屯: '始难宜立本。建侯是立能利众之人，不是抢先占地。急求结果，易伤后来者。',
+  既济: '事成最易浪费。节用慎终；以为已定而松力，正是墨家所非之「命」。',
+  革: '诛暴可，攻无罪不可。先取信于民，变才是兼利；只改名号、不改利害，仍是旧局。',
+  丰: '盛时最需节用。日中则昃，奢乐伤民，正是非乐所戒。声势足，更要办事不伤本。',
+  明夷: '光明受伤仍守义。墨者赴难，不是弃弱；艰贞是为众人留一条路，不是独善。',
+  师: '众行以律、将须正，近「诛」不近「攻」。舆尸是多头攻伐，害民最大。出师为义，不为扩地。',
+  离: '明要能用。文明若只附丽装饰，近非乐所斥；畜牝牛是养可久之实，不是养场面。',
+  旅: '羁旅最见兼爱：对远人、客人肯不肯利之。琐琐自利，必取灾。',
+  鼎: '尚贤。鼎新在用人与分器；不胜其任而折足，害的是众人的食。',
+  未济: '差一步仍须用力（非命）。饮酒濡首，是在成功幻觉里浪费，也最易失信。',
+  蒙: '教而不渎。尚贤从启蒙起：自愿受教则可，包蒙是养可造之人，击蒙勿变成害人。',
+  涣: '解散私党、立公共之标准（尚同）。涣其群元吉，正是破偏爱、复兼利。',
+  讼: '争则相害。宜止于理、求公义。墨家以交相利代相讼；终讼穷追，必两败。',
+  同人: '同人于野则亨、于宗则吝，与兼爱几乎同调。公开合作、利及外人，勿只认自己人。',
+  艮: '止不义、止攻伐。思不出其位，是各尽其职以利人，不是冷漠旁观。',
+  贲: '文饰可润事，不可伤财害民。白贲无咎，最合节用、非乐：质在，文可减。',
+  大畜: '尚贤畜德。不家食吉：贤能当用于公，不只养于家。防患之牿，是为众人，不是为炫耀。',
+  损: '损下益上必须有孚。墨家更警惕损民奉上；二簋可用享，诚重于奢，是节用。',
+  睽: '志不同仍可交利。兼爱不问亲疏、不问气味相投；先从可利的小事做起。',
+  履: '礼若能使人不害人，墨家不反对；反对的是虚礼排场。履险靠守信与实慎，不靠仪式。',
+  中孚: '诚信化邦。微物亦信则豚鱼吉；虚声登天则凶。墨家最恶空名，要看做没做到。',
+  渐: '进以利民为序。骤变伤人，故宜渐进；不是维护旧贵，是怕一步迈大、脚下的人摔着。',
+  兑: '言要有用。朋友讲习可以，佞悦来兑则近害民。把利害谈清楚再定，才是交相利。',
+  困: '非命。言不见信时仍可为义而困，不是认命。酒食之困，或可转为交利之机，勿无效消耗。',
+  萃: '聚要有公心。共同标准（尚同）才能聚；聚私利则乱。有庙，是有大家认的义，不是有山头。',
+  咸: '感应要落到交利。只动口舌是空咸；真兼爱在互相有益，不只情动。',
+  蹇: '难中互助。朋来、来反，是交相利；不拿众人去填坑，也不独自硬闯。',
+  谦: '亏盈益谦近节用、尚贤。功成不独占；若要动兵，须师出有名，否则是攻。',
+  小过: '可小事不可大事，宜下不宜上：力用在可验证的利民处，勿越级伤人。',
+  归妹: '名实要符。承筐无实是空礼。急定而无实，看起来成了，实是交相害。'
+}
+
+function getMojia(alias) {
+  if (!alias) return ''
+  return MOJIA[alias] || ''
+}
+
+module.exports = { MOJIA, getMojia }
+
+})(__mods["./gua64-mojia"], __mods["./gua64-mojia"].exports, __require);
+
+__mods['./gua64-mojia'] = __mods['./gua64-mojia'];
+
+
 __mods["./gua64-xiangjie"] = { exports: {} };
 (function(module, exports, require){
 /**
@@ -3334,6 +3423,7 @@ __mods["./gua64-xiangjie"] = { exports: {} };
 const { GUA64_NAMES, PALACES, SHI_POS, TRIGRAMS, linesToTrigramKey } = require('./bagua')
 const { getGuaCi } = require('./guaci')
 const { getBaihua } = require('./gua64-baihua')
+const { getMojia } = require('./gua64-mojia')
 const { getXiaoxiang, buildYaoSageLine, enrichYaoTip } = require('./gua64-xiaoxiang')
 
 const STAGE = ['本宫', '一世', '二世', '三世', '四世', '五世', '游魂', '归魂']
@@ -3392,7 +3482,8 @@ function buildGuaRecords() {
         guaciYi: (bh && bh.g) || ex.g || ('大意：' + theme),
         yili: (bh && bh.y) || ex.y || theme,
         zhan: (bh && bh.z) || ex.z || [theme],
-        yaoYi
+        yaoYi,
+        mojia: getMojia(alias) || getMojia(meta.name) || ''
       })
     })
   }
@@ -3417,6 +3508,9 @@ function blocksForGua(g, opts) {
     blocks.push(p('卦辞解释：' + g.guaciYi))
   }
   blocks.push(p('义理提要：' + g.yili))
+  if (g.mojia) {
+    blocks.push(p('墨家旁参：' + g.mojia))
+  }
   const yaoItems = (g.yaoci || []).map((line, i) => {
     const tip = (g.yaoYi && g.yaoYi[i]) ? g.yaoYi[i] : ''
     return tip ? (line + ' ／ ' + tip) : line
@@ -3483,7 +3577,7 @@ function buildGuadianArticles() {
     blocks: [
       p('本卦典按京房八宫编排六十四卦。请打开「卦典总图」浏览并点选单卦。'),
       p('若从本页进入，请返回研习目录后再次点选「六十四卦卦典」，将进入八宫可点选目录。'),
-      note('每卦含：结构、京房定位、取象、卦辞、六爻、义理、占事。')
+      note('每卦含：结构、京房定位、取象、卦辞、六爻、义理、墨家旁参、占事。义理以十翼为骨，墨家兼爱、节用、非攻、非命作对照，不作门户对打。')
     ]
   }]
 }
@@ -3655,6 +3749,7 @@ function getGuaXiangjie(alias) {
     // 白话区
     plainGuaci: g.guaciYi,
     plainYili: g.yili,
+    plainMojia: g.mojia || '',
     plainZhan: g.zhan || [],
     // 爻辞解释：原文+白话+圣言连写，一行通顺、不拆块
     plainYao: yaoBoard.map((row) => {
@@ -17770,8 +17865,9 @@ window.LiuYao = {
             ${plainYao}
           </div>
           ${a.plainYili ? `<div class="plain-block"><div class="plain-label">义理提要</div><div class="plain-text">${a.plainYili}</div></div>` : ''}
+          ${a.plainMojia ? `<div class="plain-block mojia-block"><div class="plain-label">墨家旁参</div><div class="plain-text">${a.plainMojia}</div></div>` : ''}
           ${plainZhan ? `<div class="plain-block"><div class="plain-label">占事要点</div>${plainZhan}</div>` : ''}
-          <div class="detail-note muted">断具体人事仍须合用神、动变、日月；本篇为卦德与辞象教材，不作绝对预言。</div>
+          <div class="detail-note muted">断具体人事仍须合用神、动变、日月。义理以十翼儒家为骨，墨家兼爱交利作旁参；本篇为卦德与辞象教材，不作绝对预言。</div>
         </div>
       </div>
       <div class="footer-actions">
