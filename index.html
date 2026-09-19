@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-  <!-- liuyao-preview-build:2026-08-09T04:33:01Z -->
+  <!-- liuyao-preview-build:2026-09-19T08:38:28Z -->
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover" />
   <title>周易研习</title>
@@ -1262,55 +1262,17 @@
     .luopan-hud #hud-deg { font-size: 25px; font-weight:600; color:var(--ink); font-variant-numeric:tabular-nums; }
     .luopan-hud .hud-sub { margin-top:4px; font-size: 16px; letter-spacing:.12em; color:rgba(28,24,20,.5); display:flex; justify-content:center; gap:6px; }
     .luopan-hud #hud-mountain { color:rgba(155,45,36,.88); font-weight:700; font-size: 17px; }
-    .luopan-tools { display:flex; justify-content:space-between; width:min(70vw,276px); margin:0 auto 2px; }
     .luopan-controls { position:relative; z-index:5; }
-    .lp-tool {
-      border:1px solid var(--line-strong); background:rgba(250,246,234,.75); color:var(--ink-soft);
-      font-size: 15px; letter-spacing:.16em; padding:4px 10px; cursor:pointer; font-family:inherit;
+    .lucky-hint {
+      margin-top: 6px; text-align: center; font-size: 12px;
+      letter-spacing: .08em; color: rgba(28,24,20,.48); line-height: 1.4;
     }
-    .lp-tool.on { color:var(--cinnabar); border-color:rgba(155,45,36,.45); background:rgba(155,45,36,.08); }
-    .direction-dismiss {
-      position: fixed; inset: 0; z-index: 11; background: transparent;
-    }
-    .direction-card {
-      position:absolute; left:50%; top:calc(100% + 12px); z-index:12;
-      width:min(88vw,360px); margin:0; padding:10px 12px;
-      transform:translateX(-50%);
-      border:1px solid rgba(155,45,36,.28); background:rgba(250,246,234,.96);
-      box-shadow:0 6px 16px rgba(28,24,20,.08);
-    }
-    .direction-title {
-      text-align:center; color:var(--cinnabar); font-size:14px;
-      letter-spacing:.22em; text-indent:.22em; margin-bottom:7px;
-    }
-    .direction-tabs { display:flex; justify-content:center; gap:7px; margin-bottom:7px; }
-    .direction-tabs button {
-      min-width:58px; padding:4px 7px; border:0; border-bottom:2px solid transparent;
-      background:transparent; color:rgba(28,24,20,.55); font:inherit; font-size:12px;
-      letter-spacing:.12em; cursor:pointer;
-    }
-    .direction-tabs button.on { color:var(--cinnabar); border-bottom-color:var(--cinnabar); }
-    .direction-grid { display:grid; grid-template-columns:1fr 1fr; gap:7px; }
-    .direction-item {
-      padding:6px 4px; text-align:center; border-bottom:1px solid rgba(28,24,20,.1);
-    }
-    .direction-item span,
-    .direction-item strong { display:block; }
-    .direction-item span { color:rgba(28,24,20,.55); font-size:11px; letter-spacing:.1em; margin-bottom:3px; }
-    .direction-item strong { color:var(--ink); font-size:12px; line-height:1.45; font-weight:500; }
-    .direction-note {
-      margin-top:8px; color:rgba(28,24,20,.58); font-size:11px;
-      line-height:1.55; text-align:center;
-    }
-    .direction-guide { padding:8px 4px 2px; text-align:center; font-size:13px; }
-    .direction-guide strong {
-      display:block; margin-top:5px; color:var(--cinnabar); font-size:18px; letter-spacing:.06em;
-    }
-    .direction-guide p { margin:7px 0 0; color:rgba(28,24,20,.58); font-size:11px; line-height:1.5; }
+    .lucky-hint.on { color: var(--cinnabar); font-weight: 600; }
     .luopan-wrap {
-      position: relative; width: min(70vw, 276px); margin: 0 auto;
+      position: relative; width: min(78vw, 320px); margin: 0 auto;
       filter: drop-shadow(0 12px 22px rgba(28,24,20,.12));
       touch-action: none; cursor: grab; user-select: none;
+      overflow: visible;
     }
     .luopan-wrap:active { cursor: grabbing; }
     #heading-readout { cursor: pointer; }
@@ -6888,6 +6850,121 @@ module.exports = {
 }
 
 })(__mods["./ganzhi"], __mods["./ganzhi"].exports, __require);
+
+
+__mods["./jixiang"] = { exports: {} };
+(function(module, exports, require){
+/**
+ * 今日吉位：通书日干三神方位（喜神、财神、福神）。
+ * 歌诀：
+ *   喜神  甲己在艮乙庚乾，丙辛坤位丁壬离，戊癸原来在巽间
+ *   财神  甲艮乙坤丙丁兑，戊己财神坐坎位，庚辛正东壬癸南
+ *   福神  甲己正北是福神，丙辛西北乾宫存，乙庚坤位戊癸艮，丁壬巽上妙追寻
+ * 仅作传统文化测向参考，不直接判断吉凶。
+ */
+const { getDayPillar } = require('./ganzhi')
+
+const DIR = {
+  北: { dir: '正北', gua: '坎', compass: 0, plateDeg: 180 },
+  东北: { dir: '东北', gua: '艮', compass: 45, plateDeg: 225 },
+  东: { dir: '正东', gua: '震', compass: 90, plateDeg: 270 },
+  东南: { dir: '东南', gua: '巽', compass: 135, plateDeg: 315 },
+  南: { dir: '正南', gua: '离', compass: 180, plateDeg: 0 },
+  西南: { dir: '西南', gua: '坤', compass: 225, plateDeg: 45 },
+  西: { dir: '正西', gua: '兑', compass: 270, plateDeg: 90 },
+  西北: { dir: '西北', gua: '乾', compass: 315, plateDeg: 135 }
+}
+
+const XI_SHEN = {
+  甲: '东北', 己: '东北',
+  乙: '西北', 庚: '西北',
+  丙: '西南', 辛: '西南',
+  丁: '南', 壬: '南',
+  戊: '东南', 癸: '东南'
+}
+
+const CAI_SHEN = {
+  甲: '东北',
+  乙: '西南',
+  丙: '西', 丁: '西',
+  戊: '北', 己: '北',
+  庚: '东', 辛: '东',
+  壬: '南', 癸: '南'
+}
+
+const FU_SHEN = {
+  甲: '北', 己: '北',
+  乙: '西南', 庚: '西南',
+  丙: '西北', 辛: '西北',
+  丁: '东南', 壬: '东南',
+  戊: '东北', 癸: '东北'
+}
+
+const GOD_ORDER = ['喜神', '财神', '福神']
+
+function dirOf(name) {
+  const hit = DIR[name]
+  if (!hit) throw new Error(`未知方位 ${name}`)
+  return hit
+}
+
+function luckyByGan(gan) {
+  if (!XI_SHEN[gan]) throw new Error(`未知日干 ${gan}`)
+  const gods = [
+    { god: '喜神', dir: XI_SHEN[gan] },
+    { god: '财神', dir: CAI_SHEN[gan] },
+    { god: '福神', dir: FU_SHEN[gan] }
+  ]
+  const grouped = []
+  gods.forEach((item) => {
+    let bucket = grouped.find((g) => g.dir === item.dir)
+    if (!bucket) {
+      const meta = dirOf(item.dir)
+      bucket = {
+        dir: meta.dir,
+        gua: meta.gua,
+        compass: meta.compass,
+        plateDeg: meta.plateDeg,
+        gods: []
+      }
+      grouped.push(bucket)
+    }
+    bucket.gods.push(item.god)
+  })
+  grouped.forEach((item) => {
+    item.gods.sort((a, b) => GOD_ORDER.indexOf(a) - GOD_ORDER.indexOf(b))
+    item.label = item.gods.join('·')
+  })
+  grouped.sort((a, b) => a.compass - b.compass)
+  return grouped
+}
+
+function buildLuckyDirections(dateInput) {
+  const date = dateInput ? new Date(dateInput) : new Date()
+  if (Number.isNaN(date.getTime())) throw new Error('历日时间无效')
+  const day = getDayPillar(date)
+  const marks = luckyByGan(day.gan)
+  const summary = marks.map((item) => `${item.label}${item.dir}`).join(' · ')
+  return {
+    date: `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}`,
+    gan: day.gan,
+    zhi: day.zhi,
+    dayText: day.text,
+    marks,
+    summary
+  }
+}
+
+module.exports = {
+  DIR,
+  XI_SHEN,
+  CAI_SHEN,
+  FU_SHEN,
+  luckyByGan,
+  buildLuckyDirections
+}
+
+})(__mods["./jixiang"], __mods["./jixiang"].exports, __require);
 
 
 __mods["./rules"] = { exports: {} };
@@ -15713,6 +15790,7 @@ var meihua = __require('./meihua');
 var askOptions = __require('./ask-options');
 var learning = __require('../data/learning');
 var guadian = __require('./gua64-xiangjie');
+var jixiang = __require('./jixiang');
 window.LiuYao = {
   tossThreeCoins: coin.tossThreeCoins,
   manualYao: coin.manualYao,
@@ -15735,7 +15813,9 @@ window.LiuYao = {
   normalizeArticle: learning.normalizeArticle,
   buildPalaceCatalog: guadian.buildPalaceCatalog,
   getGuaXiangjie: guadian.getGuaXiangjie,
-  GUA_STAGE: guadian.STAGE
+  GUA_STAGE: guadian.STAGE,
+  buildLuckyDirections: jixiang.buildLuckyDirections,
+  luckyByGan: jixiang.luckyByGan
 };
 })();
 </script>
@@ -15779,9 +15859,8 @@ window.LiuYao = {
     compassHeading: 0,
     compassReady: false,
     plateDeg: -180,
-    locked: false,
-    compassInfoOpen: false,
-    compassInfoTab: 'measure',
+    luckyOpen: false,
+    luckyPack: null,
     compassStability: '等待感应',
     topicKey: 'general',
     articleId: null,
@@ -16019,12 +16098,28 @@ window.LiuYao = {
       const p = polar(cx, cy, 152, d.deg)
       return `<text x="${p.x}" y="${p.y + 4}" text-anchor="middle" transform="rotate(${d.deg} ${p.x} ${p.y})" fill="rgba(143,38,31,0.75)" font-size="10" font-weight="700">${d.n}</text>`
     }).join('')
+    const guaFill = state.luckyOpen ? '#a03328' : '#3a3028'
     const guaTexts = bagua.map((b) => {
       const p = polar(cx, cy, 112, b.deg)
-      return `<g transform="translate(${p.x.toFixed(2)},${p.y.toFixed(2)}) rotate(${b.deg})">
-        ${guaBarsSvg(b.lines, 0, -10, b.color)}
-        <text x="0" y="14" text-anchor="middle" fill="${b.color}" font-size="13" font-weight="700">${b.n}</text>
-        <text x="0" y="26" text-anchor="middle" fill="${b.color}" font-size="8" font-weight="600">${b.tip}</text>
+      return `<g data-lucky-toggle="1" transform="translate(${p.x.toFixed(2)},${p.y.toFixed(2)}) rotate(${b.deg})" style="cursor:pointer">
+        <circle cx="0" cy="8" r="28" fill="${state.luckyOpen ? 'rgba(160,51,40,0.08)' : 'rgba(0,0,0,0)'}"/>
+        ${guaBarsSvg(b.lines, 0, -10, guaFill)}
+        <text x="0" y="14" text-anchor="middle" fill="${guaFill}" font-size="13" font-weight="700">${b.n}</text>
+        <text x="0" y="26" text-anchor="middle" fill="${guaFill}" font-size="8" font-weight="600">${b.tip}</text>
+      </g>`
+    }).join('')
+    const luckyMarks = (state.luckyOpen && state.luckyPack && state.luckyPack.marks || []).map((m) => {
+      const outer = polar(cx, cy, 218, m.plateDeg)
+      const inner = polar(cx, cy, 200, m.plateDeg)
+      return `<g class="lucky-mark" pointer-events="none">
+        <line x1="${inner.x.toFixed(1)}" y1="${inner.y.toFixed(1)}" x2="${outer.x.toFixed(1)}" y2="${outer.y.toFixed(1)}" stroke="#a03328" stroke-width="1.6"/>
+        <circle cx="${outer.x.toFixed(1)}" cy="${outer.y.toFixed(1)}" r="3.2" fill="#a03328"/>
+        <g transform="translate(${outer.x.toFixed(1)},${outer.y.toFixed(1)})">
+          <g data-lucky-upright="1" transform="rotate(${-rot})">
+            <text y="-14" text-anchor="middle" fill="#a03328" stroke="#faf3e4" stroke-width="4" paint-order="stroke" font-size="11" font-weight="700">${m.label}</text>
+            <text y="-2" text-anchor="middle" fill="#a03328" stroke="#faf3e4" stroke-width="4" paint-order="stroke" font-size="9">${m.dir}</text>
+          </g>
+        </g>
       </g>`
     }).join('')
     const gans = [['甲乙', '木'], ['丙丁', '火'], ['戊己', '土'], ['庚辛', '金'], ['壬癸', '水']]
@@ -16036,7 +16131,7 @@ window.LiuYao = {
     }).join('')
 
     return `
-      <svg viewBox="0 0 400 456" xmlns="http://www.w3.org/2000/svg" aria-label="后天八卦罗盘 · 准星指南针">
+      <svg viewBox="-40 -48 480 544" xmlns="http://www.w3.org/2000/svg" aria-label="后天八卦罗盘 · 准星指南针">
         <defs></defs>
         <g id="luopan-plate" transform="rotate(${rot} 200 200)">
           <circle cx="200" cy="200" r="198" fill="#e6d4b0" stroke="#46341c" stroke-width="3"/>
@@ -16052,14 +16147,17 @@ window.LiuYao = {
           ${dirTexts}
           ${mountainTexts}
           ${guaTexts}
+          ${luckyMarks}
         </g>
         <!-- 固定准星 -->
+        <g pointer-events="none">
         <line x1="200" y1="8" x2="200" y2="392" stroke="rgba(160,51,40,0.7)" stroke-width="1.5"/>
         <line x1="40" y1="200" x2="360" y2="200" stroke="rgba(160,51,40,0.35)" stroke-width="1"/>
         <polygon points="200,4 206,16 194,16" fill="#a03328"/>
         <circle cx="200" cy="200" r="4" fill="#a03328" stroke="#faf3e4" stroke-width="1.5"/>
+        </g>
         <circle cx="200" cy="200" r="46" fill="#f0e4c8" stroke="rgba(20,15,12,0.16)" stroke-width="1"/>
-        <circle cx="200" cy="200" r="46" fill="none" stroke="rgba(143,38,31,0.1)" stroke-width="3"/>
+        <circle cx="200" cy="200" r="46" fill="none" stroke="${state.luckyOpen ? 'rgba(160,51,40,0.35)' : 'rgba(143,38,31,0.1)'}" stroke-width="3"/>
         <circle cx="200" cy="200" r="34" fill="#f6eedc" stroke="rgba(20,15,12,0.42)" stroke-width="1.5"/>
         <g>
           <animateTransform attributeName="transform" type="rotate" from="0 200 200" to="360 200 200" dur="56s" repeatCount="indefinite"/>
@@ -16069,6 +16167,7 @@ window.LiuYao = {
           <circle cx="200" cy="183" r="5" fill="#f6eedc"/>
           <circle cx="200" cy="217" r="5" fill="#140f0c"/>
         </g>
+        <circle data-lucky-toggle="1" cx="200" cy="200" r="46" fill="rgba(0,0,0,0)" style="cursor:pointer"/>
         ${ganRow}
       </svg>`
   }
@@ -16083,75 +16182,6 @@ window.LiuYao = {
   function mountainOf(deg) {
     const d = ((deg % 360) + 360) % 360
     return MOUNTAIN_NAMES[Math.round(d / 15) % 24]
-  }
-  function directionInfoOf(deg) {
-    const d = ((deg % 360) + 360) % 360
-    const infos = [
-      ['坎', '水', '冬', '子时', '静藏蓄势'],
-      ['艮', '土', '冬春之交', '丑寅时', '止而后动'],
-      ['震', '木', '春', '卯时', '发动生长'],
-      ['巽', '木', '春夏之交', '辰巳时', '入而渐进'],
-      ['离', '火', '夏', '午时', '明察显达'],
-      ['坤', '土', '夏秋之交', '未申时', '厚载包容'],
-      ['兑', '金', '秋', '酉时', '和悦收敛'],
-      ['乾', '金', '秋冬之交', '戌亥时', '刚健自强']
-    ]
-    const mountainIndex = Math.round(d / 15) % 24
-    const center = mountainIndex * 15
-    const start = ((center - 7.5) % 360 + 360) % 360
-    const end = (center + 7.5) % 360
-    const sitDeg = (d + 180) % 360
-    const info = infos[Math.round(d / 45) % 8]
-    return {
-      sitDir: dirNameOf(sitDeg),
-      sitDeg: Math.round(sitDeg * 10) / 10,
-      sitMountain: mountainOf(sitDeg),
-      range: `${start}°—${end}°`,
-      trigram: info[0],
-      element: info[1],
-      season: info[2],
-      shichen: info[3],
-      meaning: info[4],
-      adjacent: `${MOUNTAIN_NAMES[(mountainIndex + 23) % 24]}山 · ${MOUNTAIN_NAMES[(mountainIndex + 1) % 24]}山`
-    }
-  }
-  function placeDegreeOf(place) {
-    const p = String(place || '')
-    if (p.includes('东北')) return 45
-    if (p.includes('东南')) return 135
-    if (p.includes('西南')) return 225
-    if (p.includes('西北')) return 315
-    if (p.includes('东')) return 90
-    if (p.includes('南')) return 180
-    if (p.includes('西')) return 270
-    if (p.includes('北')) return 0
-    return null
-  }
-  function turnHintOf(current, target) {
-    let delta = target - current
-    while (delta > 180) delta -= 360
-    while (delta < -180) delta += 360
-    if (Math.abs(delta) < 4) return '已对准目标方向'
-    return `${delta > 0 ? '向右' : '向左'}转约 ${Math.round(Math.abs(delta))}°`
-  }
-  function currentDirectionGuide(heading) {
-    const candidates = [state.cast, state.meihua]
-      .filter(item => item && item.askMeta && item.askMeta.mode === 'where')
-      .sort((a, b) => new Date(b.createdAt || 0) - new Date(a.createdAt || 0))
-    const cast = candidates[0]
-    if (!cast) return null
-    let place = cast.ask && cast.ask.place
-    if (!place && cast.changingIndexes) {
-      const reading = window.LiuYao.interpret(cast, cast.askMeta.topicKey || 'general')
-      place = reading && reading.judgment && reading.judgment.place
-    }
-    const target = placeDegreeOf(place)
-    if (target == null) return null
-    return {
-      focus: cast.askMeta.focus || '所问之事',
-      place,
-      turn: turnHintOf(heading, target)
-    }
   }
   function headingFromPlate(plateDeg) {
     return (((-plateDeg - 180) % 360) + 360) % 360
@@ -16174,11 +16204,6 @@ window.LiuYao = {
     const hudDir = document.getElementById('hud-dir')
     const hudDeg = document.getElementById('hud-deg')
     const hudMountain = document.getElementById('hud-mountain')
-    const infoFacing = document.getElementById('info-facing')
-    const infoSitting = document.getElementById('info-sitting')
-    const infoRange = document.getElementById('info-range')
-    const infoTrigram = document.getElementById('info-trigram')
-    const lockBtn = document.getElementById('compass-lock')
     const h = state.compassReady
       ? state.compassHeading
       : headingFromPlate(state.plateDeg)
@@ -16186,19 +16211,14 @@ window.LiuYao = {
     if (hudDir) hudDir.textContent = dirNameOf(h)
     if (hudDeg) hudDeg.textContent = `${(Math.round(h * 10) / 10)}°`
     if (hudMountain) hudMountain.textContent = `${mountainOf(h)}山`
-    const info = directionInfoOf(h)
-    if (infoFacing) infoFacing.textContent = `${dirNameOf(h)} · ${Math.round(h * 10) / 10}° · ${mountainOf(h)}山`
-    if (infoSitting) infoSitting.textContent = `${info.sitDir} · ${info.sitDeg}° · ${info.sitMountain}山`
-    if (infoRange) infoRange.textContent = info.range
-    if (infoTrigram) infoTrigram.textContent = `${info.trigram}卦 · ${info.element}`
-    if (lockBtn) {
-      lockBtn.textContent = state.locked ? '已锁' : '锁定'
-      lockBtn.classList.toggle('on', !!state.locked)
-    }
+    const rot = state.plateDeg == null ? -180 : state.plateDeg
+    document.querySelectorAll('[data-lucky-upright]').forEach((el) => {
+      el.setAttribute('transform', `rotate(${-rot})`)
+    })
   }
 
   function applyLiveHeading(heading) {
-    if (state._dragging || state.locked) return
+    if (state._dragging) return
     const h = ((Number(heading) % 360) + 360) % 360
     state._headingSamples = state._headingSamples || []
     state._headingSamples.push(h)
@@ -16218,63 +16238,72 @@ window.LiuYao = {
     paintLuopanLive()
   }
 
+  function compassCenter(wrap) {
+    const svg = wrap.querySelector('svg')
+    const box = (svg || wrap).getBoundingClientRect()
+    const vb = svg && svg.viewBox && svg.viewBox.baseVal
+    if (!vb || !vb.width) {
+      return { x: box.left + box.width / 2, y: box.top + box.width / 2 }
+    }
+    const scale = box.width / vb.width
+    return {
+      x: box.left + (200 - vb.x) * scale,
+      y: box.top + (200 - vb.y) * scale
+    }
+  }
+
+  function isLuckyHit(target) {
+    if (!target || !target.closest) return false
+    return !!target.closest('[data-lucky-toggle]')
+  }
+
+  function toggleLucky() {
+    const now = Date.now()
+    if (toggleLucky._at && now - toggleLucky._at < 400) return
+    toggleLucky._at = now
+    state.luckyOpen = !state.luckyOpen
+    if (state.luckyOpen && window.LiuYao && window.LiuYao.buildLuckyDirections) {
+      state.luckyPack = window.LiuYao.buildLuckyDirections(new Date())
+    } else {
+      state.luckyPack = null
+    }
+    render()
+  }
+
   function bindLuopanInteractions() {
     const wrap = document.getElementById('luopan-wrap')
     if (!wrap) return
-    const lockBtn = document.getElementById('compass-lock')
-    const infoBtn = document.getElementById('compass-info')
-    const directionDismiss = document.getElementById('direction-dismiss')
-    if (directionDismiss) {
-      directionDismiss.onclick = (ev) => {
-        ev.preventDefault()
-        state.compassInfoOpen = false
-        render()
-      }
-    }
-    if (infoBtn) {
-      infoBtn.onclick = (ev) => {
-        ev.preventDefault()
-        ev.stopPropagation()
-        state.compassInfoOpen = !state.compassInfoOpen
-        render()
-        requestCompassPermission(true)
-      }
-    }
-    app.querySelectorAll('[data-direction-tab]').forEach((el) => {
-      el.onclick = (ev) => {
-        ev.preventDefault()
-        ev.stopPropagation()
-        state.compassInfoTab = el.dataset.directionTab || 'measure'
-        render()
-      }
-    })
-    if (lockBtn) {
-      lockBtn.onclick = (ev) => {
-        ev.preventDefault()
-        ev.stopPropagation()
-        state.locked = !state.locked
-        paintLuopanLive()
-        if (!state.locked) requestCompassPermission(false)
-      }
-    }
-    const centerOf = () => {
-      const svg = wrap.querySelector('svg')
-      const box = (svg || wrap).getBoundingClientRect()
-      return { x: box.left + box.width / 2, y: box.top + box.width / 2 }
-    }
+    const centerOf = () => compassCenter(wrap)
     const angleAt = (clientX, clientY, c) =>
       (Math.atan2(clientY - c.y, clientX - c.x) * 180) / Math.PI
 
     wrap.onmousedown = (e) => {
-      if (state.locked) return
+      if (isLuckyHit(e.target)) return
       e.preventDefault()
+      state._didDrag = false
       state._dragging = true
       state._lastDragAng = angleAt(e.clientX, e.clientY, centerOf())
     }
+    wrap.onclick = (e) => {
+      if (state._didDrag) {
+        state._didDrag = false
+        return
+      }
+      if (isLuckyHit(e.target)) {
+        e.preventDefault()
+        e.stopPropagation()
+        toggleLucky()
+      }
+    }
     wrap.ontouchstart = (e) => {
-      if (state.locked) return
       const t = e.touches[0]
       if (!t) return
+      state._didDrag = false
+      if (isLuckyHit(e.target)) {
+        state._luckyTap = true
+        return
+      }
+      state._luckyTap = false
       state._dragging = true
       state._lastDragAng = angleAt(t.clientX, t.clientY, centerOf())
     }
@@ -16283,17 +16312,25 @@ window.LiuYao = {
       if (!t || !state._dragging) return
       dragMove(t.clientX, t.clientY, centerOf)
     }
-    wrap.ontouchend = () => dragEnd()
+    wrap.ontouchend = () => {
+      if (state._luckyTap) {
+        state._luckyTap = false
+        if (!state._didDrag) toggleLucky()
+        return
+      }
+      dragEnd()
+    }
     wrap.ontouchcancel = () => dragEnd()
   }
 
   function dragMove(clientX, clientY, centerOf) {
-    if (!state._dragging || state.locked || state._lastDragAng == null) return
+    if (!state._dragging || state._lastDragAng == null) return
     const ang = (Math.atan2(clientY - centerOf().y, clientX - centerOf().x) * 180) / Math.PI
     let delta = ang - state._lastDragAng
     if (delta > 180) delta -= 360
     if (delta < -180) delta += 360
     state._lastDragAng = ang
+    state._didDrag = true
     state.plateDeg = normalizePlate(state.plateDeg + delta)
     state.compassHeading = headingFromPlate(state.plateDeg)
     state._dragHint = '拖动转盘中'
@@ -16304,7 +16341,7 @@ window.LiuYao = {
     if (!state._dragging) return
     state._dragging = false
     state._lastDragAng = null
-    if (state.compassReady && !state.locked) applyLiveHeading(state.compassHeading)
+    if (state.compassReady) applyLiveHeading(state.compassHeading)
     else {
       state._dragHint = '拖动转盘调整方位'
       paintLuopanLive()
@@ -16318,12 +16355,7 @@ window.LiuYao = {
       if (!state._dragging) return
       const wrap = document.getElementById('luopan-wrap')
       if (!wrap) return
-      const svg = wrap.querySelector('svg')
-      const box = (svg || wrap).getBoundingClientRect()
-      dragMove(e.clientX, e.clientY, () => ({
-        x: box.left + box.width / 2,
-        y: box.top + box.width / 2
-      }))
+      dragMove(e.clientX, e.clientY, () => compassCenter(wrap))
     })
     window.addEventListener('mouseup', dragEnd)
   }
@@ -16331,11 +16363,11 @@ window.LiuYao = {
   function renderIndex() {
     setNav('', true)
     const accountLabel = state.user && state.user.nickName ? state.user.nickName : '登录'
-    if (state.compassReady && !state.locked) state.plateDeg = plateFromHeading(state.compassHeading)
+    if (state.compassReady) state.plateDeg = plateFromHeading(state.compassHeading)
     const h = state.compassReady ? state.compassHeading : headingFromPlate(state.plateDeg)
-    const directionInfo = directionInfoOf(h)
-    const directionGuide = currentDirectionGuide(h)
-    if (!directionGuide && state.compassInfoTab === 'guide') state.compassInfoTab = 'measure'
+    const luckyHint = state.luckyOpen && state.luckyPack
+      ? `今日${state.luckyPack.dayText} · ${state.luckyPack.summary}`
+      : '点中间八卦 · 看今日吉位'
     app.innerHTML = `
       <div class="hero quiet">
         <div class="home-brand" aria-label="周易"><img src="./assets/images/brand-zhouyi.svg" alt="周易" /></div>
@@ -16347,38 +16379,8 @@ window.LiuYao = {
         <div class="luopan-hud" id="luopan-hud">
           <div class="hud-main"><span id="hud-dir">${dirNameOf(h)}</span><span id="hud-deg">${(Math.round(h * 10) / 10)}°</span></div>
           <div class="hud-sub"><span id="hud-mountain">${mountainOf(h)}山</span></div>
+          <div class="lucky-hint ${state.luckyOpen ? 'on' : ''}" id="lucky-hint">${luckyHint}</div>
         </div>
-        <div class="luopan-tools">
-          <button type="button" class="lp-tool ${state.compassInfoOpen ? 'on' : ''}" id="compass-info">方位</button>
-          <button type="button" class="lp-tool ${state.locked ? 'on' : ''}" id="compass-lock">${state.locked ? '已锁' : '锁定'}</button>
-        </div>
-        ${state.compassInfoOpen ? `
-          <div class="direction-dismiss" id="direction-dismiss" aria-label="关闭方位助手"></div>
-          <div class="direction-card" aria-label="方位助手">
-            <div class="direction-title">方位助手</div>
-            <div class="direction-tabs">
-              <button class="${state.compassInfoTab === 'measure' ? 'on' : ''}" data-direction-tab="measure">测向</button>
-              <button class="${state.compassInfoTab === 'symbol' ? 'on' : ''}" data-direction-tab="symbol">象意</button>
-              ${directionGuide ? `<button class="${state.compassInfoTab === 'guide' ? 'on' : ''}" data-direction-tab="guide">卦引</button>` : ''}
-            </div>
-            ${state.compassInfoTab === 'measure' ? `<div class="direction-grid">
-              <div class="direction-item"><span>当前向</span><strong id="info-facing">${dirNameOf(h)} · ${Math.round(h * 10) / 10}° · ${mountainOf(h)}山</strong></div>
-              <div class="direction-item"><span>相反坐向</span><strong id="info-sitting">${directionInfo.sitDir} · ${directionInfo.sitDeg}° · ${directionInfo.sitMountain}山</strong></div>
-              <div class="direction-item"><span>山向范围</span><strong id="info-range">${directionInfo.range}</strong></div>
-              <div class="direction-item"><span>测量状态</span><strong>${state.locked ? '朝向已锁定' : state.compassStability}</strong></div>
-            </div>` : state.compassInfoTab === 'symbol' ? `<div class="direction-grid">
-              <div class="direction-item"><span>卦与五行</span><strong id="info-trigram">${directionInfo.trigram}卦 · ${directionInfo.element}</strong></div>
-              <div class="direction-item"><span>时令</span><strong>${directionInfo.season} · ${directionInfo.shichen}</strong></div>
-              <div class="direction-item"><span>相邻山向</span><strong>${directionInfo.adjacent}</strong></div>
-              <div class="direction-item"><span>传统象意</span><strong>${directionInfo.meaning}</strong></div>
-            </div>` : `<div class="direction-guide">
-              <div>${directionGuide.focus} · ${directionGuide.place}</div>
-              <strong>${directionGuide.turn}</strong>
-              <p>到达目标方向后请结合现场核验，勿只认一个点。</p>
-            </div>`}
-            ${state.compassInfoTab !== 'guide' ? '<div class="direction-note">方位用于测向和传统文化参考，不直接判断吉凶。</div>' : ''}
-          </div>
-        ` : ''}
       </div>
       <div class="luopan-wrap slim" id="luopan-wrap">
         ${buildLuopanSvg(state.plateDeg)}
