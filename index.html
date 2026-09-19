@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-  <!-- liuyao-preview-build:2026-09-19T08:56:04Z -->
+  <!-- liuyao-preview-build:2026-09-19T09:07:56Z -->
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover" />
   <title>周易研习</title>
@@ -1259,7 +1259,7 @@
       font-size: 30px; font-weight:400; letter-spacing:.18em; color:var(--cinnabar);
     }
     .luopan-hud #hud-deg { font-size: 28px; font-weight:600; color:var(--ink); font-variant-numeric:tabular-nums; }
-    .luopan-controls { position:relative; z-index:5; }
+    .luopan-controls { position:relative; z-index:5; overflow: visible; }
     .lucky-hint {
       margin-top: 11px; text-align: center; font-size: 13px;
       letter-spacing: .08em; color: rgba(28,24,20,.48); line-height: 1.5;
@@ -1273,7 +1273,7 @@
     }
     .luopan-wrap:active { cursor: grabbing; }
     #heading-readout { cursor: pointer; }
-    .luopan-wrap svg { width: 100%; height: auto; display: block; }
+    .luopan-wrap svg { width: 100%; height: auto; display: block; overflow: visible; }
     .compass-beacon {
       position: absolute; left: 50%; top: 2px; transform: translateX(-50%);
       z-index: 3; display: flex; flex-direction: column; align-items: center;
@@ -16106,15 +16106,17 @@ window.LiuYao = {
       </g>`
     }).join('')
     const luckyMarks = (state.luckyOpen && state.luckyPack && state.luckyPack.marks || []).map((m) => {
-      const outer = polar(cx, cy, 218, m.plateDeg)
-      const inner = polar(cx, cy, 200, m.plateDeg)
+      const rim = polar(cx, cy, 200, m.plateDeg)
+      const tick = polar(cx, cy, 214, m.plateDeg)
+      const label = polar(cx, cy, 258, m.plateDeg)
       return `<g class="lucky-mark" pointer-events="none">
-        <line x1="${inner.x.toFixed(1)}" y1="${inner.y.toFixed(1)}" x2="${outer.x.toFixed(1)}" y2="${outer.y.toFixed(1)}" stroke="#a03328" stroke-width="1.6"/>
-        <circle cx="${outer.x.toFixed(1)}" cy="${outer.y.toFixed(1)}" r="3.2" fill="#a03328"/>
-        <g transform="translate(${outer.x.toFixed(1)},${outer.y.toFixed(1)})">
+        <line x1="${rim.x.toFixed(1)}" y1="${rim.y.toFixed(1)}" x2="${tick.x.toFixed(1)}" y2="${tick.y.toFixed(1)}" stroke="#a03328" stroke-width="1.8"/>
+        <circle cx="${tick.x.toFixed(1)}" cy="${tick.y.toFixed(1)}" r="2.6" fill="#a03328"/>
+        <g transform="translate(${label.x.toFixed(1)},${label.y.toFixed(1)})">
           <g data-lucky-upright="1" transform="rotate(${-rot})">
-            <text y="-14" text-anchor="middle" fill="#a03328" stroke="#faf3e4" stroke-width="4" paint-order="stroke" font-size="11" font-weight="700">${m.label}</text>
-            <text y="-2" text-anchor="middle" fill="#a03328" stroke="#faf3e4" stroke-width="4" paint-order="stroke" font-size="9">${m.dir}</text>
+            <rect x="-58" y="-34" width="116" height="44" rx="3" fill="rgba(250,243,228,0.96)" stroke="rgba(160,51,40,0.4)" stroke-width="0.8"/>
+            <text y="-12" text-anchor="middle" fill="#a03328" font-size="16" font-weight="700">${m.label}</text>
+            <text y="8" text-anchor="middle" fill="#a03328" font-size="13">${m.dir}</text>
           </g>
         </g>
       </g>`
@@ -16122,13 +16124,13 @@ window.LiuYao = {
     const gans = [['甲乙', '木'], ['丙丁', '火'], ['戊己', '土'], ['庚辛', '金'], ['壬癸', '水']]
     const ganRow = gans.map((g, i) => {
       const x = 48 + i * 76
-      return `<rect x="${x - 24}" y="432" width="48" height="38" fill="rgba(250,243,228,0.35)" stroke="rgba(20,15,12,0.14)" stroke-width="0.8"/>
-        <text x="${x}" y="448" text-anchor="middle" fill="rgba(20,15,12,0.62)" font-size="9">${g[0]}</text>
-        <text x="${x}" y="464" text-anchor="middle" fill="${wxColor[g[1]]}" font-size="11" font-weight="700">${g[1]}</text>`
+      return `<rect x="${x - 24}" y="508" width="48" height="38" fill="rgba(250,243,228,0.35)" stroke="rgba(20,15,12,0.14)" stroke-width="0.8"/>
+        <text x="${x}" y="524" text-anchor="middle" fill="rgba(20,15,12,0.62)" font-size="9">${g[0]}</text>
+        <text x="${x}" y="540" text-anchor="middle" fill="${wxColor[g[1]]}" font-size="11" font-weight="700">${g[1]}</text>`
     }).join('')
 
     return `
-      <svg viewBox="-40 -48 480 544" xmlns="http://www.w3.org/2000/svg" aria-label="后天八卦罗盘 · 准星指南针">
+      <svg viewBox="-40 -72 480 640" overflow="visible" xmlns="http://www.w3.org/2000/svg" aria-label="后天八卦罗盘 · 准星指南针">
         <defs></defs>
         <g id="luopan-plate" transform="rotate(${rot} 200 200)">
           <circle cx="200" cy="200" r="198" fill="#e6d4b0" stroke="#46341c" stroke-width="3"/>
