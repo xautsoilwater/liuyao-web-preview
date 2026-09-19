@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-  <!-- liuyao-preview-build:2026-09-19T09:19:19Z -->
+  <!-- liuyao-preview-build:2026-09-19T09:24:31Z -->
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover" />
   <title>周易研习</title>
@@ -16094,11 +16094,11 @@ window.LiuYao = {
       const p = polar(cx, cy, 152, d.deg)
       return `<text x="${p.x}" y="${p.y + 4}" text-anchor="middle" transform="rotate(${d.deg} ${p.x} ${p.y})" fill="rgba(143,38,31,0.75)" font-size="10" font-weight="700">${d.n}</text>`
     }).join('')
-    const guaFill = state.luckyOpen ? '#a03328' : '#3a3028'
+    const guaFill = '#3a3028'
     const guaTexts = bagua.map((b) => {
       const p = polar(cx, cy, 112, b.deg)
       return `<g data-lucky-toggle="1" transform="translate(${p.x.toFixed(2)},${p.y.toFixed(2)}) rotate(${b.deg})" style="cursor:pointer">
-        <circle cx="0" cy="8" r="28" fill="${state.luckyOpen ? 'rgba(160,51,40,0.08)' : 'rgba(0,0,0,0)'}"/>
+        <circle cx="0" cy="8" r="28" fill="rgba(0,0,0,0)"/>
         ${guaBarsSvg(b.lines, 0, -10, guaFill)}
         <text x="0" y="14" text-anchor="middle" fill="${guaFill}" font-size="13" font-weight="700">${b.n}</text>
         <text x="0" y="26" text-anchor="middle" fill="${guaFill}" font-size="8" font-weight="600">${b.tip}</text>
@@ -16144,7 +16144,7 @@ window.LiuYao = {
         <circle cx="200" cy="200" r="4" fill="#a03328" stroke="#faf3e4" stroke-width="1.5"/>
         </g>
         <circle cx="200" cy="200" r="46" fill="#f0e4c8" stroke="rgba(20,15,12,0.16)" stroke-width="1"/>
-        <circle cx="200" cy="200" r="46" fill="none" stroke="${state.luckyOpen ? 'rgba(160,51,40,0.35)' : 'rgba(143,38,31,0.1)'}" stroke-width="3"/>
+        <circle cx="200" cy="200" r="46" fill="none" stroke="rgba(143,38,31,0.1)" stroke-width="3"/>
         <circle cx="200" cy="200" r="34" fill="#f6eedc" stroke="rgba(20,15,12,0.42)" stroke-width="1.5"/>
         <g>
           <animateTransform attributeName="transform" type="rotate" from="0 200 200" to="360 200 200" dur="56s" repeatCount="indefinite"/>
