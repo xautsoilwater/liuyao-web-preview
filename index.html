@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-  <!-- liuyao-preview-build:2026-09-19T09:24:31Z -->
+  <!-- liuyao-preview-build:2026-09-19T09:28:02Z -->
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover" />
   <title>周易研习</title>
@@ -16106,8 +16106,8 @@ window.LiuYao = {
     }).join('')
     const luckyMarks = (state.luckyOpen && state.luckyPack && state.luckyPack.marks || []).map((m) => {
       const rim = polar(cx, cy, 200, m.plateDeg)
-      const tick = polar(cx, cy, 214, m.plateDeg)
-      const label = polar(cx, cy, 248, m.plateDeg)
+      const tick = polar(cx, cy, 210, m.plateDeg)
+      const label = polar(cx, cy, 232, m.plateDeg)
       return `<g class="lucky-mark" pointer-events="none">
         <line x1="${rim.x.toFixed(1)}" y1="${rim.y.toFixed(1)}" x2="${tick.x.toFixed(1)}" y2="${tick.y.toFixed(1)}" stroke="#a03328" stroke-width="1.8"/>
         <g transform="translate(${label.x.toFixed(1)},${label.y.toFixed(1)}) rotate(${m.plateDeg})">
