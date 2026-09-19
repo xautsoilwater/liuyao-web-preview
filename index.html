@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-  <!-- liuyao-preview-build:2026-09-19T08:38:28Z -->
+  <!-- liuyao-preview-build:2026-09-19T08:43:17Z -->
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover" />
   <title>周易研习</title>
@@ -1227,7 +1227,7 @@
     /* home quiet */
     .hero.quiet {
       text-align: center;
-      margin: 2px 0 0;
+      margin: 2px 0 8px;
       padding: max(90px, calc(env(safe-area-inset-top) + 43px)) 4px 0;
     }
     .track-hint {
@@ -1244,32 +1244,29 @@
       width: 140px; height: auto; display: block;
     }
     .home-brand-sub {
-      width:96%; margin:4px auto 2px; padding:5px 4px;
+      width:96%; margin:12px auto 16px; padding:10px 4px;
       display:flex; justify-content:center; align-items:center;
       border-top:1px solid var(--line); border-bottom:1px solid var(--line);
       font-size:13px; font-weight:600; letter-spacing:.1em; color:var(--ink-soft);
     }
     .home-brand-sub i { padding:0 9px; color:var(--cinnabar); font-style:normal; }
     .luopan-hud {
-      position: relative; z-index: 4; text-align:center; margin: 0 0 2px;
-      transform: translateY(12px);
+      position: relative; z-index: 4; text-align:center; margin: 8px 0 16px;
     }
-    .luopan-hud .hud-main { display:flex; justify-content:center; align-items:baseline; gap:8px; line-height:1; }
+    .luopan-hud .hud-main { display:flex; justify-content:center; align-items:baseline; gap:10px; line-height:1; }
     .luopan-hud #hud-dir {
       font-family: "Songti SC", serif;
       font-size: 27px; font-weight:400; letter-spacing:.18em; color:var(--cinnabar);
     }
     .luopan-hud #hud-deg { font-size: 25px; font-weight:600; color:var(--ink); font-variant-numeric:tabular-nums; }
-    .luopan-hud .hud-sub { margin-top:4px; font-size: 16px; letter-spacing:.12em; color:rgba(28,24,20,.5); display:flex; justify-content:center; gap:6px; }
-    .luopan-hud #hud-mountain { color:rgba(155,45,36,.88); font-weight:700; font-size: 17px; }
     .luopan-controls { position:relative; z-index:5; }
     .lucky-hint {
-      margin-top: 6px; text-align: center; font-size: 12px;
-      letter-spacing: .08em; color: rgba(28,24,20,.48); line-height: 1.4;
+      margin-top: 10px; text-align: center; font-size: 12px;
+      letter-spacing: .08em; color: rgba(28,24,20,.48); line-height: 1.5;
     }
     .lucky-hint.on { color: var(--cinnabar); font-weight: 600; }
     .luopan-wrap {
-      position: relative; width: min(78vw, 320px); margin: 0 auto;
+      position: relative; width: min(78vw, 320px); margin: 8px auto 0;
       filter: drop-shadow(0 12px 22px rgba(28,24,20,.12));
       touch-action: none; cursor: grab; user-select: none;
       overflow: visible;
@@ -1297,8 +1294,8 @@
       color: var(--bronze); margin: 2px 0 6px; opacity: .9;
     }
     .actions {
-      display: flex; justify-content: center; align-items: center; gap: 14px;
-      margin-top: 12px; padding: 13px 4px;
+      display: flex; justify-content: center; align-items: center; gap: 20px;
+      margin-top: 24px; padding: 18px 4px;
       border-top: 1px solid var(--line); border-bottom: 1px solid var(--line);
     }
     .act {
@@ -1315,8 +1312,8 @@
       width:100%;
       box-sizing:border-box;
       opacity:.85;
-      margin-top:14px;
-      padding:0 2px max(12px, env(safe-area-inset-bottom));
+      margin-top:22px;
+      padding:0 2px max(16px, env(safe-area-inset-bottom));
     }
     .link-row {
       display: flex; justify-content: center; align-items: center; gap: 14px; margin-top: 14px;
@@ -16124,10 +16121,10 @@ window.LiuYao = {
     }).join('')
     const gans = [['甲乙', '木'], ['丙丁', '火'], ['戊己', '土'], ['庚辛', '金'], ['壬癸', '水']]
     const ganRow = gans.map((g, i) => {
-      const x = 56 + i * 72
-      return `<rect x="${x - 22}" y="414" width="44" height="34" fill="rgba(250,243,228,0.35)" stroke="rgba(20,15,12,0.14)" stroke-width="0.8"/>
-        <text x="${x}" y="428" text-anchor="middle" fill="rgba(20,15,12,0.62)" font-size="9">${g[0]}</text>
-        <text x="${x}" y="442" text-anchor="middle" fill="${wxColor[g[1]]}" font-size="11" font-weight="700">${g[1]}</text>`
+      const x = 48 + i * 76
+      return `<rect x="${x - 24}" y="432" width="48" height="38" fill="rgba(250,243,228,0.35)" stroke="rgba(20,15,12,0.14)" stroke-width="0.8"/>
+        <text x="${x}" y="448" text-anchor="middle" fill="rgba(20,15,12,0.62)" font-size="9">${g[0]}</text>
+        <text x="${x}" y="464" text-anchor="middle" fill="${wxColor[g[1]]}" font-size="11" font-weight="700">${g[1]}</text>`
     }).join('')
 
     return `
@@ -16203,14 +16200,12 @@ window.LiuYao = {
     const plate = document.getElementById('luopan-plate')
     const hudDir = document.getElementById('hud-dir')
     const hudDeg = document.getElementById('hud-deg')
-    const hudMountain = document.getElementById('hud-mountain')
     const h = state.compassReady
       ? state.compassHeading
       : headingFromPlate(state.plateDeg)
     if (plate) plate.setAttribute('transform', `rotate(${state.plateDeg} 200 200)`)
     if (hudDir) hudDir.textContent = dirNameOf(h)
     if (hudDeg) hudDeg.textContent = `${(Math.round(h * 10) / 10)}°`
-    if (hudMountain) hudMountain.textContent = `${mountainOf(h)}山`
     const rot = state.plateDeg == null ? -180 : state.plateDeg
     document.querySelectorAll('[data-lucky-upright]').forEach((el) => {
       el.setAttribute('transform', `rotate(${-rot})`)
@@ -16378,7 +16373,6 @@ window.LiuYao = {
       <div class="luopan-controls">
         <div class="luopan-hud" id="luopan-hud">
           <div class="hud-main"><span id="hud-dir">${dirNameOf(h)}</span><span id="hud-deg">${(Math.round(h * 10) / 10)}°</span></div>
-          <div class="hud-sub"><span id="hud-mountain">${mountainOf(h)}山</span></div>
           <div class="lucky-hint ${state.luckyOpen ? 'on' : ''}" id="lucky-hint">${luckyHint}</div>
         </div>
       </div>
